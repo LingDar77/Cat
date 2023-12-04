@@ -2,7 +2,6 @@
     "name": "SaltyFishContainer.Runtime",
     "rootNamespace": "SFC",
     "references": [
-        "GUID:e7208b29120485545a436e2691183661",
         "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],

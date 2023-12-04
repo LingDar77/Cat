@@ -1,12 +1,10 @@
 using System.Collections;
-using SFC.SceneManagementSystem;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
-namespace SFC.Intergration.AA
+namespace SFC.SceneManagementSystem
 {
-    public class AddressableSceneManagement : MonoBehaviour, ISceneManagementSystem
+    public class BuiltinSceneManagement : MonoBehaviour, ISceneManagementSystem
     {
         private void Awake()
         {
@@ -17,14 +15,12 @@ namespace SFC.Intergration.AA
         }
         public void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
-            Addressables.LoadSceneAsync(scene, loadMode).WaitForCompletion();
+            SceneManager.LoadScene(scene, loadMode);
         }
 
         public IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
-            yield return Addressables.LoadSceneAsync(scene, loadMode);
+            yield return SceneManager.LoadSceneAsync(scene, loadMode);
         }
-
-
     }
 }
