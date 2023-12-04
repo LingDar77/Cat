@@ -1,0 +1,19 @@
+{
+    "name": "SaltyFishContainer.Intergration.SDKProviders",
+    "rootNamespace": "SFC.Intergration.SDKProviders",
+    "references": [
+        "GUID:c3eada64ce30a1448920b24b04bc2d39",
+        "GUID:65a004a26c89ac5468e8d4b4b057f1c8",
+        "GUID:7040c93f6035f5749888e6fdf5ef28f8",
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
