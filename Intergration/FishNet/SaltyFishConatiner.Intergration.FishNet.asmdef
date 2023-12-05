@@ -1,9 +1,9 @@
 {
-    "name": "SaltyFishContainer.Intergration.XRIT",
-    "rootNamespace": "SFC.Intergration.XRIT",
+    "name": "SaltyFishConatiner.Intergration.FishNet",
+    "rootNamespace": "SFC.Intergration.FishNet",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:fe685ec1767f73d42b749ea8045bfe43",
+        "GUID:7c88a4a7926ee5145ad2dfa06f454c67",
         "GUID:c3eada64ce30a1448920b24b04bc2d39"
     ],
     "includePlatforms": [],
@@ -12,9 +12,10 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [
+    "defineConstraints": [
+        "FISHNET",
         "SALTY_FISH_CONTAINER"
     ],
+    "versionDefines": [],
     "noEngineReferences": false
 }

@@ -1,6 +1,6 @@
 {
     "name": "SaltyFishContainer.Editor",
-    "rootNamespace": "SFC.Editor",
+    "rootNamespace": "SFC.EditorScript",
     "references": [],
     "includePlatforms": [
         "Editor"

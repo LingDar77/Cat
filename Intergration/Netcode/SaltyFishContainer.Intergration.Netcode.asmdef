@@ -1,6 +1,6 @@
 {
     "name": "SaltyFishContainer.Intergration.Netcode",
-    "rootNamespace": "SFC.Intergration.Netcode",
+    "rootNamespace": "SFC_Intergration_Netcode",
     "references": [
         "GUID:1491147abca9d7d4bb7105af628b223e",
         "GUID:c3eada64ce30a1448920b24b04bc2d39",
@@ -13,7 +13,16 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "NETCODE",
+        "SALTY_FISH_CONTAINER"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.netcode.gameobjects",
+            "expression": "1",
+            "define": "NETCODE"
+        }
+    ],
     "noEngineReferences": false
 }
