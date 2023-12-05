@@ -529,6 +529,7 @@ GameObject:
   - component: {fileID: 4646285326618391185}
   - component: {fileID: 6389088723774567401}
   - component: {fileID: 1961666205737842542}
+  - component: {fileID: 5194235004901764387}
   m_Layer: 0
   m_Name: Test Player
   m_TagString: Untagged
@@ -692,6 +693,75 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &5194235004901764387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4904950592752231591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ab4202dc9f72140a18a924fd9a7911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionMaps:
+  - {fileID: -944628639613478452, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
+  CapsuleSyncOption:
+    SyncCapsuleRidus: 0
+    SyncCapsuleHeight: 1
+    SyncCapsuleYOffset: 1
+  OnSpawnedAsClient:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3201395585846366149}
+        m_TargetAssemblyTypeName: UnityEngine.Animations.Rigging.Rig, Unity.Animation.Rigging
+        m_MethodName: set_weight
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5620100761523407201}
+        m_TargetAssemblyTypeName: SFC.CommonFunctions, SaltyFishContainer.Runtime
+        m_MethodName: SetLocalScale
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1835450348202195831}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1966943952528073440}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5263369139487187881
 GameObject:
   m_ObjectHideFlags: 0
