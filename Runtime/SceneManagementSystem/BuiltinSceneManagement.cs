@@ -28,6 +28,7 @@ namespace SFC.SceneManagementSystem
                 LoadingProgress = handle.progress;
                 yield return null;
             }
+
         }
     }
 }
