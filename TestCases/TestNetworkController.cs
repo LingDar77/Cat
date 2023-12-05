@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 namespace SFC.Utillities
@@ -10,9 +11,8 @@ namespace SFC.Utillities
 
         private void Start()
         {
-#if !UNITY_EDITOR
-            NetworkManager.Singleton.StartClient();
-#endif
+            StartHost();
+            NetworkManager.Singleton.SceneManager.LoadScene("Netcode Test", LoadSceneMode.Single);
         }
         [ContextMenu("StartHost")]
         public void StartHost()
