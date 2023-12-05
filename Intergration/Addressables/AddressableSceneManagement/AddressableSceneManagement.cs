@@ -26,13 +26,18 @@ namespace SFC.Intergration.AA
         {
             LoadingProgress = 0;
             var loadHandle = Addressables.LoadSceneAsync(scene, loadMode, false);
-            yield return loadHandle;
+            while (!loadHandle.IsDone)
+            {
+                LoadingProgress = Mathf.Clamp(LoadingProgress + Random.Range(.1f, .5f) * Time.deltaTime, 0, .9f);
+                yield return null;
+            }
             var activateHandle = loadHandle.Result.ActivateAsync();
             while (!activateHandle.isDone)
             {
                 LoadingProgress = activateHandle.progress;
                 yield return null;
             }
+            yield return new WaitForSeconds(4);
         }
 
 
