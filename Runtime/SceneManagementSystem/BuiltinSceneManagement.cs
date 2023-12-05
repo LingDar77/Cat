@@ -6,6 +6,7 @@ namespace SFC.SceneManagementSystem
 {
     public class BuiltinSceneManagement : MonoBehaviour, ISceneManagementSystem
     {
+        public float LoadingProgress { get; set; }
         private void Awake()
         {
             if (ISceneManagementSystem.Singleton != null) return;
@@ -20,7 +21,13 @@ namespace SFC.SceneManagementSystem
 
         public IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
-            yield return SceneManager.LoadSceneAsync(scene, loadMode);
+            LoadingProgress = 0;
+            var handle = SceneManager.LoadSceneAsync(scene, loadMode);
+            while (!handle.isDone)
+            {
+                LoadingProgress = handle.progress;
+                yield return null;
+            }
         }
     }
 }

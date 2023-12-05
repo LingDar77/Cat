@@ -8,6 +8,8 @@ namespace SFC.Intergration.AA
 {
     public class AddressableSceneManagement : MonoBehaviour, ISceneManagementSystem
     {
+        public float LoadingProgress { get; set; }
+
         private void Awake()
         {
             if (ISceneManagementSystem.Singleton != null) return;
@@ -22,7 +24,15 @@ namespace SFC.Intergration.AA
 
         public IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
-            yield return Addressables.LoadSceneAsync(scene, loadMode);
+            LoadingProgress = 0;
+            var loadHandle = Addressables.LoadSceneAsync(scene, loadMode, false);
+            yield return loadHandle;
+            var activateHandle = loadHandle.Result.ActivateAsync();
+            while (!activateHandle.isDone)
+            {
+                LoadingProgress = activateHandle.progress;
+                yield return null;
+            }
         }
 
 
