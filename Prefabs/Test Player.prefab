@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 2
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2223325836193870184}
   _networkObjectCache: {fileID: 2223325836193870184}
   _componentConfiguration: 0
@@ -707,6 +707,7 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: 7923952498131353916}
   - {fileID: 8371712110125090624}
+  - {fileID: 4236499052535560596}
   - {fileID: 7438427192081736346}
   - {fileID: 986838927394236779}
   - {fileID: 7878588751917910508}
@@ -1561,7 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2223325836193870184}
   _networkObjectCache: {fileID: 2223325836193870184}
   _componentConfiguration: 0
@@ -1718,7 +1719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2223325836193870184}
   _networkObjectCache: {fileID: 2223325836193870184}
   _componentConfiguration: 0
@@ -2049,9 +2050,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2223325836193870184}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2223325836193870184}
   IgnoredParameters:
   - Speed Multiplier
   _animator: {fileID: 3341767539406980594}

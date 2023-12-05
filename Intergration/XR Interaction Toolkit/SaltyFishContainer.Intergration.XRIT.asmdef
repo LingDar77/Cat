@@ -12,9 +12,15 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "XRIT"
+    ],
     "versionDefines": [
-        "SALTY_FISH_CONTAINER"
+        {
+            "name": "com.unity.xr.interaction.toolkit",
+            "expression": "1",
+            "define": "XRIT"
+        }
     ],
     "noEngineReferences": false
 }
