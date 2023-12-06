@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using FishNet.Object;
 using SFC.KinematicLocomotionSystem;
@@ -32,6 +33,8 @@ namespace SFC.Intergration.FishNet
         [SerializeField] private InputActionAsset[] ActionMaps;
         [SerializeField] private CapsuleSyncOptions CapsuleSyncOption;
         public UnityEvent OnSpawnedAsClient;
+        public UnityEvent OnNetworkStarted;
+
 
         private KinematicCharacterMotor motor;
         private float[] capsuleInfos;
@@ -40,6 +43,7 @@ namespace SFC.Intergration.FishNet
         {
             base.OnStartClient();
             InitialzeAdaptor();
+            this.EndOfThisFrame(OnNetworkStarted.Invoke);
         }
         private void InitialzeAdaptor()
         {
