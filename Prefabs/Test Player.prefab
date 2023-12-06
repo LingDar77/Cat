@@ -844,6 +844,54 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1043489005929518847}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4675506435021037443}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7246002703978527757}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1298492652580291263}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnNetworkStarted:
     m_PersistentCalls:
       m_Calls:
@@ -1547,6 +1595,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7878588751917910508}
   m_SourcePrefab: {fileID: 100100000, guid: c614082fded44594a8301fb4d4980f7b, type: 3}
+--- !u!1 &1298492652580291263 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1430127227891044861, guid: c614082fded44594a8301fb4d4980f7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 134537423598097218}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3871661439620042763 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3776020356564697929, guid: c614082fded44594a8301fb4d4980f7b,
@@ -1610,6 +1664,12 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!1 &7246002703978527757 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7301179436243054415, guid: c614082fded44594a8301fb4d4980f7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 134537423598097218}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6751544535505512910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1707,6 +1767,18 @@ MonoBehaviour:
 --- !u!4 &448375384940932155 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6596294553603917301, guid: d0329d8648a94d34f8111c59f8e0979a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6751544535505512910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1043489005929518847 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6037491204612783921, guid: d0329d8648a94d34f8111c59f8e0979a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6751544535505512910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4675506435021037443 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2112453961044883021, guid: d0329d8648a94d34f8111c59f8e0979a,
     type: 3}
   m_PrefabInstance: {fileID: 6751544535505512910}
   m_PrefabAsset: {fileID: 0}

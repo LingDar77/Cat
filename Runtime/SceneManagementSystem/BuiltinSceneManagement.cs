@@ -14,6 +14,7 @@ namespace SFC.SceneManagementSystem
             ISceneManagementSystem.Singleton = this;
             DontDestroyOnLoad(gameObject);
         }
+      
         public void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
             SceneManager.LoadScene(scene, loadMode);

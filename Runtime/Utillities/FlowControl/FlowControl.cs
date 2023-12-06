@@ -5,20 +5,30 @@ namespace SFC
 {
     public static class FlowControlMonoBehaviour
     {
-        public static void EndOfThisFrame(this MonoBehaviour monoBehaviour, System.Action action)
+        public static void NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
-            IEnumerator EndOfThisFrameCoroutine()
+            IEnumerator NextUpdateCoroutine()
             {
-                yield return new WaitForEndOfFrame();
+                var wait = new WaitForEndOfFrame();
+                while (time != 0)
+                {
+                    yield return wait;
+                    --time;
+                }
                 action?.Invoke();
             }
-            monoBehaviour.StartCoroutine(EndOfThisFrameCoroutine());
+            monoBehaviour.StartCoroutine(NextUpdateCoroutine());
         }
-        public static void NextFixedUpdate(this MonoBehaviour monoBehaviour, System.Action action)
+        public static void NextFixedUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
             IEnumerator NextFixedUpdateCoroutine()
             {
-                yield return new WaitForFixedUpdate();
+                var wait = new WaitForFixedUpdate();
+                while (time != 0)
+                {
+                    yield return wait;
+                    --time;
+                }
                 action?.Invoke();
             }
             monoBehaviour.StartCoroutine(NextFixedUpdateCoroutine());
