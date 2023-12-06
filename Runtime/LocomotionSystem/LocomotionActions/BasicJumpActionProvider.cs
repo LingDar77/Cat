@@ -13,14 +13,20 @@ namespace SFC.KinematicLocomotionSystem.Actions
         [Tooltip("The Velocity to Gain.")]
         [SerializeField] private float JumpVelocity = 5f;
 
+        private bool shouldJump;
         protected override void OnEnable()
         {
             base.OnEnable();
         }
+        public override void BeforeProcess(float deltaTime)
+        {
+            base.BeforeProcess(deltaTime);
+            shouldJump = JumpInput.reference != null && JumpInput.action.IsPressed();
+        }
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
             base.ProcessVelocity(ref currentVelocity, deltaTime);
-            if (!LocomotionSystem.IsStableOnGround() || JumpInput.reference == null || !JumpInput.action.IsPressed()) return;
+            if (!LocomotionSystem.IsStableOnGround() || !shouldJump) return;
 
             LocomotionSystem.MarkUngrounded();
             currentVelocity.y = JumpVelocity;

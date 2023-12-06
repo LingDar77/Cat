@@ -58,6 +58,22 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem
             actions.Remove(action);
         }
 
+        public virtual KinematicLocomotionSystemConfig GetConfig()
+        {
+            return ControllerConfig;
+        }
+
+        public bool IsStableOnGround()
+        {
+            return Motor.GroundingStatus.IsStableOnGround;
+        }
+
+        public void MarkUngrounded()
+        {
+            Motor.ForceUnground();
+        }
+        
+        #region KCC Implementation
         public virtual void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
             if (Motor.CharacterController == null) return;
@@ -95,21 +111,6 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem
             }
         }
 
-        public virtual KinematicLocomotionSystemConfig GetConfig()
-        {
-            return ControllerConfig;
-        }
-
-        public bool IsStableOnGround()
-        {
-            return Motor.GroundingStatus.IsStableOnGround;
-        }
-
-        public void MarkUngrounded()
-        {
-            Motor.ForceUnground();
-        }
-
         public virtual bool IsColliderValidForCollisions(Collider coll)
         {
             var interatable = coll.GetComponentInParent<IXRSelectInteractable>();
@@ -141,7 +142,7 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem
         {
             return true;
         }
-
+        #endregion
 
     }
 }

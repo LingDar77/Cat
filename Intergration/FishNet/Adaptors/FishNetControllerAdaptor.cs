@@ -31,7 +31,8 @@ namespace SFC.Intergration.FishNet
         }
         [SerializeField] private InputActionAsset[] ActionMaps;
         [SerializeField] private CapsuleSyncOptions CapsuleSyncOption;
-        public UnityEvent OnSpawnedAsClient;
+        [Header("Sync Events")]
+        public UnityEvent OnSpawnedAsReplicated;
         public UnityEvent OnNetworkStarted;
 
         private KinematicCharacterMotor motor;
@@ -58,7 +59,7 @@ namespace SFC.Intergration.FishNet
                 {
                     action.enabled = false;
                 }
-                OnSpawnedAsClient.Invoke();
+                OnSpawnedAsReplicated.Invoke();
                 return;
             }
 
