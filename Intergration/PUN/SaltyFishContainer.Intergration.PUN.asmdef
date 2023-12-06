@@ -1,0 +1,17 @@
+{
+    "name": "SaltyFishContainer.Intergration.PUN",
+    "rootNamespace": "SFC.Intergration.PUN",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "PHOTON_UNITY_NETWORKING",
+        "SALTY_FISH_CONTAINER"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
