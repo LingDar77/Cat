@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Linq;
 using FishNet.Object;
 using SFC.KinematicLocomotionSystem;
@@ -10,7 +9,7 @@ namespace SFC.Intergration.FishNet
 {
     /// <summary>
     /// An adaptor to make the built-in locomotion system compatiable
-    /// with netcode. <see cref="ILocomotionSystem" />
+    /// with fish net. <see cref="ILocomotionSystem" />
     /// The Adaptor also managed the input action map.
     /// And the capsule info is also synced if the system is implemented
     /// by KCC <see cref="KinematicCharacterMotor"/> and

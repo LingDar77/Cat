@@ -32,6 +32,8 @@ namespace SFC.Intergration.Netcode
         [SerializeField] private InputActionAsset[] ActionMaps;
         [SerializeField] private CapsuleSyncOptions CapsuleSyncOption;
         public UnityEvent OnSpawnedAsClient;
+        public UnityEvent OnNetworkStarted;
+
 
         private KinematicCharacterMotor motor;
         private float[] capsuleInfos;
@@ -39,6 +41,11 @@ namespace SFC.Intergration.Netcode
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            InitialzeAdaptor();
+            this.EndOfThisFrame(OnNetworkStarted.Invoke);
+        }
+        private void InitialzeAdaptor()
+        {
             var locomotionSystem = GetComponent<ILocomotionSystem>();
             if (locomotionSystem.transform.TryGetComponent(out motor) && IsOwner)
             {
@@ -91,7 +98,7 @@ namespace SFC.Intergration.Netcode
 
         private void OnDisable()
         {
-            if (!IsOwner && IsSpawned) return;
+            if (!IsOwner) return;
 
             foreach (var map in ActionMaps)
             {
