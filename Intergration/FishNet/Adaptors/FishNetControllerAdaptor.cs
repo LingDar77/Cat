@@ -1,4 +1,5 @@
 using System.Linq;
+using FishNet.Connection;
 using FishNet.Object;
 using SFC.KinematicLocomotionSystem;
 using UnityEngine;
@@ -37,12 +38,11 @@ namespace SFC.Intergration.FishNet
 
         private KinematicCharacterMotor motor;
         private float[] capsuleInfos;
-
         public override void OnStartClient()
         {
             base.OnStartClient();
             InitialzeAdaptor();
-            this.EndOfThisFrame(OnNetworkStarted.Invoke);
+            this.NextFixedUpdate(OnNetworkStarted.Invoke);
         }
         private void InitialzeAdaptor()
         {

@@ -1470,7 +1470,7 @@ MonoBehaviour:
   legs:
   - {fileID: 7455137479808955922}
   - {fileID: 2039728494484768189}
-  pelvis: {fileID: 1675302197717308956}
+  pelvis: {fileID: 1495042291590156081}
   characterRoot: {fileID: 6785241080279433965}
   rootRotationWeight: 0
   rootRotationSpeed: 5
@@ -1924,12 +1924,6 @@ Transform:
 --- !u!4 &1353131100692475355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1311238089007000136, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
-    type: 3}
-  m_PrefabInstance: {fileID: 9154343008396146787}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1675302197717308956 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -1714433228672635265, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
     type: 3}
   m_PrefabInstance: {fileID: 9154343008396146787}
   m_PrefabAsset: {fileID: 0}
