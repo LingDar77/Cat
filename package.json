@@ -1,0 +1,10 @@
+{
+    "name": "con.saltyfishcontainer.unity.plugin",
+    "displayName": "Salty Fish Conatiner Unity Plugin",
+    "description": "Salty Fish Conatiner Unity Plugin",
+    "version": "1.0.0",
+    "unity": "2022.3",
+    "dependencies": {
+        "com.unity.inputsystem": "1.7.0"
+    }
+}
