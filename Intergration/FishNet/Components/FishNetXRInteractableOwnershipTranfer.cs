@@ -4,7 +4,7 @@ using FishNet.Object;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class FishNetXRGrabableOwnershipTranfer : NetworkBehaviour
+public class FishNetXRInteractableOwnershipTranfer : NetworkBehaviour
 {
     [SerializeField] private XRBaseInteractable Interactable;
 
