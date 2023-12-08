@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Data:
     m_Root: {fileID: 396835547641323358}
     m_Tip: {fileID: 2198768210782583137}
+    m_Root: {fileID: 396835547641323358}
+    m_Tip: {fileID: 2198768210782583137}
     m_Target: {fileID: 4725289564859764828}
     m_ChainRotationWeight: 1
     m_TipRotationWeight: 1
@@ -496,7 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 695012588679721426}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -796,7 +798,7 @@ MonoBehaviour:
   OnSpawnedAsReplicated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5620100761523407201}
         m_TargetAssemblyTypeName: SFC.CommonFunctions, SaltyFishContainer.Runtime
         m_MethodName: SetLocalScale
         m_Mode: 4
@@ -1921,7 +1923,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 8c5fa0308db004349874ff6005374a5d, type: 2}
+      objectReference: {fileID: 9100000, guid: c77e982fbe14571448ed608ae7d554bd, type: 2}
     - target: {fileID: 5866666021909216657, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
         type: 3}
       propertyPath: m_UpdateMode
@@ -1938,11 +1940,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1495042291590156081}
+      addedObject: {fileID: 2622557475685321244}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2622557475685321244}
+      addedObject: {fileID: 1495042291590156081}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
         type: 3}
       insertIndex: -1
@@ -1964,10 +1966,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4236499052535560596}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
+    - targetCorrespondingSourceObject: {fileID: 6386605790647660473, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2315172772878713689}
+      addedObject: {fileID: 5620100761523407201}
   m_SourcePrefab: {fileID: 100100000, guid: 73ffbc06802a247cfb1b26f4ee67eba8, type: 3}
 --- !u!4 &396835547641323358 stripped
 Transform:
@@ -2041,7 +2043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b4b6774e93d9af42a125c73b0f35e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 2315172772878713689}
+  animator: {fileID: 3341767539406980594}
   animatorParameterName: Speed
 --- !u!114 &3773361838640727133
 MonoBehaviour:
@@ -2083,12 +2085,11 @@ MonoBehaviour:
   _interpolation: 2
   _clientAuthoritative: 1
   _sendToOwner: 0
---- !u!95 &2315172772878713689
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &8499502846232613819 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 792227508385065944, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
+    type: 3}
+  m_PrefabInstance: {fileID: 9154343008396146787}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8343951469380453682}
   m_Enabled: 1
