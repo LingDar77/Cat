@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using FishNet.Object;
 using UnityEngine;
 
-namespace SFC.Intergration.FishNet
+namespace SFC.Intergration.FN
 {
     [RequireComponent(typeof(Rigidbody))]
     public class NetworkRigidbody : NetworkBehaviour

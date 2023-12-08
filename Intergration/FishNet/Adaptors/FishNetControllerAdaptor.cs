@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace SFC.Intergration.FishNet
+namespace SFC.Intergration.FN
 {
     /// <summary>
     /// An adaptor to make the built-in locomotion system compatiable
