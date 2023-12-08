@@ -796,7 +796,7 @@ MonoBehaviour:
   OnSpawnedAsReplicated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8053988426170346631}
         m_TargetAssemblyTypeName: SFC.CommonFunctions, SaltyFishContainer.Runtime
         m_MethodName: SetLocalScale
         m_Mode: 4
@@ -1968,6 +1968,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2315172772878713689}
+    - targetCorrespondingSourceObject: {fileID: 6386605790647660473, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8053988426170346631}
   m_SourcePrefab: {fileID: 100100000, guid: 73ffbc06802a247cfb1b26f4ee67eba8, type: 3}
 --- !u!4 &396835547641323358 stripped
 Transform:
@@ -2005,6 +2009,24 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 9154343008396146787}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2858389761025497050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6386605790647660473, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
+    type: 3}
+  m_PrefabInstance: {fileID: 9154343008396146787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8053988426170346631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2858389761025497050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1016371d203914a807cfa8d04c7397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4124268811572534669 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5059401470471349742, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
