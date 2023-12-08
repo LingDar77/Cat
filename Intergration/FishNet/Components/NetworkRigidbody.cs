@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
 namespace SFC.Intergration.FN
@@ -8,10 +10,11 @@ namespace SFC.Intergration.FN
     public class NetworkRigidbody : NetworkBehaviour
     {
         [SerializeField] private Rigidbody Rigidbody;
-        [SerializeField] private bool ClientAuthoritative = true;
-        [SerializeField] private float SyncFrequency = 0.1f;
-        [Header("Sync Options")]
-        [SerializeField] private bool SyncIsKinematic = true;
+        [SerializeField] private float SendRate = .2f;
+
+        //A client-side SyncVar.
+        [field: SyncVar(SendRate = .2f, OnChange = nameof(OnIsKinematicCacheChanged))]
+        private bool IsKinematicCache { get; [ServerRpc] set; }
 
 
 #if UNITY_EDITOR
@@ -28,25 +31,18 @@ namespace SFC.Intergration.FN
         }
         private IEnumerator StartSync()
         {
-            var wait = new WaitForSeconds(SyncFrequency);
             while (true)
             {
-                yield return wait;
-                if (!IsOwner) continue;
-                SetIsKinematicServerRpc(Rigidbody.isKinematic);
+                yield return new WaitForSeconds(SendRate);
+                if (IsKinematicCache == Rigidbody.isKinematic || !IsOwner) continue;
+                IsKinematicCache = Rigidbody.isKinematic;
             }
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void SetIsKinematicServerRpc(bool isKinematic)
-        {
-            SetIsKinematicClientRpc(isKinematic);
-        }
-        [ObserversRpc]
-        private void SetIsKinematicClientRpc(bool isKinematic)
+        private void OnIsKinematicCacheChanged(bool prev, bool curr, bool asServer)
         {
             if (IsOwner) return;
-            Rigidbody.isKinematic = isKinematic;
+            Rigidbody.isKinematic = IsKinematicCache;
         }
     }
 
