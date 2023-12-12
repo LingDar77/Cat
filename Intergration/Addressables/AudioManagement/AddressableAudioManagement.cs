@@ -6,6 +6,10 @@ using UnityEngine.AddressableAssets;
 
 namespace SFC.Intergration.AA
 {
+    /// <summary>
+    /// The basic addressable impmentation for AudioManagementSystem.
+    /// <see cref="IAudioManagementSystem"/>
+    /// </summary>
     public class AddressableAudioManagement : MonoBehaviour, IAudioManagementSystem<string>, ISingletonSystem<AddressableAudioManagement>
     {
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
