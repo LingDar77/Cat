@@ -14,7 +14,7 @@ namespace SFC.AduioManagement
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
 
-        public virtual void OnEnable()
+        protected virtual void OnEnable()
         {
             if (ISingletonSystem<BuiltinAudioManagement>.Singleton != null) return;
 
@@ -22,7 +22,7 @@ namespace SFC.AduioManagement
             DontDestroyOnLoad(gameObject);
         }
 
-        public virtual void OnDisable()
+        protected virtual void OnDisable()
         {
             if (ISingletonSystem<BuiltinAudioManagement>.Singleton.transform != this) return;
             ISingletonSystem<BuiltinAudioManagement>.Singleton = null;

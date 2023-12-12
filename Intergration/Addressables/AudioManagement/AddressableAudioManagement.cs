@@ -12,7 +12,7 @@ namespace SFC.Intergration.AA
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
        
-        public virtual void OnEnable()
+        protected virtual void OnEnable()
         {
             if (ISingletonSystem<AddressableAudioManagement>.Singleton != null) return;
 
@@ -20,7 +20,7 @@ namespace SFC.Intergration.AA
             DontDestroyOnLoad(gameObject);
         }
 
-        public virtual void OnDisable()
+        protected virtual void OnDisable()
         {
             if (ISingletonSystem<AddressableAudioManagement>.Singleton.transform != this) return;
             ISingletonSystem<AddressableAudioManagement>.Singleton = null;

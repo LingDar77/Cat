@@ -8,7 +8,7 @@ namespace SFC.SceneManagementSystem
     {
         public float LoadingProgress { get; set; }
 
-        public virtual void OnEnable()
+        protected virtual void OnEnable()
         {
             if (ISceneManagementSystem.Singleton != null) return;
 
@@ -16,7 +16,7 @@ namespace SFC.SceneManagementSystem
             DontDestroyOnLoad(gameObject);
         }
 
-        public virtual void OnDisable()
+        protected virtual void OnDisable()
         {
             if (ISceneManagementSystem.Singleton.transform != this) return;
             ISceneManagementSystem.Singleton = null;
