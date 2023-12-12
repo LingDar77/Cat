@@ -24,9 +24,8 @@ namespace SFC.AduioManagement
         /// </summary>
         /// <param name="trans"></param>
         /// <param name="reference"></param>
-        /// <param name="volume"></param>
-        void PlaySoundFrom(Transform trans, ReferenceType reference, float volume = 1f);
-
+        /// <param name="onReadyPlay"></param>
+        void PlaySoundFrom(Transform trans, ReferenceType reference, System.Action<AudioSource> onReadyPlay);
 
     }
 }

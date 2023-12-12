@@ -33,13 +33,13 @@ namespace SFC.AduioManagement
         {
             AudioSource.PlayClipAtPoint(reference, position, volume);
         }
-        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, float volume = 1)
+        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay)
         {
             var source = GetValidAudioSource();
+            onReadyPlay?.Invoke(source);
             source.transform.SetParent(trans, false);
             source.transform.localPosition = Vector3.zero;
             source.clip = reference;
-            source.volume = volume;
             source.Play();
             usedSources.Add(source);
             Coroutine.WaitUntil(this,
