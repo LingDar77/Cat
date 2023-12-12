@@ -152,19 +152,6 @@ namespace SFC.Utillities
         }
         #endregion
 
-        #region AudioSource Expand
-        /// <summary>
-        /// Play an aduio source and callback when play ended.
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="callback"></param>
-        public static void PlayTracked(this AudioSource source, MonoBehaviour behaviour, System.Action callback)
-        {
-            source.Play();
-            Coroutine.WaitUntil(behaviour, () => source.isPlaying == false, callback);
-        }
-        #endregion
-
         #region Collection Expand
         /// <summary>
         /// Get a random object in a list.
