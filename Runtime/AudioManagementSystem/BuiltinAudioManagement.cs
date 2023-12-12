@@ -11,6 +11,7 @@ namespace SFC.AduioManagement
     public class BuiltinAudioManagement : MonoBehaviour, IAudioManagementSystem<AudioClip>, ISingletonSystem<BuiltinAudioManagement>
     {
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
+        protected int UsedAllocation { get => usedSources.Count + unusedSources.Count; }
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
 
@@ -47,7 +48,7 @@ namespace SFC.AduioManagement
         }
         protected virtual AudioSource GetValidAudioSource()
         {
-            if (usedSources.Count + unusedSources.Count >= MaxAllocation)
+            if (UsedAllocation >= MaxAllocation)
             {
                 Debug.LogWarning("Max allocation reached. Consider increasing the MaxAllocation value.", this);
             }
