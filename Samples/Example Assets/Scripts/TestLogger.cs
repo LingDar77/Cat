@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC.TestCases
+namespace SFC.Example
 {
     public class TestLogger : MonoBehaviour
     {
