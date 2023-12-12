@@ -7,14 +7,21 @@ namespace SFC.SceneManagementSystem
     public class BuiltinSceneManagement : MonoBehaviour, ISceneManagementSystem
     {
         public float LoadingProgress { get; set; }
-        private void Awake()
+
+        public void OnEnable()
         {
             if (ISceneManagementSystem.Singleton != null) return;
 
             ISceneManagementSystem.Singleton = this;
             DontDestroyOnLoad(gameObject);
         }
-      
+
+        public void OnDisable()
+        {
+            if (ISceneManagementSystem.Singleton.transform != this) return;
+            ISceneManagementSystem.Singleton = null;
+        }
+
         public void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
             SceneManager.LoadScene(scene, loadMode);
@@ -31,5 +38,6 @@ namespace SFC.SceneManagementSystem
             }
 
         }
+
     }
 }

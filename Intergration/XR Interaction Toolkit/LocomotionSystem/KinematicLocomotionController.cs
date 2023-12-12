@@ -40,11 +40,11 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem
             if (!Motor) Motor = GetComponent<KinematicCharacterMotor>();
         }
 #endif
-        protected virtual void OnEnable()
+        public virtual void OnEnable()
         {
             Motor.CharacterController = this;
         }
-        protected virtual void OnDisable()
+        public virtual void OnDisable()
         {
             Motor.CharacterController = null;
         }
