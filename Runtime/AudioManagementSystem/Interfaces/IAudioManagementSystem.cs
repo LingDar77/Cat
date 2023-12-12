@@ -7,12 +7,16 @@ namespace SFC.AduioManagement
     {
         /// <summary>
         /// The maximun tracked number of audio sources to use;
+        /// * When reached the limit while can not reuse any audio source,
+        /// * the system will allocate more audio sources to satisfy user's request,
+        /// * but the part may cause performent problems.
+        /// * A warning will log this problem
         /// </summary>
         int MaxAllocation { get; }
         /// <summary>
         /// Simply play a sound at a positin.
-        /// Normaly this will not be counted as a use of allocation,
-        /// for it's usually used for short clips.
+        /// * Normaly this will not be counted as a use of allocation,
+        /// * for it's usually used for short clips.
         /// </summary>
         /// <param name="position"></param>
         /// <param name="reference"></param>
