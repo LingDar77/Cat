@@ -11,7 +11,7 @@ namespace SFC.Intergration.AA
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
-       
+
         protected virtual void OnEnable()
         {
             if (ISingletonSystem<AddressableAudioManagement>.Singleton != null) return;
@@ -42,9 +42,9 @@ namespace SFC.Intergration.AA
                 source.clip = op.Result;
                 source.Play();
                 usedSources.Add(source);
-                Coroutine.WaitUntil(this,
-                 () => source.isPlaying == false,
-                 () => ReturnAudioSource(source));
+                this.WaitUntil(
+                    () => source.isPlaying == false,
+                    () => ReturnAudioSource(source));
             };
         }
 

@@ -41,7 +41,7 @@ namespace SFC.AduioManagement
             source.clip = reference;
             source.Play();
             usedSources.Add(source);
-            Coroutine.WaitUntil(this,
+            this.WaitUntil(
              () => source.isPlaying == false,
              () => ReturnAudioSource(source));
         }
