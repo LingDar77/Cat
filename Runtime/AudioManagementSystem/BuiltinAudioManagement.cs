@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using SFC.Utillities;
 using UnityEngine;
@@ -33,7 +32,7 @@ namespace SFC.AduioManagement
         {
             AudioSource.PlayClipAtPoint(reference, position, volume);
         }
-        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay)
+        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
         {
             var source = GetValidAudioSource();
             onReadyPlay?.Invoke(source);
