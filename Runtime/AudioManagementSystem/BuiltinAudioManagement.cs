@@ -11,7 +11,6 @@ namespace SFC.AduioManagement
     /// </summary>
     public class BuiltinAudioManagement : MonoBehaviour, IAudioManagementSystem<AudioClip>, ISingletonSystem<BuiltinAudioManagement>
     {
-        [SerializeField] private AudioClip[] ReferencedClips;
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
@@ -34,7 +33,7 @@ namespace SFC.AduioManagement
         {
             AudioSource.PlayClipAtPoint(reference, position, volume);
         }
-        public void PlaySoundFrom(Transform trans, AudioClip reference, float volume = 1)
+        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, float volume = 1)
         {
             var source = GetValidAudioSource();
             source.transform.SetParent(trans, false);
@@ -47,7 +46,7 @@ namespace SFC.AduioManagement
              () => source.isPlaying == false,
              () => ReturnAudioSource(source));
         }
-        protected AudioSource GetValidAudioSource()
+        protected virtual AudioSource GetValidAudioSource()
         {
             if (usedSources.Count + unusedSources.Count >= MaxAllocation)
             {
@@ -62,7 +61,7 @@ namespace SFC.AduioManagement
             usedSources.Add(source);
             return source;
         }
-        protected void ReturnAudioSource(AudioSource source)
+        protected virtual void ReturnAudioSource(AudioSource source)
         {
             usedSources.Remove(source);
             unusedSources.Add(source);
