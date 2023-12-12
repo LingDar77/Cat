@@ -8,7 +8,7 @@ namespace SFC.SceneManagementSystem
     {
         public float LoadingProgress { get; set; }
 
-        public void OnEnable()
+        public virtual void OnEnable()
         {
             if (ISceneManagementSystem.Singleton != null) return;
 
@@ -16,18 +16,18 @@ namespace SFC.SceneManagementSystem
             DontDestroyOnLoad(gameObject);
         }
 
-        public void OnDisable()
+        public virtual void OnDisable()
         {
             if (ISceneManagementSystem.Singleton.transform != this) return;
             ISceneManagementSystem.Singleton = null;
         }
 
-        public void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
+        public virtual void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
             SceneManager.LoadScene(scene, loadMode);
         }
 
-        public IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
+        public virtual IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
             LoadingProgress = 0;
             var handle = SceneManager.LoadSceneAsync(scene, loadMode);

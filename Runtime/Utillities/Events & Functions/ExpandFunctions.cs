@@ -110,7 +110,7 @@ namespace SFC.Utillities
             return new Vector2(v.z, v.y);
         }
         #endregion
-        
+
         #region GameObject Expand
         public static void DestroyAllChildren(this GameObject content)
         {
@@ -149,6 +149,19 @@ namespace SFC.Utillities
             {
                 method(child.gameObject);
             }
+        }
+        #endregion
+
+        #region AudioSource Expand
+        /// <summary>
+        /// Play an aduio source and callback when play ended.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="callback"></param>
+        public static void PlayTracked(this AudioSource source, MonoBehaviour behaviour, System.Action callback)
+        {
+            source.Play();
+            Coroutine.WaitUntil(behaviour, () => source.isPlaying == false, callback);
         }
         #endregion
 

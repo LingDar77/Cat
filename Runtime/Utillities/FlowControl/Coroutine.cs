@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SFC
 {
-    public static class FlowControlMonoBehaviour
+    public static class Coroutine
     {
         static WaitForEndOfFrame waitForEndOfFrame = new();
         static WaitForFixedUpdate waitForFixedUpdate = new();

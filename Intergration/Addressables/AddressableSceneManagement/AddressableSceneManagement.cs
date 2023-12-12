@@ -6,29 +6,15 @@ using UnityEngine.SceneManagement;
 
 namespace SFC.Intergration.AA
 {
-    public class AddressableSceneManagement : MonoBehaviour, ISceneManagementSystem
+    public class AddressableSceneManagement : BuiltinSceneManagement
     {
-        public float LoadingProgress { get; set; }
 
-        public void OnEnable()
-        {
-            if (ISceneManagementSystem.Singleton != null) return;
-
-            ISceneManagementSystem.Singleton = this;
-            DontDestroyOnLoad(gameObject);
-        }
-
-        public void OnDisable()
-        {
-            if (ISceneManagementSystem.Singleton.transform != this) return;
-            ISceneManagementSystem.Singleton = null;
-        }
-        public void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
+        public override void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
             Addressables.LoadSceneAsync(scene, loadMode).WaitForCompletion();
         }
 
-        public IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
+        public override  IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
             LoadingProgress = 0;
             var loadHandle = Addressables.LoadSceneAsync(scene, loadMode, false);
