@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using SFC.Utillities;
 using UnityEngine;
@@ -12,19 +13,9 @@ namespace SFC.AduioManagement
     {
         [SerializeField] private AudioClip[] ReferencedClips;
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
-        protected HashSet<AudioSource> unusedSources = new();
+        protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
-        [ContextMenu("Test")]
-        private void Test()
-        {
-            var source = AllocateSource();
-            source.playOnAwake = false;
-            source.clip = ReferencedClips.Random();
-            source.PlayTracked(this, () =>
-            {
-                Debug.Log("Play ended.");
-            });
-        }
+
         public virtual void OnEnable()
         {
             if (ISingletonSystem<BuiltinAudioManagement>.Singleton != null) return;
@@ -43,12 +34,39 @@ namespace SFC.AduioManagement
         {
             AudioSource.PlayClipAtPoint(reference, position, volume);
         }
-
-        public AudioSource AllocateSource()
+        public void PlaySoundFrom(Transform trans, AudioClip reference, float volume = 1)
         {
-            var obj = new GameObject("audio source", typeof(AudioSource));
-            obj.transform.SetParent(transform);
-            return obj.GetComponent<AudioSource>();
+            var source = GetValidAudioSource();
+            source.transform.SetParent(trans, false);
+            source.transform.localPosition = Vector3.zero;
+            source.clip = reference;
+            source.volume = volume;
+            source.Play();
+            usedSources.Add(source);
+            Coroutine.WaitUntil(this,
+             () => source.isPlaying == false,
+             () => ReturnAudioSource(source));
+        }
+        protected AudioSource GetValidAudioSource()
+        {
+            if (usedSources.Count + unusedSources.Count >= MaxAllocation)
+            {
+                Debug.LogWarning("Max allocation reached. Consider increasing the MaxAllocation value.", this);
+            }
+            if (unusedSources.Count == 0)
+            {
+                unusedSources.Add(new GameObject("Audio Source", typeof(AudioSource)).GetComponent<AudioSource>());
+            }
+            var source = unusedSources.Random();
+            unusedSources.Remove(source);
+            usedSources.Add(source);
+            return source;
+        }
+        protected void ReturnAudioSource(AudioSource source)
+        {
+            usedSources.Remove(source);
+            unusedSources.Add(source);
+            source.transform.SetParent(transform, false);
         }
     }
 }

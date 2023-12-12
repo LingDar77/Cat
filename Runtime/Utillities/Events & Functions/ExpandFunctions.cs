@@ -179,6 +179,7 @@ namespace SFC.Utillities
         /// <summary>
         /// Note that a set has not ability to random access,
         /// this action will convert it to a array to do random access.
+        /// It's better to cache the array and use list version for better performence.
         /// </summary>
         /// <typeparam name="Type"></typeparam>
         /// <param name="set"></param>

@@ -18,6 +18,15 @@ namespace SFC.AduioManagement
         /// <param name="reference"></param>
         /// <param name="volume"></param>
         void PlaySoundAtPosition(Vector3 position, ReferenceType reference, float volume = 1f);
-        AudioSource AllocateSource();
+        /// <summary>
+        /// Play a sound from a transfrom, 
+        /// this may cause allocation or reuse audio source.
+        /// </summary>
+        /// <param name="trans"></param>
+        /// <param name="reference"></param>
+        /// <param name="volume"></param>
+        void PlaySoundFrom(Transform trans, ReferenceType reference, float volume = 1f);
+
+
     }
 }
