@@ -101,7 +101,7 @@ namespace SFC.Intergration.AA.EditorScript
             {
                 AssetReferenceProcesserConfig.GetConfig().targets = null;
             }
-            if (GUILayout.Button("Scan"))
+            if (GUILayout.Button("Process"))
             {
                 AssetReferenceProcesserConfig.GetConfig().Scan();
             }
