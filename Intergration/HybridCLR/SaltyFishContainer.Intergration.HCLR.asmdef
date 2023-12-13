@@ -1,0 +1,27 @@
+{
+    "name": "SaltyFishContainer.Intergration.HCLR",
+    "rootNamespace": "SFC.Intergration.HCLR",
+    "references": [
+        "GUID:13ba8ce62aa80c74598530029cb2d649",
+        "GUID:2373f786d14518f44b0f475db77ba4de",
+        "GUID:c3eada64ce30a1448920b24b04bc2d39"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "HYBRID_CLR",
+        "SALTY_FISH_CONTAINER"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.code-philosophy.hybridclr",
+            "expression": "1",
+            "define": "HYBRID_CLR"
+        }
+    ],
+    "noEngineReferences": false
+}
