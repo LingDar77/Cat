@@ -26,7 +26,6 @@ namespace SFC.Intergration.AA
         {
             Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op => PlaySoundAtPosition(position, op.Result, volume);
         }
-
         public void PlaySoundFrom(Transform trans, string reference, System.Action<AudioSource> onReadyPlay = null)
         {
             Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op =>

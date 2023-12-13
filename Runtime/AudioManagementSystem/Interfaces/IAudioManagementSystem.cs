@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace SFC.AduioManagement
@@ -11,6 +10,8 @@ namespace SFC.AduioManagement
         /// * the system will allocate more audio sources to satisfy user's request,
         /// * but the part may cause performent problems.
         /// * A warning will log this problem
+        /// * Note that every allocated audio source may be recycled by the system
+        /// * after playing ended, you should not try to reuse it manully.
         /// </summary>
         int MaxAllocation { get; }
         /// <summary>
@@ -25,6 +26,7 @@ namespace SFC.AduioManagement
         /// <summary>
         /// Play a sound from a transfrom, 
         /// this may cause allocation or reuse audio source.
+        /// * Note that you can manully stop the audio source.
         /// </summary>
         /// <param name="trans"></param>
         /// <param name="reference"></param>
