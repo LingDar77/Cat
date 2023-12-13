@@ -50,7 +50,7 @@ namespace SFC.AduioManagement
         {
             if (UsedAllocation >= MaxAllocation)
             {
-                Debug.LogWarning("Max allocation reached. Consider increasing the MaxAllocation value.", this);
+                Debug.LogWarning($"Max allocation reached( {UsedAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
             }
             if (unusedSources.Count == 0)
             {
