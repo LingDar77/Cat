@@ -2,6 +2,13 @@ using UnityEngine;
 
 namespace SFC.AduioManagement
 {
+    /// <summary>
+    /// Definition of an audio management system that allocate certain amount of audio sources 
+    /// and manage them to correctlly play audio resources.
+    /// * The system hides the load resources actions and allocated audio sources actions
+    /// * so users can focus on how and what to play in front of it.
+    /// </summary>
+    /// <typeparam name="ReferenceType">The type of audio asset reference. </typeparam> 
     public interface IAudioManagementSystem<ReferenceType> : IGameSystem<IActionProvider>
     {
         /// <summary>
