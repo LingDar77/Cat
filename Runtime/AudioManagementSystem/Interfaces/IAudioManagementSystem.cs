@@ -9,7 +9,7 @@ namespace SFC.AduioManagement
         /// * When reached the limit while can not reuse any audio source,
         /// * the system will allocate more audio sources to satisfy user's request,
         /// * but the part may cause performent problems.
-        /// * A warning will log this problem
+        /// * A warning will log this problem.
         /// * Note that every allocated audio source may be recycled by the system
         /// * after playing ended, you should not try to reuse it manully.
         /// </summary>

@@ -154,12 +154,12 @@ namespace SFC.Utillities
 
         #region Collection Expand
         /// <summary>
-        /// Get a random object in a list.
+        /// Get a random element in a list.
         /// </summary>
         /// <typeparam name="Type"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static Type Random<Type>(this IList<Type> list)
+        public static Type RandomElement<Type>(this IList<Type> list)
         {
             return list[UnityEngine.Random.Range(0, list.Count)];
         }
@@ -171,10 +171,10 @@ namespace SFC.Utillities
         /// <typeparam name="Type"></typeparam>
         /// <param name="set"></param>
         /// <returns></returns>
-        public static Type Random<Type>(this ISet<Type> set)
+        public static Type RandomElement<Type>(this ISet<Type> set)
         {
             var array = set.ToArray();
-            return array.Random();
+            return array.RandomElement();
         }
         #endregion
     }

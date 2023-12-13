@@ -56,7 +56,7 @@ namespace SFC.AduioManagement
             {
                 unusedSources.Add(new GameObject("Audio Source", typeof(AudioSource)).GetComponent<AudioSource>());
             }
-            var source = unusedSources.Random();
+            var source = unusedSources.RandomElement();
             unusedSources.Remove(source);
             usedSources.Add(source);
             return source;
