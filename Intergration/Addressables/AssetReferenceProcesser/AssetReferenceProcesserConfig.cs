@@ -97,11 +97,11 @@ namespace SFC.Intergration.AA.EditorScript
             EditorGUILayout.Separator();
             editor.OnInspectorGUI();
             EditorGUILayout.Separator();
-            if (GUILayout.Button("Clean"))
+            if (GUILayout.Button("Clean Targets"))
             {
                 AssetReferenceProcesserConfig.GetConfig().targets = null;
             }
-            if (GUILayout.Button("Process"))
+            if (GUILayout.Button("Process Assets"))
             {
                 AssetReferenceProcesserConfig.GetConfig().Scan();
             }
