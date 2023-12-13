@@ -5,26 +5,34 @@ using UnityEngine;
 
 namespace SFC.EditorScript
 {
-    public class ConfigableObject<Type> : ScriptableObject where Type : ScriptableObject
+    public class ConfigableObject<Type> : ScriptableObject where Type : ConfigableObject<Type>
     {
-        protected static string SaveLocation = "Assets/Settings/";
         private static Type instance;
 
         public static Type GetConfig()
         {
             if (instance != null) return instance;
-            var path = $"{SaveLocation}{typeof(Type).Name}.asset";
+
+            var prototype = CreateInstance<Type>();
+            var saveLocation = prototype.GetSaveLocation();
+            var path = $"{saveLocation}{typeof(Type).Name}.asset";
             instance = AssetDatabase.LoadAssetAtPath<Type>(path);
             if (instance != null) return instance;
-
-            if (!Directory.Exists(SaveLocation))
+            
+            instance = prototype;
+            if (!Directory.Exists(saveLocation))
             {
-                Directory.CreateDirectory(SaveLocation);
+                Directory.CreateDirectory(saveLocation);
+                AssetDatabase.Refresh();
             }
-            AssetDatabase.Refresh();
-            instance = CreateInstance<Type>();
+
             AssetDatabase.CreateAsset(instance, path);
             return instance;
+        }
+
+        protected virtual string GetSaveLocation()
+        {
+            return "Assets/Settings/";
         }
     }
 }

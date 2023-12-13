@@ -8,12 +8,12 @@ namespace SFC.Intergration.AA
 {
 
     [CreateAssetMenu(fileName = "RegexGroupStrategy", menuName = "SaltyFishContainer/Addressables/GroupManagementStrategy/RegexGroupStrategy", order = 0)]
-    public class RegexGroupStrategy : ScriptableObject, IGroupManagementStrategy
+    public class RegexGroupStrategy : GroupManagementStrategyBase
     {
         public string expression;
         public RegexOptions options;
 
-        public bool Match(string path, AddressableAssetGroup group)
+        public override bool Match(string path, AddressableAssetGroup group)
         {
             return new Regex(expression, options).IsMatch(path);
         }
