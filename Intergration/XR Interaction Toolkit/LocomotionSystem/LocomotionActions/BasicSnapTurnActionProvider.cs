@@ -8,6 +8,8 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     public class BasicSnapTurnActionProvider : ActionProviderBase
     {
+        [InterfaceRequired(typeof(IRotateBiasable))]
+        [SerializeField] private Object BiasableImplement;
         [Header("Inputs")]
         [SerializeField] private InputActionProperty TurnInput;
         [SerializeField] private float TurnSnapCooldownTime = .5f;
@@ -21,7 +23,8 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
         protected override void OnEnable()
         {
             base.OnEnable();
-            biasable = transform.root.GetComponentInChildren<IRotateBiasable>();
+            biasable = BiasableImplement as IRotateBiasable;
+
             if (LocomotionSystem is KinematicLocomotionController controller)
             {
                 motor = controller.Motor;

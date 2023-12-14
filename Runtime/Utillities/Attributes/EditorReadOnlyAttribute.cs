@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace SFC.Utillities
+namespace SFC
 {
 
     public sealed class EditorReadOnlyAttribute : PropertyAttribute

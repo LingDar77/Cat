@@ -450,6 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f8540007b19aa4bb200424482b272a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BiasableImplement: {fileID: 1966943952528073440}
 --- !u!1 &3664032390158859293
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,6 +1099,7 @@ MonoBehaviour:
       type: 3}
   MaxMoveSpeed: 1.6
   CanMoveInAir: 0
+  BiasableImplement: {fileID: 1966943952528073440}
   OnVelocityUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -1126,6 +1128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ed006ed6c51e841a3ca859dfa434e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BiasableImplement: {fileID: 1966943952528073440}
   TurnInput:
     m_UseReference: 1
     m_Action:

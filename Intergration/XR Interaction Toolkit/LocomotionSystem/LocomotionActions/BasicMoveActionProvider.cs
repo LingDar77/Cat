@@ -21,11 +21,13 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
         [SerializeField] private float MaxMoveSpeed = 2f;
         [Tooltip("Can the Charactor Perform Move in Air?")]
         [SerializeField] private bool CanMoveInAir = false;
-
+        [InterfaceRequired(typeof(IRotateBiasable))]
+        [SerializeField] private Object BiasableImplement;
+        private IRotateBiasable biasable;
         public UnityEvent<float> OnVelocityUpdated;
         private Vector2 moveInputValue;
         private Vector3 headInputValue;
-        private IRotateBiasable biasable;
+
 
         /// <summary>
         /// Try apply gravity when the charactor is not stable on ground.
@@ -38,10 +40,10 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
             currentVelocity.y -= 9.8f * deltaTime;
         }
 
-        protected override void Awake()
+        protected override void OnEnable()
         {
-            base.Awake();
-            biasable = transform.root.GetComponentInChildren<IRotateBiasable>();
+            base.OnEnable();
+            biasable = BiasableImplement as IRotateBiasable;
         }
 
         private void Start()

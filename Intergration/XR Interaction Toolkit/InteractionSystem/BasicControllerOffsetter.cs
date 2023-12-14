@@ -5,11 +5,13 @@ namespace SFC.Intergration.XRIT.InteractionSystem
 {
     public class BasicControllerOffsetter : MonoBehaviour
     {
+        [InterfaceRequired(typeof(IRotateBiasable))]
+        [SerializeField] private Object BiasableImplement;
         private IRotateBiasable biasable;
 
-        private void Awake()
+        private void OnEnable()
         {
-            biasable = transform.root.GetComponentInChildren<IRotateBiasable>();
+            biasable = BiasableImplement as IRotateBiasable;
         }
 
         private void FixedUpdate()
