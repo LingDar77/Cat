@@ -13,7 +13,7 @@ namespace SFC.SceneManagementSystem
             if (ISceneManagementSystem.Singleton != null) return;
 
             ISceneManagementSystem.Singleton = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(transform.root.gameObject);
         }
 
         protected virtual void OnDisable()

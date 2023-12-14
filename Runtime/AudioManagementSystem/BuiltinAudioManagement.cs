@@ -24,7 +24,7 @@ namespace SFC.AduioManagement
             if (ISingletonSystem<BuiltinAudioManagement>.Singleton != null) return;
 
             ISingletonSystem<BuiltinAudioManagement>.Singleton = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(transform.root.gameObject);
         }
 
         protected virtual void OnDisable()
