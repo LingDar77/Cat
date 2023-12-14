@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace SFC.Utillities
 {
-
+    /// <summary>
+    /// MonoTrigger is used for the case when multiple triggers in a game object,
+    /// and they need to work seperately.
+    /// </summary>
     public class MonoTrigger : MonoBehaviour
     {
         public UnityEvent<Collider> TriggerEntered;
