@@ -1,4 +1,4 @@
-using System;
+#if FISHNET
 using System.Collections;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -47,3 +47,4 @@ namespace SFC.Intergration.FN
     }
 
 }
+#endif

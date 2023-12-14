@@ -1,3 +1,4 @@
+#if XRIT
 using UnityEngine;
 
 namespace SFC.Intergration.XRIT.InteractionSystem
@@ -22,3 +23,4 @@ namespace SFC.Intergration.XRIT.InteractionSystem
         }
     }
 }
+#endif

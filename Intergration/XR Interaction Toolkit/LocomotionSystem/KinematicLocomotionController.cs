@@ -1,3 +1,4 @@
+#if XRIT && SALTY_FISH_CONTAINER
 using System.Collections.Generic;
 using SFC.KinematicLocomotionSystem;
 using SFC.Utillities;
@@ -146,3 +147,4 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem
 
     }
 }
+#endif

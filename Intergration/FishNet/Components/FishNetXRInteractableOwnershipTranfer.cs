@@ -1,4 +1,4 @@
-#if XRIT
+#if XRIT && FISHNET
 using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;

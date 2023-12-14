@@ -1,3 +1,4 @@
+#if NETCODE
 using System.Linq;
 using SFC.KinematicLocomotionSystem;
 using Unity.Netcode;
@@ -155,3 +156,4 @@ namespace SFC.Intergration.Netcode
 
     }
 }
+#endif

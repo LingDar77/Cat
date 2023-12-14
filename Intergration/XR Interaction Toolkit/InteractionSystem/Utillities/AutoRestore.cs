@@ -1,3 +1,4 @@
+#if XRIT
 using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -34,7 +35,7 @@ namespace SFC.Intergration.XRIT.InteractionSystem.Utils
 
         private void OnSelectExited(SelectExitEventArgs e)
         {
-            if(!gameObject.activeSelf) return;
+            if (!gameObject.activeSelf) return;
             StartCoroutine(DoAutoRestore());
         }
 
@@ -45,3 +46,4 @@ namespace SFC.Intergration.XRIT.InteractionSystem.Utils
         }
     }
 }
+#endif

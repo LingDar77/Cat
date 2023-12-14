@@ -1,3 +1,4 @@
+#if NETCODE
 using Unity.Netcode.Components;
 
 namespace SFC.Intergration.Netcode
@@ -10,3 +11,4 @@ namespace SFC.Intergration.Netcode
         }
     }
 }
+#endif

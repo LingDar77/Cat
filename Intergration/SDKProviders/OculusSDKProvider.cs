@@ -1,3 +1,4 @@
+#if META_INTERACTION_OVR
 using SFC.XRSDKProvider;
 using UnityEngine;
 
@@ -44,3 +45,4 @@ namespace SFC.Intergration.SDKProviders
         }
     }
 }
+#endif

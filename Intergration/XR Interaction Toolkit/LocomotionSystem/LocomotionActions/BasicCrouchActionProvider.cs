@@ -1,3 +1,4 @@
+#if XRIT && SALTY_FISH_CONTAINER
 using SFC.KinematicLocomotionSystem;
 using SFC.KinematicLocomotionSystem.Actions;
 using UnityEngine;
@@ -81,3 +82,4 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
         }
     }
 }
+#endif

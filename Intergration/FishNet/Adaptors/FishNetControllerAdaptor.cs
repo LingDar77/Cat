@@ -1,3 +1,4 @@
+#if FISHNET
 using System.Linq;
 using FishNet.Object;
 using SFC.KinematicLocomotionSystem;
@@ -154,3 +155,4 @@ namespace SFC.Intergration.FN
 
     }
 }
+#endif
