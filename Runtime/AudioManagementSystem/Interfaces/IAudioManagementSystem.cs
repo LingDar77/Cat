@@ -27,7 +27,7 @@ namespace SFC.AduioManagement
         /// * Enable this may cause some problems, for the extra allocation 
         /// * will force stop a playing audio source.
         /// </summary>
-        bool ReplaceLastAllocated { get; }
+        bool ReplaceNearestToEnd { get; }
         /// <summary>
         /// Simply play a sound at a positin.
         /// * Normaly this will not be counted as a use of allocation,

@@ -12,7 +12,7 @@ namespace SFC.AduioManagement
     {
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         [EditorReadOnly] public int CurrentAllocation = 0;
-        [field: SerializeField] public bool ReplaceLastAllocated { get; set; } = false;
+        [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
 
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
@@ -54,7 +54,7 @@ namespace SFC.AduioManagement
         {
             if (CurrentAllocation > MaxAllocation)
             {
-                if (ReplaceLastAllocated && usedSources.Count != 0 && unusedSources.Count == 0)
+                if (ReplaceNearestToEnd && usedSources.Count != 0 && unusedSources.Count == 0)
                 {
                     AudioSource last = SelectNearestEndSource();
                     usedSources.Remove(last);
