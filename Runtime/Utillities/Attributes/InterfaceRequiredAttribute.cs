@@ -4,7 +4,6 @@ using UnityEditor;
 
 namespace SFC
 {
-
     public sealed class InterfaceRequiredAttribute : PropertyAttribute
     {
 
