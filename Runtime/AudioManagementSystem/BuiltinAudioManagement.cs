@@ -55,7 +55,7 @@ namespace SFC.AduioManagement
             if (CurrentAllocation >= MaxAllocation)
             {
                 Debug.LogWarning($"Max allocation reached( {CurrentAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
-                if (ReplaceLastAllocated && usedSources.Count != 0)
+                if (ReplaceLastAllocated && usedSources.Count != 0 && unusedSources.Count == 0)
                 {
                     AudioSource last = null;
                     usedSources.RemoveWhere(source =>
