@@ -54,9 +54,9 @@ namespace SFC.AduioManagement
         }
         protected virtual AudioSource GetValidAudioSource()
         {
-            if (CurrentAllocation > MaxAllocation)
+            if (CurrentAllocation >= MaxAllocation && unusedSources.Count == 0)
             {
-                if (ReplaceNearestToEnd && usedSources.Count != 0 && unusedSources.Count == 0)
+                if (ReplaceNearestToEnd && usedSources.Count != 0)
                 {
                     AudioSource last = SelectNearestEndSource();
                     var hashcode = last.GetHashCode();
