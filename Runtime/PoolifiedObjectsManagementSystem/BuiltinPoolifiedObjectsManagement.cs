@@ -6,24 +6,12 @@ namespace SFC.PoolifiedObjects
     {
         public IGameObjectGenerator generator;
         protected HashSet<IPoolifiedObject> poolifiedObjects = new();
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             generator = GetComponent<IGameObjectGenerator>();
         }
 
-        [ContextMenu("Test Depool")]
-        private void TestDepool()
-        {
-            var obj = Depool();
-            obj.transform.SetParent(null);
-            obj.transform.position = new Vector3(Random.Range(0, 10f), Random.Range(0, 10f), Random.Range(0, 10f));
-            this.WaitForSeconds(() =>
-            {
-                Enpool(obj);
-            }, 5);
-        }
-
-        public IPoolifiedObject Depool()
+        public virtual IPoolifiedObject Depool()
         {
             if (poolifiedObjects.Count == 0)
             {
@@ -39,7 +27,7 @@ namespace SFC.PoolifiedObjects
             obj.InitObject(this);
             return obj;
         }
-        public void Enpool(IPoolifiedObject objectToEnpool)
+        public virtual void Enpool(IPoolifiedObject objectToEnpool)
         {
             if (objectToEnpool.Pool.transform != transform)
             {
