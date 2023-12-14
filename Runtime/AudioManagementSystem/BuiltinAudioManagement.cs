@@ -11,12 +11,12 @@ namespace SFC.AduioManagement
     public class BuiltinAudioManagement : MonoBehaviour, IAudioManagementSystem<AudioClip>, ISingletonSystem<BuiltinAudioManagement>
     {
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
+        [EditorReadOnly] public int CurrentAllocation = 0;
         [field: SerializeField] public bool ReplaceLastAllocated { get; set; } = false;
-        protected int UsedAllocation
-        { get => usedSources.Count + unusedSources.Count; }
 
         protected List<AudioSource> unusedSources = new();
-        protected List<AudioSource> usedSources = new();
+        protected HashSet<AudioSource> usedSources = new();
+        protected Dictionary<AudioSource, Coroutine> coroutines = new();
         protected virtual void OnEnable()
         {
             if (ISingletonSystem<BuiltinAudioManagement>.Singleton != null) return;
@@ -44,23 +44,38 @@ namespace SFC.AduioManagement
             source.clip = reference;
             source.Play();
             usedSources.Add(source);
-            this.WaitUntil(
+            Coroutine coroutine;
+            coroutine = this.WaitUntil(
              () => source.isPlaying == false,
              () => ReturnAudioSource(source));
+            coroutines.Add(source, coroutine);
         }
         protected virtual AudioSource GetValidAudioSource()
         {
-            if (UsedAllocation >= MaxAllocation)
+            if (CurrentAllocation >= MaxAllocation)
             {
-                Debug.LogWarning($"Max allocation reached( {UsedAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
-                if(ReplaceLastAllocated)
+                Debug.LogWarning($"Max allocation reached( {CurrentAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
+                if (ReplaceLastAllocated && usedSources.Count != 0)
                 {
-                    
+                    AudioSource last = null;
+                    usedSources.RemoveWhere(source =>
+                    {
+                        last = source;
+                        return true;
+                    });
+                    if (coroutines.ContainsKey(last))
+                    {
+                        StopCoroutine(coroutines[last]);
+                        coroutines.Remove(last);
+                    }
+                    last.Stop();
+                    return last;
                 }
             }
             if (unusedSources.Count == 0)
             {
                 unusedSources.Add(new GameObject("Audio Source", typeof(AudioSource)).GetComponent<AudioSource>());
+                ++CurrentAllocation;
             }
             var source = unusedSources.RandomElement();
             unusedSources.Remove(source);
@@ -71,6 +86,7 @@ namespace SFC.AduioManagement
         {
             usedSources.Remove(source);
             unusedSources.Add(source);
+            coroutines.Remove(source);
             source.transform.SetParent(transform, false);
         }
     }

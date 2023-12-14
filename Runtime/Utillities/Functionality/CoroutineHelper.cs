@@ -7,7 +7,7 @@ namespace SFC
     {
         static WaitForEndOfFrame waitForEndOfFrame = new();
         static WaitForFixedUpdate waitForFixedUpdate = new();
-        public static UnityEngine.Coroutine NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
+        public static Coroutine NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
             IEnumerator NextUpdateCoroutine()
             {
@@ -20,7 +20,7 @@ namespace SFC
             }
             return monoBehaviour.StartCoroutine(NextUpdateCoroutine());
         }
-        public static UnityEngine.Coroutine NextFixedUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
+        public static Coroutine NextFixedUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
             IEnumerator NextFixedUpdateCoroutine()
             {
@@ -33,7 +33,7 @@ namespace SFC
             }
             return monoBehaviour.StartCoroutine(NextFixedUpdateCoroutine());
         }
-        public static UnityEngine.Coroutine WaitForSeconds(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
+        public static Coroutine WaitForSeconds(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
         {
             var waitForSeconds = new WaitForSeconds(time);
             IEnumerator WaitForSecondsCoroutine()
@@ -43,7 +43,7 @@ namespace SFC
             }
             return monoBehaviour.StartCoroutine(WaitForSecondsCoroutine());
         }
-        public static UnityEngine.Coroutine WaitForSecondsRealtime(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
+        public static Coroutine WaitForSecondsRealtime(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
         {
             var waitForSecondsRealtime = new WaitForSecondsRealtime(time);
             IEnumerator WaitForSecondsRealtimeCoroutine()
@@ -53,7 +53,7 @@ namespace SFC
             }
             return monoBehaviour.StartCoroutine(WaitForSecondsRealtimeCoroutine());
         }
-        public static UnityEngine.Coroutine WaitUntil(this MonoBehaviour monoBehaviour, System.Func<bool> condition, System.Action action, float time = 1f)
+        public static Coroutine WaitUntil(this MonoBehaviour monoBehaviour, System.Func<bool> condition, System.Action action, float time = 1f)
         {
             var waitUntil = new WaitUntil(condition);
             IEnumerator WaitUntilCoroutine()
