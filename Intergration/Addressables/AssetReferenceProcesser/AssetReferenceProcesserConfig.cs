@@ -56,25 +56,7 @@ namespace SFC.Intergration.AA.EditorScript
     }
 
     [CustomEditor(typeof(AssetReferenceProcesserConfig))]
-    public class AssetReferenceProcesserConfigEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            var fields = typeof(AssetReferenceProcesserConfig).GetFields();
-            serializedObject.UpdateIfRequiredOrScript();
-            EditorGUILayout.BeginVertical();
-            foreach (var field in fields)
-            {
-                var prop = serializedObject.FindProperty(field.Name);
-                if (prop != null)
-                {
-                    EditorGUILayout.PropertyField(prop);
-                }
-            }
-            EditorGUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
-        }
-    }
+    public class AssetReferenceProcesserConfigEditor : HideScriptEditor<AssetReferenceProcesserConfig> { }
 
     public class AssetReferenceProcesserConfigWindow : EditorWindow
     {
