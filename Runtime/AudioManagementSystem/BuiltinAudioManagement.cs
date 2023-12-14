@@ -18,7 +18,7 @@ namespace SFC.AduioManagement
 
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
-        protected Dictionary<AudioSource, Coroutine> coroutines = new();
+        protected Dictionary<int, Coroutine> coroutines = new();
         protected virtual void OnEnable()
         {
             if (ISingletonSystem<BuiltinAudioManagement>.Singleton != null) return;
@@ -50,7 +50,7 @@ namespace SFC.AduioManagement
             coroutine = this.WaitUntil(
              () => source.isPlaying == false,
              () => ReturnAudioSource(source));
-            coroutines.Add(source, coroutine);
+            coroutines.Add(source.GetHashCode(), coroutine);
         }
         protected virtual AudioSource GetValidAudioSource()
         {
@@ -59,11 +59,12 @@ namespace SFC.AduioManagement
                 if (ReplaceNearestToEnd && usedSources.Count != 0 && unusedSources.Count == 0)
                 {
                     AudioSource last = SelectNearestEndSource();
+                    var hashcode = last.GetHashCode();
                     usedSources.Remove(last);
-                    if (coroutines.ContainsKey(last))
+                    if (coroutines.ContainsKey(hashcode))
                     {
-                        StopCoroutine(coroutines[last]);
-                        coroutines.Remove(last);
+                        StopCoroutine(coroutines[hashcode]);
+                        coroutines.Remove(hashcode);
                     }
                     last.Stop();
                     return last;
@@ -86,7 +87,7 @@ namespace SFC.AduioManagement
         {
             usedSources.Remove(source);
             unusedSources.Add(source);
-            coroutines.Remove(source);
+            coroutines.Remove(source.GetHashCode());
             source.transform.SetParent(transform, false);
         }
         protected virtual AudioSource SelectNearestEndSource()
