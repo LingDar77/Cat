@@ -17,9 +17,6 @@ namespace SFC
     }
 
 #if UNITY_EDITOR
-
-
-
     [CustomPropertyDrawer(typeof(InterfaceRequiredAttribute))]
     class RequireInterfaceDrawer : PropertyDrawer
     {
@@ -134,30 +131,28 @@ namespace SFC
 
             var fieldType = GetFieldOrElementType(fieldInfo.FieldType);
 
-            using (var scope = new EditorGUI.PropertyScope(position, label, property))
-            using (var check = new EditorGUI.ChangeCheckScope())
+            using var scope = new EditorGUI.PropertyScope(position, label, property);
+            using var check = new EditorGUI.ChangeCheckScope();
+            var allowSceneObjs = !EditorUtility.IsPersistent(property.serializedObject.targetObject);
+            var objectFieldType = GetObjectFieldType(position, fieldType, requireInterfaceAttr.InterfaceType, out var dragAndDropAssignable);
+
+            if (dragAndDropAssignable.HasValue && !dragAndDropAssignable.Value)
             {
-                var allowSceneObjs = !EditorUtility.IsPersistent(property.serializedObject.targetObject);
-                var objectFieldType = GetObjectFieldType(position, fieldType, requireInterfaceAttr.InterfaceType, out var dragAndDropAssignable);
-
-                if (dragAndDropAssignable.HasValue && !dragAndDropAssignable.Value)
-                {
-                    DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
-                    Event.current.Use();
-                }
-
-                var value = EditorGUI.ObjectField(position, scope.content, property.objectReferenceValue, objectFieldType, allowSceneObjs);
-
-                // Get the value of the selected Object in the Object Selector window
-                if (EditorGUIUtility.GetObjectPickerControlID() == objectPickerID)
-                {
-                    GUI.changed = true;
-                    value = EditorGUIUtility.GetObjectPickerObject();
-                }
-
-                if (check.changed && TryGetAssignableObject(value, fieldType, requireInterfaceAttr.InterfaceType, out var assignableValue))
-                    property.objectReferenceValue = assignableValue;
+                DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
+                Event.current.Use();
             }
+
+            var value = EditorGUI.ObjectField(position, scope.content, property.objectReferenceValue, objectFieldType, allowSceneObjs);
+
+            // Get the value of the selected Object in the Object Selector window
+            if (EditorGUIUtility.GetObjectPickerControlID() == objectPickerID)
+            {
+                GUI.changed = true;
+                value = EditorGUIUtility.GetObjectPickerObject();
+            }
+
+            if (check.changed && TryGetAssignableObject(value, fieldType, requireInterfaceAttr.InterfaceType, out var assignableValue))
+                property.objectReferenceValue = assignableValue;
         }
     }
 
