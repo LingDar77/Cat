@@ -22,8 +22,10 @@ namespace SFC.AduioManagement
         /// </summary>
         int MaxAllocation { get; }
         /// <summary>
-        /// Is the system allowed to replace the last one used audio
-        /// source to avoid allocation that is exceeded the max allocation.
+        /// Is the system allowed to replace the nearest to end audio source
+        /// to avoid more allocation that is exceeded the max allocation.
+        /// * Enable this may cause some problems, for the extra allocation 
+        /// * will force stop a playing audio source.
         /// </summary>
         bool ReplaceLastAllocated { get; }
         /// <summary>

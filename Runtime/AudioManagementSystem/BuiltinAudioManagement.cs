@@ -52,17 +52,12 @@ namespace SFC.AduioManagement
         }
         protected virtual AudioSource GetValidAudioSource()
         {
-            if (CurrentAllocation >= MaxAllocation)
+            if (CurrentAllocation > MaxAllocation)
             {
-                Debug.LogWarning($"Max allocation reached( {CurrentAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
                 if (ReplaceLastAllocated && usedSources.Count != 0 && unusedSources.Count == 0)
                 {
-                    AudioSource last = null;
-                    usedSources.RemoveWhere(source =>
-                    {
-                        last = source;
-                        return true;
-                    });
+                    AudioSource last = SelectNearestEndSource();
+                    usedSources.Remove(last);
                     if (coroutines.ContainsKey(last))
                     {
                         StopCoroutine(coroutines[last]);
@@ -71,6 +66,7 @@ namespace SFC.AduioManagement
                     last.Stop();
                     return last;
                 }
+                Debug.LogWarning($"Max allocation reached( {CurrentAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
             }
             if (unusedSources.Count == 0)
             {
@@ -88,6 +84,26 @@ namespace SFC.AduioManagement
             unusedSources.Add(source);
             coroutines.Remove(source);
             source.transform.SetParent(transform, false);
+        }
+        protected virtual AudioSource SelectNearestEndSource()
+        {
+            float nearestProgress = 0;
+            AudioSource nearestSource = null;
+            foreach (var source in usedSources)
+            {
+                if (!source.isPlaying)
+                {
+                    nearestSource = source;
+                    break;
+                }
+                var progress = source.time / source.clip.length;
+                if (progress > nearestProgress)
+                {
+                    nearestProgress = progress;
+                    nearestSource = source;
+                }
+            }
+            return nearestSource;
         }
     }
 }
