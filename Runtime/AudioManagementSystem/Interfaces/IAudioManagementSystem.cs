@@ -24,6 +24,8 @@ namespace SFC.AduioManagement
         /// <summary>
         /// Is the system allowed to replace the nearest to end audio source
         /// to avoid more allocation that is exceeded the max allocation.
+        /// But this operation will cost some time to find the correct one,
+        /// it may cause some performence drop.
         /// * Enable this may cause some problems, for the extra allocation 
         /// * will force stop a playing audio source.
         /// </summary>
