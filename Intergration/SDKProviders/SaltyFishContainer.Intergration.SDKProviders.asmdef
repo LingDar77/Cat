@@ -21,12 +21,12 @@
     "versionDefines": [
         {
             "name": "com.meta.xr.sdk.interaction.ovr",
-            "expression": "1",
+            "expression": "59",
             "define": "META_INTERACTION_OVR"
         },
         {
             "name": "com.unity.xr.picoxr",
-            "expression": "1",
+            "expression": "2.4.3",
             "define": "PICO_XR"
         }
     ],

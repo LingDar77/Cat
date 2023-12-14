@@ -19,7 +19,7 @@
     "versionDefines": [
         {
             "name": "com.code-philosophy.hybridclr",
-            "expression": "1",
+            "expression": "4.0.12",
             "define": "HYBRID_CLR"
         }
     ],
