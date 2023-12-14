@@ -11,10 +11,12 @@ namespace SFC.AduioManagement
     public class BuiltinAudioManagement : MonoBehaviour, IAudioManagementSystem<AudioClip>, ISingletonSystem<BuiltinAudioManagement>
     {
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
-        protected int UsedAllocation { get => usedSources.Count + unusedSources.Count; }
-        protected List<AudioSource> unusedSources = new();
-        protected HashSet<AudioSource> usedSources = new();
+        [field: SerializeField] public bool ReplaceLastAllocated { get; set; } = false;
+        protected int UsedAllocation
+        { get => usedSources.Count + unusedSources.Count; }
 
+        protected List<AudioSource> unusedSources = new();
+        protected List<AudioSource> usedSources = new();
         protected virtual void OnEnable()
         {
             if (ISingletonSystem<BuiltinAudioManagement>.Singleton != null) return;
@@ -51,6 +53,10 @@ namespace SFC.AduioManagement
             if (UsedAllocation >= MaxAllocation)
             {
                 Debug.LogWarning($"Max allocation reached( {UsedAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
+                if(ReplaceLastAllocated)
+                {
+                    
+                }
             }
             if (unusedSources.Count == 0)
             {

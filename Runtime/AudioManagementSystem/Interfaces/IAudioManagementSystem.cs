@@ -22,6 +22,11 @@ namespace SFC.AduioManagement
         /// </summary>
         int MaxAllocation { get; }
         /// <summary>
+        /// Is the system allowed to replace the last one used audio
+        /// source to avoid allocation that is exceeded the max allocation.
+        /// </summary>
+        bool ReplaceLastAllocated { get; }
+        /// <summary>
         /// Simply play a sound at a positin.
         /// * Normaly this will not be counted as a use of allocation,
         /// * for it's usually used for short clips.

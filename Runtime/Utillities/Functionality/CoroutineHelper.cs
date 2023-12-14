@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace SFC
 {
-    public static class Coroutine
+    public static class CoroutineHelper
     {
         static WaitForEndOfFrame waitForEndOfFrame = new();
         static WaitForFixedUpdate waitForFixedUpdate = new();
-        public static void NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
+        public static UnityEngine.Coroutine NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
             IEnumerator NextUpdateCoroutine()
             {
@@ -18,9 +18,9 @@ namespace SFC
                 }
                 action?.Invoke();
             }
-            monoBehaviour.StartCoroutine(NextUpdateCoroutine());
+            return monoBehaviour.StartCoroutine(NextUpdateCoroutine());
         }
-        public static void NextFixedUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
+        public static UnityEngine.Coroutine NextFixedUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
             IEnumerator NextFixedUpdateCoroutine()
             {
@@ -31,9 +31,9 @@ namespace SFC
                 }
                 action?.Invoke();
             }
-            monoBehaviour.StartCoroutine(NextFixedUpdateCoroutine());
+            return monoBehaviour.StartCoroutine(NextFixedUpdateCoroutine());
         }
-        public static void WaitForSeconds(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
+        public static UnityEngine.Coroutine WaitForSeconds(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
         {
             var waitForSeconds = new WaitForSeconds(time);
             IEnumerator WaitForSecondsCoroutine()
@@ -41,9 +41,9 @@ namespace SFC
                 yield return waitForSeconds;
                 action?.Invoke();
             }
-            monoBehaviour.StartCoroutine(WaitForSecondsCoroutine());
+            return monoBehaviour.StartCoroutine(WaitForSecondsCoroutine());
         }
-        public static void WaitForSecondsRealtime(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
+        public static UnityEngine.Coroutine WaitForSecondsRealtime(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
         {
             var waitForSecondsRealtime = new WaitForSecondsRealtime(time);
             IEnumerator WaitForSecondsRealtimeCoroutine()
@@ -51,9 +51,9 @@ namespace SFC
                 yield return waitForSecondsRealtime;
                 action?.Invoke();
             }
-            monoBehaviour.StartCoroutine(WaitForSecondsRealtimeCoroutine());
+            return monoBehaviour.StartCoroutine(WaitForSecondsRealtimeCoroutine());
         }
-        public static void WaitUntil(this MonoBehaviour monoBehaviour, System.Func<bool> condition, System.Action action, float time = 1f)
+        public static UnityEngine.Coroutine WaitUntil(this MonoBehaviour monoBehaviour, System.Func<bool> condition, System.Action action, float time = 1f)
         {
             var waitUntil = new WaitUntil(condition);
             IEnumerator WaitUntilCoroutine()
@@ -61,7 +61,7 @@ namespace SFC
                 yield return waitUntil;
                 action?.Invoke();
             }
-            monoBehaviour.StartCoroutine(WaitUntilCoroutine());
+            return monoBehaviour.StartCoroutine(WaitUntilCoroutine());
         }
     }
 }
