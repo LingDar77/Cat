@@ -10,8 +10,10 @@ namespace SFC.AduioManagement
     /// </summary>
     public class BuiltinAudioManagement : MonoBehaviour, IAudioManagementSystem<AudioClip>, ISingletonSystem<BuiltinAudioManagement>
     {
-        [field: SerializeField] public int MaxAllocation { get; set; } = 16;
+#if UNITY_EDITOR
         [EditorReadOnly] public int CurrentAllocation = 0;
+#endif
+        [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
 
         protected List<AudioSource> unusedSources = new();
@@ -71,7 +73,9 @@ namespace SFC.AduioManagement
             if (unusedSources.Count == 0)
             {
                 unusedSources.Add(new GameObject("Audio Source", typeof(AudioSource)).GetComponent<AudioSource>());
+#if UNITY_EDITOR
                 ++CurrentAllocation;
+#endif
             }
             var source = unusedSources.RandomElement();
             unusedSources.Remove(source);
