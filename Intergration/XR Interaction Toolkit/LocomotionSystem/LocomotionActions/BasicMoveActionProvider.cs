@@ -21,7 +21,7 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
         [SerializeField] private float MaxMoveSpeed = 2f;
         [Tooltip("Can the Charactor Perform Move in Air?")]
         [SerializeField] private bool CanMoveInAir = false;
-        [InterfaceRequired(typeof(IRotateBiasable))]
+        [ImplementedInterface(typeof(IRotateBiasable))]
         [SerializeField] private Object BiasableImplement;
         private IRotateBiasable biasable;
         public UnityEvent<float> OnVelocityUpdated;

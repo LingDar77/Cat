@@ -8,7 +8,7 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     public class BasicSnapTurnActionProvider : ActionProviderBase
     {
-        [InterfaceRequired(typeof(IRotateBiasable))]
+        [ImplementedInterface(typeof(IRotateBiasable))]
         [SerializeField] private Object BiasableImplement;
         [Header("Inputs")]
         [SerializeField] private InputActionProperty TurnInput;

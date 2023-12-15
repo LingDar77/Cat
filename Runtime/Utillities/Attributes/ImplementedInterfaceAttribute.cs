@@ -4,19 +4,19 @@ using UnityEditor;
 
 namespace SFC
 {
-    public sealed class InterfaceRequiredAttribute : PropertyAttribute
+    public sealed class ImplementedInterfaceAttribute : PropertyAttribute
     {
 
         public System.Type InterfaceType { get; }
 
-        public InterfaceRequiredAttribute(System.Type interfaceType)
+        public ImplementedInterfaceAttribute(System.Type interfaceType)
         {
             InterfaceType = interfaceType;
         }
     }
 
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(InterfaceRequiredAttribute))]
+    [CustomPropertyDrawer(typeof(ImplementedInterfaceAttribute))]
     class RequireInterfaceDrawer : PropertyDrawer
     {
 
@@ -91,7 +91,7 @@ namespace SFC
         {
             var propertyHeight = base.GetPropertyHeight(property, label);
             if (property.propertyType == SerializedPropertyType.ObjectReference && property.objectReferenceValue != null &&
-                attribute is InterfaceRequiredAttribute requireInterfaceAttr &&
+                attribute is ImplementedInterfaceAttribute requireInterfaceAttr &&
                 requireInterfaceAttr.InterfaceType.IsInterface &&
                 !requireInterfaceAttr.InterfaceType.IsInstanceOfType(property.objectReferenceValue))
             {
@@ -110,7 +110,7 @@ namespace SFC
                 return;
             }
 
-            if (attribute is not InterfaceRequiredAttribute requireInterfaceAttr)
+            if (attribute is not ImplementedInterfaceAttribute requireInterfaceAttr)
             {
                 return;
             }

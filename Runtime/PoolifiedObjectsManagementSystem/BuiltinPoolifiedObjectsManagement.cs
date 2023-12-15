@@ -4,7 +4,7 @@ namespace SFC.PoolifiedObjects
 {
     public class BuiltinPoolifiedObjectsManagement : MonoBehaviour, IPoolifiedObjectsManagement
     {
-        [InterfaceRequired(typeof(IGameObjectGenerator))]
+        [ImplementedInterface(typeof(IGameObjectGenerator))]
         public Object GameObjectGenerator;
         protected IGameObjectGenerator generator;
         protected HashSet<IPoolifiedObject> poolifiedObjects = new();
