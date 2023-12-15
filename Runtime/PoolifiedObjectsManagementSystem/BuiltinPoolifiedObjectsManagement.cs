@@ -6,19 +6,18 @@ namespace SFC.PoolifiedObjects
     {
         [ImplementedInterface(typeof(IGameObjectGenerator))]
         public Object GameObjectGenerator;
-        protected IGameObjectGenerator generator;
-        protected HashSet<IPoolifiedObject> poolifiedObjects = new();
-       
-        protected virtual void OnEnable()
+        public IGameObjectGenerator Generator
         {
-            generator = GameObjectGenerator as IGameObjectGenerator;
+            get => GameObjectGenerator as IGameObjectGenerator;
+            set => GameObjectGenerator = value as Object;
         }
+        protected HashSet<IPoolifiedObject> poolifiedObjects = new();
 
         public virtual IPoolifiedObject Depool()
         {
             if (poolifiedObjects.Count == 0)
             {
-                if (!generator.GenerateObject().TryGetComponent<IPoolifiedObject>(out var poolifiedObject))
+                if (!Generator.GenerateObject().TryGetComponent<IPoolifiedObject>(out var poolifiedObject))
                 {
                     throw new System.Exception("The prefab tring to instantiate is not a poolified object!");
                 }
