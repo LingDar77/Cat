@@ -8,17 +8,7 @@ namespace SFC.PoolifiedObjects
         public Object GameObjectGenerator;
         protected IGameObjectGenerator generator;
         protected HashSet<IPoolifiedObject> poolifiedObjects = new();
-        [ContextMenu("Test Depool")]
-        private void TestDepool()
-        {
-            var obj = Depool();
-            obj.transform.SetParent(null);
-            obj.transform.position = new Vector3(Random.Range(0, 10f), Random.Range(0, 10f), Random.Range(0, 10f));
-            this.WaitForSeconds(() =>
-            {
-                Enpool(obj);
-            }, 5);
-        }
+       
         protected virtual void OnEnable()
         {
             generator = GameObjectGenerator as IGameObjectGenerator;
