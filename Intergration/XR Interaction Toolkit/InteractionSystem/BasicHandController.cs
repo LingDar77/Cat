@@ -12,7 +12,6 @@ namespace SFC.Intergration.XRIT.InteractionSystem
 
         protected override void ApplyControllerState(XRInteractionUpdateOrder.UpdatePhase updatePhase, XRControllerState controllerState)
         {
-            Debug.Log($"Controller State: {controllerState.position}");
             if (controllerState == null || !controllerState.isTracked || controllerState.position.NearlyEqualsTo(Vector3.zero, .05f)) return;
             controllerState.position -= HeadPositionInput.action.ReadValue<Vector3>();
             base.ApplyControllerState(updatePhase, controllerState);
