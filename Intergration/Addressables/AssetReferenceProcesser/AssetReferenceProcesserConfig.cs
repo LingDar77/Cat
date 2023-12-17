@@ -6,7 +6,7 @@ using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
-namespace SFC.Intergration.AA.EditorScript
+namespace SFC.Intergration.Addressables.EditorScript
 {
 
     [System.Serializable]

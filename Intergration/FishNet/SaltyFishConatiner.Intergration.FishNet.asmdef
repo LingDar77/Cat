@@ -14,8 +14,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "FISHNET",
-        "SALTY_FISH_CONTAINER"
+        "FISHNET"
     ],
     "versionDefines": [
         {

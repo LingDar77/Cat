@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.AddressableAssets.Initialization;
 using UnityEngine.ResourceManagement.Util;
 
-namespace SFC.Intergration.AA.EditorScript
+namespace SFC.Intergration.Addressables.EditorScript
 {
+    
     [CreateAssetMenu(fileName = "PlatformBasedInitializationSettings", menuName = "Addressables/Initialization/PlatformBasedInitializationSettings", order = 0)]
     public class PlatformBasedInitializationSettings : ScriptableObject, IObjectInitializationDataProvider
     {

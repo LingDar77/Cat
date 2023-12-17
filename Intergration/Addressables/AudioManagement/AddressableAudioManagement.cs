@@ -1,9 +1,9 @@
 using SFC.AduioManagement;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
-namespace SFC.Intergration.AA
+namespace SFC.Intergration.Addressables
 {
+    using Addressables = UnityEngine.AddressableAssets.Addressables;
     /// <summary>
     /// The basic addressable impmentation for AudioManagementSystem.
     /// <see cref="IAudioManagementSystem"/>

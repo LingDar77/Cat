@@ -1,11 +1,11 @@
 using System.Collections;
 using SFC.SceneManagementSystem;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
-namespace SFC.Intergration.AA
+namespace SFC.Intergration.Addressables
 {
+    using Addressables = UnityEngine.AddressableAssets.Addressables;
     public class AddressableSceneManagement : BuiltinSceneManagement
     {
 
@@ -14,7 +14,7 @@ namespace SFC.Intergration.AA
             Addressables.LoadSceneAsync(scene, loadMode).WaitForCompletion();
         }
 
-        public override  IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
+        public override IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {
             LoadingProgress = 0;
             var loadHandle = Addressables.LoadSceneAsync(scene, loadMode, false);

@@ -9,8 +9,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "PHOTON_UNITY_NETWORKING",
-        "SALTY_FISH_CONTAINER"
+        "PHOTON_UNITY_NETWORKING"
     ],
     "versionDefines": [],
     "noEngineReferences": false

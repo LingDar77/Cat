@@ -19,13 +19,17 @@ namespace SFC.Intergration.XRIT.InteractionSystem.Utils
         }
 #endif
 
-        private IEnumerator Start()
+        private void Start()
         {
             GrabInteractable.transform.SetParent(null);
-            yield return new WaitForSeconds(TimeBeforeAutoRestore);
-            Interactor.StartManualInteraction(GrabInteractable as IXRSelectInteractable);
+            GrabInteractable.transform.SetPositionAndRotation(Interactor.attachTransform.position, Interactor.attachTransform.rotation);
             GrabInteractable.selectExited.AddListener(OnSelectExited);
             GrabInteractable.selectEntered.AddListener(OnSelectEntered);
+
+            this.WaitUntil(() => Interactor.allowSelect, () =>
+            {
+                Interactor.StartManualInteraction(GrabInteractable as IXRSelectInteractable);
+            });
         }
 
         private void OnSelectEntered(SelectEnterEventArgs e)

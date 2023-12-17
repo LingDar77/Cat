@@ -14,7 +14,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "SALTY_FISH_CONTAINER",
         "META_INTERACTION_OVR",
         "PICO_XR"
     ],

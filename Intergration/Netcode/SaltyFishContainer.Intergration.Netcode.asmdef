@@ -14,8 +14,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "NETCODE",
-        "SALTY_FISH_CONTAINER"
+        "NETCODE"
     ],
     "versionDefines": [
         {

@@ -4,7 +4,7 @@ using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
 
-namespace SFC.Intergration.AA
+namespace SFC.Intergration.Addressables
 {
 
     [CreateAssetMenu(fileName = "RegexGroupStrategy", menuName = "SaltyFishContainer/Addressables/GroupManagementStrategy/RegexGroupStrategy", order = 0)]

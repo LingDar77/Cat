@@ -2,7 +2,7 @@
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
-namespace SFC.Intergration.AA
+namespace SFC.Intergration.Addressables
 {
     public interface IGroupManagementStrategy
     {

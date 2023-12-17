@@ -13,8 +13,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "HYBRID_CLR",
-        "SALTY_FISH_CONTAINER"
+        "HYBRID_CLR"
     ],
     "versionDefines": [
         {

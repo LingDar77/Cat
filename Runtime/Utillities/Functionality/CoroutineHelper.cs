@@ -53,7 +53,7 @@ namespace SFC
             }
             return monoBehaviour.StartCoroutine(WaitForSecondsRealtimeCoroutine());
         }
-        public static Coroutine WaitUntil(this MonoBehaviour monoBehaviour, System.Func<bool> condition, System.Action action, float time = 1f)
+        public static Coroutine WaitUntil(this MonoBehaviour monoBehaviour, System.Func<bool> condition, System.Action action)
         {
             var waitUntil = new WaitUntil(condition);
             IEnumerator WaitUntilCoroutine()
