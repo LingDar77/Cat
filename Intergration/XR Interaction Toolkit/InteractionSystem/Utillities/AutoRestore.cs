@@ -23,12 +23,13 @@ namespace SFC.Intergration.XRIT.InteractionSystem.Utils
         {
             GrabInteractable.transform.SetParent(null);
             GrabInteractable.transform.SetPositionAndRotation(Interactor.attachTransform.position, Interactor.attachTransform.rotation);
-            GrabInteractable.selectExited.AddListener(OnSelectExited);
-            GrabInteractable.selectEntered.AddListener(OnSelectEntered);
 
-            this.WaitUntil(() => Interactor.allowSelect, () =>
+            this.WaitUntil(() => Interactor.interactionManager.IsRegistered(GrabInteractable as IXRSelectInteractable), () =>
             {
-                Interactor.StartManualInteraction(GrabInteractable as IXRSelectInteractable);
+                Interactor.interactionManager.SelectEnter(Interactor, GrabInteractable as IXRSelectInteractable);
+
+                GrabInteractable.selectExited.AddListener(OnSelectExited);
+                GrabInteractable.selectEntered.AddListener(OnSelectEntered);
             });
         }
 
@@ -46,7 +47,7 @@ namespace SFC.Intergration.XRIT.InteractionSystem.Utils
         private IEnumerator DoAutoRestore()
         {
             yield return new WaitForSeconds(TimeBeforeAutoRestore);
-            Interactor.StartManualInteraction(GrabInteractable as IXRSelectInteractable);
+            Interactor.interactionManager.SelectEnter(Interactor, GrabInteractable as IXRSelectInteractable);
         }
     }
 }
