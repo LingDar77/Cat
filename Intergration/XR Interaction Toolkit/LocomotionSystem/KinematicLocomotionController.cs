@@ -1,4 +1,4 @@
-#if XRIT && SALTY_FISH_CONTAINER
+#if XRIT
 using System.Collections.Generic;
 using SFC.KinematicLocomotionSystem;
 using SFC.Utillities;

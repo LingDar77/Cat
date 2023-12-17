@@ -1,4 +1,4 @@
-#if XRIT && SALTY_FISH_CONTAINER
+#if XRIT 
 using SFC.XRSDKProvider;
 using SFC.Utillities;
 using UnityEngine;

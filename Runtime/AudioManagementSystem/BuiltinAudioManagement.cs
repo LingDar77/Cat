@@ -10,9 +10,7 @@ namespace SFC.AduioManagement
     /// </summary>
     public class BuiltinAudioManagement : MonoBehaviour, IAudioManagementSystem<AudioClip>, ISingletonSystem<BuiltinAudioManagement>
     {
-#if UNITY_EDITOR
         [EditorReadOnly] public int CurrentAllocation = 0;
-#endif
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
 

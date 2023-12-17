@@ -1,4 +1,4 @@
-#if XRIT && SALTY_FISH_CONTAINER
+#if XRIT 
 using SFC.KinematicLocomotionSystem.Actions;
 using UnityEngine;
 
