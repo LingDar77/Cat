@@ -1,4 +1,5 @@
 #if META_INTERACTION_OVR
+using Oculus.Platform;
 using SFC.XRSDKProvider;
 using UnityEngine;
 
@@ -39,9 +40,7 @@ namespace SFC.Intergration.SDKProviders
             OVRPlugin.foveatedRenderingLevel = OVRPlugin.FoveatedRenderingLevel.HighTop;
             OVRPlugin.suggestedCpuPerfLevel = OVRPlugin.ProcessorPerformanceLevel.SustainedLow;
             OVRPlugin.suggestedGpuPerfLevel = OVRPlugin.ProcessorPerformanceLevel.Boost;
-
             Debug.Log("oculus sdk initialized.");
-
         }
     }
 }

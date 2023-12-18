@@ -859,7 +859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GrabInteractable: {fileID: 5799372857196951508}
-  Interactor: {fileID: 1657968424852151473}
+  Interactor: {fileID: 9076872927676003907}
   TimeBeforeAutoRestore: 1
 --- !u!1 &2957535107486298059
 GameObject:
@@ -2119,6 +2119,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5635169458893599782}
     m_Modifications:
+    - target: {fileID: 678825186687114518, guid: c614082fded44594a8301fb4d4980f7b,
+        type: 3}
+      propertyPath: UserPresenceInput.m_Reference
+      value: 
+      objectReference: {fileID: 5664539507220710238, guid: 46a65385d8261874bbb1a1bb75c7e102,
+        type: 3}
+    - target: {fileID: 678825186687114518, guid: c614082fded44594a8301fb4d4980f7b,
+        type: 3}
+      propertyPath: UserPresenceInput.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 678825186687114518, guid: c614082fded44594a8301fb4d4980f7b,
+        type: 3}
+      propertyPath: UserPresenceInput.m_Action.m_Name
+      value: User Presence Input
+      objectReference: {fileID: 0}
     - target: {fileID: 4613557795811614124, guid: c614082fded44594a8301fb4d4980f7b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2201,18 +2217,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 134537423598097218}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1657968424852151473 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1648229972628721651, guid: c614082fded44594a8301fb4d4980f7b,
-    type: 3}
-  m_PrefabInstance: {fileID: 134537423598097218}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7246002703978527757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4253f32900bcc4d499d675566142ded0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3871661439620042763 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3776020356564697929, guid: c614082fded44594a8301fb4d4980f7b,
@@ -2355,6 +2359,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6647491504886219795, guid: d0329d8648a94d34f8111c59f8e0979a,
+        type: 3}
+      propertyPath: UserPresenceInput.m_Reference
+      value: 
+      objectReference: {fileID: 5664539507220710238, guid: 46a65385d8261874bbb1a1bb75c7e102,
+        type: 3}
+    - target: {fileID: 6647491504886219795, guid: d0329d8648a94d34f8111c59f8e0979a,
+        type: 3}
+      propertyPath: UserPresenceInput.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6647491504886219795, guid: d0329d8648a94d34f8111c59f8e0979a,
+        type: 3}
+      propertyPath: UserPresenceInput.m_Action.m_Name
+      value: User Presence Input
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2451,6 +2471,18 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &9076872927676003907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2325487080474795917, guid: d0329d8648a94d34f8111c59f8e0979a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6751544535505512910}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043489005929518847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4253f32900bcc4d499d675566142ded0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9154343008396146787
 PrefabInstance:
   m_ObjectHideFlags: 0
