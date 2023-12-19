@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Oculus.Platform;
 using UnityEngine;
 using UnityEngine.XR;
-using System;
 using Oculus.Platform.Models;
+using System;
 
 namespace SFC.Intergration.OculusSDKProviders
 {
@@ -107,7 +107,18 @@ namespace SFC.Intergration.OculusSDKProviders
                 onSuccess?.Invoke();
             });
         }
-
+        public void SetCurrentLocation(string location, Action onSuccess = null, Action<string> onFailure = null)
+        {
+            GroupPresence.SetDestination(location).OnComplete(e =>
+            {
+                if (e.IsError)
+                {
+                    onFailure?.Invoke(e.GetError().Message);
+                    return;
+                }
+                onSuccess?.Invoke();
+            });
+        }
         public void OpenInviteInterface(Action onSuccess = null, Action<string> onFailure = null)
         {
             var options = new InviteOptions();
@@ -136,6 +147,7 @@ namespace SFC.Intergration.OculusSDKProviders
             };
 
         }
+
 
     }
 }
