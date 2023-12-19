@@ -47,4 +47,9 @@ public class PicoIntergrationSDKProvider : MonoBehaviour, IXRIntergrationSDKProv
 
         Debug.Log("pico sdk initialized.");
     }
+
+    public bool IsInitialized()
+    {
+        return manager != null;
+    }
 }

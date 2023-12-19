@@ -53,5 +53,10 @@ namespace SFC.Intergration.OculusSDKProviders
 
             return subsystems[0].subsystemDescriptor.id.Contains("oculus");
         }
+
+        public bool IsInitialized()
+        {
+            return manager != null;
+        }
     }
 }
