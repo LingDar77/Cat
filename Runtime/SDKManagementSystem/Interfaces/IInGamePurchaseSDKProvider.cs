@@ -17,10 +17,12 @@ namespace SFC.SDKProvider
             public string ProductId;
             public System.DateTime GrantTime;
         }
-        void PurchaseProduct(string productId, System.Action onSuccess, System.Action<string> onFailure = null);
+        void PurchaseProduct(string productId, System.Action onSuccess = null, System.Action<string> onFailure = null);
 
-        void GetProduct(string productId, System.Action<Product> onSuccess, System.Action<string> onFailure = null);
+        void ConsumeProduct(string productId, System.Action onSuccess = null, System.Action<string> onFailure = null);
 
-        void GetPurchasedProducts(System.Action<Purchase[]> onSuccess, System.Action<string> onFailure = null);
+        void GetProduct(string productId, System.Action<Product> onSuccess = null, System.Action<string> onFailure = null);
+
+        void GetPurchasedProducts(System.Action<Purchase[]> onSuccess = null, System.Action<string> onFailure = null);
     }
 }

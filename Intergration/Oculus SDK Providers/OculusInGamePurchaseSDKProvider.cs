@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Oculus.Platform;
 using Oculus.Platform.Models;
@@ -37,7 +38,7 @@ namespace SFC.Intergration.OculusSDKProviders
         {
             return Core.IsInitialized();
         }
-        public void PurchaseProduct(string productId, System.Action onSuccess, System.Action<string> onFailure = null)
+        public void PurchaseProduct(string productId, System.Action onSuccess = null, System.Action<string> onFailure = null)
         {
             IAP.LaunchCheckoutFlow(productId).OnComplete(e =>
             {
@@ -50,7 +51,19 @@ namespace SFC.Intergration.OculusSDKProviders
             });
 
         }
-        public void GetProduct(string productId, System.Action<IInGamePurchaseSDKProvider.Product> onSuccess, System.Action<string> onFailure = null)
+        public void ConsumeProduct(string productId, Action onSuccess = null, Action<string> onFailure = null)
+        {
+            IAP.ConsumePurchase(productId).OnComplete(e =>
+            {
+                if (e.IsError)
+                {
+                    onFailure?.Invoke(e.GetError().Message);
+                    return;
+                }
+                onSuccess?.Invoke();
+            });
+        }
+        public void GetProduct(string productId, System.Action<IInGamePurchaseSDKProvider.Product> onSuccess = null, System.Action<string> onFailure = null)
         {
             IAP.GetProductsBySKU(new string[] { productId }).OnComplete(e =>
             {
@@ -62,7 +75,7 @@ namespace SFC.Intergration.OculusSDKProviders
                 onSuccess?.Invoke(CreateProduct(e.GetProductList()[0]));
             });
         }
-        public void GetPurchasedProducts(System.Action<IInGamePurchaseSDKProvider.Purchase[]> onSuccess, System.Action<string> onFailure = null)
+        public void GetPurchasedProducts(System.Action<IInGamePurchaseSDKProvider.Purchase[]> onSuccess = null, System.Action<string> onFailure = null)
         {
             IAP.GetViewerPurchases().OnComplete(e =>
             {

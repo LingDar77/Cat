@@ -3,10 +3,10 @@ using SFC.SDKProvider;
 
 namespace SFC.SDKManagementSystem
 {
-    public interface ISDKManagementSystem
+    public interface ISDKManagementSystem : IGameSystem<ISDKManagementSystem>
     {
         HashSet<ISDKProvider> Providers { get; }
 
-        HashSet<ISDKProvider> GetValidProviders<ProviderType>() where ProviderType : ISDKProvider;
+        ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider;
     }
 }

@@ -1,41 +1,51 @@
 using System.Collections.Generic;
+using System.Linq;
 using SFC.SDKProvider;
 using UnityEngine;
 namespace SFC.SDKManagementSystem
 {
-    public class BuiltinSDKManagement : MonoBehaviour, ISDKManagementSystem
+    public class BuiltinSDKManagement : MonoBehaviour, ISDKManagementSystem, ISingletonSystem<BuiltinSDKManagement>
     {
         [ImplementedInterface(typeof(ISDKProvider))]
         [SerializeField] protected List<MonoBehaviour> ProviderObjects;
         public HashSet<ISDKProvider> Providers { get; set; } = new();
+        protected Dictionary<System.Type, ISDKProvider[]> providerCaches = new();
 
-        protected void Start()
+        protected virtual void OnEnable()
         {
-            foreach (var obj in ProviderObjects)
+            if (ISingletonSystem<BuiltinSDKManagement>.Singleton != null) return;
+
+            ISingletonSystem<BuiltinSDKManagement>.Singleton = this;
+            DontDestroyOnLoad(transform.root.gameObject);
+            foreach (var provider in ProviderObjects)
             {
-                var provider = obj as ISDKProvider;
-                Providers.Add(provider);
-                if (!provider.IsAvailable()) continue;
-                provider.enabled = true;
+                Providers.Add(provider as ISDKProvider);
             }
         }
-        protected Dictionary<System.Type, HashSet<ISDKProvider>> providerCaches = new();
 
-        public virtual HashSet<ISDKProvider> GetValidProviders<ProviderType>() where ProviderType : ISDKProvider
+        protected virtual void OnDisable()
         {
-            if (providerCaches.ContainsKey(typeof(ProviderType)))
-            {
-                return providerCaches[typeof(ProviderType)];
-            }
-            HashSet<ISDKProvider> result = new();
-            foreach (var provider in Providers)
-            {
-                if (provider is not ProviderType || !provider.IsAvailable()) continue;
+            if (ISingletonSystem<BuiltinSDKManagement>.Singleton.transform != this) return;
+            ISingletonSystem<BuiltinSDKManagement>.Singleton = null;
+        }
 
-                result.Add(provider);
+        public virtual ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider
+        {
+            var type = typeof(ProviderType);
+            if (!providerCaches.ContainsKey(type))
+            {
+                List<ISDKProvider> result = new();
+                foreach (var provider in Providers)
+                {
+                    if (provider is not ProviderType || !provider.IsAvailable()) continue;
+
+                    result.Add(provider);
+                    provider.enabled = true;
+                }
+                providerCaches.Add(type, result.ToArray());
             }
-            providerCaches.Add(typeof(ProviderType), result);
-            return result;
+
+            return providerCaches[type].Cast<ProviderType>().ToArray();
         }
     }
 }
