@@ -1,0 +1,30 @@
+{
+    "name": "SaltyFishContainer.Intergration.OculusSDKProviders",
+    "rootNamespace": "SFC.Intergration.OculusSDKProviders",
+    "references": [
+        "GUID:a3e7656b45677bf4b85e02a291fe5569",
+        "GUID:7040c93f6035f5749888e6fdf5ef28f8",
+        "GUID:c3eada64ce30a1448920b24b04bc2d39",
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.meta.xr.sdk.interaction.ovr",
+            "expression": "59",
+            "define": "META_XR_SDK_IOVR"
+        },
+        {
+            "name": "com.meta.xr.sdk.platform",
+            "expression": "59",
+            "define": "META_XR_SDK_PLATFORM"
+        }
+    ],
+    "noEngineReferences": false
+}

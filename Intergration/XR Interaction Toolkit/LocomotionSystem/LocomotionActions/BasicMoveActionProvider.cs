@@ -1,10 +1,11 @@
 #if XRIT 
-using SFC.XRSDKProvider;
 using SFC.Utillities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using SFC.KinematicLocomotionSystem.Actions;
+using UnityEngine.XR;
+using System.Collections.Generic;
 
 namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
@@ -48,7 +49,10 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
 
         private void Start()
         {
-            XRPlatformSDKHelper.GetSubsystem()?.TrySetTrackingOriginMode(UnityEngine.XR.TrackingOriginModeFlags.Device);
+            List<XRInputSubsystem> subsystems = new();
+            SubsystemManager.GetInstances(subsystems);
+            if (subsystems.Count == 0) return;
+            subsystems[0].TrySetTrackingOriginMode(TrackingOriginModeFlags.Device);
         }
 
         public override void BeforeProcess(float deltaTime)

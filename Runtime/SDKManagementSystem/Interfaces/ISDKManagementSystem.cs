@@ -5,8 +5,8 @@ namespace SFC.SDKManagementSystem
 {
     public interface ISDKManagementSystem
     {
-        List<ISDKProvider> Providers { get; }
+        HashSet<ISDKProvider> Providers { get; }
 
-        List<ProviderType> GetValidProviders<ProviderType>() where ProviderType : ISDKProvider;
+        HashSet<ISDKProvider> GetValidProviders<ProviderType>() where ProviderType : ISDKProvider;
     }
 }

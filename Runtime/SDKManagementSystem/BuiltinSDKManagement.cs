@@ -6,12 +6,26 @@ namespace SFC.SDKManagementSystem
     public class BuiltinSDKManagement : MonoBehaviour, ISDKManagementSystem
     {
         [ImplementedInterface(typeof(ISDKProvider))]
-        [SerializeField] private List<Object> ProviderObjects;
-        public List<ISDKProvider> Providers { get; }
+        [SerializeField] protected List<Object> ProviderObjects;
+        public HashSet<ISDKProvider> Providers { get; set; }
 
-        public List<ProviderType> GetValidProviders<ProviderType>() where ProviderType : ISDKProvider
+        protected Dictionary<System.Type, HashSet<ISDKProvider>> providerCaches = new();
+
+        public virtual HashSet<ISDKProvider> GetValidProviders<ProviderType>() where ProviderType : ISDKProvider
         {
-            throw new System.NotImplementedException();
+            if (providerCaches.ContainsKey(typeof(ProviderType)))
+            {
+                return providerCaches[typeof(ProviderType)];
+            }
+            HashSet<ISDKProvider> result = new();
+            foreach (var provider in Providers)
+            {
+                if (provider is not ProviderType || !provider.IsAvailable()) continue;
+
+                result.Add(provider);
+            }
+            providerCaches.Add(typeof(ProviderType), result);
+            return result;
         }
     }
 }
