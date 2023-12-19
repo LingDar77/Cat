@@ -98,7 +98,7 @@ namespace SFC.Intergration.OculusSDKProviders
 
         protected IInGamePurchaseSDKProvider.Product CreateProduct(Product product)
         {
-            return new IInGamePurchaseSDKProvider.Product()
+            return new()
             {
                 ProductId = product.Sku,
                 Name = product.Name,
@@ -108,7 +108,7 @@ namespace SFC.Intergration.OculusSDKProviders
         }
         protected IInGamePurchaseSDKProvider.Purchase CreatePurchase(Purchase purchase)
         {
-            return new IInGamePurchaseSDKProvider.Purchase()
+            return new()
             {
                 ProductId = purchase.Sku,
                 GrantTime = purchase.GrantTime
