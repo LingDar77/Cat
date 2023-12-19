@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor;
-
+using Type = System.Type;
+using System.Text;
+using System.Linq;
 namespace SFC
 {
     public sealed class ImplementedInterfaceAttribute : PropertyAttribute
@@ -19,8 +21,51 @@ namespace SFC
     [CustomPropertyDrawer(typeof(ImplementedInterfaceAttribute))]
     class RequireInterfaceDrawer : PropertyDrawer
     {
+        private static class Contents
+        {
+            public const float objectFieldMiniThumbnailHeight = 18f;
+            public const float objectFieldMiniThumbnailWidth = 32f;
+            public const float mismatchImplementationMessageHeight = 20f;
 
-        static System.Type GetObjectFieldType(Rect position, System.Type fieldType, System.Type interfaceType, out bool? dragAndDropAssignable)
+            public static GUIContent invalidTypeMessage = EditorGUIUtility.TrTextContent($"Use {nameof(ImplementedInterfaceAttribute)} with Object reference fields.");
+            public static GUIContent invalidAttributeMessage = EditorGUIUtility.TrTextContent($"The attribute is not a {nameof(ImplementedInterfaceAttribute)}.");
+            public static GUIContent invalidInterfaceMessage = EditorGUIUtility.TrTextContent("The required type is not an interface.");
+            public static GUIContent mismatchImplementationMessage = EditorGUIUtility.TrTextContent("The referenced object does not implement {0}.");
+        }
+
+        private static readonly Dictionary<Type, Dictionary<Type, string>> filterMapByFieldType = new();
+        private static readonly StringBuilder searchFilterBuilder = new();
+        private static readonly List<Type> minimumAssignableImplementations = new();
+
+        #region Object Field
+
+        private enum ObjectFieldVisualType
+        {
+            IconAndText,
+            LargePreview,
+            MiniPreview,
+        }
+
+        private static Rect GetObjectFieldButtonRect(Type objectType, Rect position)
+        {
+            var hasThumbnail = EditorGUIUtility.HasObjectThumbnail(objectType);
+            var visualType = ObjectFieldVisualType.IconAndText;
+
+            if (hasThumbnail && position.height <= Contents.objectFieldMiniThumbnailHeight && position.width <= Contents.objectFieldMiniThumbnailWidth)
+                visualType = ObjectFieldVisualType.MiniPreview;
+            else if (hasThumbnail && position.height > EditorGUIUtility.singleLineHeight)
+                visualType = ObjectFieldVisualType.LargePreview;
+
+            return visualType switch
+            {
+                ObjectFieldVisualType.IconAndText => new Rect(position.xMax - 19, position.y, 19, position.height),
+                ObjectFieldVisualType.MiniPreview => new Rect(position.xMax - 14, position.y, 14, position.height),
+                ObjectFieldVisualType.LargePreview => new Rect(position.xMax - 36, position.yMax - 14, 36, 14),
+                _ => throw new System.ArgumentOutOfRangeException(),
+            };
+        }
+
+        private static Type GetObjectFieldType(Rect position, Type fieldType, Type interfaceType, out bool? dragAndDropAssignable)
         {
             dragAndDropAssignable = null;
 
@@ -46,7 +91,56 @@ namespace SFC
             return fieldType;
         }
 
-        static bool TryGetAssignableObject(Object objectToValidate, System.Type fieldType, System.Type interfaceType, out Object assignableObject)
+        #endregion
+
+        #region Search Filter
+
+        private static bool IsDirectImplementation(Type type, Type interfaceType)
+        {
+            var directImplementedInterfaces = type.BaseType == null ? type.GetInterfaces() : type.GetInterfaces().Except(type.BaseType.GetInterfaces());
+            return directImplementedInterfaces.Contains(interfaceType);
+        }
+
+        private static void GetDirectImplementations(Type fieldType, Type interfaceType, List<Type> resultList)
+        {
+            if (!interfaceType.IsInterface)
+                return;
+
+        }
+
+        private static string GetSearchFilter(Type fieldType, Type interfaceType)
+        {
+            if (!filterMapByFieldType.TryGetValue(fieldType, out var filterByInterfaceType))
+            {
+                filterByInterfaceType = new Dictionary<Type, string>();
+                filterMapByFieldType.Add(fieldType, filterByInterfaceType);
+            }
+            else if (filterByInterfaceType.TryGetValue(interfaceType, out var cachedSearchFilter))
+            {
+                return cachedSearchFilter;
+            }
+
+            minimumAssignableImplementations.Clear();
+            GetDirectImplementations(fieldType, interfaceType, minimumAssignableImplementations);
+
+            searchFilterBuilder.Clear();
+            foreach (var type in minimumAssignableImplementations)
+            {
+                searchFilterBuilder.Append("t:");
+                searchFilterBuilder.Append(type.Name);
+                searchFilterBuilder.Append(" ");
+            }
+            var searchFilter = searchFilterBuilder.ToString();
+
+            filterByInterfaceType.Add(interfaceType, searchFilter);
+            return searchFilter;
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private static bool TryGetAssignableObject(Object objectToValidate, Type fieldType, Type interfaceType, out Object assignableObject)
         {
             if (objectToValidate == null)
             {
@@ -73,7 +167,7 @@ namespace SFC
             return false;
         }
 
-        static System.Type GetFieldOrElementType(System.Type fieldType)
+        private static Type GetFieldOrElementType(Type fieldType)
         {
             if (fieldType.IsGenericType && fieldType.GetGenericTypeDefinition() == typeof(List<>))
             {
@@ -87,6 +181,8 @@ namespace SFC
             return fieldType;
         }
 
+        #endregion
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var propertyHeight = base.GetPropertyHeight(property, label);
@@ -95,7 +191,7 @@ namespace SFC
                 requireInterfaceAttr.InterfaceType.IsInterface &&
                 !requireInterfaceAttr.InterfaceType.IsInstanceOfType(property.objectReferenceValue))
             {
-                propertyHeight += 20f + 4f;
+                propertyHeight += Contents.mismatchImplementationMessageHeight + 4f;
             }
 
             return propertyHeight;
@@ -107,53 +203,75 @@ namespace SFC
 
             if (property.propertyType != SerializedPropertyType.ObjectReference)
             {
+                EditorGUI.LabelField(position, label, Contents.invalidTypeMessage);
                 return;
             }
 
-            if (attribute is not ImplementedInterfaceAttribute requireInterfaceAttr)
+            if (!(attribute is ImplementedInterfaceAttribute requireInterfaceAttr))
             {
+                EditorGUI.LabelField(position, label, Contents.invalidAttributeMessage);
                 return;
             }
 
             if (requireInterfaceAttr.InterfaceType == null || !requireInterfaceAttr.InterfaceType.IsInterface)
             {
+                EditorGUI.LabelField(position, label, Contents.invalidInterfaceMessage);
                 return;
             }
 
             if (property.objectReferenceValue != null && !requireInterfaceAttr.InterfaceType.IsInstanceOfType(property.objectReferenceValue))
             {
                 var messagePosition = position;
-                position.height -= 20f + 4f;
+                position.height -= Contents.mismatchImplementationMessageHeight + 4f;
                 messagePosition.y = position.yMax + 2f;
-                messagePosition.height = 20f;
+                messagePosition.height = Contents.mismatchImplementationMessageHeight;
+                EditorGUI.HelpBox(messagePosition, string.Format(Contents.mismatchImplementationMessage.text, requireInterfaceAttr.InterfaceType.Name), MessageType.Warning);
             }
 
             var fieldType = GetFieldOrElementType(fieldInfo.FieldType);
 
-            using var scope = new EditorGUI.PropertyScope(position, label, property);
-            using var check = new EditorGUI.ChangeCheckScope();
-            var allowSceneObjs = !EditorUtility.IsPersistent(property.serializedObject.targetObject);
-            var objectFieldType = GetObjectFieldType(position, fieldType, requireInterfaceAttr.InterfaceType, out var dragAndDropAssignable);
-
-            if (dragAndDropAssignable.HasValue && !dragAndDropAssignable.Value)
+            using (var scope = new EditorGUI.PropertyScope(position, label, property))
+            using (var check = new EditorGUI.ChangeCheckScope())
             {
-                DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
-                Event.current.Use();
+                var allowSceneObjs = !EditorUtility.IsPersistent(property.serializedObject.targetObject);
+                var objectFieldType = GetObjectFieldType(position, fieldType, requireInterfaceAttr.InterfaceType, out var dragAndDropAssignable);
+
+                // Override the Object Field button to call the Object Selector window with a filter containing the minimum set of assignable field types that implement the required interface
+                if (GUI.enabled && Event.current.type == EventType.MouseDown && Event.current.button == 0 && position.Contains(Event.current.mousePosition))
+                {
+                    var buttonRect = GetObjectFieldButtonRect(objectFieldType, position);
+                    if (buttonRect.Contains(Event.current.mousePosition))
+                    {
+                        EditorGUIUtility.editingTextField = false;
+
+                        var searchFilter = GetSearchFilter(fieldType, requireInterfaceAttr.InterfaceType);
+                        EditorGUIUtility.ShowObjectPicker<Object>(property.objectReferenceValue, allowSceneObjs, searchFilter, objectPickerID);
+
+                        Event.current.Use();
+                        GUIUtility.ExitGUI();
+                    }
+                }
+
+                if (dragAndDropAssignable.HasValue && !dragAndDropAssignable.Value)
+                {
+                    DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
+                    Event.current.Use();
+                }
+
+                var value = EditorGUI.ObjectField(position, scope.content, property.objectReferenceValue, objectFieldType, allowSceneObjs);
+
+                // Get the value of the selected Object in the Object Selector window
+                if (Event.current.commandName == "ObjectSelectorUpdated" && EditorGUIUtility.GetObjectPickerControlID() == objectPickerID)
+                {
+                    GUI.changed = true;
+                    value = EditorGUIUtility.GetObjectPickerObject();
+                }
+
+                if (check.changed && TryGetAssignableObject(value, fieldType, requireInterfaceAttr.InterfaceType, out var assignableValue))
+                    property.objectReferenceValue = assignableValue;
             }
-
-            var value = EditorGUI.ObjectField(position, scope.content, property.objectReferenceValue, objectFieldType, allowSceneObjs);
-
-            // Get the value of the selected Object in the Object Selector window
-            if (EditorGUIUtility.GetObjectPickerControlID() == objectPickerID)
-            {
-                GUI.changed = true;
-                value = EditorGUIUtility.GetObjectPickerObject();
-            }
-
-            if (check.changed && TryGetAssignableObject(value, fieldType, requireInterfaceAttr.InterfaceType, out var assignableValue))
-                property.objectReferenceValue = assignableValue;
         }
-    }
 
+    }
 #endif
 }
