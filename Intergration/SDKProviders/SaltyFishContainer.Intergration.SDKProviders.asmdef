@@ -21,11 +21,6 @@
             "name": "com.meta.xr.sdk.interaction.ovr",
             "expression": "59",
             "define": "META_INTERACTION_OVR"
-        },
-        {
-            "name": "com.unity.xr.picoxr",
-            "expression": "2.4.0",
-            "define": "PICO_XR"
         }
     ],
     "noEngineReferences": false

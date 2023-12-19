@@ -1,4 +1,3 @@
-#if PICO_XR
 using SFC.XRSDKProvider;
 using Unity.XR.PXR;
 using UnityEngine;
@@ -41,4 +40,3 @@ namespace SFC.Intergration.SDKProviders
         }
     }
 }
-#endif

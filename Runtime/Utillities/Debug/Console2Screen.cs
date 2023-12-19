@@ -7,6 +7,8 @@ namespace SFC.Utillities
     {
         [SerializeField] private LogType LogLevel = LogType.Log;
         [SerializeField] private Vector2 ScreenSize = new(1200, 800);
+        [SerializeField] private Vector2 Position = new(100, 100);
+
         [SerializeField] private string keyword;
         const int maxLines = 50;
         const int maxLineLength = 120;
@@ -53,7 +55,7 @@ namespace SFC.Utillities
         {
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,
                new Vector3(Screen.width / ScreenSize.x, Screen.height / ScreenSize.y, 1.0f));
-            GUI.Label(new Rect(10, 10, 800, 370), _logStr, new GUIStyle() { fontSize = Mathf.Max(10, fontSize) });
+            GUI.Label(new Rect(Position.x, Position.y, 800, 370), _logStr, new GUIStyle() { fontSize = Mathf.Max(10, fontSize) });
         }
     }
 
