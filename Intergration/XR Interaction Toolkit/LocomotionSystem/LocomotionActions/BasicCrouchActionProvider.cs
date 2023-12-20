@@ -77,7 +77,7 @@ namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
             }
 
             currentCrouchHeight = Mathf.Clamp(currentCrouchHeight + bias, MinCrouchHeight, normalHeight);
-            var offsetHeight = currentCrouchHeight + Offset.localPosition.y;
+            var offsetHeight = currentCrouchHeight + (LocomotionSystem.IsStableOnGround() && Offset != null ? Offset.localPosition.y : 0);
             motor.SetCapsuleDimensions(motor.Capsule.radius, offsetHeight, normalHeight - offsetHeight / 2);
         }
     }
