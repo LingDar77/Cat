@@ -9,7 +9,7 @@ namespace SFC.Utillities
         [SerializeField] private Vector2 ScreenSize = new(1200, 800);
         [SerializeField] private Vector2 Position = new(100, 100);
 
-        [SerializeField] private MonoBehaviour TraceTraget;
+        [SerializeField] private MonoBehaviour[] TraceTragets;
         const int maxLines = 50;
         const int maxLineLength = 120;
         private string _logStr = "";
@@ -21,9 +21,19 @@ namespace SFC.Utillities
         void OnEnable() { Application.logMessageReceived += Log; }
         void OnDisable() { Application.logMessageReceived -= Log; }
 
+        private bool ShouldTrace(string stackTrace)
+        {
+            if (TraceTragets == null || TraceTragets.Length == 0) return true;
+            foreach (var traget in TraceTragets)
+            {
+                if (stackTrace.Contains(traget.GetType().Name)) return true;
+            }
+            return false;
+        }
+
         public void Log(string logString, string stackTrace, LogType type)
         {
-            if (type > LogLevel || (TraceTraget != null && !stackTrace.Contains(TraceTraget.GetType().Name))) return;
+            if (type > LogLevel || !ShouldTrace(stackTrace)) return;
             foreach (var line in logString.Split('\n'))
             {
                 if (line.Length <= maxLineLength)
