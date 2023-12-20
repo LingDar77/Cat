@@ -9,7 +9,7 @@ namespace SFC.Utillities
         [SerializeField] private Vector2 ScreenSize = new(1200, 800);
         [SerializeField] private Vector2 Position = new(100, 100);
 
-        [SerializeField] private string keyword;
+        [SerializeField] private MonoBehaviour TraceTraget;
         const int maxLines = 50;
         const int maxLineLength = 120;
         private string _logStr = "";
@@ -23,7 +23,7 @@ namespace SFC.Utillities
 
         public void Log(string logString, string stackTrace, LogType type)
         {
-            if (type > LogLevel || (!logString.Contains(keyword) && !stackTrace.Contains(keyword))) return;
+            if (type > LogLevel || (TraceTraget != null && !stackTrace.Contains(TraceTraget.GetType().Name))) return;
             foreach (var line in logString.Split('\n'))
             {
                 if (line.Length <= maxLineLength)

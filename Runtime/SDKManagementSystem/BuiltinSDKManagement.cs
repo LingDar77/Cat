@@ -6,10 +6,24 @@ namespace SFC.SDKManagementSystem
 {
     public class BuiltinSDKManagement : MonoBehaviour, ISDKManagementSystem, ISingletonSystem<BuiltinSDKManagement>
     {
+#if UNITY_EDITOR
+        [SerializeField] private bool AutuCollectProviders = true;
+#endif
         [ImplementedInterface(typeof(ISDKProvider))]
         [SerializeField] protected List<MonoBehaviour> ProviderObjects;
         public HashSet<ISDKProvider> Providers { get; set; } = new();
         protected Dictionary<System.Type, ISDKProvider[]> providerCaches = new();
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (!AutuCollectProviders) return;
+            var providers = GetComponentsInChildren<ISDKProvider>();
+            foreach (var provider in providers)
+            {
+                if (!ProviderObjects.Contains(provider as MonoBehaviour)) ProviderObjects.Add(provider as MonoBehaviour);
+            }
+        }
+#endif
 
         protected virtual void OnEnable()
         {
