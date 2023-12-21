@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC
+namespace SFC.PoolifiedObjects
 {
     public interface IGameObjectGenerator
     {

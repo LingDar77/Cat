@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace SFC.Utillities
+namespace SFC.PoolifiedObjects
 {
 
     public class BuiltinGameObjectGenerator : MonoBehaviour, IGameObjectGenerator
