@@ -6,15 +6,11 @@ namespace SFC.Utillities
     public class ConsoleToScreen : MonoBehaviour
     {
         [SerializeField] private LogType LogLevel = LogType.Log;
-        [SerializeField] private Vector2 ScreenSize = new(1200, 800);
-        [SerializeField] private Vector2 Position = new(100, 100);
+        [SerializeField] private Vector2Int Position = new(100, 100);
 
         [SerializeField] private MonoBehaviour[] TraceTragets;
-        const int maxLines = 50;
-        const int maxLineLength = 120;
-        private string _logStr = "";
-
-        private readonly List<string> _lines = new List<string>();
+        private string logMessage = "";
+        private readonly List<string> lines = new();
 
         public int fontSize = 15;
 
@@ -34,11 +30,13 @@ namespace SFC.Utillities
         public void Log(string logString, string stackTrace, LogType type)
         {
             if (type > LogLevel || !ShouldTrace(stackTrace)) return;
+            int maxLineLength = Mathf.Min(120, Screen.width / fontSize);
+            int maxLines = Mathf.Min(50, Screen.height / fontSize);
             foreach (var line in logString.Split('\n'))
             {
                 if (line.Length <= maxLineLength)
                 {
-                    _lines.Add(line);
+                    lines.Add(line);
                     continue;
                 }
                 var lineCount = line.Length / maxLineLength + 1;
@@ -46,26 +44,26 @@ namespace SFC.Utillities
                 {
                     if ((i + 1) * maxLineLength <= line.Length)
                     {
-                        _lines.Add(line.Substring(i * maxLineLength, maxLineLength));
+                        lines.Add(line.Substring(i * maxLineLength, maxLineLength));
                     }
                     else
                     {
-                        _lines.Add(line.Substring(i * maxLineLength, line.Length - i * maxLineLength));
+                        lines.Add(line.Substring(i * maxLineLength, line.Length - i * maxLineLength));
                     }
                 }
             }
-            if (_lines.Count > maxLines)
+            if (lines.Count > maxLines)
             {
-                _lines.RemoveRange(0, _lines.Count - maxLines);
+                lines.RemoveRange(0, lines.Count - maxLines);
             }
-            _logStr = string.Join("\n", _lines);
+            logMessage = string.Join("\n", lines);
         }
 
         void OnGUI()
         {
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,
-               new Vector3(Screen.width / ScreenSize.x, Screen.height / ScreenSize.y, 1.0f));
-            GUI.Label(new Rect(Position.x, Position.y, 800, 370), _logStr, new GUIStyle() { fontSize = Mathf.Max(10, fontSize) });
+               Vector3.one);
+            GUI.Label(new Rect(Position.x, Position.y, Screen.width - Position.x, Screen.height - Position.y), logMessage, new GUIStyle() { fontSize = Mathf.Max(10, fontSize) * Screen.height / 720 });
         }
     }
 

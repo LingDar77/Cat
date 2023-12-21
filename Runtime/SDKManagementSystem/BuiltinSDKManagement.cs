@@ -13,17 +13,17 @@ namespace SFC.SDKManagementSystem
         [SerializeField] protected List<MonoBehaviour> ProviderObjects;
         public HashSet<ISDKProvider> Providers { get; set; } = new();
         protected Dictionary<System.Type, ISDKProvider[]> providerCaches = new();
-#if UNITY_EDITOR
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
+#if UNITY_EDITOR
             if (!AutoCollectProviders) return;
             var providers = GetComponentsInChildren<ISDKProvider>();
             foreach (var provider in providers)
             {
                 if (!ProviderObjects.Contains(provider as MonoBehaviour)) ProviderObjects.Add(provider as MonoBehaviour);
             }
-        }
 #endif
+        }
 
         protected virtual void OnEnable()
         {
@@ -58,7 +58,7 @@ namespace SFC.SDKManagementSystem
                 }
                 providerCaches.Add(type, result.ToArray());
             }
-            Debug.Log($"Find {providerCaches[type].Length} valid providers for {type}");
+            Debug.Log($"Finded {providerCaches[type].Length} valid providers for {type.Name}.");
             return providerCaches[type].Cast<ProviderType>().ToArray();
         }
     }
