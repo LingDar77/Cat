@@ -19,7 +19,7 @@ namespace SFC.Intergration.Addressables
         }
         protected override void OnDisable()
         {
-            if (ISingletonSystem<AddressableAudioManagement>.Singleton.transform != this) return;
+            if (ISingletonSystem<AddressableAudioManagement>.Singleton.transform != transform) return;
             ISingletonSystem<AddressableAudioManagement>.Singleton = null;
         }
         public void PlaySoundAtPosition(Vector3 position, string reference, float volume = 1)

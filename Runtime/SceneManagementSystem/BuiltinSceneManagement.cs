@@ -1,26 +1,11 @@
 using System.Collections;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace SFC.SceneManagementSystem
 {
-    public class BuiltinSceneManagement : MonoBehaviour, ISceneManagementSystem, ISingletonSystem<BuiltinSceneManagement>
+    public class BuiltinSceneManagement : SingletonSystemBase<BuiltinSceneManagement>, ISceneManagementSystem
     {
         public float LoadingProgress { get; set; }
-
-        protected virtual void OnEnable()
-        {
-            if (ISingletonSystem<BuiltinSceneManagement>.Singleton != null) return;
-
-            ISingletonSystem<BuiltinSceneManagement>.Singleton = this;
-            DontDestroyOnLoad(transform.root.gameObject);
-        }
-
-        protected virtual void OnDisable()
-        {
-            if (ISingletonSystem<BuiltinSceneManagement>.Singleton.transform != this) return;
-            ISingletonSystem<BuiltinSceneManagement>.Singleton = null;
-        }
 
         public virtual void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
         {

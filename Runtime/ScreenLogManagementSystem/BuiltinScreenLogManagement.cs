@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace SFC.ScreenLogManagementSystem
@@ -27,7 +25,7 @@ namespace SFC.ScreenLogManagementSystem
 
         protected virtual void OnDisable()
         {
-            if (IScreenLogManagementSystem.Singleton.transform != this) return;
+            if (IScreenLogManagementSystem.Singleton.transform != transform) return;
             IScreenLogManagementSystem.Singleton = null;
             Application.logMessageReceived -= Log2Screen;
 

@@ -4,7 +4,7 @@ using SFC.SDKProvider;
 using UnityEngine;
 namespace SFC.SDKManagementSystem
 {
-    public class BuiltinSDKManagement : MonoBehaviour, ISDKManagementSystem, ISingletonSystem<BuiltinSDKManagement>
+    public class BuiltinSDKManagement : SingletonSystemBase<BuiltinSDKManagement>, ISDKManagementSystem
     {
 #if UNITY_EDITOR
         [SerializeField] private bool AutoCollectProviders = true;
@@ -25,22 +25,13 @@ namespace SFC.SDKManagementSystem
 #endif
         }
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
-            if (ISingletonSystem<BuiltinSDKManagement>.Singleton != null) return;
-
-            ISingletonSystem<BuiltinSDKManagement>.Singleton = this;
-            DontDestroyOnLoad(transform.root.gameObject);
+            base.OnEnable();
             foreach (var provider in ProviderObjects)
             {
                 Providers.Add(provider as ISDKProvider);
             }
-        }
-
-        protected virtual void OnDisable()
-        {
-            if (ISingletonSystem<BuiltinSDKManagement>.Singleton.transform != this) return;
-            ISingletonSystem<BuiltinSDKManagement>.Singleton = null;
         }
 
         public virtual ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider

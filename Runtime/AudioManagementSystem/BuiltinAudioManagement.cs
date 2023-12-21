@@ -27,7 +27,7 @@ namespace SFC.AduioManagement
 
         protected virtual void OnDisable()
         {
-            if (ISingletonSystem<BuiltinAudioManagement>.Singleton.transform != this) return;
+            if (ISingletonSystem<BuiltinAudioManagement>.Singleton.transform != transform) return;
             ISingletonSystem<BuiltinAudioManagement>.Singleton = null;
         }
 
