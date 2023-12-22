@@ -17,7 +17,10 @@ namespace SFC.Intergration.SteamSDKProviders
 
         public bool IsInitialized { get; set; }
         public bool IsAvailable { get; set; }
-
+        protected virtual void OnDisable()
+        {
+            SteamAPI.Shutdown();
+        }
         protected virtual void OnEnable()
         {
             if (!Packsize.Test())
@@ -74,10 +77,6 @@ namespace SFC.Intergration.SteamSDKProviders
         protected static void SteamAPIDebugTextHook(int nSeverity, System.Text.StringBuilder pchDebugText)
         {
             Debug.LogWarning(pchDebugText);
-        }
-        protected virtual void OnDisable()
-        {
-            SteamAPI.Shutdown();
         }
 
     }

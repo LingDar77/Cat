@@ -31,7 +31,7 @@ namespace SFC.SDKManagementSystem
             Providers = ProviderObjects.Cast<ISDKProvider>().ToHashSet();
             foreach (var provider in Providers)
             {
-                if (provider != null && !provider.IsAvailable()) continue;
+                if (provider != null && !provider.IsAvailable) continue;
                 provider.enabled = true;
             }
         }
@@ -44,7 +44,7 @@ namespace SFC.SDKManagementSystem
                 List<ISDKProvider> result = new();
                 foreach (var provider in Providers)
                 {
-                    if (provider is not ProviderType || !provider.IsAvailable()) continue;
+                    if (provider is not ProviderType || !provider.IsAvailable) continue;
                     result.Add(provider);
                 }
                 providerCaches.Add(type, result.ToArray());
