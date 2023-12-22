@@ -1,23 +1,15 @@
-using System;
 using System.Collections.Generic;
 using Oculus.Platform;
 using Oculus.Platform.Models;
 using SFC.SDKProvider;
+using SFC.Utillities;
 using UnityEngine;
 using UnityEngine.XR;
 
 namespace SFC.Intergration.OculusSDKProviders
 {
-    public class OculusInGamePurchaseSDKProvider : MonoBehaviour, IInGamePurchaseSDKProvider
+    public class OculusInGamePurchaseSDKProvider : DisableInEdtorScript, IInGamePurchaseSDKProvider
     {
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (enabled) enabled = false;
-        }
-#endif
-
         private void Start()
         {
             if (!Core.IsInitialized())
@@ -51,7 +43,7 @@ namespace SFC.Intergration.OculusSDKProviders
             });
 
         }
-        public void ConsumeProduct(string productId, Action onSuccess = null, Action<string> onFailure = null)
+        public void ConsumeProduct(string productId, System.Action onSuccess = null, System.Action<string> onFailure = null)
         {
             IAP.ConsumePurchase(productId).OnComplete(e =>
             {

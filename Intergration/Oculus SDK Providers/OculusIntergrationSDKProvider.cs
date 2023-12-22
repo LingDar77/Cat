@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using SFC.SDKProvider;
+using SFC.Utillities;
 using UnityEngine;
 using UnityEngine.XR;
 
 namespace SFC.Intergration.OculusSDKProviders
 {
-    public class OculusIntergrationSDKProvider : MonoBehaviour, IXRIntergrationSDKProvider
+    public class OculusIntergrationSDKProvider : DisableInEdtorScript, IXRIntergrationSDKProvider
     {
         private OVRManager manager;
 
@@ -20,13 +21,6 @@ namespace SFC.Intergration.OculusSDKProviders
 
 
         public event System.Action OnRecenterSuccessed;
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (enabled) enabled = false;
-        }
-#endif
 
         private void Start()
         {

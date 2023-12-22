@@ -28,9 +28,11 @@ namespace SFC.SDKManagementSystem
         protected override void OnEnable()
         {
             base.OnEnable();
-            foreach (var provider in ProviderObjects)
+            Providers = ProviderObjects.Cast<ISDKProvider>().ToHashSet();
+            foreach (var provider in Providers)
             {
-                Providers.Add(provider as ISDKProvider);
+                if (provider != null && !provider.IsAvailable()) continue;
+                provider.enabled = true;
             }
         }
 
@@ -43,9 +45,7 @@ namespace SFC.SDKManagementSystem
                 foreach (var provider in Providers)
                 {
                     if (provider is not ProviderType || !provider.IsAvailable()) continue;
-
                     result.Add(provider);
-                    provider.enabled = true;
                 }
                 providerCaches.Add(type, result.ToArray());
             }

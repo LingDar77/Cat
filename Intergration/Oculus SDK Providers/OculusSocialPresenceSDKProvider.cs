@@ -5,19 +5,14 @@ using UnityEngine;
 using UnityEngine.XR;
 using Oculus.Platform.Models;
 using System;
+using SFC.Utillities;
 
 namespace SFC.Intergration.OculusSDKProviders
 {
 
-    public class OculusSocialPresenceSDKProvider : MonoBehaviour, ISocialPresenceSDKProvider
+    public class OculusSocialPresenceSDKProvider : DisableInEdtorScript, ISocialPresenceSDKProvider
     {
         public event Action<ISocialPresenceSDKProvider.InviteDestination> OnInvited;
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (enabled) enabled = false;
-        }
-#endif
         public bool IsAvailable()
         {
             List<XRInputSubsystem> subsystems = new();

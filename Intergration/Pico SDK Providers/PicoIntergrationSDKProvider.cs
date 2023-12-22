@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using SFC.SDKProvider;
+using SFC.Utillities;
 using Unity.XR.PXR;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class PicoIntergrationSDKProvider : MonoBehaviour, IXRIntergrationSDKProvider
+public class PicoIntergrationSDKProvider : DisableInEdtorScript, IXRIntergrationSDKProvider
 {
     private PXR_Manager manager;
 
@@ -21,12 +22,7 @@ public class PicoIntergrationSDKProvider : MonoBehaviour, IXRIntergrationSDKProv
         add => PXR_Plugin.System.RecenterSuccess += value;
         remove => PXR_Plugin.System.RecenterSuccess -= value;
     }
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (enabled) enabled = false;
-    }
-#endif
+
     public bool IsAvailable()
     {
         List<XRInputSubsystem> subsystems = new();
