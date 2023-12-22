@@ -10,25 +10,25 @@ namespace SFC.Intergration.OculusSDKProviders
 {
     public class OculusInGamePurchaseSDKProvider : DisableInEdtorScript, IInGamePurchaseSDKProvider
     {
+        public bool IsInitialized { get => Core.IsInitialized(); }
+        public bool IsAvailable
+        {
+            get
+            {
+                List<XRInputSubsystem> subsystems = new();
+                SubsystemManager.GetInstances(subsystems);
+                if (subsystems.Count == 0) return false;
+
+                return subsystems[0].subsystemDescriptor.id.Contains("oculus");
+            }
+        }
+
         private void Start()
         {
             if (!Core.IsInitialized())
             {
                 Core.AsyncInitialize();
             }
-        }
-
-        public bool IsAvailable()
-        {
-            List<XRInputSubsystem> subsystems = new();
-            SubsystemManager.GetInstances(subsystems);
-            if (subsystems.Count == 0) return false;
-
-            return subsystems[0].subsystemDescriptor.id.Contains("oculus");
-        }
-        public bool IsInitialized()
-        {
-            return Core.IsInitialized();
         }
         public void PurchaseProduct(string productId, System.Action onSuccess = null, System.Action<string> onFailure = null)
         {

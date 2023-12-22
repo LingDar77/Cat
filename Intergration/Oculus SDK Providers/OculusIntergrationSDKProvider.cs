@@ -8,6 +8,18 @@ namespace SFC.Intergration.OculusSDKProviders
 {
     public class OculusIntergrationSDKProvider : DisableInEdtorScript, IXRIntergrationSDKProvider
     {
+        public bool IsInitialized { get => manager != null; }
+        public bool IsAvailable
+        {
+            get
+            {
+                List<XRInputSubsystem> subsystems = new();
+                SubsystemManager.GetInstances(subsystems);
+                if (subsystems.Count == 0) return false;
+
+                return subsystems[0].subsystemDescriptor.id.Contains("oculus");
+            }
+        }
         private OVRManager manager;
 
         public bool AdaptiveResolution { get => manager.enableDynamicResolution; set => manager.enableDynamicResolution = value; }
@@ -39,18 +51,5 @@ namespace SFC.Intergration.OculusSDKProviders
             Debug.Log("oculus sdk initialized.");
         }
 
-        public bool IsAvailable()
-        {
-            List<XRInputSubsystem> subsystems = new();
-            SubsystemManager.GetInstances(subsystems);
-            if (subsystems.Count == 0) return false;
-
-            return subsystems[0].subsystemDescriptor.id.Contains("oculus");
-        }
-
-        public bool IsInitialized()
-        {
-            return manager != null;
-        }
     }
 }

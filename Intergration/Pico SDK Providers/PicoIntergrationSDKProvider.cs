@@ -7,6 +7,18 @@ using UnityEngine.XR;
 
 public class PicoIntergrationSDKProvider : DisableInEdtorScript, IXRIntergrationSDKProvider
 {
+    public bool IsInitialized { get => manager != null; }
+    public bool IsAvailable
+    {
+        get
+        {
+            List<XRInputSubsystem> subsystems = new();
+            SubsystemManager.GetInstances(subsystems);
+            if (subsystems.Count == 0) return false;
+
+            return subsystems[0].subsystemDescriptor.id.Contains("PICO");
+        }
+    }
     private PXR_Manager manager;
 
     public bool AdaptiveResolution { get => manager.adaptiveResolution; set => manager.adaptiveResolution = value; }
@@ -17,21 +29,12 @@ public class PicoIntergrationSDKProvider : DisableInEdtorScript, IXRIntergration
     public bool LateLatching { get => manager.lateLatching; set => manager.lateLatching = value; }
     public int SharpeningLevel { get => (int)manager.sharpeningMode; set => manager.sharpeningMode = (SharpeningMode)value; }
 
+
     public event System.Action OnRecenterSuccessed
     {
         add => PXR_Plugin.System.RecenterSuccess += value;
         remove => PXR_Plugin.System.RecenterSuccess -= value;
     }
-
-    public bool IsAvailable()
-    {
-        List<XRInputSubsystem> subsystems = new();
-        SubsystemManager.GetInstances(subsystems);
-        if (subsystems.Count == 0) return false;
-
-        return subsystems[0].subsystemDescriptor.id.Contains("PICO");
-    }
-
     private void Start()
     {
         manager = PXR_Manager.Instance;
@@ -42,10 +45,5 @@ public class PicoIntergrationSDKProvider : DisableInEdtorScript, IXRIntergration
         manager.maxEyeTextureScale = .5f;
 
         Debug.Log("pico sdk initialized.");
-    }
-
-    public bool IsInitialized()
-    {
-        return manager != null;
     }
 }

@@ -12,19 +12,19 @@ namespace SFC.Intergration.OculusSDKProviders
 
     public class OculusSocialPresenceSDKProvider : DisableInEdtorScript, ISocialPresenceSDKProvider
     {
-        public event Action<ISocialPresenceSDKProvider.InviteDestination> OnInvited;
-        public bool IsAvailable()
+         public bool IsInitialized { get => Core.IsInitialized(); }
+        public bool IsAvailable
         {
-            List<XRInputSubsystem> subsystems = new();
-            SubsystemManager.GetInstances(subsystems);
-            if (subsystems.Count == 0) return false;
+            get
+            {
+                List<XRInputSubsystem> subsystems = new();
+                SubsystemManager.GetInstances(subsystems);
+                if (subsystems.Count == 0) return false;
 
-            return subsystems[0].subsystemDescriptor.id.Contains("oculus");
+                return subsystems[0].subsystemDescriptor.id.Contains("oculus");
+            }
         }
-        public bool IsInitialized()
-        {
-            return Core.IsInitialized();
-        }
+        public event Action<ISocialPresenceSDKProvider.InviteDestination> OnInvited;
         private void Start()
         {
             if (!Core.IsInitialized())
@@ -127,11 +127,6 @@ namespace SFC.Intergration.OculusSDKProviders
                 onSuccess?.Invoke();
             });
         }
-
-
-
-
-
         protected ISocialPresenceSDKProvider.User CreateUser(User user)
         {
             return new()

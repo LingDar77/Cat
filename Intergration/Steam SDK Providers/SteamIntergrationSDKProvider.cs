@@ -3,6 +3,7 @@
 #endif
 #if !DISABLE_STEAMWORKS
 
+using System.Collections;
 using SFC.SDKProvider;
 using SFC.Utillities;
 using Steamworks;
@@ -12,19 +13,12 @@ namespace SFC.Intergration.SteamSDKProviders
 {
     public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
-        private bool initialized = false;
         private SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
-        public bool IsAvailable()
-        {
-            return true;
-        }
+        public bool IsInitialized { get; set; }
+        public bool IsAvailable { get; set; }
 
-        public bool IsInitialized()
-        {
-            return initialized;
-        }
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if (!Packsize.Test())
             {
@@ -51,11 +45,14 @@ namespace SFC.Intergration.SteamSDKProviders
                 return;
             }
 
-            initialized = SteamAPI.Init();
-            if (!initialized)
+            IsInitialized = SteamAPI.Init();
+            if (!IsInitialized)
             {
                 Debug.LogError("[Steamworks.NET] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.", this);
+                return;
             }
+
+            StartCoroutine(TickSteamCallbacks());
             Debug.Log("Steam SDK Provider Initialized.");
             if (steamAPIWarningMessageHook == null)
             {
@@ -65,12 +62,20 @@ namespace SFC.Intergration.SteamSDKProviders
                 SteamClient.SetWarningMessageHook(steamAPIWarningMessageHook);
             }
         }
+        protected virtual IEnumerator TickSteamCallbacks()
+        {
+            while (IsInitialized)
+            {
+                SteamAPI.RunCallbacks();
+                yield return new WaitForSeconds(.1f);
+            }
+        }
         [AOT.MonoPInvokeCallback(typeof(SteamAPIWarningMessageHook_t))]
         protected static void SteamAPIDebugTextHook(int nSeverity, System.Text.StringBuilder pchDebugText)
         {
             Debug.LogWarning(pchDebugText);
         }
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             SteamAPI.Shutdown();
         }
