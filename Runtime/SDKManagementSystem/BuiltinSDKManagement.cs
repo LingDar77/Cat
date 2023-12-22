@@ -29,13 +29,16 @@ namespace SFC.SDKManagementSystem
         {
             base.OnEnable();
             Providers = ProviderObjects.Cast<ISDKProvider>().ToHashSet();
+
+        }
+        private void Start()
+        {
             foreach (var provider in Providers)
             {
                 if (provider != null && !provider.IsAvailable) continue;
                 provider.enabled = true;
             }
         }
-
         public virtual ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider
         {
             var type = typeof(ProviderType);

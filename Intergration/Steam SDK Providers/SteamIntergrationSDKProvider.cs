@@ -16,7 +16,7 @@ namespace SFC.Intergration.SteamSDKProviders
         private SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
         public bool IsInitialized { get; set; }
-        public bool IsAvailable { get; set; }
+        public bool IsAvailable { get; } = true;
         protected virtual void OnDisable()
         {
             SteamAPI.Shutdown();
@@ -36,6 +36,7 @@ namespace SFC.Intergration.SteamSDKProviders
             {
                 if (SteamAPI.RestartAppIfNecessary(AppId_t.Invalid))
                 {
+                    Debug.Log("[Steamworks.NET] RestartAppIfNecessary");
                     Application.Quit();
                     return;
                 }

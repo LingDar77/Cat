@@ -11,7 +11,7 @@ namespace SFC
             if (Singleton != null) return Singleton;
             if (!typeof(Type).IsSubclassOf(typeof(MonoBehaviour)))
             {
-                throw new System.Exception("The Singleton System trying to access is not implemented as a MonoBehaviour.");
+                throw new System.Exception("The Singleton System trying to access is not implemented as a MonoBehaviour. You can try accessing it by ISingletonSystem<Type>.Singleton");
             }
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             Singleton ??= new GameObject(typeof(Type).Name, typeof(Type)).GetComponent<Type>();

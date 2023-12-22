@@ -55,7 +55,7 @@ namespace SFC.ScreenLogManagementSystem
         {
             if (!FilterLogMessage(logString, stackTrace, type)) return;
 
-            int maxLineLength = (int)(1080 * ContentSize.x) / FontSize;
+            int maxLineLength = (int)(2160 * ContentSize.x) / FontSize;
             int maxLines = (int)(720 * ContentSize.y) / FontSize;
             foreach (var line in logString.Split('\n'))
             {

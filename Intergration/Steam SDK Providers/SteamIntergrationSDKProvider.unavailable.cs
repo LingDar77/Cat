@@ -11,8 +11,8 @@ namespace SFC.Intergration.SteamSDKProviders
 {
     public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
-      public bool IsInitialized { get; set; } = false;
-        public bool IsAvailable { get; set; } =false;
+      public bool IsInitialized { get; } = false;
+        public bool IsAvailable { get; } = false;
 
         private void OnEnable()
         {
