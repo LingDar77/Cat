@@ -1,6 +1,11 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLE_STEAMWORKS
+#endif
 using SFC.SDKProvider;
 using SFC.Utillities;
+#if !DISABLE_STEAMWORKS
 using Steamworks;
+#endif
 using UnityEngine;
 
 namespace SFC.Intergration.SteamSDKProviders
@@ -8,14 +13,16 @@ namespace SFC.Intergration.SteamSDKProviders
     public class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
         private bool initialized = false;
+#if !DISABLE_STEAMWORKS
         private SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
+#endif
 
         public bool IsAvailable()
         {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            return true;
-#else
+#if DISABLE_STEAMWORKS
             return false;
+#else
+            return true;
 #endif
         }
 
@@ -23,6 +30,7 @@ namespace SFC.Intergration.SteamSDKProviders
         {
             return initialized;
         }
+#if !DISABLE_STEAMWORKS
         private void OnEnable()
         {
             if (!Packsize.Test())
@@ -73,5 +81,11 @@ namespace SFC.Intergration.SteamSDKProviders
         {
             SteamAPI.Shutdown();
         }
+#else
+        private void Start()
+        {
+            Debug.LogError("Steam SDK Provider not available in current platform.");
+        }
+#endif
     }
 }

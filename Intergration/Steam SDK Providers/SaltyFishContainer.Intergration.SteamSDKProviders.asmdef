@@ -6,9 +6,11 @@
         "GUID:68bd7fdb68ef2684e982e8a9825b18a5"
     ],
     "includePlatforms": [
+        "Editor",
         "LinuxStandalone64",
         "macOSStandalone",
         "WSA",
+        "WindowsStandalone32",
         "WindowsStandalone64"
     ],
     "excludePlatforms": [],
