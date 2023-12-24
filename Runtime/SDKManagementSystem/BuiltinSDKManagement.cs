@@ -47,7 +47,8 @@ namespace SFC.SDKManagementSystem
                 List<ISDKProvider> result = new();
                 foreach (var provider in Providers)
                 {
-                    if (provider is not ProviderType || !provider.IsAvailable) continue;
+                    if (provider is not ProviderType || !provider.IsAvailable || !provider.transform.gameObject.activeSelf) continue;
+                    
                     result.Add(provider);
                 }
                 providerCaches.Add(type, result.ToArray());

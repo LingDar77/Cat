@@ -3,25 +3,47 @@
 #endif
 
 #if EOS_CAN_SHUTDOWN
+using Epic.OnlineServices;
 using PlayEveryWare.EpicOnlineServices;
 using SFC.SDKProvider;
 using SFC.Utillities;
+using UnityEngine;
 
 namespace SFC.Intergration.EOSSDKProviders
 {
     public partial class EOSIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
-        private EOSManager manager;
-
-        public bool IsInitialized { get => manager != null; }
+        [HideInInspector] public EOSManager Manager;
+        [HideInInspector] public EpicAccountId LocalUserId;
+        public bool IsInitialized { get => Manager != null && loggin; }
         public bool IsAvailable { get; } = true;
+
+
+        protected bool loggin = false;
+
 
         protected virtual void OnEnable()
         {
-            if (manager == null)
+            if (Manager == null)
             {
-                manager = gameObject.AddComponent<EOSManager>();
+                Manager = gameObject.AddComponent<EOSManager>();
             }
+            EOSManager.Instance.StartPersistentLogin(e =>
+            {
+                if (e.ResultCode == Result.Success)
+                {
+                    LocalUserId = e.LocalUserId;
+                    loggin = true;
+                    return;
+                }
+                EOSManager.Instance.StartLoginWithLoginTypeAndToken(Epic.OnlineServices.Auth.LoginCredentialType.AccountPortal, ExternalCredentialType.Epic, null, null, e =>
+                {
+                    if (e.LocalUserId == null) return;
+                    LocalUserId = e.LocalUserId;
+                    loggin = true;
+                });
+
+            });
         }
     }
 }
