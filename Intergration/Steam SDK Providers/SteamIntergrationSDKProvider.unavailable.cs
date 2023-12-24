@@ -9,17 +9,8 @@ using UnityEngine;
 
 namespace SFC.Intergration.SteamSDKProviders
 {
-    public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
+    public partial class SteamIntergrationSDKProvider : UnsupportedSDKBase<SteamIntergrationSDKProvider>
     {
-      public bool IsInitialized { get; } = false;
-        public bool IsAvailable { get; } = false;
-
-        private void OnEnable()
-        {
-            Debug.LogWarning("Steam SDK Provider is not supported on this platform.");
-            enabled = false;
-        }
-
     }
 }
 #endif
