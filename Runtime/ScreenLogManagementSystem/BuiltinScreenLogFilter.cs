@@ -2,6 +2,8 @@ namespace SFC.ScreenLogManagementSystem
 {
     using UnityEngine;
 
+    [DefaultExecutionOrder(-500)]
+
     public class BuiltinScreenLogFilter : MonoBehaviour, IScreenLogFilter
     {
         [field: SerializeField] public LogType TracedLogLevel { get; set; } = LogType.Log;

@@ -15,7 +15,7 @@ namespace SFC.Intergration.Addressables
             if (ISingletonSystem<AddressableAudioManagement>.Singleton != null) return;
 
             ISingletonSystem<AddressableAudioManagement>.Singleton = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(transform.root.gameObject);
         }
         protected override void OnDisable()
         {

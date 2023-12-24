@@ -13,10 +13,12 @@ namespace SFC.Intergration.SteamSDKProviders
 {
     public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
+        [SerializeField] private uint appid;
         private SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
         public bool IsInitialized { get; set; }
         public bool IsAvailable { get; } = true;
+
         protected virtual void OnDisable()
         {
             SteamAPI.Shutdown();
@@ -34,7 +36,7 @@ namespace SFC.Intergration.SteamSDKProviders
             }
             try
             {
-                if (SteamAPI.RestartAppIfNecessary(AppId_t.Invalid))
+                if (SteamAPI.RestartAppIfNecessary(new AppId_t(appid)))
                 {
                     Debug.Log("[Steamworks.NET] RestartAppIfNecessary");
                     Application.Quit();

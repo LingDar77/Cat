@@ -20,7 +20,7 @@ namespace SFC.SDKManagementSystem
             var providers = GetComponentsInChildren<ISDKProvider>();
             foreach (var provider in providers)
             {
-                if (!ProviderObjects.Contains(provider as MonoBehaviour)) ProviderObjects.Add(provider as MonoBehaviour);
+                if (!ProviderObjects.Contains(provider as MonoBehaviour) && provider.transform.gameObject.activeSelf) ProviderObjects.Add(provider as MonoBehaviour);
             }
 #endif
         }

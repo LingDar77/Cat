@@ -3,15 +3,20 @@ using UnityEngine;
 
 namespace SFC.ScreenLogManagementSystem
 {
+    [DefaultExecutionOrder(-1000)]
     public class BuiltinScreenLogManagement : MonoBehaviour, IScreenLogManagementSystem
     {
         [field: SerializeField]
         public Vector2 ContentSize { get; set; } = new(.8f, .5f);
         [field: SerializeField] public int FontSize { get; set; } = 16;
+        public List<string> LogLevelColors = new() { "red", "red", "yellow", "white", "red" };
+        public List<string> LogTextColors = new() { "red", "orange", "orange", "white", "orange" };
+
         public List<IScreenLogFilter> Filters { get; set; } = new();
 
         private string logMessage = "";
         private readonly List<string> lines = new();
+
 
         protected virtual void OnEnable()
         {
@@ -51,32 +56,28 @@ namespace SFC.ScreenLogManagementSystem
             }
             return false;
         }
+        protected virtual string DecorateText(string text, LogType type)
+        {
+            return $"<b><color={LogLevelColors[(int)type]}>[{type}]:</color> <color={LogTextColors[(int)type]}>{text}</color></b>";
+        }
         protected virtual void Log2Screen(string logString, string stackTrace, LogType type)
         {
             if (!FilterLogMessage(logString, stackTrace, type)) return;
 
-            int maxLineLength = (int)(2160 * ContentSize.x) / FontSize;
-            int maxLines = (int)(720 * ContentSize.y) / FontSize;
+            int maxLineLength = (int)(Screen.width * Screen.width * ContentSize.x / 1080) / FontSize;
+            int maxLines = (int)(Screen.height * Screen.height * ContentSize.y / 720) / FontSize;
+
             foreach (var line in logString.Split('\n'))
             {
-                if (line.Length <= maxLineLength)
+                var current = DecorateText(line, type);
+                while (current.Length > maxLineLength)
                 {
-                    lines.Add(line);
-                    continue;
+                    lines.Add(current[..maxLineLength]);
+                    current = current[maxLineLength..];
                 }
-                var lineCount = line.Length / maxLineLength + 1;
-                for (int i = 0; i < lineCount; i++)
-                {
-                    if ((i + 1) * maxLineLength <= line.Length)
-                    {
-                        lines.Add(line.Substring(i * maxLineLength, maxLineLength));
-                    }
-                    else
-                    {
-                        lines.Add(line[(i * maxLineLength)..]);
-                    }
-                }
+                lines.Add(current);
             }
+
             if (lines.Count > maxLines)
             {
                 lines.RemoveRange(0, lines.Count - maxLines);
@@ -96,7 +97,7 @@ namespace SFC.ScreenLogManagementSystem
                 Screen.width * ContentSize.x,
                 Screen.height * ContentSize.y),
                 logMessage,
-                new GUIStyle() { fontSize = FontSize * Screen.height / 720 });
+                new GUIStyle() { fontSize = FontSize * Screen.width / 1080, richText = true });
         }
     }
 }
