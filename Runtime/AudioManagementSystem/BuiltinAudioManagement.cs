@@ -8,7 +8,7 @@ namespace SFC.AduioManagement
     /// The simplest implementation of an AudioManagementSystem.
     /// <see cref="IAudioManagementSystem"/>
     /// </summary>
-    public class BuiltinAudioManagement : MonoBehaviour, IAudioManagementSystem<AudioClip>, ISingletonSystem<BuiltinAudioManagement>
+    public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagementSystem<AudioClip>
     {
         [EditorReadOnly] public int CurrentAllocation = 0;
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
@@ -17,19 +17,6 @@ namespace SFC.AduioManagement
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
         protected Dictionary<int, Coroutine> coroutines = new();
-        protected virtual void OnEnable()
-        {
-            if (ISingletonSystem<BuiltinAudioManagement>.Singleton != null) return;
-
-            ISingletonSystem<BuiltinAudioManagement>.Singleton = this;
-            DontDestroyOnLoad(transform.root.gameObject);
-        }
-
-        protected virtual void OnDisable()
-        {
-            if (ISingletonSystem<BuiltinAudioManagement>.Singleton.transform != transform) return;
-            ISingletonSystem<BuiltinAudioManagement>.Singleton = null;
-        }
 
         public virtual void PlaySoundAtPosition(Vector3 position, AudioClip reference, float volume = 1f)
         {
