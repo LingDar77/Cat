@@ -64,17 +64,11 @@ namespace SFC.ScreenLogManagementSystem
         {
             if (!FilterLogMessage(logString, stackTrace, type)) return;
 
-            int maxLineLength = (int)(Screen.width * Screen.width * ContentSize.x / 1080) / FontSize;
-            int maxLines = (int)(Screen.height * Screen.height * ContentSize.y / 720) / FontSize;
+            int maxLines = (int)(720 * ContentSize.y) / FontSize;
 
             foreach (var line in logString.Split('\n'))
             {
                 var current = DecorateText(line, type);
-                while (current.Length > maxLineLength)
-                {
-                    lines.Add(current[..maxLineLength]);
-                    current = current[maxLineLength..];
-                }
                 lines.Add(current);
             }
 
@@ -97,7 +91,7 @@ namespace SFC.ScreenLogManagementSystem
                 Screen.width * ContentSize.x,
                 Screen.height * ContentSize.y),
                 logMessage,
-                new GUIStyle() { fontSize = FontSize * Screen.width / 1080, richText = true });
+                new GUIStyle() { fontSize = FontSize * Screen.width / 1080, richText = true, wordWrap = true });
         }
     }
 }
