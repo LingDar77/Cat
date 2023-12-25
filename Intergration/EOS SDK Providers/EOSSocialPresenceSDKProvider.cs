@@ -67,7 +67,7 @@ namespace SFC.Intergration.EOSSDKProviders
 
         public void GetCurrentUser(Action<ISocialPresenceSDKProvider.User> onSuccess = null, Action<string> onFailure = null)
         {
-            QueryUserInfoOptions options = new QueryUserInfoOptions()
+            QueryUserInfoOptions options = new()
             {
                 LocalUserId = EOSManager.Instance.GetLocalUserId(),
                 TargetUserId = intergration.LocalUserId
@@ -80,7 +80,7 @@ namespace SFC.Intergration.EOSSDKProviders
                     onFailure.Invoke($"Error calling QueryUserInfo: {data.ResultCode}");
                     return;
                 }
-                CopyUserInfoOptions options = new CopyUserInfoOptions()
+                CopyUserInfoOptions options = new()
                 {
                     LocalUserId = data.LocalUserId,
                     TargetUserId = data.TargetUserId

@@ -7,6 +7,9 @@ namespace SFC.SDKManagementSystem
     {
         HashSet<ISDKProvider> Providers { get; }
 
+        bool AddProvider(ISDKProvider provider);
+        bool RemoveProvider(ISDKProvider provider);
+
         ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider;
     }
 }

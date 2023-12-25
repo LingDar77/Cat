@@ -39,6 +39,15 @@ namespace SFC.SDKManagementSystem
                 provider.enabled = true;
             }
         }
+        public bool AddProvider(ISDKProvider provider)
+        {
+            return Providers.Add(provider);
+        }
+
+        public bool RemoveProvider(ISDKProvider provider)
+        {
+            return Providers.Remove(provider);
+        }
         public virtual ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider
         {
             var type = typeof(ProviderType);
@@ -48,7 +57,7 @@ namespace SFC.SDKManagementSystem
                 foreach (var provider in Providers)
                 {
                     if (provider is not ProviderType || !provider.IsAvailable || !provider.transform.gameObject.activeSelf) continue;
-                    
+
                     result.Add(provider);
                 }
                 providerCaches.Add(type, result.ToArray());
@@ -56,5 +65,6 @@ namespace SFC.SDKManagementSystem
             Debug.Log($"Finded {providerCaches[type].Length} valid providers for {type.Name}.");
             return providerCaches[type].Cast<ProviderType>().ToArray();
         }
+
     }
 }
