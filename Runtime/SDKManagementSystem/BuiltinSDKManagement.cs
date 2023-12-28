@@ -17,11 +17,11 @@ namespace SFC.SDKManagementSystem
         {
 #if UNITY_EDITOR
             if (!AutoCollectProviders) return;
-            var providers = GetComponentsInChildren<ISDKProvider>();
+            var providers = GetComponentsInChildren<ISDKProvider>(true);
             ProviderObjects.Clear();
             foreach (var provider in providers)
             {
-                if (!ProviderObjects.Contains(provider as MonoBehaviour) && provider.transform.gameObject.activeSelf) ProviderObjects.Add(provider as MonoBehaviour);
+                ProviderObjects.Add(provider as MonoBehaviour);
             }
 #endif
         }
