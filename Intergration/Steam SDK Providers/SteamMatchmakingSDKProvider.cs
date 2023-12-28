@@ -21,12 +21,24 @@ namespace TUI.Intergration.SteamSDKProviders
         public event Action<IMatchmakingSDKProvider.Invitation> OnInvitationRecived;
         private Callback<LobbyEnter_t> onLobbyEnterCallback;
         private Callback<GameRichPresenceJoinRequested_t> onJoinRequested;
+        private Callback<GameLobbyJoinRequested_t> onJoinLobbyRequested;
 
         private void OnEnable()
         {
             onLobbyEnterCallback = Callback<LobbyEnter_t>.Create(OnLobbyEnter);
             onJoinRequested = Callback<GameRichPresenceJoinRequested_t>.Create(OnJoinRequested);
+            onJoinLobbyRequested = Callback<GameLobbyJoinRequested_t>.Create(OnJoinLobbyRequested);
             SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, DefaultLobbyPlayers);
+        }
+
+        private void OnJoinLobbyRequested(GameLobbyJoinRequested_t param)
+        {
+            Debug.Log($"Join lobby requested: {param.m_steamIDFriend} {param.m_steamIDLobby}");
+            OnInvitationRecived?.Invoke(new()
+            {
+                Destination = param.m_steamIDLobby.ToString(),
+                LobbyID = param.m_steamIDLobby.ToString()
+            });
         }
 
         private void OnDisable()
