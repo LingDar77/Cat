@@ -4,14 +4,17 @@
 
 #if EOS_CAN_SHUTDOWN
 using System;
+using Epic.OnlineServices.Presence;
 using Epic.OnlineServices.UserInfo;
 using PlayEveryWare.EpicOnlineServices;
 using SFC.SDKManagementSystem;
 using SFC.SDKProvider;
 using SFC.Utillities;
+using UnityEngine;
 
 namespace SFC.Intergration.EOSSDKProviders
 {
+    [Obsolete]
     public partial class EOSSocialPresenceSDKProvider : DisableInEdtorScript, ISocialPresenceSDKProvider
     {
         private EOSIntergrationSDKProvider intergration;
@@ -28,11 +31,34 @@ namespace SFC.Intergration.EOSSDKProviders
         }
         public bool IsAvailable { get; } = true;
         private UserInfoInterface userInfoInterface;
+        private PresenceInterface presenceInterface;
 
         protected virtual void OnEnable()
         {
             Init();
             userInfoInterface = EOSManager.Instance?.GetEOSPlatformInterface()?.GetUserInfoInterface();
+            presenceInterface = EOSManager.Instance?.GetEOSPresenceInterface();
+
+            this.WaitUntil(() => IsInitialized, () =>
+            {
+                var handle = new PresenceModification();
+                var data = new PresenceModificationSetDataOptions()
+                {
+                    Records = new DataRecord[] { }
+                };
+                handle.SetData(ref data);
+                var options = new SetPresenceOptions()
+                {
+                    LocalUserId = intergration.LocalUserId,
+                    PresenceModificationHandle = handle
+                };
+                presenceInterface.SetPresence(ref options, null,
+                (ref SetPresenceCallbackInfo e) =>
+                {
+                    Debug.Log("Set presence: " + e.ResultCode);
+                });
+            });
+
         }
         protected virtual bool Init()
         {

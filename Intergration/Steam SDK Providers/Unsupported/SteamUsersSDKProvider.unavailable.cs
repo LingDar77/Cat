@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SFC.Intergration.SteamSDKProviders
 {
-    public partial class SteamSocialPresenceSDKProvider : UnsupportedSDKBase<SteamSocialPresenceSDKProvider>
+    public partial class SteamUsersSDKProvider : UnsupportedSDKBase<SteamSocialPresenceSDKProvider>
     {
        
     }

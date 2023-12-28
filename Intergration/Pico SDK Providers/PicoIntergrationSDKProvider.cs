@@ -5,7 +5,7 @@ using Unity.XR.PXR;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class PicoIntergrationSDKProvider : DisableInEdtorScript, IXRIntergrationSDKProvider
+public class PicoIntergrationSDKProvider : DisableInEdtorScript, IXRSDKProvider
 {
     public bool IsInitialized { get => manager != null; }
     public bool IsAvailable
@@ -21,12 +21,12 @@ public class PicoIntergrationSDKProvider : DisableInEdtorScript, IXRIntergration
     }
     private PXR_Manager manager;
 
-    public bool AdaptiveResolution { get => manager.adaptiveResolution; set => manager.adaptiveResolution = value; }
+    public bool EnableAdaptiveResolution { get => manager.adaptiveResolution; set => manager.adaptiveResolution = value; }
     public int FoveationLevel
     {
         get => (int)manager.foveationLevel; set => manager.foveationLevel = (FoveationLevel)value;
     }
-    public bool LateLatching { get => manager.lateLatching; set => manager.lateLatching = value; }
+    public bool EnableLateLatching { get => manager.lateLatching; set => manager.lateLatching = value; }
     public int SharpeningLevel { get => (int)manager.sharpeningMode; set => manager.sharpeningMode = (SharpeningMode)value; }
 
 

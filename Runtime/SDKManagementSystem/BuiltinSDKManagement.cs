@@ -18,6 +18,7 @@ namespace SFC.SDKManagementSystem
 #if UNITY_EDITOR
             if (!AutoCollectProviders) return;
             var providers = GetComponentsInChildren<ISDKProvider>();
+            ProviderObjects.Clear();
             foreach (var provider in providers)
             {
                 if (!ProviderObjects.Contains(provider as MonoBehaviour) && provider.transform.gameObject.activeSelf) ProviderObjects.Add(provider as MonoBehaviour);

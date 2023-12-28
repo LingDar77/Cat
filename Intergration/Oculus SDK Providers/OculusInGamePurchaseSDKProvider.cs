@@ -1,3 +1,8 @@
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_ANDROID
+#define ENABLE_OCULUS
+#endif
+
+#if ENABLE_OCULUS
 using System.Collections.Generic;
 using Oculus.Platform;
 using Oculus.Platform.Models;
@@ -8,7 +13,7 @@ using UnityEngine.XR;
 
 namespace SFC.Intergration.OculusSDKProviders
 {
-    public class OculusInGamePurchaseSDKProvider : DisableInEdtorScript, IInGamePurchaseSDKProvider
+    public partial class OculusInGamePurchaseSDKProvider : DisableInEdtorScript, IInGamePurchaseSDKProvider
     {
         public bool IsInitialized { get => Core.IsInitialized(); }
         public bool IsAvailable
@@ -110,3 +115,4 @@ namespace SFC.Intergration.OculusSDKProviders
 
     }
 }
+#endif

@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace SFC.Intergration.SteamSDKProviders
 {
+    [Obsolete]
     public partial class SteamSocialPresenceSDKProvider : DisableInEdtorScript, ISocialPresenceSDKProvider
     {
         private CSteamID currentLobby = CSteamID.Nil;

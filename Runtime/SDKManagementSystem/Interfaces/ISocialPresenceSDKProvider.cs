@@ -1,5 +1,8 @@
+using System;
+
 namespace SFC.SDKProvider
 {
+    [Obsolete]
     public interface ISocialPresenceSDKProvider : ISDKProvider
     {
         [System.Serializable]

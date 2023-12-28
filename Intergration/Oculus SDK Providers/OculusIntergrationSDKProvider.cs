@@ -1,3 +1,8 @@
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_ANDROID
+#define ENABLE_OCULUS
+#endif
+
+#if ENABLE_OCULUS
 using System.Collections.Generic;
 using SFC.SDKProvider;
 using SFC.Utillities;
@@ -6,7 +11,7 @@ using UnityEngine.XR;
 
 namespace SFC.Intergration.OculusSDKProviders
 {
-    public class OculusIntergrationSDKProvider : DisableInEdtorScript, IXRIntergrationSDKProvider
+    public partial class OculusIntergrationSDKProvider : DisableInEdtorScript, IXRSDKProvider
     {
         public bool IsInitialized { get => manager != null; }
         public bool IsAvailable
@@ -22,9 +27,9 @@ namespace SFC.Intergration.OculusSDKProviders
         }
         private OVRManager manager;
 
-        public bool AdaptiveResolution { get => manager.enableDynamicResolution; set => manager.enableDynamicResolution = value; }
+        public bool EnableAdaptiveResolution { get => manager.enableDynamicResolution; set => manager.enableDynamicResolution = value; }
         public int FoveationLevel { get => (int)OVRPlugin.foveatedRenderingLevel; set => OVRPlugin.foveatedRenderingLevel = (OVRPlugin.FoveatedRenderingLevel)value; }
-        public bool LateLatching { get => manager.LateLatching; set => manager.LateLatching = value; }
+        public bool EnableLateLatching { get => manager.LateLatching; set => manager.LateLatching = value; }
         public int SharpeningLevel
         {
             get => manager.sharpenType == OVRPlugin.LayerSharpenType.None ? 0 : (manager.sharpenType == OVRPlugin.LayerSharpenType.Normal ? 1 : 2);
@@ -53,3 +58,4 @@ namespace SFC.Intergration.OculusSDKProviders
 
     }
 }
+#endif
