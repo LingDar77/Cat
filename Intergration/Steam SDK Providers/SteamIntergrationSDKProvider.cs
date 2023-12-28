@@ -12,13 +12,12 @@ namespace SFC.Intergration.SteamSDKProviders
 {
     public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
-        [SerializeField] private uint appid;
+        [SerializeField] private uint appid = 480;
         public bool IsInitialized { get; set; }
-        public bool IsAvailable { get => TryInitSteamSDK(); }
+        public bool IsAvailable { get; } = true;
         private SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
-
-        private bool TryInitSteamSDK()
+        protected virtual void OnEnable()
         {
             if (!Packsize.Test())
             {
@@ -29,14 +28,13 @@ namespace SFC.Intergration.SteamSDKProviders
             {
                 Debug.LogError("[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.", this);
             }
-
             try
             {
                 if (SteamAPI.RestartAppIfNecessary(new AppId_t(appid)))
                 {
                     Debug.Log("[Steamworks.NET] RestartAppIfNecessary");
                     Application.Quit();
-                    return false;
+                    return;
                 }
             }
             catch (System.DllNotFoundException e)
@@ -44,18 +42,16 @@ namespace SFC.Intergration.SteamSDKProviders
                 Debug.LogError("[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + e, this);
 
                 Application.Quit();
-                return false;
+                return;
             }
+
             IsInitialized = SteamAPI.Init();
             if (!IsInitialized)
             {
                 Debug.LogError("[Steamworks.NET] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.", this);
-                return false;
+                return;
             }
-            return IsInitialized;
-        }
-        protected virtual void OnEnable()
-        {
+
             StartCoroutine(TickSteamCallbacks());
             Debug.Log("Steam SDK Provider Initialized.");
             if (steamAPIWarningMessageHook == null)
@@ -66,7 +62,6 @@ namespace SFC.Intergration.SteamSDKProviders
                 SteamClient.SetWarningMessageHook(steamAPIWarningMessageHook);
             }
         }
-
         protected virtual IEnumerator TickSteamCallbacks()
         {
             while (IsInitialized)
