@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     /// <summary>
     /// Basic definition of an action provider.

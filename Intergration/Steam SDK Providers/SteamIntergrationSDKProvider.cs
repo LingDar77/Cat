@@ -3,12 +3,12 @@
 #endif
 #if !DISABLE_STEAMWORKS
 using System.Collections;
-using SFC.SDKProvider;
-using SFC.Utillities;
+using TUI.SDKProvider;
+using TUI.Utillities;
 using Steamworks;
 using UnityEngine;
 
-namespace SFC.Intergration.SteamSDKProviders
+namespace TUI.Intergration.SteamSDKProviders
 {
     public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {

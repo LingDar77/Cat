@@ -5,9 +5,9 @@
 #if ENABLE_OCULUS
 using System;
 using Oculus.Platform;
-using SFC.SDKProvider;
+using TUI.SDKProvider;
 using UnityEngine;
-namespace SFC.Intergration.OculusSDKProviders
+namespace TUI.Intergration.OculusSDKProviders
 {
     public partial class OculusMatchmakingSDKProvider : OculusBaseSDKProvider, IMatchmakingSDKProvider
     {

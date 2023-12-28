@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using SFC.SDKProvider;
+using TUI.SDKProvider;
 
-namespace SFC.SDKManagementSystem
+namespace TUI.SDKManagementSystem
 {
     public interface ISDKManagementSystem : IGameSystem<ISDKManagementSystem>
     {

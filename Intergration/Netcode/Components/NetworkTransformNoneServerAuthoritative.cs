@@ -1,7 +1,7 @@
 #if NETCODE
 using Unity.Netcode.Components;
 
-namespace SFC.Intergration.Netcode
+namespace TUI.Intergration.Netcode
 {
     public class NetworkTransformNoneServerAuthoritative : NetworkTransform
     {

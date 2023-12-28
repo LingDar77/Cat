@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     /// <summary>
     /// Basic definition of locomotion system which is used to move a charactor.

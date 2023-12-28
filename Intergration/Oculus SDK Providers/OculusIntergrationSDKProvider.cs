@@ -4,12 +4,12 @@
 
 #if ENABLE_OCULUS
 using System.Collections.Generic;
-using SFC.SDKProvider;
-using SFC.Utillities;
+using TUI.SDKProvider;
+using TUI.Utillities;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace SFC.Intergration.OculusSDKProviders
+namespace TUI.Intergration.OculusSDKProviders
 {
     public partial class OculusIntergrationSDKProvider : DisableInEdtorScript, IXRSDKProvider
     {

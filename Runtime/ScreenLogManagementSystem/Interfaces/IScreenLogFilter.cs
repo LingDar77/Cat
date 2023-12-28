@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC.ScreenLogManagementSystem
+namespace TUI.ScreenLogManagementSystem
 {
     public interface IScreenLogFilter : IEnabledSetable
     {

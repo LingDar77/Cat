@@ -3,7 +3,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-namespace SFC.Intergration.FN
+namespace TUI.Intergration.FN
 {
     public class FishNetXRInteractableOwnershipTranfer : NetworkBehaviour
     {

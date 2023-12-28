@@ -1,10 +1,10 @@
 #if XRIT
-using SFC.KinematicLocomotionSystem;
-using SFC.KinematicLocomotionSystem.Actions;
+using TUI.KinematicLocomotionSystem;
+using TUI.KinematicLocomotionSystem.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
+namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     public class BasicSnapTurnActionProvider : ActionProviderBase
     {

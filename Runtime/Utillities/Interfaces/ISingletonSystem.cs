@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     public interface ISingletonSystem<Type> : IGameSystem<Type>
     {

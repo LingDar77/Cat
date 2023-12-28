@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-namespace SFC.Intergration.XRIT.InteractionSystem.Utils
+namespace TUI.Intergration.XRIT.InteractionSystem.Utils
 {
     [RequireComponent(typeof(XRGrabInteractable))]
     public class AutoRestore : MonoBehaviour

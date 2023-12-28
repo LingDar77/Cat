@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
+namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     public class BasicHeadRotationTracking : MonoBehaviour, IRotateBiasable
     {

@@ -1,4 +1,4 @@
-namespace SFC
+namespace TUI
 {
     public interface IEnabledSetable
     {

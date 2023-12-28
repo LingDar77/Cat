@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using SFC.SDKProvider;
-using SFC.Utillities;
+using TUI.SDKProvider;
+using TUI.Utillities;
 using Unity.XR.PXR;
 using UnityEngine;
 using UnityEngine.XR;

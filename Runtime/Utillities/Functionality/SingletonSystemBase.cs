@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     /// <summary>
     /// A base class for sperate singleton systems that can be accessed by:

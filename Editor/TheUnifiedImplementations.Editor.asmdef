@@ -1,6 +1,6 @@
 {
-    "name": "SaltyFishContainer.Editor",
-    "rootNamespace": "SFC.EditorScript",
+    "name": "TheUnifiedImplementations.Editor",
+    "rootNamespace": "TUI.EditorScript",
     "references": [],
     "includePlatforms": [
         "Editor"

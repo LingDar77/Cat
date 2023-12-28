@@ -1,6 +1,6 @@
 {
-    "name": "SaltyFishContainer.Runtime",
-    "rootNamespace": "SFC",
+    "name": "TheUnifiedImplementations.Runtime",
+    "rootNamespace": "TUI",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c"
     ],

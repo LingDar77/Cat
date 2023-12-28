@@ -1,7 +1,7 @@
 #if XRIT
 using UnityEngine;
 
-namespace SFC.Intergration.XRIT.InteractionSystem
+namespace TUI.Intergration.XRIT.InteractionSystem
 {
     public class BasicControllerOffsetter : MonoBehaviour
     {

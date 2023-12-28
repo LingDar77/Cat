@@ -7,9 +7,9 @@
 using System;
 using Oculus.Platform;
 using Oculus.Platform.Models;
-using SFC.SDKProvider;
+using TUI.SDKProvider;
 
-namespace SFC.Intergration.OculusSDKProviders
+namespace TUI.Intergration.OculusSDKProviders
 {
     public partial class OculusUsersSDKProvider : OculusBaseSDKProvider, IUsersSDKProvider
     {

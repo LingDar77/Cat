@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     public class CommonFunctions : MonoBehaviour
     {

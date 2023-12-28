@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace SFC.Utillities
+namespace TUI.Utillities
 {
     public class DisableInEdtorScript : MonoBehaviour
     {

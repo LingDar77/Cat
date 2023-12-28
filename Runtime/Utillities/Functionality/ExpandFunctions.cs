@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace SFC.Utillities
+namespace TUI.Utillities
 {
     public static class ExpandFunctions
     {

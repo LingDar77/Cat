@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC.SDKProvider
+namespace TUI.SDKProvider
 {
     public interface IUsersSDKProvider : ISDKProvider
     {

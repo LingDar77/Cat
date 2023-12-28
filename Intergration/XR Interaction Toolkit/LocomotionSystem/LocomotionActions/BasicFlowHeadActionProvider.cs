@@ -1,8 +1,8 @@
 #if XRIT 
-using SFC.KinematicLocomotionSystem.Actions;
+using TUI.KinematicLocomotionSystem.Actions;
 using UnityEngine;
 
-namespace SFC.Intergration.XRIT.KinematicLocomotionSystem.Actions
+namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     public class BasicFlowHeadActionProvider : ActionProviderBase
     {

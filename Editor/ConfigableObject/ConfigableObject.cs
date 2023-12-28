@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace SFC.EditorScript
+namespace TUI.EditorScript
 {
     public class ConfigableObject<Type> : ScriptableObject where Type : ConfigableObject<Type>
     {

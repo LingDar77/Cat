@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SFC.KinematicLocomotionSystem
+namespace TUI.KinematicLocomotionSystem
 {
     public interface IMoverController
     {

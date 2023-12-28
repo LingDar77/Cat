@@ -4,7 +4,7 @@ using UnityEditor;
 using Type = System.Type;
 using System.Text;
 using System.Linq;
-namespace SFC
+namespace TUI
 {
     public sealed class ImplementedInterfaceAttribute : PropertyAttribute
     {

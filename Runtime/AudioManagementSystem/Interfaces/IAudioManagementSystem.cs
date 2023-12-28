@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC.AduioManagement
+namespace TUI.AduioManagement
 {
     /// <summary>
     /// Definition of an audio management system that allocate certain amount of audio sources 

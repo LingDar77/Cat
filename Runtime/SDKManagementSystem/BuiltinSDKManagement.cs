@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using SFC.SDKProvider;
+using TUI.SDKProvider;
 using UnityEngine;
-namespace SFC.SDKManagementSystem
+namespace TUI.SDKManagementSystem
 {
     public class BuiltinSDKManagement : SingletonSystemBase<BuiltinSDKManagement>, ISDKManagementSystem
     {

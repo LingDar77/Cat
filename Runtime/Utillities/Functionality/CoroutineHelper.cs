@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     public static class CoroutineHelper
     {

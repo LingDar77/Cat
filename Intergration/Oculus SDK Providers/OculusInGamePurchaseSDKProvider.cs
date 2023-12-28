@@ -6,12 +6,12 @@
 using System.Collections.Generic;
 using Oculus.Platform;
 using Oculus.Platform.Models;
-using SFC.SDKProvider;
-using SFC.Utillities;
+using TUI.SDKProvider;
+using TUI.Utillities;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace SFC.Intergration.OculusSDKProviders
+namespace TUI.Intergration.OculusSDKProviders
 {
     public partial class OculusInGamePurchaseSDKProvider : DisableInEdtorScript, IInGamePurchaseSDKProvider
     {

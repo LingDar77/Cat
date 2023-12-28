@@ -4,9 +4,9 @@
 
 #if !ENABLE_OCULUS
 
-using SFC.SDKProvider;
+using TUI.SDKProvider;
 
-namespace SFC.Intergration.OculusSDKProviders
+namespace TUI.Intergration.OculusSDKProviders
 {
 
     public partial class OculusUsersSDKProvider : UnsupportedSDKBase<OculusUsersSDKProvider>

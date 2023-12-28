@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using SFC.Utillities;
+using TUI.Utillities;
 using UnityEngine;
 
-namespace SFC.AduioManagement
+namespace TUI.AduioManagement
 {
     /// <summary>
     /// The simplest implementation of an AudioManagementSystem.

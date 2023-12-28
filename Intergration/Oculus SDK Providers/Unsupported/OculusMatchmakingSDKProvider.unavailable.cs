@@ -3,8 +3,8 @@
 #endif
 
 #if !ENABLE_OCULUS
-using SFC.SDKProvider;
-namespace SFC.Intergration.OculusSDKProviders
+using TUI.SDKProvider;
+namespace TUI.Intergration.OculusSDKProviders
 {
     public partial class OculusMatchmakingSDKProvider : UnsupportedSDKBase<OculusUsersSDKProvider>
     {

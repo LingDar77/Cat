@@ -1,8 +1,8 @@
 {
-    "name": "SFC Input Actions",
+    "name": "TUI Input Actions",
     "maps": [
         {
-            "name": "SFC XR Head",
+            "name": "TUI XR Head",
             "id": "09ff3ccc-21b4-4346-a3a2-7c978b5af892",
             "actions": [
                 {
@@ -364,7 +364,7 @@
             ]
         },
         {
-            "name": "SFC XR LeftHand",
+            "name": "TUI XR LeftHand",
             "id": "5fe596f9-1b7b-49b7-80a7-3b5195caf74d",
             "actions": [
                 {
@@ -720,7 +720,7 @@
             ]
         },
         {
-            "name": "SFC XR LeftHand Interaction",
+            "name": "TUI XR LeftHand Interaction",
             "id": "7a5e7537-cc30-4eb1-a544-6946baa8f3eb",
             "actions": [
                 {
@@ -1014,7 +1014,7 @@
             ]
         },
         {
-            "name": "SFC XR LeftHand Locomotion",
+            "name": "TUI XR LeftHand Locomotion",
             "id": "22336389-9fb1-4c2c-8635-0ed30db0d29e",
             "actions": [
                 {
@@ -1237,7 +1237,7 @@
             ]
         },
         {
-            "name": "SFC XR LeftHand Keyboard",
+            "name": "TUI XR LeftHand Keyboard",
             "id": "51343847-c171-48bc-8b2c-74ab8595d36b",
             "actions": [
                 {
@@ -1325,7 +1325,7 @@
             ]
         },
         {
-            "name": "SFC XR RightHand",
+            "name": "TUI XR RightHand",
             "id": "7960f8ef-2bf3-4281-aecc-4c03809d6c8c",
             "actions": [
                 {
@@ -1681,7 +1681,7 @@
             ]
         },
         {
-            "name": "SFC XR RightHand Interaction",
+            "name": "TUI XR RightHand Interaction",
             "id": "461bce25-7762-40c5-b639-f190649be6d6",
             "actions": [
                 {
@@ -1975,7 +1975,7 @@
             ]
         },
         {
-            "name": "SFC XR RightHand Locomotion",
+            "name": "TUI XR RightHand Locomotion",
             "id": "99ce76d3-82c5-4289-9670-2ecffa6833fd",
             "actions": [
                 {
@@ -2176,7 +2176,7 @@
             ]
         },
         {
-            "name": "SFC XR RightHand Keyboard",
+            "name": "TUI XR RightHand Keyboard",
             "id": "82fd37c5-6a78-41ea-87e7-86748631f046",
             "actions": [
                 {
@@ -2264,7 +2264,7 @@
             ]
         },
         {
-            "name": "SFC XR UI",
+            "name": "TUI XR UI",
             "id": "edd65a7c-601c-4915-8307-025a081d8790",
             "actions": [
                 {
@@ -2729,7 +2729,7 @@
             ]
         },
         {
-            "name": "SFC XR Touchscreen Gestures",
+            "name": "TUI XR Touchscreen Gestures",
             "id": "6fb00339-a75a-4e5b-94e0-839f979f2a8a",
             "actions": [
                 {
@@ -2950,7 +2950,7 @@
             ]
         },
         {
-            "name": "SFC Common Actions",
+            "name": "TUI Common Actions",
             "id": "ad7a9ff6-76cb-4a9c-a6c0-aa267c43f07d",
             "actions": [
                 {

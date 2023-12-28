@@ -1,5 +1,5 @@
 
-namespace SFC.SDKProvider
+namespace TUI.SDKProvider
 {
     public interface ISDKProvider : IEnabledSetable, ITransformGetable
     {

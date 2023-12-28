@@ -4,7 +4,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-namespace SFC.Intergration.FN
+namespace TUI.Intergration.FN
 {
     [RequireComponent(typeof(Rigidbody))]
     public class NetworkRigidbody : NetworkBehaviour

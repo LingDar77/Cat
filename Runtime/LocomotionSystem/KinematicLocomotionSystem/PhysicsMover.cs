@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SFC.KinematicLocomotionSystem
+namespace TUI.KinematicLocomotionSystem
 {
     /// <summary>
     /// Represents the entire state of a PhysicsMover that is pertinent for simulation.

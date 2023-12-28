@@ -1,4 +1,4 @@
-namespace SFC.PoolifiedObjects
+namespace TUI.PoolifiedObjects
 {
     public interface IPoolifiedObjectsManagement : IGameSystem<IPoolifiedObjectsManagement>
     {

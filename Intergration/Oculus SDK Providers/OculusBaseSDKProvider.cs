@@ -5,12 +5,12 @@
 #if ENABLE_OCULUS
 using System.Collections.Generic;
 using Oculus.Platform;
-using SFC.SDKProvider;
-using SFC.Utillities;
+using TUI.SDKProvider;
+using TUI.Utillities;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace SFC.Intergration.OculusSDKProviders
+namespace TUI.Intergration.OculusSDKProviders
 {
 
     public abstract class OculusBaseSDKProvider : DisableInEdtorScript, ISDKProvider

@@ -1,7 +1,7 @@
-using SFC.AduioManagement;
+using TUI.AduioManagement;
 using UnityEngine;
 
-namespace SFC.Intergration.Addressables
+namespace TUI.Intergration.Addressables
 {
     using Addressables = UnityEngine.AddressableAssets.Addressables;
     /// <summary>

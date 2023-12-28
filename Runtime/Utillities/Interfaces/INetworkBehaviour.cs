@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     public interface INetworkBehaviour
     {

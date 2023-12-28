@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SFC
+namespace TUI
 {
     public class CommonEvents : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace SFC.KinematicLocomotionSystem
+namespace TUI.KinematicLocomotionSystem
 {
     /// <summary>
     /// The system that manages the simulation of KinematicCharacterMotor and PhysicsMover

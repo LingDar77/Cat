@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SFC.KinematicLocomotionSystem
+namespace TUI.KinematicLocomotionSystem
 {
     [System.Serializable]
     public class KinematicLocomotionSystemConfig

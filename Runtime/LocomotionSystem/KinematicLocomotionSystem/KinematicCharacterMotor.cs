@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SFC.KinematicLocomotionSystem
+namespace TUI.KinematicLocomotionSystem
 {
     public enum RigidbodyInteractionType
     {

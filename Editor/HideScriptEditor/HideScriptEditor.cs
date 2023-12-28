@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace SFC.EditorScript
+namespace TUI.EditorScript
 {
     public class HideScriptEditor<Type> : Editor
     {

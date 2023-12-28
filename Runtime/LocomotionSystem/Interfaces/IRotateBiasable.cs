@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace SFC
+namespace TUI
 {
     /// <summary>
     /// A simple definition of a bias rotation applied to a coordinate.

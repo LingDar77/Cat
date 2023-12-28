@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SFC.KinematicLocomotionSystem.Actions
+namespace TUI.KinematicLocomotionSystem.Actions
 {
     /// <summary>
     /// Basic implement for a action provider.

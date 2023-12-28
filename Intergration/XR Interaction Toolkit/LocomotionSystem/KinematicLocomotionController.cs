@@ -1,11 +1,10 @@
 #if XRIT
 using System.Collections.Generic;
-using SFC.KinematicLocomotionSystem;
-using SFC.Utillities;
+using TUI.KinematicLocomotionSystem;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-namespace SFC.Intergration.XRIT.KinematicLocomotionSystem
+namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
 {
     /// <summary>
     /// The simple implementation of a vr charactor controller by KCC.

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SFC.Utillities
+namespace TUI.Utillities
 {
     /// <summary>
     /// MonoTrigger is used for the case when multiple triggers in a game object,

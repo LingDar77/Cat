@@ -1,12 +1,12 @@
 #if NETCODE
 using System.Linq;
-using SFC.KinematicLocomotionSystem;
+using TUI.KinematicLocomotionSystem;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace SFC.Intergration.Netcode
+namespace TUI.Intergration.Netcode
 {
     /// <summary>
     /// An adaptor to make the built-in locomotion system compatiable

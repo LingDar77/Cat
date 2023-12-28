@@ -1,12 +1,12 @@
 #if UNITY_EDITOR && ADDRESSABLES
 using System.Collections.Generic;
-using SFC.EditorScript;
+using TUI.EditorScript;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
-namespace SFC.Intergration.Addressables.EditorScript
+namespace TUI.Intergration.Addressables.EditorScript
 {
 
     [System.Serializable]

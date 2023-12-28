@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace SFC.SceneManagementSystem
+namespace TUI.SceneManagementSystem
 {
     public class BuiltinSceneManagement : SingletonSystemBase<BuiltinSceneManagement>, ISceneManagementSystem
     {

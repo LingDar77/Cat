@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace SFC.SDKProvider
+namespace TUI.SDKProvider
 {
 
     public class UnsupportedSDKBase<ImplementType> : MonoBehaviour, ISDKProvider

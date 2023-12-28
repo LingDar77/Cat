@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SFC.ScreenLogManagementSystem
+namespace TUI.ScreenLogManagementSystem
 {
     public interface IScreenLogManagementSystem : ISingletonSystem<IScreenLogManagementSystem>
     {

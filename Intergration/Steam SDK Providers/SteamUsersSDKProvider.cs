@@ -1,12 +1,12 @@
 using System;
-using SFC.SDKProvider;
-using SFC.Utillities;
+using TUI.SDKProvider;
+using TUI.Utillities;
 using Steamworks;
 using UnityEngine;
-namespace SFC.Intergration.SteamSDKProviders
+namespace TUI.Intergration.SteamSDKProviders
 {
 
-    public class SteamUsersSDKProvider : DisableInEdtorScript, IUsersSDKProvider
+    public partial class SteamUsersSDKProvider : DisableInEdtorScript, IUsersSDKProvider
     {
         [SerializeField] private SteamIntergrationSDKProvider intergration;
 

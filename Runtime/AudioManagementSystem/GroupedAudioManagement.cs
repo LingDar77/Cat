@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace SFC.AduioManagement
+namespace TUI.AduioManagement
 {
     public class GroupedAudioManagement : BuiltinAudioManagement, ISingletonSystem<GroupedAudioManagement>
     {

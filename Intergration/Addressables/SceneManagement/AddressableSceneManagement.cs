@@ -1,9 +1,9 @@
 using System.Collections;
-using SFC.SceneManagementSystem;
+using TUI.SceneManagementSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SFC.Intergration.Addressables
+namespace TUI.Intergration.Addressables
 {
     using Addressables = UnityEngine.AddressableAssets.Addressables;
     public class AddressableSceneManagement : BuiltinSceneManagement

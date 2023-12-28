@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace SFC.KinematicLocomotionSystem.Actions
+namespace TUI.KinematicLocomotionSystem.Actions
 {
     /// <summary>
     /// A basic implementation of a jump action

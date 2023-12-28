@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-namespace SFC.Intergration.XRIT.InteractionSystem
+namespace TUI.Intergration.XRIT.InteractionSystem
 {
     public class BasicHandController : ActionBasedController
     {

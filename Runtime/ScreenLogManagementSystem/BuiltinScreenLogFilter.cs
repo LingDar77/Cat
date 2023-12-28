@@ -1,4 +1,4 @@
-namespace SFC.ScreenLogManagementSystem
+namespace TUI.ScreenLogManagementSystem
 {
     using UnityEngine;
 

@@ -3,11 +3,9 @@
 #endif
 #if DISABLE_STEAMWORKS
 
-using SFC.SDKProvider;
-using SFC.Utillities;
-using UnityEngine;
+using TUI.SDKProvider;
 
-namespace SFC.Intergration.SteamSDKProviders
+namespace TUI.Intergration.SteamSDKProviders
 {
     public partial class SteamIntergrationSDKProvider : UnsupportedSDKBase<SteamIntergrationSDKProvider>
     {

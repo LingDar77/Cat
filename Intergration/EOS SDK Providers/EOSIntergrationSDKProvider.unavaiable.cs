@@ -3,9 +3,9 @@
 #endif
 
 #if !EOS_CAN_SHUTDOWN
-using SFC.SDKProvider;
+using TUI.SDKProvider;
 
-namespace SFC.Intergration.EOSSDKProviders
+namespace TUI.Intergration.EOSSDKProviders
 {
     public partial class EOSIntergrationSDKProvider : UnsupportedSDKBase<EOSIntergrationSDKProvider>
     {

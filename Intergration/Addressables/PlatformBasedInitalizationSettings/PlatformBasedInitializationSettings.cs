@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets.Initialization;
 using UnityEngine.ResourceManagement.Util;
 
-namespace SFC.Intergration.Addressables.EditorScript
+namespace TUI.Intergration.Addressables.EditorScript
 {
     
     [CreateAssetMenu(fileName = "PlatformBasedInitializationSettings", menuName = "Addressables/Initialization/PlatformBasedInitializationSettings", order = 0)]

@@ -1,12 +1,12 @@
 #if FISHNET
 using System.Linq;
 using FishNet.Object;
-using SFC.KinematicLocomotionSystem;
+using TUI.KinematicLocomotionSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace SFC.Intergration.FN
+namespace TUI.Intergration.FN
 {
     /// <summary>
     /// An adaptor to make the built-in locomotion system compatiable
