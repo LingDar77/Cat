@@ -1,6 +1,6 @@
 {
-    "name": "SaltyFishContainer.Intergration.EOSSDKProviders",
-    "rootNamespace": "SFC.Intergration.EOSSDKProviders",
+    "name": "TheUnifiedImplementations.Intergration.EOSSDKProviders",
+    "rootNamespace": "TUI.Intergration.EOSSDKProviders",
     "references": [
         "GUID:c3eada64ce30a1448920b24b04bc2d39",
         "GUID:2ced8f3cc58f63843bc26c7591a35628",

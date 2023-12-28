@@ -1,6 +1,6 @@
 {
-    "name": "SaltyFishContainer.Intergration.HCLR",
-    "rootNamespace": "SFC.Intergration.HCLR",
+    "name": "TheUnifiedImplementations.Intergration.HCLR",
+    "rootNamespace": "TUI.Intergration.HCLR",
     "references": [
         "GUID:13ba8ce62aa80c74598530029cb2d649",
         "GUID:2373f786d14518f44b0f475db77ba4de",

@@ -1,6 +1,6 @@
 {
-    "name": "SaltyFishContainer.Intergration.SteamSDKProviders",
-    "rootNamespace": "SFC.Intergration.SteamSDKProviders",
+    "name": "TheUnifiedImplementations.Intergration.SteamSDKProviders",
+    "rootNamespace": "TUI.Intergration.SteamSDKProviders",
     "references": [
         "GUID:c3eada64ce30a1448920b24b04bc2d39",
         "GUID:68bd7fdb68ef2684e982e8a9825b18a5"

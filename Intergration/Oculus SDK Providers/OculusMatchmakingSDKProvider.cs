@@ -20,6 +20,20 @@ namespace TUI.Intergration.OculusSDKProviders
 
         public event Action<IMatchmakingSDKProvider.Invitation> OnInvitationRecived;
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            GroupPresence.SetJoinIntentReceivedNotificationCallback(e =>
+            {
+                OnInvitationRecived?.Invoke(new()
+                {
+                    Destination = e.Data.DeeplinkMessage,
+                    LobbyID = e.Data.LobbySessionId,
+                    SessionID = e.Data.MatchSessionId
+                });
+            });
+        }
+
         public void OpenInvitationPresence(Action onSuccess = null, Action<string> onFailure = null)
         {
             var options = new InviteOptions();

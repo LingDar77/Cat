@@ -11,7 +11,7 @@ namespace TUI.Intergration.SteamSDKProviders
         [SerializeField] private SteamIntergrationSDKProvider intergration;
         [SerializeField] private int DefaultLobbyPlayers = 4;
 
-        public bool IsInitialized { get => intergration.IsInitialized; }
+        public bool IsInitialized { get => intergration.IsInitialized && currentLobby != CSteamID.Nil; }
         public bool IsAvailable { get => intergration.IsAvailable; }
         public string Destination { get; set; }
         public string LobbyID { get; set; }
@@ -43,6 +43,10 @@ namespace TUI.Intergration.SteamSDKProviders
         private void OnJoinRequested(GameRichPresenceJoinRequested_t param)
         {
             Debug.Log($"Join requested: {param.m_steamIDFriend} {param.m_rgchConnect}");
+            OnInvitationRecived?.Invoke(new()
+            {
+                Destination = param.m_rgchConnect,
+            });
         }
         public void OpenInvitationPresence(Action onSuccess = null, Action<string> onFailure = null)
         {

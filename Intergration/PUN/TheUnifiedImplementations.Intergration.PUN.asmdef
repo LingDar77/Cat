@@ -1,6 +1,6 @@
 {
-    "name": "SaltyFishContainer.Intergration.PUN",
-    "rootNamespace": "SFC.Intergration.PUN",
+    "name": "TheUnifiedImplementations.Intergration.PUN",
+    "rootNamespace": "TUI.Intergration.PUN",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
