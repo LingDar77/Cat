@@ -22,6 +22,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
         [SerializeField] private float MaxMoveSpeed = 2f;
         [Tooltip("Can the Charactor Perform Move in Air?")]
         [SerializeField] private bool CanMoveInAir = false;
+        [SerializeField] private float InputMultiplierInAir = .75f;
         [ImplementedInterface(typeof(IRotateBiasable))]
         [SerializeField] private Object BiasableImplement;
         private IRotateBiasable biasable;
@@ -60,6 +61,10 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
             base.BeforeProcess(deltaTime);
             moveInputValue = ControllerMoveInput.action.ReadValue<Vector2>();
             headInputValue = biasable.Bias * HeadMoveInput.action.ReadValue<Vector3>();
+            if (!LocomotionSystem.IsStableOnGround())
+            {
+                moveInputValue *= InputMultiplierInAir;
+            }
         }
 
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
