@@ -1,25 +1,26 @@
 {
-    "name": "org.eu.saltyfishconatiner.unified.implementations",
-    "displayName": "The Unified Implementations",
-    "version": "1.0.0",
-    "unity": "2022.3",
-    "description": "The Unified Implementations",
-    "keywords": [
-      "Framework"
-    ],
-    "category": "Framework",
-    "dependencies": {
-      "com.unity.inputsystem": "1.7.0"
-    },
-    "samples": [
-      {
-        "displayName": "Example Assets",
-        "description": "Example Assets",
-        "path": "Samples~/Example Assets"
-      }
-    ],
-    "repository": {
-      "url": "http://localhost:3000/LingDar77/TheUnifiedImplementations.git",
-      "type": "git"
+  "name": "org.eu.saltyfishconatiner.unified.implementations",
+  "displayName": "The Unified Implementations",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "The Unified Implementations",
+  "keywords": [
+    "Framework"
+  ],
+  "category": "Framework",
+  "dependencies": {
+    "com.unity.inputsystem": "1.7.0",
+    "com.github.siccity.xnode": "1.8.0"
+  },
+  "samples": [
+    {
+      "displayName": "Example Assets",
+      "description": "Example Assets",
+      "path": "Samples~/Example Assets"
     }
+  ],
+  "repository": {
+    "url": "http://localhost:3000/LingDar77/TheUnifiedImplementations.git",
+    "type": "git"
   }
+}
