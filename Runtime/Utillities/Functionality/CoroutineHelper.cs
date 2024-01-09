@@ -12,10 +12,10 @@ namespace TUI
 
         public static Coroutine NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
-            return NextUpdate(action, monoBehaviour, time);
+            return NextUpdate(action, time, monoBehaviour);
         }
 
-        public static Coroutine NextUpdate(System.Action action, MonoBehaviour monoBehaviour = null, int time = 1)
+        public static Coroutine NextUpdate(System.Action action, int time = 1, MonoBehaviour monoBehaviour = null)
         {
             IEnumerator NextUpdateCoroutine()
             {
@@ -32,10 +32,10 @@ namespace TUI
 
         public static Coroutine NextFixedUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
-            return NextFixedUpdate(action, monoBehaviour, time);
+            return NextFixedUpdate(action, time, monoBehaviour);
         }
 
-        public static Coroutine NextFixedUpdate(System.Action action, MonoBehaviour monoBehaviour = null, int time = 1)
+        public static Coroutine NextFixedUpdate(System.Action action, int time = 1, MonoBehaviour monoBehaviour = null)
         {
             IEnumerator NextFixedUpdateCoroutine()
             {
@@ -52,10 +52,10 @@ namespace TUI
 
         public static Coroutine WaitForSeconds(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
         {
-            return WaitForSeconds(action, monoBehaviour, time);
+            return WaitForSeconds(action, time, monoBehaviour);
         }
 
-        public static Coroutine WaitForSeconds(System.Action action, MonoBehaviour monoBehaviour = null, float time = 1f)
+        public static Coroutine WaitForSeconds(System.Action action, float time = 1f, MonoBehaviour monoBehaviour = null)
         {
             var waitForSeconds = new WaitForSeconds(time);
             IEnumerator WaitForSecondsCoroutine()
@@ -69,10 +69,10 @@ namespace TUI
 
         public static Coroutine WaitForSecondsRealtime(this MonoBehaviour monoBehaviour, System.Action action, float time = 1f)
         {
-            return WaitForSecondsRealtime(action, monoBehaviour, time);
+            return WaitForSecondsRealtime(action, time, monoBehaviour);
         }
 
-        public static Coroutine WaitForSecondsRealtime(System.Action action, MonoBehaviour monoBehaviour = null, float time = 1f)
+        public static Coroutine WaitForSecondsRealtime(System.Action action, float time = 1f, MonoBehaviour monoBehaviour = null)
         {
             var waitForSecondsRealtime = new WaitForSecondsRealtime(time);
             IEnumerator WaitForSecondsRealtimeCoroutine()
@@ -88,7 +88,7 @@ namespace TUI
         {
             return WaitUntil(condition, action, monoBehaviour);
         }
-        
+
         public static Coroutine WaitUntil(System.Func<bool> condition, System.Action action, MonoBehaviour monoBehaviour = null)
         {
             var waitUntil = new WaitUntil(condition);

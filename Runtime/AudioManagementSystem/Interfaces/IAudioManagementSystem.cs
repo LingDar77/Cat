@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace TUI.AduioManagement
 {
@@ -38,7 +39,8 @@ namespace TUI.AduioManagement
         /// <param name="position"></param>
         /// <param name="reference"></param>
         /// <param name="volume"></param>
-        void PlaySoundAtPosition(Vector3 position, ReferenceType reference, float volume = 1f);
+        void PlaySoundAtPosition(Vector3 position, ReferenceType reference, float volume = 1f, System.Action<AudioSource> onReadyPlay = null);
+        void PlaySoundAtPosition(Vector3 position, ReferenceType reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null);
         /// <summary>
         /// Play a sound from a transfrom, 
         /// this may cause allocation or reuse audio source.
@@ -48,6 +50,8 @@ namespace TUI.AduioManagement
         /// <param name="reference"></param>
         /// <param name="onReadyPlay"></param>
         void PlaySoundFrom(Transform trans, ReferenceType reference, System.Action<AudioSource> onReadyPlay = null);
+        void PlaySoundFrom(Transform trans, ReferenceType reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null);
+
 
     }
 }

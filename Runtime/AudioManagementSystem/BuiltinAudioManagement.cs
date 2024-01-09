@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TUI.Utillities;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace TUI.AduioManagement
 {
@@ -18,23 +19,44 @@ namespace TUI.AduioManagement
         protected HashSet<AudioSource> usedSources = new();
         protected Dictionary<int, Coroutine> coroutines = new();
 
-        public virtual void PlaySoundAtPosition(Vector3 position, AudioClip reference, float volume = 1f)
+        public virtual void PlaySoundAtPosition(Vector3 position, AudioClip reference, float volume = 1f, System.Action<AudioSource> onReadyPlay = null)
         {
-            AudioSource.PlayClipAtPoint(reference, position, volume);
+            PlaySoundAtPosition(position, reference, null, onReadyPlay += source => source.volume = volume);
         }
-        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
+        public void PlaySoundAtPosition(Vector3 position, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
         {
             var source = GetValidAudioSource();
+            source.transform.SetParent(null, false);
+            source.transform.position = position;
+            source.outputAudioMixerGroup = group;
             onReadyPlay?.Invoke(source);
-            source.transform.SetParent(trans, false);
-            source.transform.localPosition = Vector3.zero;
             source.clip = reference;
             source.Play();
             usedSources.Add(source);
             Coroutine coroutine;
-            coroutine = this.WaitUntil(
-             () => source.isPlaying == false,
-             () => ReturnAudioSource(source));
+            coroutine = CoroutineHelper.WaitUntil(
+            () => source.isPlaying == false,
+            () => ReturnAudioSource(source));
+            coroutines.Add(source.GetHashCode(), coroutine);
+        }
+        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
+        {
+            PlaySoundFrom(trans, reference, null, onReadyPlay);
+        }
+        public void PlaySoundFrom(Transform trans, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
+        {
+            var source = GetValidAudioSource();
+            source.transform.SetParent(trans, false);
+            source.transform.localPosition = Vector3.zero;
+            source.outputAudioMixerGroup = group;
+            onReadyPlay?.Invoke(source);
+            source.clip = reference;
+            source.Play();
+            usedSources.Add(source);
+            Coroutine coroutine;
+            coroutine = CoroutineHelper.WaitUntil(
+            () => source.isPlaying == false,
+            () => ReturnAudioSource(source));
             coroutines.Add(source.GetHashCode(), coroutine);
         }
         protected virtual AudioSource GetValidAudioSource()
@@ -95,5 +117,6 @@ namespace TUI.AduioManagement
             }
             return nearestSource;
         }
+
     }
 }

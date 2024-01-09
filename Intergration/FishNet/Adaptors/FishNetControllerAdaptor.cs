@@ -42,7 +42,7 @@ namespace TUI.Intergration.FN
         {
             base.OnStartClient();
             InitialzeAdaptor();
-            this.WaitForSeconds(OnNetworkStarted.Invoke, 2);
+            CoroutineHelper.WaitForSeconds(OnNetworkStarted.Invoke, 2);
         }
         private void InitialzeAdaptor()
         {

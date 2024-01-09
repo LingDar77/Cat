@@ -1,5 +1,6 @@
 using TUI.AduioManagement;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace TUI.Intergration.Addressables
 {
@@ -22,16 +23,28 @@ namespace TUI.Intergration.Addressables
             if (ISingletonSystem<AddressableAudioManagement>.Singleton.transform != transform) return;
             ISingletonSystem<AddressableAudioManagement>.Singleton = null;
         }
-        public void PlaySoundAtPosition(Vector3 position, string reference, float volume = 1)
+
+        public void PlaySoundAtPosition(Vector3 position, string reference, float volume = 1, System.Action<AudioSource> onReadyPlay = null)
         {
-            Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op => PlaySoundAtPosition(position, op.Result, volume);
+            PlaySoundAtPosition(position, reference, null, onReadyPlay += source => source.volume = volume);
         }
-        public void PlaySoundFrom(Transform trans, string reference, System.Action<AudioSource> onReadyPlay = null)
+
+        public void PlaySoundAtPosition(Vector3 position, string reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
+        {
+            Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op => PlaySoundAtPosition(position, op.Result, group);
+        }
+
+        public void PlaySoundFrom(Transform trans, string reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
         {
             Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op =>
             {
-                PlaySoundFrom(trans, op.Result, onReadyPlay);
+                PlaySoundFrom(trans, op.Result, null, onReadyPlay);
             };
+        }
+
+        public void PlaySoundFrom(Transform trans, string reference, System.Action<AudioSource> onReadyPlay = null)
+        {
+            PlaySoundFrom(trans, reference, null, onReadyPlay);
         }
     }
 }
