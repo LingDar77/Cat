@@ -14,6 +14,7 @@ namespace TUI.AduioManagement
         [EditorReadOnly] public int CurrentAllocation = 0;
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
+        public event System.Action<AudioClip> OnCompletePlay;
 
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
@@ -26,6 +27,7 @@ namespace TUI.AduioManagement
         public void PlaySoundAtPosition(Vector3 position, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
         {
             var source = GetValidAudioSource();
+            source.loop = false;
             source.transform.SetParent(null, false);
             source.transform.position = position;
             source.outputAudioMixerGroup = group;
@@ -33,11 +35,9 @@ namespace TUI.AduioManagement
             source.clip = reference;
             source.Play();
             usedSources.Add(source);
-            Coroutine coroutine;
-            coroutine = CoroutineHelper.WaitUntil(
+            coroutines.Add(source.GetHashCode(), CoroutineHelper.WaitUntil(
             () => source.isPlaying == false,
-            () => ReturnAudioSource(source));
-            coroutines.Add(source.GetHashCode(), coroutine);
+            () => ReturnAudioSource(source)));
         }
         public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
         {
@@ -46,6 +46,7 @@ namespace TUI.AduioManagement
         public void PlaySoundFrom(Transform trans, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
         {
             var source = GetValidAudioSource();
+            source.loop = false;
             source.transform.SetParent(trans, false);
             source.transform.localPosition = Vector3.zero;
             source.outputAudioMixerGroup = group;
@@ -53,12 +54,31 @@ namespace TUI.AduioManagement
             source.clip = reference;
             source.Play();
             usedSources.Add(source);
-            Coroutine coroutine;
-            coroutine = CoroutineHelper.WaitUntil(
+            coroutines.Add(source.GetHashCode(), CoroutineHelper.WaitUntil(
             () => source.isPlaying == false,
-            () => ReturnAudioSource(source));
-            coroutines.Add(source.GetHashCode(), coroutine);
+            () => ReturnAudioSource(source)));
         }
+        public void AttatchAudioSourceTo(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
+        {
+            AttatchAudioSourceTo(trans, reference, null, onReadyPlay);
+        }
+
+        public void AttatchAudioSourceTo(Transform trans, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
+        {
+            var source = GetValidAudioSource();
+            source.loop = false;
+            source.transform.SetParent(trans, false);
+            source.transform.localPosition = Vector3.zero;
+            source.outputAudioMixerGroup = group;
+            onReadyPlay?.Invoke(source);
+            source.clip = reference;
+            source.Play();
+            usedSources.Add(source);
+            coroutines.Add(source.GetHashCode(), CoroutineHelper.WaitUntil(
+            () => source.isPlaying == false,
+            () => ReturnAudioSource(source)));
+        }
+
         protected virtual AudioSource GetValidAudioSource()
         {
             if (CurrentAllocation >= MaxAllocation && unusedSources.Count == 0)
@@ -96,6 +116,9 @@ namespace TUI.AduioManagement
             unusedSources.Add(source);
             coroutines.Remove(source.GetHashCode());
             source.transform.SetParent(transform, false);
+
+            if (source.clip == null) return;
+            OnCompletePlay?.Invoke(source.clip);
         }
         protected virtual AudioSource SelectNearestEndSource()
         {

@@ -46,5 +46,18 @@ namespace TUI.Intergration.Addressables
         {
             PlaySoundFrom(trans, reference, null, onReadyPlay);
         }
+
+        public void AttatchAudioSourceTo(Transform trans, string reference, System.Action<AudioSource> onReadyPlay = null)
+        {
+            Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op =>
+           {
+               PlaySoundFrom(trans, op.Result, null, onReadyPlay);
+           };
+        }
+
+        public void AttatchAudioSourceTo(Transform trans, string reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
+        {
+            PlaySoundFrom(trans, reference, null, onReadyPlay);
+        }
     }
 }

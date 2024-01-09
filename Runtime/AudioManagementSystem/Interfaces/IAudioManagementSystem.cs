@@ -31,6 +31,10 @@ namespace TUI.AduioManagement
         /// * will force stop a playing audio source.
         /// </summary>
         bool ReplaceNearestToEnd { get; }
+
+        event System.Action<AudioClip> OnCompletePlay;
+
+
         /// <summary>
         /// Simply play a sound at a positin.
         /// * Normaly this will not be counted as a use of allocation,
@@ -41,6 +45,12 @@ namespace TUI.AduioManagement
         /// <param name="volume"></param>
         void PlaySoundAtPosition(Vector3 position, ReferenceType reference, float volume = 1f, System.Action<AudioSource> onReadyPlay = null);
         void PlaySoundAtPosition(Vector3 position, ReferenceType reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null);
+
+
+        void AttatchAudioSourceTo(Transform trans, ReferenceType reference, System.Action<AudioSource> onReadyPlay = null);
+        void AttatchAudioSourceTo(Transform trans, ReferenceType reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null);
+
+        #region Obsolete
         /// <summary>
         /// Play a sound from a transfrom, 
         /// this may cause allocation or reuse audio source.
@@ -49,9 +59,11 @@ namespace TUI.AduioManagement
         /// <param name="trans"></param>
         /// <param name="reference"></param>
         /// <param name="onReadyPlay"></param>
+        [System.Obsolete]
         void PlaySoundFrom(Transform trans, ReferenceType reference, System.Action<AudioSource> onReadyPlay = null);
+        [System.Obsolete]
         void PlaySoundFrom(Transform trans, ReferenceType reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null);
-
+        #endregion
 
     }
 }
