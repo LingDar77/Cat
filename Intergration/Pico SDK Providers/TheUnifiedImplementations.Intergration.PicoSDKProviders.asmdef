@@ -1,0 +1,16 @@
+{
+    "name": "TheUnifiedImplementations.Intergration.PicoSDKProviders",
+    "rootNamespace": "TUI.Intergration.PicoSDKProviders",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "PICO"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
