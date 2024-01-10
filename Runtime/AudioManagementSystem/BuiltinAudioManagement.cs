@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TUI.Utillities;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -16,9 +17,13 @@ namespace TUI.AduioManagement
         [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
         public event System.Action<AudioClip> OnCompletePlay;
 
+
+
         protected List<AudioSource> unusedSources = new();
         protected HashSet<AudioSource> usedSources = new();
         protected Dictionary<int, Coroutine> coroutines = new();
+
+
 
         public virtual void PlaySoundAtPosition(Vector3 position, AudioClip reference, float volume = 1f, System.Action<AudioSource> onReadyPlay = null)
         {
@@ -39,6 +44,9 @@ namespace TUI.AduioManagement
             () => source.isPlaying == false,
             () => ReturnAudioSource(source)));
         }
+
+
+
         public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
         {
             PlaySoundFrom(trans, reference, null, onReadyPlay);
@@ -58,11 +66,13 @@ namespace TUI.AduioManagement
             () => source.isPlaying == false,
             () => ReturnAudioSource(source)));
         }
+
+
+
         public void AttatchAudioSourceTo(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
         {
             AttatchAudioSourceTo(trans, reference, null, onReadyPlay);
         }
-
         public void AttatchAudioSourceTo(Transform trans, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
         {
             var source = GetValidAudioSource();
@@ -77,6 +87,21 @@ namespace TUI.AduioManagement
             coroutines.Add(source.GetHashCode(), CoroutineHelper.WaitUntil(
             () => source.isPlaying == false,
             () => ReturnAudioSource(source)));
+        }
+
+        public AudioSource[] Query(AudioClip reference)
+        {
+            return Query(source => source.clip == reference);
+        }
+
+        public AudioSource[] Query(AudioMixerGroup mixerGroup)
+        {
+            return Query(source => source.outputAudioMixerGroup == mixerGroup);
+        }
+
+        public AudioSource[] Query(System.Func<AudioSource, bool> predicate)
+        {
+            return usedSources.Where(predicate).ToArray();
         }
 
         protected virtual AudioSource GetValidAudioSource()
@@ -140,6 +165,7 @@ namespace TUI.AduioManagement
             }
             return nearestSource;
         }
+
 
     }
 }

@@ -17,7 +17,7 @@ namespace TUI.ScreenLogManagementSystem
 
         private void Start()
         {
-            if (SceneManagementOverride == null) SceneManagement = ISingletonSystem<BuiltinSceneManagement>.GetSingletonChecked();
+            if (SceneManagementOverride == null) SceneManagement = ISingletonSystem<BuiltinSceneManagement>.GetInstance();
         }
 #if UNITY_EDITOR
         [ContextMenu("Load Test Scene")]

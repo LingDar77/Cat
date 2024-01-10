@@ -59,5 +59,10 @@ namespace TUI.Intergration.Addressables
         {
             PlaySoundFrom(trans, reference, null, onReadyPlay);
         }
+
+        public AudioSource[] Query(string reference)
+        {
+            return Query(source => source.clip.name == reference);
+        }
     }
 }

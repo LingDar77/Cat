@@ -50,6 +50,11 @@ namespace TUI.AduioManagement
         void AttatchAudioSourceTo(Transform trans, ReferenceType reference, System.Action<AudioSource> onReadyPlay = null);
         void AttatchAudioSourceTo(Transform trans, ReferenceType reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null);
 
+        AudioSource[] Query(ReferenceType reference);
+        AudioSource[] Query(AudioMixerGroup mixerGroup);
+        AudioSource[] Query(System.Func<AudioSource, bool> predicate);
+
+
         #region Obsolete
         /// <summary>
         /// Play a sound from a transfrom, 

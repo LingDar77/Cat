@@ -5,10 +5,10 @@ namespace TUI
 {
     public static class CoroutineHelper
     {
-        static readonly WaitForEndOfFrame waitForEndOfFrame = new();
-        static readonly WaitForFixedUpdate waitForFixedUpdate = new();
+        public static readonly WaitForEndOfFrame nextUpdate = new();
+        public static readonly WaitForFixedUpdate nextFixedUpdate = new();
 
-        public static MonoBehaviour Context => ISingletonSystem<BaseGameSystem>.GetSingletonChecked();
+        public static MonoBehaviour Context => ISingletonSystem<BaseGameSystem>.GetInstance();
 
         public static Coroutine NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {
@@ -21,7 +21,7 @@ namespace TUI
             {
                 while (time != 0)
                 {
-                    yield return waitForEndOfFrame;
+                    yield return nextUpdate;
                     --time;
                 }
                 action?.Invoke();
@@ -41,7 +41,7 @@ namespace TUI
             {
                 while (time != 0)
                 {
-                    yield return waitForFixedUpdate;
+                    yield return nextFixedUpdate;
                     --time;
                 }
                 action?.Invoke();

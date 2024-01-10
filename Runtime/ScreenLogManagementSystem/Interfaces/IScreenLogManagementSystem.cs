@@ -9,5 +9,11 @@ namespace TUI.ScreenLogManagementSystem
         Vector2 ContentSize { get; }
         int FontSize { get; }
 
+        void LogToScreen(LogType type, string message, string stackTrace = null);
+
+        public static void Log(LogType type, string message, string stackTrace = null)
+        {
+            Singleton?.LogToScreen(type, message, stackTrace);
+        }
     }
 }

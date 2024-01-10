@@ -37,7 +37,7 @@ namespace TUI.ScreenLogManagementSystem
         }
         protected virtual bool ShouldTraceForFilter(string stackTrace, IScreenLogFilter filter)
         {
-            if (filter.TracedScriptInstances == null || filter.TracedScriptInstances.Length == 0) return true;
+            if (stackTrace == null || filter.TracedScriptInstances == null || filter.TracedScriptInstances.Length == 0) return true;
             foreach (var traget in filter.TracedScriptInstances)
             {
                 if (stackTrace.Contains(traget.GetType().Name)) return true;
@@ -59,6 +59,10 @@ namespace TUI.ScreenLogManagementSystem
         protected virtual string DecorateText(string text, LogType type)
         {
             return $"<b><color={LogLevelColors[(int)type]}>[{type}]:</color> <color={LogTextColors[(int)type]}>{text}</color></b>";
+        }
+        public virtual void LogToScreen(LogType type, string message, string stackTrace = null)
+        {
+            Log2Screen(message, stackTrace, type);
         }
         protected virtual void Log2Screen(string logString, string stackTrace, LogType type)
         {
@@ -93,5 +97,7 @@ namespace TUI.ScreenLogManagementSystem
                 logMessage,
                 new GUIStyle() { fontSize = FontSize * Screen.width / 1080, richText = true, wordWrap = true });
         }
+
+
     }
 }
