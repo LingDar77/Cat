@@ -8,7 +8,7 @@ namespace TUI
         public static readonly WaitForEndOfFrame nextUpdate = new();
         public static readonly WaitForFixedUpdate nextFixedUpdate = new();
 
-        public static MonoBehaviour Context => ISingletonSystem<BaseGameSystem>.GetInstance();
+        public static MonoBehaviour Context => ISingletonSystem<BaseGameSystem>.GetChecked();
 
         public static Coroutine NextUpdate(this MonoBehaviour monoBehaviour, System.Action action, int time = 1)
         {

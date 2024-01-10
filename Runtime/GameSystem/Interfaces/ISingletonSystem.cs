@@ -5,7 +5,7 @@ namespace TUI
     public interface ISingletonSystem<Type> : IGameSystem<Type>
     {
         static Type Singleton { get; set; }
-        static Type GetInstance()
+        static Type GetChecked()
         {
             if (Singleton != null) return Singleton;
             if (!typeof(Type).IsSubclassOf(typeof(Component)))
