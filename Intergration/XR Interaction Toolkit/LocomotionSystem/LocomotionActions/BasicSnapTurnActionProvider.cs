@@ -1,6 +1,3 @@
-#if XRIT
-
-
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     using TUI.KinematicLocomotionSystem;
@@ -69,4 +66,3 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
         }
     }
 }
-#endif
