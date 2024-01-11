@@ -176,6 +176,27 @@ namespace TUI.Utillities
             var array = set.ToArray();
             return array.RandomElement();
         }
+
+        public static int IndexOf<Type>(this Type[] collection, Type value) where Type : class
+        {
+            for (int i = 0; i != collection.Length; ++i)
+            {
+                if (value == collection[i]) return i;
+            }
+            return -1;
+        }
+
+        public static int IndexOf<Type>(this IEnumerable<Type> collection, Type value) where Type : class
+        {
+            var i = 0;
+            foreach (var item in collection)
+            {
+                if (value == item) return i;
+                ++i;
+            }
+            return -1;
+        }
+        
         #endregion
     }
 }
