@@ -1,15 +1,15 @@
 using UnityEngine;
 namespace TUI.PoolifiedObjects
 {
-    public class BasicPoolifiedObject : MonoBehaviour, IPoolifiedObject
+    public class BasicPoolifiedObject : MonoBehaviour, IPoolifiedGameObject
     {
-        public IPoolifiedObjectsManagement Pool { get; set; }
+        public IPoolifiedGameObjectManagement Pool { get; set; }
 
         public void DisposeObject()
         {
         }
 
-        public void InitObject(IPoolifiedObjectsManagement pool)
+        public void InitObject(IPoolifiedGameObjectManagement pool)
         {
             Pool = pool;
             transform.localPosition = Vector3.zero;

@@ -20,6 +20,7 @@ namespace TUI.EventDispatchSystem
 
             IEventDispatchSystem<string>.Singleton = this;
             DontDestroyOnLoad(transform.root.gameObject);
+
         }
 
         protected virtual void OnDisable()
