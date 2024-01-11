@@ -1,4 +1,3 @@
-#if XRIT
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
 {
     using System.Collections.Generic;
@@ -146,4 +145,3 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
 
     }
 }
-#endif
