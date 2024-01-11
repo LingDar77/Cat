@@ -12,12 +12,12 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
     [RequireComponent(typeof(KinematicCharacterMotor))]
     public class KinematicLocomotionController : MonoBehaviour, TUI.KinematicLocomotionSystem.ICharacterController, ILocomotionSystem
     {
-        [EditorReadOnly]
+        [ReadOnlyInEditor]
         public KinematicCharacterMotor Motor;
-        [EditorReadOnly]
+        [ReadOnlyInEditor]
         [SerializeField] private Vector3 currentVelocity;
         public Vector3 CurrentVelocity => currentVelocity;
-        [EditorReadOnly]
+        [ReadOnlyInEditor]
         [SerializeField] private Quaternion currentRotation;
         public Quaternion CurrentRotation => currentRotation;
 

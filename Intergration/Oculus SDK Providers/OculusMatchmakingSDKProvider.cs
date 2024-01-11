@@ -11,11 +11,11 @@ namespace TUI.Intergration.OculusSDKProviders
 {
     public partial class OculusMatchmakingSDKProvider : OculusBaseSDKProvider, IMatchmakingSDKProvider
     {
-        [field: EditorReadOnly]
+        [field: ReadOnlyInEditor]
         [field: SerializeField] public string Destination { get; set; }
-        [field: EditorReadOnly]
+        [field: ReadOnlyInEditor]
         [field: SerializeField] public string LobbyID { get; set; }
-        [field: EditorReadOnly]
+        [field: ReadOnlyInEditor]
         [field: SerializeField] public string SessionID { get; set; }
 
         public event Action<IMatchmakingSDKProvider.Invitation> OnInvitationRecived;

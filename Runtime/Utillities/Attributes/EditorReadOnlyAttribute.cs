@@ -4,13 +4,13 @@ using UnityEngine;
 namespace TUI
 {
 
-    public sealed class EditorReadOnlyAttribute : PropertyAttribute
+    public sealed class ReadOnlyInEditorAttribute : PropertyAttribute
     {
 
     }
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(EditorReadOnlyAttribute))]
-    public class EditorReadOnlyPropertyDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(ReadOnlyInEditorAttribute))]
+    public class ReadOnlyInEditorPropertyDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
