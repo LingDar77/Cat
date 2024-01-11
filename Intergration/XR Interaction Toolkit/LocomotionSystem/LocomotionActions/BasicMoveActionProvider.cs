@@ -1,14 +1,16 @@
 #if XRIT 
-using TUI.Utillities;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
-using TUI.KinematicLocomotionSystem.Actions;
-using UnityEngine.XR;
-using System.Collections.Generic;
+
 
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
+    using TUI.Utillities;
+    using UnityEngine;
+    using UnityEngine.Events;
+    using UnityEngine.InputSystem;
+    using TUI.KinematicLocomotionSystem.Actions;
+    using UnityEngine.XR;
+    using System.Collections.Generic;
+
     /// <summary>
     /// A basic move action to drive vr charctor.
     /// </summary>

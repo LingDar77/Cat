@@ -1,11 +1,13 @@
 #if XRIT
-using TUI.KinematicLocomotionSystem;
-using TUI.KinematicLocomotionSystem.Actions;
-using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
+    using TUI.KinematicLocomotionSystem;
+    using TUI.KinematicLocomotionSystem.Actions;
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+
     public class BasicSnapTurnActionProvider : ActionProviderBase
     {
         [ImplementedInterface(typeof(IRotateBiasable))]

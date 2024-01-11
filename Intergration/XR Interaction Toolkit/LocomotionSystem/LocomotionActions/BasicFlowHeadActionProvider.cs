@@ -1,9 +1,11 @@
 #if XRIT 
-using TUI.KinematicLocomotionSystem.Actions;
-using UnityEngine;
+
 
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
+    using TUI.KinematicLocomotionSystem.Actions;
+    using UnityEngine;
+    
     public class BasicFlowHeadActionProvider : ActionProviderBase
     {
         [Tooltip("The forward reference.")]

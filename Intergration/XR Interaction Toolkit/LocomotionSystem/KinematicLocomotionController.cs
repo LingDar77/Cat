@@ -1,11 +1,11 @@
 #if XRIT
-using System.Collections.Generic;
-using TUI.KinematicLocomotionSystem;
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
 {
+    using System.Collections.Generic;
+    using TUI.KinematicLocomotionSystem;
+    using UnityEngine;
+    using UnityEngine.XR.Interaction.Toolkit;
+
     /// <summary>
     /// The simple implementation of a vr charactor controller by KCC.
     /// The controller is orderless for actions.
@@ -72,7 +72,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
         {
             Motor.ForceUnground();
         }
-        
+
         #region KCC Implementation
         public virtual void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
