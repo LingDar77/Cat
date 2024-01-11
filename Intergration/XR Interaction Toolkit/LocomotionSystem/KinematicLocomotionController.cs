@@ -5,6 +5,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
     using UnityEngine;
     using TUI;
     using UnityEngine.XR.Interaction.Toolkit;
+    using TUI.Utillities;
 
     /// <summary>
     /// The simple implementation of a vr charactor controller by KCC.

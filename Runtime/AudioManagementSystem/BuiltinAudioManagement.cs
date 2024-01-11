@@ -2,18 +2,17 @@ namespace TUI.AduioManagement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using TUI;
     using TUI.Utillities;
     using UnityEngine;
     using UnityEngine.Audio;
-    
+
     /// <summary>
     /// The simplest implementation of an AudioManagementSystem.
     /// <see cref="IAudioManagementSystem"/>
     /// </summary>
     public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagementSystem<AudioClip>
     {
-        [TUI.ReadOnlyInEditor] public int CurrentAllocation = 0;
+        [ReadOnlyInEditor] public int CurrentAllocation = 0;
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
         public event System.Action<AudioClip> OnCompletePlay;

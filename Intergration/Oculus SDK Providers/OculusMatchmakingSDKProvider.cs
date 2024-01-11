@@ -6,6 +6,7 @@
 using System;
 using Oculus.Platform;
 using TUI.SDKProvider;
+using TUI.Utillities;
 using UnityEngine;
 namespace TUI.Intergration.OculusSDKProviders
 {

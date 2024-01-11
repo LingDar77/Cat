@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TUI
+namespace TUI.Utillities
 {
 
     public sealed class ReadOnlyInEditorAttribute : PropertyAttribute
