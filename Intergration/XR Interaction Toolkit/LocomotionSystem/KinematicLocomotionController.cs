@@ -12,7 +12,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
     /// The controller is orderless for actions.
     /// </summary>
     [RequireComponent(typeof(KinematicCharacterMotor))]
-    public class KinematicLocomotionController : MonoBehaviour, ICharacterController, ILocomotionSystem
+    public class KinematicLocomotionController : MonoBehaviour, TUI.KinematicLocomotionSystem.ICharacterController, ILocomotionSystem
     {
         [ReadOnlyInEditor]
         public KinematicCharacterMotor Motor;
