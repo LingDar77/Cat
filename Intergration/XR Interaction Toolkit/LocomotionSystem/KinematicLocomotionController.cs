@@ -3,6 +3,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
     using System.Collections.Generic;
     using TUI.KinematicLocomotionSystem;
     using UnityEngine;
+    using TUI;
     using UnityEngine.XR.Interaction.Toolkit;
 
     /// <summary>
@@ -10,7 +11,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
     /// The controller is orderless for actions.
     /// </summary>
     [RequireComponent(typeof(KinematicCharacterMotor))]
-    public class KinematicLocomotionController : MonoBehaviour, TUI.KinematicLocomotionSystem.ICharacterController, ILocomotionSystem
+    public class KinematicLocomotionController : MonoBehaviour, ICharacterController, ILocomotionSystem
     {
         [ReadOnlyInEditor]
         public KinematicCharacterMotor Motor;
