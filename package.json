@@ -9,8 +9,7 @@
   ],
   "category": "Framework",
   "dependencies": {
-    "com.unity.inputsystem": "1.7.0",
-    "com.github.siccity.xnode": "1.8.0"
+    "com.unity.inputsystem": "1.7.0"
   },
   "samples": [
     {
@@ -20,7 +19,7 @@
     }
   ],
   "repository": {
-    "url": "http://localhost:3000/LingDar77/TheUnifiedImplementations.git",
+    "url": "https://github.com/LingDar77/TheUnifiedImplementations.git",
     "type": "git"
   }
 }
