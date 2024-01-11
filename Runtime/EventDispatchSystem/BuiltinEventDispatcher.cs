@@ -12,7 +12,7 @@ namespace TUI.EventDispatchSystem
         protected Queue<EventParam> dispatchParamQueue = new();
 
         protected bool isDispatching = false;
-        protected readonly Dictionary<string, HashSet<System.Action<EventParam>>> events = new();
+        protected readonly Dictionary<string, System.Action<EventParam>> events = new();
 
         protected virtual void OnEnable()
         {
@@ -49,9 +49,9 @@ namespace TUI.EventDispatchSystem
 
                 if (events.TryGetValue(type, out var actions))
                 {
-                    foreach (var action in actions)
+                    foreach (var action in actions.GetInvocationList())
                     {
-                        action?.Invoke(data);
+                        action.DynamicInvoke(data);
                         yield return CoroutineHelper.nextUpdate;
                     }
                 }
@@ -61,6 +61,8 @@ namespace TUI.EventDispatchSystem
                 if (currentTime - time > MaxDispatchTime)
                 {
                     Debug.LogWarning($"One event dispatching process is taking too much time, may event loops are triggered. Last excuted event type: {type}. Forcing the current dispatching process to stop.");
+                    dispatchParamQueue.Clear();
+                    dispatchQueue.Clear();
                     break;
                 }
 #endif
@@ -72,18 +74,18 @@ namespace TUI.EventDispatchSystem
         {
             if (events.TryGetValue(type, out var list))
             {
-                list.Add(callback);
+                events[type] = list += callback;
                 return;
             }
 
-            events.Add(type, new() { callback });
+            events.Add(type, callback);
         }
 
         public virtual void Unsubscribe(string type, System.Action<EventParam> callback)
         {
             if (events.TryGetValue(type, out var list))
             {
-                list.Remove(callback);
+                events[type] = list -= callback;
                 return;
             }
         }
