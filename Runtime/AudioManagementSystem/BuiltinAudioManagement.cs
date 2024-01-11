@@ -13,7 +13,7 @@ namespace TUI.AduioManagement
     /// </summary>
     public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagementSystem<AudioClip>
     {
-        [ReadOnlyInEditor] public int CurrentAllocation = 0;
+        [TUI.ReadOnlyInEditor] public int CurrentAllocation = 0;
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;
         [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
         public event System.Action<AudioClip> OnCompletePlay;
