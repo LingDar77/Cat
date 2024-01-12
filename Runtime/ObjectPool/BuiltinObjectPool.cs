@@ -2,17 +2,23 @@ using System.Collections.Generic;
 
 namespace TUI.ObjectPool
 {
-    public class BuiltinObjectPool<Type> : IObjectPool<Type> where Type : class, new()
+    public class BuiltinObjectPool<Type> : IObjectPool<Type> where Type : IPooledObject<Type>, System.IDisposable, new()
     {
         public System.Action<Type> CreateProcesser;
         public System.Action<Type> ReturnProcesser;
-
-
         protected Queue<Type> pool = new();
-
+        public int Count { get => pool.Count; }
+        public BuiltinObjectPool(){}
+        public BuiltinObjectPool(IEnumerable<Type> preserve = null)
+        {
+            pool = new Queue<Type>(preserve);
+        }
         protected Type CreateNew()
         {
-            var obj = new Type();
+            var obj = new Type
+            {
+                Pool = this
+            };
             CreateProcesser?.Invoke(obj);
             return obj;
         }
@@ -31,5 +37,6 @@ namespace TUI.ObjectPool
             ReturnProcesser?.Invoke(obj);
             pool.Enqueue(obj);
         }
+
     }
 }
