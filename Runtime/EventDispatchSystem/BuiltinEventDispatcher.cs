@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace TUI.EventDispatchSystem
 {
     public class BuiltinEventDispatcher : MonoBehaviour, IEventDispatchSystem<string>
     {
-#if UNITY_EDITOR
-        [SerializeField] float MaxDispatchTime = 1f;
-#endif
+        [Range(1, 16)]
+        [SerializeField] private int DispatchRate = 10;
         protected Queue<string> dispatchQueue = new();
         protected Queue<EventParam> dispatchParamQueue = new();
 
@@ -39,10 +39,8 @@ namespace TUI.EventDispatchSystem
         private IEnumerator DispatchAllEvents()
         {
             isDispatching = true;
-
-#if UNITY_EDITOR
-            var time = Time.realtimeSinceStartup;
-#endif
+            var count = DispatchRate;
+            var hash = new HashSet<string>();
             while (dispatchQueue.Count != 0)
             {
                 var type = dispatchQueue.Dequeue();
@@ -50,23 +48,25 @@ namespace TUI.EventDispatchSystem
 
                 if (events.TryGetValue(type, out var actions))
                 {
-                    foreach (var action in actions.GetInvocationList())
+                    if (hash.Contains(type))
                     {
-                        action.DynamicInvoke(data);
-                        yield return CoroutineHelper.nextUpdate;
+                        Debug.LogWarning($"Cyclic dependency detected when dispatching event [{type}], skipping it.", this);
+                        continue;
                     }
+                    hash.Add(type);
+                    foreach (var action in actions.GetInvocationList().Cast<System.Action<EventParam>>())
+                    {
+                        action.Invoke(data);
+                        --count;
+                        if (count == 0)
+                        {
+                            count = DispatchRate;
+                            yield return CoroutineHelper.nextUpdate;
+                        }
+                    }
+                    // actions?.Invoke(data);
+                    // yield return CoroutineHelper.nextUpdate;
                 }
-
-#if UNITY_EDITOR
-                var currentTime = Time.realtimeSinceStartup;
-                if (currentTime - time > MaxDispatchTime)
-                {
-                    Debug.LogWarning($"One event dispatching process is taking too much time, may event loops are triggered. Last excuted event type: {type}. Forcing the current dispatching process to stop.");
-                    dispatchParamQueue.Clear();
-                    dispatchQueue.Clear();
-                    break;
-                }
-#endif
             }
             isDispatching = false;
         }
