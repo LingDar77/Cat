@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 namespace TUI.ScreenLogManagementSystem
 {
-    public class SceneManagementProxy : MonoBehaviour, ISceneManagementSystem
+    public class SceneManagementProxy : MonoBehaviour, ISceneManagement
     {
-        [ImplementedInterface(typeof(ISceneManagementSystem))]
+        [ImplementedInterface(typeof(ISceneManagement))]
         public MonoBehaviour SceneManagementOverride;
-        private ISceneManagementSystem SceneManagement;
+        private ISceneManagement SceneManagement;
         public float LoadingProgress { get; }
 
 #if UNITY_EDITOR

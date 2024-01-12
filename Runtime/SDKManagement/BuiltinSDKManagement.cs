@@ -4,7 +4,7 @@ using TUI.SDKProvider;
 using UnityEngine;
 namespace TUI.SDKManagementSystem
 {
-    public class BuiltinSDKManagement : SingletonSystemBase<BuiltinSDKManagement>, ISDKManagementSystem
+    public class BuiltinSDKManagement : SingletonSystemBase<BuiltinSDKManagement>, ISDKManagement
     {
 #if UNITY_EDITOR
         [SerializeField] private bool AutoCollectProviders = true;

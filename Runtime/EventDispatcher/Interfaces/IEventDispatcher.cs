@@ -2,7 +2,7 @@
 namespace TUI.EventDispatchSystem
 {
     public class EventParam { }
-    public interface IEventDispatchSystem<EventType> : ISingletonSystem<IEventDispatchSystem<EventType>>
+    public interface IEventDispatcher<EventType> : ISingletonSystem<IEventDispatcher<EventType>>
     {
         void Dispatch(EventType type, EventParam data);
         void Subscribe(EventType type, System.Action<EventParam> callback);

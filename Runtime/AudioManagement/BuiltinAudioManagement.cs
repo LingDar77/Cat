@@ -10,7 +10,7 @@ namespace TUI.AduioManagement
     /// The simplest implementation of an AudioManagementSystem.
     /// <see cref="IAudioManagementSystem"/>
     /// </summary>
-    public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagementSystem<AudioClip>
+    public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagement<AudioClip>
     {
         public int CurrentAllocation = 0;
         [field: SerializeField] public int MaxAllocation { get; set; } = 16;

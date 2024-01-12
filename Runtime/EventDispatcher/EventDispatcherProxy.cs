@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 namespace TUI.EventDispatchSystem
 {
-    public class EventDispatcherProxy : MonoBehaviour, IEventDispatchSystem<string>
+    public class EventDispatcherProxy : MonoBehaviour, IEventDispatcher<string>
     {
         [System.Serializable]
         public class ReciveEventHandler
@@ -21,22 +21,22 @@ namespace TUI.EventDispatchSystem
         }
         public void Dispatch(string type)
         {
-            IEventDispatchSystem<string>.GetChecked().Dispatch(type, null);
+            IEventDispatcher<string>.GetChecked().Dispatch(type, null);
         }
 
         public void Dispatch(string type, EventParam data)
         {
-            IEventDispatchSystem<string>.GetChecked().Dispatch(type, data);
+            IEventDispatcher<string>.GetChecked().Dispatch(type, data);
         }
 
         public void Subscribe(string type, System.Action<EventParam> callback)
         {
-            IEventDispatchSystem<string>.GetChecked().Subscribe(type, callback);
+            IEventDispatcher<string>.GetChecked().Subscribe(type, callback);
         }
 
         public void Unsubscribe(string type, System.Action<EventParam> callback)
         {
-            IEventDispatchSystem<string>.GetChecked().Subscribe(type, callback);
+            IEventDispatcher<string>.GetChecked().Subscribe(type, callback);
         }
     }
 }

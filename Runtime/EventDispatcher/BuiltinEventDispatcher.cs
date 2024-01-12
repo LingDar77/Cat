@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace TUI.EventDispatchSystem
 {
-    public class BuiltinEventDispatcher : MonoBehaviour, IEventDispatchSystem<string>
+    public class BuiltinEventDispatcher : MonoBehaviour, IEventDispatcher<string>
     {
         [Range(1, 16)]
         [SerializeField] private uint DispatchRate = 10;
@@ -15,17 +15,17 @@ namespace TUI.EventDispatchSystem
 
         protected virtual void OnEnable()
         {
-            if (IEventDispatchSystem<string>.Singleton != null) return;
+            if (IEventDispatcher<string>.Singleton != null) return;
 
-            IEventDispatchSystem<string>.Singleton = this;
+            IEventDispatcher<string>.Singleton = this;
             DontDestroyOnLoad(transform.root.gameObject);
 
         }
 
         protected virtual void OnDisable()
         {
-            if (IEventDispatchSystem<string>.Singleton.transform != transform) return;
-            IEventDispatchSystem<string>.Singleton = null;
+            if (IEventDispatcher<string>.Singleton.transform != transform) return;
+            IEventDispatcher<string>.Singleton = null;
         }
 
         public virtual void Dispatch(string type, EventParam data)

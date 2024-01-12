@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TUI.ScreenLogManagementSystem
 {
-    public interface IScreenLogManagementSystem : ISingletonSystem<IScreenLogManagementSystem>
+    public interface IScreenLogManagement : ISingletonSystem<IScreenLogManagement>
     {
         List<IScreenLogFilter> Filters { get; }
         Vector2 ContentSize { get; }

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TUI.ScreenLogManagementSystem
 {
     [DefaultExecutionOrder(-1000)]
-    public class BuiltinScreenLogManagement : MonoBehaviour, IScreenLogManagementSystem
+    public class BuiltinScreenLogManagement : MonoBehaviour, IScreenLogManagement
     {
         [field: SerializeField]
         public Vector2 ContentSize { get; set; } = new(.8f, .5f);
@@ -20,9 +20,9 @@ namespace TUI.ScreenLogManagementSystem
 
         protected virtual void OnEnable()
         {
-            if (IScreenLogManagementSystem.Singleton != null) return;
+            if (IScreenLogManagement.Singleton != null) return;
 
-            IScreenLogManagementSystem.Singleton = this;
+            IScreenLogManagement.Singleton = this;
             DontDestroyOnLoad(transform.root.gameObject);
 
             Application.logMessageReceived += Log2Screen;
@@ -30,8 +30,8 @@ namespace TUI.ScreenLogManagementSystem
 
         protected virtual void OnDisable()
         {
-            if (IScreenLogManagementSystem.Singleton.transform != transform) return;
-            IScreenLogManagementSystem.Singleton = null;
+            if (IScreenLogManagement.Singleton.transform != transform) return;
+            IScreenLogManagement.Singleton = null;
             Application.logMessageReceived -= Log2Screen;
 
         }

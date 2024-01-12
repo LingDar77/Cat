@@ -3,7 +3,7 @@ using TUI.SDKProvider;
 
 namespace TUI.SDKManagementSystem
 {
-    public interface ISDKManagementSystem : IGameSystem<ISDKManagementSystem>
+    public interface ISDKManagement : IGameSystem<ISDKManagement>
     {
         HashSet<ISDKProvider> Providers { get; }
 

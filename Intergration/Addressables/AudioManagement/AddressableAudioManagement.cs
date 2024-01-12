@@ -9,7 +9,7 @@ namespace TUI.Intergration.Addressables
     /// The basic addressable impmentation for AudioManagementSystem.
     /// <see cref="IAudioManagementSystem"/>
     /// </summary>
-    public class AddressableAudioManagement : BuiltinAudioManagement, IAudioManagementSystem<string>, ISingletonSystem<AddressableAudioManagement>
+    public class AddressableAudioManagement : BuiltinAudioManagement, IAudioManagement<string>, ISingletonSystem<AddressableAudioManagement>
     {
         protected override void OnEnable()
         {

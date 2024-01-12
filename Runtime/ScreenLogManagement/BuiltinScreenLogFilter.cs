@@ -11,14 +11,14 @@ namespace TUI.ScreenLogManagementSystem
 
         protected virtual void OnEnable()
         {
-            if (IScreenLogManagementSystem.Singleton == null) return;
-            IScreenLogManagementSystem.Singleton.Filters.Add(this);
+            if (IScreenLogManagement.Singleton == null) return;
+            IScreenLogManagement.Singleton.Filters.Add(this);
         }
 
         protected virtual void OnDisable()
         {
-            if (IScreenLogManagementSystem.Singleton == null) return;
-            IScreenLogManagementSystem.Singleton.Filters.Remove(this);
+            if (IScreenLogManagement.Singleton == null) return;
+            IScreenLogManagement.Singleton.Filters.Remove(this);
         }
     }
 }

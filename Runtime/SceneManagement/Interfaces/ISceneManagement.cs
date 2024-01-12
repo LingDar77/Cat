@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace TUI.SceneManagementSystem
 {
-    public interface ISceneManagementSystem : IGameSystem<ISceneManagementSystem>
+    public interface ISceneManagement : IGameSystem<ISceneManagement>
     {
         float LoadingProgress { get; }
         void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single);

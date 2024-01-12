@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace TUI.SceneManagementSystem
 {
-    public class BuiltinSceneManagement : SingletonSystemBase<BuiltinSceneManagement>, ISceneManagementSystem
+    public class BuiltinSceneManagement : SingletonSystemBase<BuiltinSceneManagement>, ISceneManagement
     {
         public float LoadingProgress { get; set; }
 
