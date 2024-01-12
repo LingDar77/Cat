@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 namespace TUI.EventDispatchSystem
 {
     public class BuiltinEventDispatcher : MonoBehaviour, IEventDispatchSystem<string>
     {
         [Range(1, 16)]
-        [SerializeField] private int DispatchRate = 10;
+        [SerializeField] private uint DispatchRate = 10;
         protected Queue<string> dispatchQueue = new();
         protected Queue<EventParam> dispatchParamQueue = new();
 
@@ -33,7 +32,7 @@ namespace TUI.EventDispatchSystem
         {
             dispatchQueue.Enqueue(type);
             dispatchParamQueue.Enqueue(data);
-            
+
             if (!isDispatching) StartCoroutine(DispatchAllEvents());
         }
 
@@ -56,9 +55,9 @@ namespace TUI.EventDispatchSystem
                 }
 
                 hash.Add(type);
-                foreach (var action in actions.GetInvocationList().Cast<System.Action<EventParam>>())
+                foreach (var action in actions.GetInvocationList())
                 {
-                    action?.Invoke(data);
+                    (action as System.Action<EventParam>)?.Invoke(data);
                     if (--count != 0) continue;
 
                     count = DispatchRate;
