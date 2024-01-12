@@ -33,6 +33,7 @@ namespace TUI.EventDispatchSystem
         {
             dispatchQueue.Enqueue(type);
             dispatchParamQueue.Enqueue(data);
+            
             if (!isDispatching) StartCoroutine(DispatchAllEvents());
         }
 
@@ -46,26 +47,22 @@ namespace TUI.EventDispatchSystem
                 var type = dispatchQueue.Dequeue();
                 var data = dispatchParamQueue.Dequeue();
 
-                if (events.TryGetValue(type, out var actions))
+                if (!events.TryGetValue(type, out var actions) || actions == null) continue;
+
+                if (hash.Contains(type))
                 {
-                    if (hash.Contains(type))
-                    {
-                        Debug.LogWarning($"Cyclic dependency detected when dispatching event [{type}], skipping it.", this);
-                        continue;
-                    }
-                    hash.Add(type);
-                    foreach (var action in actions.GetInvocationList().Cast<System.Action<EventParam>>())
-                    {
-                        action.Invoke(data);
-                        --count;
-                        if (count == 0)
-                        {
-                            count = DispatchRate;
-                            yield return CoroutineHelper.nextUpdate;
-                        }
-                    }
-                    // actions?.Invoke(data);
-                    // yield return CoroutineHelper.nextUpdate;
+                    Debug.LogWarning($"Circular dependency detected when dispatching event: {type}, skipping it.", this);
+                    continue;
+                }
+
+                hash.Add(type);
+                foreach (var action in actions.GetInvocationList().Cast<System.Action<EventParam>>())
+                {
+                    action?.Invoke(data);
+                    if (--count != 0) continue;
+
+                    count = DispatchRate;
+                    yield return CoroutineHelper.nextUpdate;
                 }
             }
             isDispatching = false;
@@ -84,11 +81,9 @@ namespace TUI.EventDispatchSystem
 
         public virtual void Unsubscribe(string type, System.Action<EventParam> callback)
         {
-            if (events.TryGetValue(type, out var list))
-            {
-                events[type] = list -= callback;
-                return;
-            }
+            if (!events.TryGetValue(type, out var list)) return;
+
+            events[type] = list -= callback;
         }
     }
 }
