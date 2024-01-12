@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 namespace TUI.ObjectPool
 {
-    public class BuiltinObjectPool<Type> : IObjectPool<Type> where Type : IPooledObject<Type>, System.IDisposable, new()
+    public class BuiltinObjectPool<Type> : IObjectPool<Type> where Type : IPooledObject<Type>, new()
     {
         public System.Action<Type> CreateProcesser;
         public System.Action<Type> ReturnProcesser;
         protected Queue<Type> pool = new();
         public int Count { get => pool.Count; }
-        public BuiltinObjectPool(){}
+        public BuiltinObjectPool() { }
         public BuiltinObjectPool(IEnumerable<Type> preserve = null)
         {
             pool = new Queue<Type>(preserve);
