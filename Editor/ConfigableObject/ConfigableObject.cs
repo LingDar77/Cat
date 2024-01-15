@@ -9,7 +9,7 @@ namespace TUI.EditorScript
     {
         private static Type instance;
 
-        public static Type GetConfig()
+        public static Type Get()
         {
             if (instance != null) return instance;
 

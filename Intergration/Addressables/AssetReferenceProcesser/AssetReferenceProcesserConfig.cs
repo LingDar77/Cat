@@ -70,7 +70,7 @@ namespace TUI.Intergration.Addressables.EditorScript
         }
         private void OnEnable()
         {
-            editor = Editor.CreateEditor(AssetReferenceProcesserConfig.GetConfig());
+            editor = Editor.CreateEditor(AssetReferenceProcesserConfig.Get());
         }
         private void OnGUI()
         {
@@ -81,11 +81,11 @@ namespace TUI.Intergration.Addressables.EditorScript
             EditorGUILayout.Separator();
             if (GUILayout.Button("Clean Targets"))
             {
-                AssetReferenceProcesserConfig.GetConfig().targets = null;
+                AssetReferenceProcesserConfig.Get().targets = null;
             }
             if (GUILayout.Button("Process Assets"))
             {
-                AssetReferenceProcesserConfig.GetConfig().Scan();
+                AssetReferenceProcesserConfig.Get().Scan();
             }
             EditorGUILayout.EndScrollView();
 
