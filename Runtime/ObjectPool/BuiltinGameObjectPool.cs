@@ -104,6 +104,8 @@ namespace TUI.ObjectPool
             if (pool.ContainsKey(reference) && pool[reference].Count != 0)
             {
                 obj = pool[reference].Dequeue();
+                obj.transform.SetParent(transform);
+                obj.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 processer.Activate(obj);
                 return obj;
             }
@@ -126,6 +128,7 @@ namespace TUI.ObjectPool
             if (pool.ContainsKey(reference) && pool[reference].Count != 0)
             {
                 obj = pool[reference].Dequeue();
+                obj.transform.SetPositionAndRotation(position, rotation);
                 processer.Activate(obj);
                 return obj;
             }
