@@ -71,11 +71,15 @@ namespace TUI.ObjectPool
 
         public void Preserve(string reference, int count, IGameObjectFactory<string> factory = null, IGameObjectProcesser processer = null)
         {
+            if (!pool.ContainsKey(reference)) pool.Add(reference, new());
+            if (pool[reference].Count >= count) return;
+            
             factory ??= defaultFactory;
             processer ??= defaultProcesser;
-            while (count-- != 0)
+            while (pool[reference].Count != count)
             {
-                Return(reference, factory.Create(reference), processer);
+                var obj = factory.Create(reference);
+                Return(reference, obj, processer);
             }
         }
 
