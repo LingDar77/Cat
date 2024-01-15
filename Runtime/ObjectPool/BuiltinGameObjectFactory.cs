@@ -5,7 +5,7 @@ namespace TUI.ObjectPool
     public class BuiltinGameObjectFactory : MonoBehaviour, IGameObjectFactory<string>
     {
         [SerializeField] private GameObject[] prefabs;
-        private Dictionary<string, GameObject> pool = new();
+        private readonly Dictionary<string, GameObject> pool = new();
         private void OnEnable()
         {
             pool.Clear();
@@ -17,6 +17,17 @@ namespace TUI.ObjectPool
         public GameObject Create(string reference)
         {
             return Instantiate(pool[reference]);
+        }
+
+        public GameObject Create(string reference, Vector3 position, Quaternion rotation)
+        {
+            return Instantiate(pool[reference], position, rotation);
+        }
+
+        public GameObject Create(string reference, Transform transform)
+        {
+            return Instantiate(pool[reference], transform);
+
         }
     }
 }

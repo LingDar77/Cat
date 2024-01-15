@@ -18,13 +18,29 @@ namespace TUI.ObjectPool
         }
         public class DefaultGameObjectFactory : IGameObjectFactory<string>
         {
+
+            public GameObject Create(string reference, Vector3 position, Quaternion rotation)
+            {
+                var obj = new GameObject(reference);
+                obj.transform.SetPositionAndRotation(position, rotation);
+                return obj;
+            }
+
             public GameObject Create(string reference)
             {
                 return new GameObject(reference);
             }
+
+            public GameObject Create(string reference, Transform transform)
+            {
+                var obj = new GameObject(reference);
+                obj.transform.SetParent(transform, false);
+                obj.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                return obj;
+            }
         }
 
-      
+
         [ImplementedInterface(typeof(IGameObjectFactory<string>))]
         [SerializeField] protected MonoBehaviour FactoryOverrride;
         [ImplementedInterface(typeof(IGameObjectProcesser))]
@@ -76,6 +92,45 @@ namespace TUI.ObjectPool
             }
 
             obj = factory.Create(reference);
+            processer.Activate(obj);
+            return obj;
+        }
+
+        public GameObject Get(string reference, Transform transform, IGameObjectFactory<string> factory = null, IGameObjectProcesser processer = null)
+        {
+            GameObject obj;
+            factory ??= defaultFactory;
+            processer ??= defaultProcesser;
+            if (pool.ContainsKey(reference) && pool[reference].Count != 0)
+            {
+                obj = pool[reference].Dequeue();
+                processer.Activate(obj);
+                return obj;
+            }
+
+            obj = factory.Create(reference, transform);
+            processer.Activate(obj);
+            return obj;
+        }
+
+        public GameObject Get(string reference, Vector3 position, IGameObjectFactory<string> factory = null, IGameObjectProcesser processer = null)
+        {
+            return Get(reference, position, Quaternion.identity, factory, processer);
+        }
+
+        public GameObject Get(string reference, Vector3 position, Quaternion rotation, IGameObjectFactory<string> factory = null, IGameObjectProcesser processer = null)
+        {
+            GameObject obj;
+            factory ??= defaultFactory;
+            processer ??= defaultProcesser;
+            if (pool.ContainsKey(reference) && pool[reference].Count != 0)
+            {
+                obj = pool[reference].Dequeue();
+                processer.Activate(obj);
+                return obj;
+            }
+
+            obj = factory.Create(reference, position, rotation);
             processer.Activate(obj);
             return obj;
         }
