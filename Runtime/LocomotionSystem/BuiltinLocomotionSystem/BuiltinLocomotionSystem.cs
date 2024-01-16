@@ -65,7 +65,7 @@ namespace TUI.LocomotioinSystem
             if (Physics.Raycast(point2 + Vector3.up * .1f, Vector3.up * Mathf.Sign(speedY), out var info, Mathf.Abs(speedY * time) + .1f))
             {
                 Debug.Log("hit ground!");
-                targetPos = info.point + halfHight;
+                targetPos.y = info.point.y + halfHight.y;
             }
 
 
