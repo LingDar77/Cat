@@ -1,6 +1,6 @@
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
-    using TUI.KinematicLocomotionSystem.Actions;
+    using TUI.LocomotioinSystem.Actions;
     using UnityEngine;
 
     public class BasicFlowHeadActionProvider : ActionProviderBase

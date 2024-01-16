@@ -1,10 +1,10 @@
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     using TUI.KinematicLocomotionSystem;
-    using TUI.KinematicLocomotionSystem.Actions;
     using UnityEngine;
     using UnityEngine.InputSystem;
     using TUI.LocomotioinSystem;
+    using TUI.LocomotioinSystem.Actions;
 
     public class BasicSnapTurnActionProvider : ActionProviderBase
     {
