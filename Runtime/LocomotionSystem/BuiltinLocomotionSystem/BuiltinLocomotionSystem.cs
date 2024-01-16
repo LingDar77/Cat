@@ -56,16 +56,18 @@ namespace TUI.LocomotioinSystem
 
         protected virtual void SimulatePhase(float time)
         {
-            var halfHight = capsule.height / 2;
-            var point1 = transform.position + Vector3.up * halfHight;
-            var point2 = transform.position - Vector3.up * halfHight;
+            var halfHight = Vector3.up * capsule.height / 2;
+            var point1 = transform.position + halfHight;
+            var point2 = transform.position - halfHight;
+            var targetPos = transform.position + currentVelocity * time;
 
             var speedY = currentVelocity.y;
-            if (Physics.Raycast(point2, Vector3.down, speedY * time))
+            if (Physics.Raycast(point2 + Vector3.up * .1f, Vector3.up * Mathf.Sign(speedY), out var info, Mathf.Abs(speedY * time) + .1f))
             {
                 Debug.Log("hit ground!");
-                currentVelocity.y = 0;
+                targetPos = info.point + halfHight;
             }
+
 
             // var hits = Physics.CapsuleCastAll(point1, point2, capsule.radius, currentVelocity.normalized, currentVelocity.magnitude * time);
             // if (hits.Length > 1)
@@ -73,7 +75,7 @@ namespace TUI.LocomotioinSystem
             //     Debug.Log("hits");
             //     currentVelocity = Vector3.zero;
             // }
-            transform.SetPositionAndRotation(transform.position + currentVelocity * time, currentRotation);
+            transform.SetPositionAndRotation(targetPos, currentRotation);
         }
 
         protected virtual void PostPhase(float time)
