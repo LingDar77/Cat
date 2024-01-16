@@ -15,16 +15,16 @@ namespace TUI.LocomotioinSystem
         [ReadOnlyInEditor]
         [SerializeField] private Quaternion currentRotation;
         [ReadOnlyInEditor]
-        [SerializeField] private CapsuleCollider capsule;
+        [SerializeField] protected CapsuleCollider capsule;
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
 #if UNITY_EDITOR
             if (capsule == null) capsule = GetComponent<CapsuleCollider>();
 #endif
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             var time = Time.deltaTime;
 
@@ -36,7 +36,7 @@ namespace TUI.LocomotioinSystem
         }
 
 
-        private void PreparePhase(float time)
+        protected virtual void PreparePhase(float time)
         {
             foreach (var provider in ActionProviders)
             {
@@ -54,20 +54,29 @@ namespace TUI.LocomotioinSystem
             }
         }
 
-        private void SimulatePhase(float time)
+        protected virtual void SimulatePhase(float time)
         {
             var halfHight = capsule.height / 2;
             var point1 = transform.position + Vector3.up * halfHight;
             var point2 = transform.position - Vector3.up * halfHight;
-            if (Physics.CapsuleCast(point1, point2, capsule.radius, currentVelocity))
+
+            var speedY = currentVelocity.y;
+            if (Physics.Raycast(point2, Vector3.down, speedY * time))
             {
-                Debug.Log("hit!");
+                Debug.Log("hit ground!");
+                currentVelocity.y = 0;
             }
 
+            // var hits = Physics.CapsuleCastAll(point1, point2, capsule.radius, currentVelocity.normalized, currentVelocity.magnitude * time);
+            // if (hits.Length > 1)
+            // {
+            //     Debug.Log("hits");
+            //     currentVelocity = Vector3.zero;
+            // }
             transform.SetPositionAndRotation(transform.position + currentVelocity * time, currentRotation);
         }
 
-        private void PostPhase(float time)
+        protected virtual void PostPhase(float time)
         {
             foreach (var provider in ActionProviders)
             {
@@ -75,22 +84,22 @@ namespace TUI.LocomotioinSystem
             }
         }
 
-        public void RegisterActionProvider(IActionProvider action)
+        public virtual void RegisterActionProvider(IActionProvider action)
         {
             ActionProviders.Add(action);
         }
 
-        public void UnregisterActionProvider(IActionProvider action)
+        public virtual void UnregisterActionProvider(IActionProvider action)
         {
             ActionProviders.Remove(action);
         }
 
-        public bool IsStableOnGround()
+        public virtual bool IsStableOnGround()
         {
             throw new System.NotImplementedException();
         }
 
-        public void MarkUngrounded()
+        public virtual void MarkUngrounded()
         {
             throw new System.NotImplementedException();
         }
