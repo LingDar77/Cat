@@ -22,7 +22,6 @@ namespace TUI
         public override void BeforeProcess(float deltaTime)
         {
             input = moveControl.action.ReadValue<Vector2>();
-            Debug.Log(input);
         }
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {

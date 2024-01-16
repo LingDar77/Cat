@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TUI.Utillities;
 using UnityEngine;
@@ -15,10 +14,30 @@ namespace TUI.LocomotioinSystem
         [SerializeField] private Vector3 currentVelocity;
         [ReadOnlyInEditor]
         [SerializeField] private Quaternion currentRotation;
+        [ReadOnlyInEditor]
+        [SerializeField] private CapsuleCollider capsule;
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            if (capsule == null) capsule = GetComponent<CapsuleCollider>();
+#endif
+        }
 
         private void Update()
         {
             var time = Time.deltaTime;
+
+            PreparePhase(time);
+
+            SimulatePhase(time);
+
+            PostPhase(time);
+        }
+
+
+        private void PreparePhase(float time)
+        {
             foreach (var provider in ActionProviders)
             {
                 provider.BeforeProcess(time);
@@ -33,9 +52,23 @@ namespace TUI.LocomotioinSystem
             {
                 provider.ProcessVelocity(ref currentVelocity, time);
             }
+        }
+
+        private void SimulatePhase(float time)
+        {
+            var halfHight = capsule.height / 2;
+            var point1 = transform.position + Vector3.up * halfHight;
+            var point2 = transform.position - Vector3.up * halfHight;
+            if (Physics.CapsuleCast(point1, point2, capsule.radius, currentVelocity))
+            {
+                Debug.Log("hit!");
+            }
 
             transform.SetPositionAndRotation(transform.position + currentVelocity * time, currentRotation);
+        }
 
+        private void PostPhase(float time)
+        {
             foreach (var provider in ActionProviders)
             {
                 provider.AfterProcess(time);
