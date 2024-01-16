@@ -2,6 +2,7 @@
 using System.Linq;
 using FishNet.Object;
 using TUI.KinematicLocomotionSystem;
+using TUI.LocomotioinSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;

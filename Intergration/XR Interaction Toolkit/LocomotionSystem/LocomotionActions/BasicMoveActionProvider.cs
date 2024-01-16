@@ -7,6 +7,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
     using TUI.KinematicLocomotionSystem.Actions;
     using UnityEngine.XR;
     using System.Collections.Generic;
+    using TUI.LocomotioinSystem;
 
     /// <summary>
     /// A basic move action to drive vr charctor.

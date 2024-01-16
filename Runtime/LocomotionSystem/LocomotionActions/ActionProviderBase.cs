@@ -1,3 +1,4 @@
+using TUI.LocomotioinSystem;
 using UnityEngine;
 
 namespace TUI.KinematicLocomotionSystem.Actions

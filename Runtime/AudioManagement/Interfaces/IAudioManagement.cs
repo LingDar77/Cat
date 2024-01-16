@@ -10,7 +10,7 @@ namespace TUI.AduioManagement
     /// * so users can focus on how and what to play in front of it.
     /// </summary>
     /// <typeparam name="ReferenceType">The type of audio asset reference. </typeparam> 
-    public interface IAudioManagement<ReferenceType> : IGameSystem<IActionProvider>
+    public interface IAudioManagement<ReferenceType> : IGameSystem<IAudioManagement<ReferenceType>>
     {
         /// <summary>
         /// The maximun tracked number of audio sources to use;
