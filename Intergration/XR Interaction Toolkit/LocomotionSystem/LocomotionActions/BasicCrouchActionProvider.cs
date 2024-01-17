@@ -1,7 +1,7 @@
 namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
 {
     using TUI.KinematicLocomotionSystem;
-    using TUI.KinematicLocomotionSystem.Actions;
+    using TUI.LocomotioinSystem.Actions;
     using UnityEngine;
     using UnityEngine.InputSystem;
     /// <summary>
