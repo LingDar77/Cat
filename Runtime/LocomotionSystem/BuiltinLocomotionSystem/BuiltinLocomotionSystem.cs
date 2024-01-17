@@ -16,7 +16,7 @@ namespace TUI.LocomotioinSystem
         [SerializeField] private Quaternion currentRotation;
         [ReadOnlyInEditor]
         [SerializeField] protected CapsuleCollider capsule;
-
+        [SerializeField] private LayerMask layerMask = 1;
         protected virtual void OnValidate()
         {
 #if UNITY_EDITOR
@@ -56,19 +56,21 @@ namespace TUI.LocomotioinSystem
 
         protected virtual void SimulatePhase(float time)
         {
-            var halfHight = Vector3.up * capsule.height / 2;
+            var halfHight = new Vector3(0, capsule.height / 2, 0);
             var point1 = transform.position + halfHight;
             var point2 = transform.position - halfHight;
             var targetPos = transform.position + currentVelocity * time;
 
-            var speedY = currentVelocity.y;
-            if (Physics.Raycast(point2 + Vector3.up * .1f, Vector3.up * Mathf.Sign(speedY), out var info, Mathf.Abs(speedY * time) + .1f))
+            //detect ground status
+            if (Physics.Raycast(transform.position, Vector3.down, out var info, halfHight.y, layerMask))
             {
-                Debug.Log("hit ground!");
+                Debug.Log("stand on ground");
                 targetPos.y = info.point.y + halfHight.y;
+                currentVelocity.y = 0;
             }
 
-
+            //detect move status
+            
             // var hits = Physics.CapsuleCastAll(point1, point2, capsule.radius, currentVelocity.normalized, currentVelocity.magnitude * time);
             // if (hits.Length > 1)
             // {
