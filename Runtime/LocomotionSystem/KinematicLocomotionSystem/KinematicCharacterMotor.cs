@@ -141,11 +141,7 @@ namespace TUI.KinematicLocomotionSystem
         /// </summary>
         [System.NonSerialized]
         public CharacterGroundingReport LastGroundingStatus = new();
-        /// <summary>
-        /// Specifies the LayerMask that the character's movement algorithm can detect collisions with. By default, this uses the rigidbody's layer's collision matrix
-        /// </summary>
-        [System.NonSerialized]
-        public LayerMask CollidableLayers = -1;
+
         public Vector3 _transientPosition;
         private Vector3 _characterUp;
         private Vector3 _characterTransformToCapsuleBottom;
@@ -173,7 +169,7 @@ namespace TUI.KinematicLocomotionSystem
         // Private
         private readonly RaycastHit[] _internalCharacterHits = new RaycastHit[MaxHitsBudget];
         private readonly Collider[] _internalProbedColliders = new Collider[MaxCollisionBudget];
-        private List<Rigidbody> _rigidbodiesPushedThisMove = new(16);
+        private readonly List<Rigidbody> _rigidbodiesPushedThisMove = new();
         private readonly RigidbodyProjectionHit[] _internalRigidbodyProjectionHits = new RigidbodyProjectionHit[MaxRigidbodyOverlapsCount];
         private int _rigidbodyProjectionHitCount = 0;
         public Quaternion _transientRotation;
@@ -286,15 +282,6 @@ namespace TUI.KinematicLocomotionSystem
             _transientPosition = transform.position;
             TransientRotation = transform.rotation;
 
-            // Build CollidableLayers mask
-            CollidableLayers = 0;
-            for (int i = 0; i < 32; i++)
-            {
-                if (!Physics.GetIgnoreLayerCollision(gameObject.layer, i))
-                {
-                    CollidableLayers |= 1 << i;
-                }
-            }
 
             SetCapsuleDimensions(Capsule.radius, Capsule.height, Capsule.center.y);
         }
@@ -1120,8 +1107,7 @@ namespace TUI.KinematicLocomotionSystem
                             MaxStepHeight + CollisionOffset,
                             out _,
                             _internalCharacterHits,
-                            0f,
-                            true);
+                            0f);
 
             // Check for overlaps and obstructions at the hit position
             if (CheckStepValidity(nbStepHits, characterPosition, characterRotation, innerHitDirection, stepCheckStartPos))
@@ -1163,8 +1149,7 @@ namespace TUI.KinematicLocomotionSystem
                             -characterUp,
                             MaxStepHeight + SecondaryProbesVertical,
                             out RaycastHit outerSlopeHit,
-                            _internalCharacterHits,
-                            true) > 0)
+                            _internalCharacterHits) > 0)
                     {
                         if (IsStableOnNormal(outerSlopeHit.normal))
                         {
@@ -1214,13 +1199,9 @@ namespace TUI.KinematicLocomotionSystem
         /// Detect if the character capsule is overlapping with anything collidable
         /// </summary>
         /// <returns> Returns number of overlaps </returns>
-        public int CharacterCollisionsOverlap(Vector3 position, Quaternion rotation, Collider[] overlappedColliders, float inflate = 0f, bool acceptOnlyStableGroundLayer = false)
+        public int CharacterCollisionsOverlap(Vector3 position, Quaternion rotation, Collider[] overlappedColliders, float inflate = 0f)
         {
-            int queryLayers = CollidableLayers;
-            if (acceptOnlyStableGroundLayer)
-            {
-                queryLayers = CollidableLayers & StableGroundLayers;
-            }
+            int queryLayers = StableGroundLayers;
 
             Vector3 bottom = position + (rotation * _characterTransformToCapsuleBottomHemi);
             Vector3 top = position + (rotation * _characterTransformToCapsuleTopHemi);
@@ -1259,13 +1240,10 @@ namespace TUI.KinematicLocomotionSystem
         /// Sweeps the capsule's volume to detect collision hits
         /// </summary>
         /// <returns> Returns the number of hits </returns>
-        public int CharacterCollisionsSweep(Vector3 position, Quaternion rotation, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits, float inflate = 0f, bool acceptOnlyStableGroundLayer = false)
+        public int CharacterCollisionsSweep(Vector3 position, Quaternion rotation, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits, float inflate = 0f)
         {
-            int queryLayers = CollidableLayers;
-            if (acceptOnlyStableGroundLayer)
-            {
-                queryLayers = CollidableLayers & StableGroundLayers;
-            }
+            int queryLayers = StableGroundLayers;
+
 
             Vector3 bottom = position + (rotation * _characterTransformToCapsuleBottomHemi) - (direction * SweepProbingBackstepDistance);
             Vector3 top = position + (rotation * _characterTransformToCapsuleTopHemi) - (direction * SweepProbingBackstepDistance);
@@ -1337,7 +1315,7 @@ namespace TUI.KinematicLocomotionSystem
                 direction,
                 _internalCharacterHits,
                 distance + GroundProbingBackstepDistance,
-                CollidableLayers & StableGroundLayers,
+                 StableGroundLayers,
                 QueryTriggerInteraction.Ignore);
 
             // Hits filter
@@ -1369,14 +1347,9 @@ namespace TUI.KinematicLocomotionSystem
         /// Raycasts to detect collision hits
         /// </summary>
         /// <returns> Returns the number of hits </returns>
-        public int CharacterCollisionsRaycast(Vector3 position, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits, bool acceptOnlyStableGroundLayer = false)
+        public int CharacterCollisionsRaycast(Vector3 position, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits)
         {
-            int queryLayers = CollidableLayers;
-            if (acceptOnlyStableGroundLayer)
-            {
-                queryLayers = CollidableLayers & StableGroundLayers;
-            }
-
+            int queryLayers = StableGroundLayers;
             int nbUnfilteredHits = Physics.RaycastNonAlloc(
                 position,
                 direction,

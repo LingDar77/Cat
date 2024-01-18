@@ -71,7 +71,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
 
         public void MarkUngrounded()
         {
-           
+            Motor.GroundingStatus.IsStableOnGround = false;
         }
 
         #region KCC Implementation
