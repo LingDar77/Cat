@@ -20,13 +20,6 @@ namespace TUI.KinematicLocomotionSystem
     public struct OverlapResult
     {
         public Vector3 Normal;
-        public Collider Collider;
-
-        public OverlapResult(Vector3 normal, Collider collider)
-        {
-            Normal = normal;
-            Collider = collider;
-        }
     }
 
     /// <summary>
@@ -39,33 +32,15 @@ namespace TUI.KinematicLocomotionSystem
         public bool SnappingPrevented;
         public Vector3 GroundNormal;
         public Vector3 InnerGroundNormal;
-        public Vector3 OuterGroundNormal;
 
-        public Collider GroundCollider;
-        public Vector3 GroundPoint;
 
-    }
-
-    /// <summary>
-    /// Contains the simulation-relevant information for the motor's grounding status
-    /// </summary>
-    public struct CharacterTransientGroundingReport
-    {
-        public bool FoundAnyGround;
-        public bool IsStableOnGround;
-        public bool SnappingPrevented;
-        public Vector3 GroundNormal;
-        public Vector3 InnerGroundNormal;
-        public Vector3 OuterGroundNormal;
-
-        public void CopyFrom(CharacterGroundingReport groundingReport)
+        public void Init()
         {
-            FoundAnyGround = groundingReport.FoundAnyGround;
-            IsStableOnGround = groundingReport.IsStableOnGround;
-            SnappingPrevented = groundingReport.SnappingPrevented;
-            GroundNormal = groundingReport.GroundNormal;
-            InnerGroundNormal = groundingReport.InnerGroundNormal;
-            OuterGroundNormal = groundingReport.OuterGroundNormal;
+            FoundAnyGround = false;
+            IsStableOnGround = false;
+            SnappingPrevented = false;
+            GroundNormal = Vector3.zero;
+            InnerGroundNormal = Vector3.zero;
         }
     }
 
@@ -76,21 +51,14 @@ namespace TUI.KinematicLocomotionSystem
     {
         public bool IsStable;
 
-        public bool FoundInnerNormal;
         public Vector3 InnerNormal;
-        public bool FoundOuterNormal;
         public Vector3 OuterNormal;
 
         public bool ValidStepDetected;
-        public Collider SteppedCollider;
 
         public bool LedgeDetected;
         public bool IsOnEmptySideOfLedge;
         public float DistanceFromLedge;
-        public bool IsMovingTowardsEmptySideOfLedge;
-        public Vector3 LedgeGroundNormal;
-        public Vector3 LedgeRightDirection;
-        public Vector3 LedgeFacingDirection;
     }
 
     /// <summary>
@@ -102,7 +70,6 @@ namespace TUI.KinematicLocomotionSystem
         public Vector3 HitPoint;
         public Vector3 EffectiveHitNormal;
         public Vector3 HitVelocity;
-        public bool StableOnHit;
     }
 
     /// <summary>
@@ -181,12 +148,12 @@ namespace TUI.KinematicLocomotionSystem
         /// Contains the current grounding information
         /// </summary>
         [System.NonSerialized]
-        public CharacterGroundingReport GroundingStatus = new CharacterGroundingReport();
+        public CharacterGroundingReport GroundingStatus = new();
         /// <summary>
         /// Contains the previous grounding information
         /// </summary>
         [System.NonSerialized]
-        public CharacterTransientGroundingReport LastGroundingStatus = new();
+        public CharacterGroundingReport LastGroundingStatus = new();
         /// <summary>
         /// Specifies the LayerMask that the character's movement algorithm can detect collisions with. By default, this uses the rigidbody's layer's collision matrix
         /// </summary>
@@ -198,7 +165,7 @@ namespace TUI.KinematicLocomotionSystem
         private Vector3 _characterTransformToCapsuleBottomHemi;
         private Vector3 _characterTransformToCapsuleTopHemi;
         private int _overlapsCount;
-        private OverlapResult[] _overlaps = new OverlapResult[MaxRigidbodyOverlapsCount];
+        private readonly Vector3[] overlapsNormals = new Vector3[MaxRigidbodyOverlapsCount];
 
         /// <summary>
         /// The motor's assigned controller
@@ -217,15 +184,12 @@ namespace TUI.KinematicLocomotionSystem
         public Vector3 BaseVelocity;
 
         // Private
-        private RaycastHit[] _internalCharacterHits = new RaycastHit[MaxHitsBudget];
-        private Collider[] _internalProbedColliders = new Collider[MaxCollisionBudget];
-        private List<Rigidbody> _rigidbodiesPushedThisMove = new List<Rigidbody>(16);
-        private RigidbodyProjectionHit[] _internalRigidbodyProjectionHits = new RigidbodyProjectionHit[MaxRigidbodyOverlapsCount];
-        private bool _solveMovementCollisions = true;
+        private readonly RaycastHit[] _internalCharacterHits = new RaycastHit[MaxHitsBudget];
+        private readonly Collider[] _internalProbedColliders = new Collider[MaxCollisionBudget];
+        private List<Rigidbody> _rigidbodiesPushedThisMove = new(16);
+        private readonly RigidbodyProjectionHit[] _internalRigidbodyProjectionHits = new RigidbodyProjectionHit[MaxRigidbodyOverlapsCount];
         private int _rigidbodyProjectionHitCount = 0;
         private Vector3 _cachedWorldUp = Vector3.up;
-        private Vector3 _cachedZeroVector = Vector3.zero;
-
         public Quaternion _transientRotation;
 
         /// <summary>
@@ -258,9 +222,6 @@ namespace TUI.KinematicLocomotionSystem
         public const float SecondaryProbesVertical = 0.02f;
         public const float SecondaryProbesHorizontal = 0.001f;
         public const float MinVelocityMagnitude = 0.01f;
-        public const float SteppingForwardDistance = 0.03f;
-        public const float MinDistanceForLedge = 0.05f;
-        public const float CorrelationForVerticalObstruction = 0.01f;
 
         public Action<float, float, float> OnCapsuleDimensionsUpdated;
 
@@ -375,11 +336,8 @@ namespace TUI.KinematicLocomotionSystem
             _rigidbodyProjectionHitCount = 0;
             _overlapsCount = 0;
 
-            LastGroundingStatus.CopyFrom(GroundingStatus);
-            GroundingStatus = new()
-            {
-                GroundNormal = _characterUp
-            };
+            LastGroundingStatus = GroundingStatus;
+            GroundingStatus.Init();
 
             #region Ground Probing and Snapping
 
@@ -427,7 +385,7 @@ namespace TUI.KinematicLocomotionSystem
             TransientRotation = _transientRotation;
 
 
-            if (_solveMovementCollisions && InteractiveRigidbodyHandling)
+            if (InteractiveRigidbodyHandling)
             {
                 if (InteractiveRigidbodyHandling)
                 {
@@ -444,8 +402,6 @@ namespace TUI.KinematicLocomotionSystem
                             {
                                 // Process overlap
                                 Transform overlappedTransform = _internalProbedColliders[i].GetComponent<Transform>();
-                                Vector3 resolutionDirection;
-                                float resolutionDistance;
                                 if (Physics.ComputePenetration(
                                         Capsule,
                                         _transientPosition,
@@ -453,13 +409,11 @@ namespace TUI.KinematicLocomotionSystem
                                         _internalProbedColliders[i],
                                         overlappedTransform.position,
                                         overlappedTransform.rotation,
-                                        out resolutionDirection,
-                                        out resolutionDistance))
+                                        out Vector3 resolutionDirection,
+                                        out float resolutionDistance))
                                 {
-                                    // Resolve along obstruction direction
-                                    HitStabilityReport mockReport = new HitStabilityReport();
-                                    mockReport.IsStable = IsStableOnNormal(resolutionDirection);
-                                    resolutionDirection = GetObstructionNormal(resolutionDirection, mockReport.IsStable);
+
+                                    resolutionDirection = GetObstructionNormal(resolutionDirection, IsStableOnNormal(resolutionDirection));
 
                                     // Solve overlap
                                     Vector3 resolutionMovement = resolutionDirection * (resolutionDistance + CollisionOffset);
@@ -491,9 +445,9 @@ namespace TUI.KinematicLocomotionSystem
                                     }
 
                                     // Remember overlaps
-                                    if (_overlapsCount < _overlaps.Length)
+                                    if (_overlapsCount < overlapsNormals.Length)
                                     {
-                                        _overlaps[_overlapsCount] = new OverlapResult(resolutionDirection, _internalProbedColliders[i]);
+                                        overlapsNormals[_overlapsCount] = resolutionDirection;
                                         _overlapsCount++;
                                     }
 
@@ -525,14 +479,7 @@ namespace TUI.KinematicLocomotionSystem
             // Perform the move from base velocity
             if (BaseVelocity.sqrMagnitude > 0f)
             {
-                if (_solveMovementCollisions)
-                {
-                    InternalCharacterMove(ref BaseVelocity, deltaTime);
-                }
-                else
-                {
-                    _transientPosition += BaseVelocity * deltaTime;
-                }
+                InternalCharacterMove(ref BaseVelocity, deltaTime);
             }
 
             // Process rigidbody hits/overlaps to affect velocity
@@ -602,7 +549,6 @@ namespace TUI.KinematicLocomotionSystem
             }
 
             int groundSweepsMade = 0;
-            RaycastHit groundSweepHit = new();
             bool groundSweepingIsOver = false;
             Vector3 groundSweepPosition = probingPosition;
             Vector3 groundSweepDirection = atRotation * -_cachedWorldUp;
@@ -615,7 +561,7 @@ namespace TUI.KinematicLocomotionSystem
                         atRotation, // rotation
                         groundSweepDirection, // direction
                         groundProbeDistanceRemaining, // distance
-                        out groundSweepHit)) // hit
+                        out RaycastHit groundSweepHit)) // hit
                 {
                     Vector3 targetPosition = groundSweepPosition + (groundSweepDirection * groundSweepHit.distance);
                     HitStabilityReport groundHitStabilityReport = new();
@@ -624,9 +570,6 @@ namespace TUI.KinematicLocomotionSystem
                     groundingReport.FoundAnyGround = true;
                     groundingReport.GroundNormal = groundSweepHit.normal;
                     groundingReport.InnerGroundNormal = groundHitStabilityReport.InnerNormal;
-                    groundingReport.OuterGroundNormal = groundHitStabilityReport.OuterNormal;
-                    groundingReport.GroundCollider = groundSweepHit.collider;
-                    groundingReport.GroundPoint = groundSweepHit.point;
                     groundingReport.SnappingPrevented = false;
 
                     // Found stable ground
@@ -692,19 +635,18 @@ namespace TUI.KinematicLocomotionSystem
             bool wasCompleted = true;
             Vector3 remainingMovementDirection = transientVelocity.normalized;
             float remainingMovementMagnitude = transientVelocity.magnitude * deltaTime;
-            Vector3 originalVelocityDirection = remainingMovementDirection;
             int sweepsMade = 0;
             bool hitSomethingThisSweepIteration = true;
             Vector3 tmpMovedPosition = _transientPosition;
             bool previousHitIsStable = false;
-            Vector3 previousVelocity = _cachedZeroVector;
-            Vector3 previousObstructionNormal = _cachedZeroVector;
+            Vector3 previousVelocity = Vector3.zero;
+            Vector3 previousObstructionNormal = Vector3.zero;
             MovementSweepState sweepState = MovementSweepState.Initial;
 
             // Project movement against current overlaps before doing the sweeps
             for (int i = 0; i < _overlapsCount; i++)
             {
-                Vector3 overlapNormal = _overlaps[i].Normal;
+                Vector3 overlapNormal = overlapsNormals[i];
                 if (Vector3.Dot(remainingMovementDirection, overlapNormal) < 0f)
                 {
                     bool stableOnHit = IsStableOnNormal(overlapNormal);
@@ -713,9 +655,7 @@ namespace TUI.KinematicLocomotionSystem
 
                     InternalHandleVelocityProjection(
                         stableOnHit,
-                        overlapNormal,
                         obstructionNormal,
-                        originalVelocityDirection,
                         ref sweepState,
                         previousHitIsStable,
                         previousVelocity,
@@ -767,90 +707,43 @@ namespace TUI.KinematicLocomotionSystem
                     remainingMovementMagnitude -= sweepMovement.magnitude;
 
                     // Evaluate if hit is stable
-                    HitStabilityReport moveHitStabilityReport = new HitStabilityReport();
+                    HitStabilityReport moveHitStabilityReport = new();
                     EvaluateHitStability(closestSweepHitCollider, closestSweepHitNormal, closestSweepHitPoint, tmpMovedPosition, _transientRotation, transientVelocity, ref moveHitStabilityReport);
 
-                    // Handle stepping up steps points higher than bottom capsule radius
-                    bool foundValidStepHit = false;
-                    if (moveHitStabilityReport.ValidStepDetected)
+                    Vector3 obstructionNormal = GetObstructionNormal(closestSweepHitNormal, moveHitStabilityReport.IsStable);
+
+                    // Movement hit callback
+                    CharacterController.OnMovementHit(closestSweepHitCollider, closestSweepHitNormal, closestSweepHitPoint, ref moveHitStabilityReport);
+
+                    // Handle remembering rigidbody hits
+                    if (InteractiveRigidbodyHandling && closestSweepHitCollider.attachedRigidbody)
                     {
-                        float obstructionCorrelation = Mathf.Abs(Vector3.Dot(closestSweepHitNormal, _characterUp));
-                        if (obstructionCorrelation <= CorrelationForVerticalObstruction)
-                        {
-                            Vector3 stepForwardDirection = Vector3.ProjectOnPlane(-closestSweepHitNormal, _characterUp).normalized;
-                            Vector3 stepCastStartPoint = tmpMovedPosition + (stepForwardDirection * SteppingForwardDistance) +
-                                (_characterUp * MaxStepHeight);
-
-                            // Cast downward from the top of the stepping height
-                            int nbStepHits = CharacterCollisionsSweep(
-                                                stepCastStartPoint, // position
-                                                _transientRotation, // rotation
-                                                -_characterUp, // direction
-                                                MaxStepHeight, // distance
-                                                out RaycastHit closestStepHit, // closest hit
-                                                _internalCharacterHits,
-                                                0f,
-                                                true); // all hits 
-
-                            // Check for hit corresponding to stepped collider
-                            for (int i = 0; i < nbStepHits; i++)
-                            {
-                                if (_internalCharacterHits[i].collider == moveHitStabilityReport.SteppedCollider)
-                                {
-                                    Vector3 endStepPosition = stepCastStartPoint + (-_characterUp * (_internalCharacterHits[i].distance - CollisionOffset));
-                                    tmpMovedPosition = endStepPosition;
-                                    foundValidStepHit = true;
-
-                                    // Project velocity on ground normal at step
-                                    transientVelocity = Vector3.ProjectOnPlane(transientVelocity, _characterUp);
-                                    remainingMovementDirection = transientVelocity.normalized;
-
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    // Handle movement solving
-                    if (!foundValidStepHit)
-                    {
-                        Vector3 obstructionNormal = GetObstructionNormal(closestSweepHitNormal, moveHitStabilityReport.IsStable);
-
-                        // Movement hit callback
-                        CharacterController.OnMovementHit(closestSweepHitCollider, closestSweepHitNormal, closestSweepHitPoint, ref moveHitStabilityReport);
-
-                        // Handle remembering rigidbody hits
-                        if (InteractiveRigidbodyHandling && closestSweepHitCollider.attachedRigidbody)
-                        {
-                            StoreRigidbodyHit(
-                                closestSweepHitCollider.attachedRigidbody,
-                                transientVelocity,
-                                closestSweepHitPoint,
-                                obstructionNormal,
-                                moveHitStabilityReport);
-                        }
-
-                        bool stableOnHit = moveHitStabilityReport.IsStable;
-                        Vector3 velocityBeforeProj = transientVelocity;
-
-                        // Project velocity for next iteration
-                        InternalHandleVelocityProjection(
-                            stableOnHit,
-                            closestSweepHitNormal,
+                        StoreRigidbodyHit(
+                            closestSweepHitCollider.attachedRigidbody,
+                            transientVelocity,
+                            closestSweepHitPoint,
                             obstructionNormal,
-                            originalVelocityDirection,
-                            ref sweepState,
-                            previousHitIsStable,
-                            previousVelocity,
-                            previousObstructionNormal,
-                            ref transientVelocity,
-                            ref remainingMovementMagnitude,
-                            ref remainingMovementDirection);
-
-                        previousHitIsStable = stableOnHit;
-                        previousVelocity = velocityBeforeProj;
-                        previousObstructionNormal = obstructionNormal;
+                            moveHitStabilityReport);
                     }
+
+                    bool stableOnHit = moveHitStabilityReport.IsStable;
+                    Vector3 velocityBeforeProj = transientVelocity;
+
+                    // Project velocity for next iteration
+                    InternalHandleVelocityProjection(
+                        stableOnHit,
+                        obstructionNormal,
+                        ref sweepState,
+                        previousHitIsStable,
+                        previousVelocity,
+                        previousObstructionNormal,
+                        ref transientVelocity,
+                        ref remainingMovementMagnitude,
+                        ref remainingMovementDirection);
+
+                    previousHitIsStable = stableOnHit;
+                    previousVelocity = velocityBeforeProj;
+                    previousObstructionNormal = obstructionNormal;
                 }
                 // If we hit nothing...
                 else
@@ -907,7 +800,6 @@ namespace TUI.KinematicLocomotionSystem
                         HitPoint = hitPoint,
                         EffectiveHitNormal = obstructionNormal,
                         HitVelocity = hitVelocity,
-                        StableOnHit = hitStabilityReport.IsStable
                     };
 
                     _internalRigidbodyProjectionHits[_rigidbodyProjectionHitCount] = rph;
@@ -919,7 +811,7 @@ namespace TUI.KinematicLocomotionSystem
         /// <summary>
         /// Processes movement projection upon detecting a hit
         /// </summary>
-        private void InternalHandleVelocityProjection(bool stableOnHit, Vector3 hitNormal, Vector3 obstructionNormal, Vector3 originalDirection,
+        private void InternalHandleVelocityProjection(bool stableOnHit, Vector3 obstructionNormal,
             ref MovementSweepState sweepState, bool previousHitIsStable, Vector3 previousVelocity, Vector3 previousObstructionNormal,
             ref Vector3 transientVelocity, ref float remainingMovementMagnitude, ref Vector3 remainingMovementDirection)
         {
@@ -1213,16 +1105,11 @@ namespace TUI.KinematicLocomotionSystem
             Vector3 atCharacterUp = atCharacterRotation * _cachedWorldUp;
             Vector3 innerHitDirection = Vector3.ProjectOnPlane(hitNormal, atCharacterUp).normalized;
 
-            stabilityReport.IsStable = this.IsStableOnNormal(hitNormal);
+            stabilityReport.IsStable = IsStableOnNormal(hitNormal);
 
-            stabilityReport.FoundInnerNormal = false;
-            stabilityReport.FoundOuterNormal = false;
             stabilityReport.InnerNormal = hitNormal;
             stabilityReport.OuterNormal = hitNormal;
-
-
-            float ledgeCheckHeight = MinDistanceForLedge;
-            ledgeCheckHeight = MaxStepHeight;
+            float ledgeCheckHeight = MaxStepHeight;
 
             bool isStableLedgeInner = false;
             bool isStableLedgeOuter = false;
@@ -1236,7 +1123,6 @@ namespace TUI.KinematicLocomotionSystem
             {
                 Vector3 innerLedgeNormal = innerLedgeHit.normal;
                 stabilityReport.InnerNormal = innerLedgeNormal;
-                stabilityReport.FoundInnerNormal = true;
                 isStableLedgeInner = IsStableOnNormal(innerLedgeNormal);
             }
 
@@ -1249,7 +1135,6 @@ namespace TUI.KinematicLocomotionSystem
             {
                 Vector3 outerLedgeNormal = outerLedgeHit.normal;
                 stabilityReport.OuterNormal = outerLedgeNormal;
-                stabilityReport.FoundOuterNormal = true;
                 isStableLedgeOuter = IsStableOnNormal(outerLedgeNormal);
             }
 
@@ -1257,11 +1142,7 @@ namespace TUI.KinematicLocomotionSystem
             if (stabilityReport.LedgeDetected)
             {
                 stabilityReport.IsOnEmptySideOfLedge = isStableLedgeOuter && !isStableLedgeInner;
-                stabilityReport.LedgeGroundNormal = isStableLedgeOuter ? stabilityReport.OuterNormal : stabilityReport.InnerNormal;
-                stabilityReport.LedgeRightDirection = Vector3.Cross(hitNormal, stabilityReport.LedgeGroundNormal).normalized;
-                stabilityReport.LedgeFacingDirection = Vector3.ProjectOnPlane(Vector3.Cross(stabilityReport.LedgeGroundNormal, stabilityReport.LedgeRightDirection), _characterUp).normalized;
                 stabilityReport.DistanceFromLedge = Vector3.ProjectOnPlane(hitPoint - (atCharacterPosition + (atCharacterRotation * _characterTransformToCapsuleBottom)), atCharacterUp).magnitude;
-                stabilityReport.IsMovingTowardsEmptySideOfLedge = Vector3.Dot(withCharacterVelocity.normalized, stabilityReport.LedgeFacingDirection) > 0f;
             }
 
             if (stabilityReport.IsStable)
@@ -1293,7 +1174,7 @@ namespace TUI.KinematicLocomotionSystem
         {
             Vector3 characterUp = characterRotation * _cachedWorldUp;
             Vector3 verticalCharToHit = Vector3.Project(hitPoint - characterPosition, characterUp);
-            Vector3 horizontalCharToHitDirection = Vector3.ProjectOnPlane((hitPoint - characterPosition), characterUp).normalized;
+            Vector3 horizontalCharToHitDirection = Vector3.ProjectOnPlane(hitPoint - characterPosition, characterUp).normalized;
             Vector3 stepCheckStartPos = hitPoint - verticalCharToHit + (characterUp * MaxStepHeight) + (3f * CollisionOffset * horizontalCharToHitDirection);
 
             // Do outer step check with capsule cast on hit point
@@ -1302,24 +1183,22 @@ namespace TUI.KinematicLocomotionSystem
                             characterRotation,
                             -characterUp,
                             MaxStepHeight + CollisionOffset,
-                            out RaycastHit outerStepHit,
+                            out _,
                             _internalCharacterHits,
                             0f,
                             true);
 
             // Check for overlaps and obstructions at the hit position
-            if (CheckStepValidity(nbStepHits, characterPosition, characterRotation, innerHitDirection, stepCheckStartPos, out Collider tmpCollider))
+            if (CheckStepValidity(nbStepHits, characterPosition, characterRotation, innerHitDirection, stepCheckStartPos))
             {
                 stabilityReport.ValidStepDetected = true;
-                stabilityReport.SteppedCollider = tmpCollider;
             }
 
 
         }
 
-        private bool CheckStepValidity(int nbStepHits, Vector3 characterPosition, Quaternion characterRotation, Vector3 innerHitDirection, Vector3 stepCheckStartPos, out Collider hitCollider)
+        private bool CheckStepValidity(int nbStepHits, Vector3 characterPosition, Quaternion characterRotation, Vector3 innerHitDirection, Vector3 stepCheckStartPos)
         {
-            hitCollider = null;
             Vector3 characterUp = characterRotation * Vector3.up;
 
 
@@ -1416,7 +1295,6 @@ namespace TUI.KinematicLocomotionSystem
                 top += rotation * Vector3.up * inflate;
             }
 
-            int nbHits = 0;
             int nbUnfilteredHits = Physics.OverlapCapsuleNonAlloc(
                         bottom,
                         top,
@@ -1426,7 +1304,7 @@ namespace TUI.KinematicLocomotionSystem
                         QueryTriggerInteraction.Ignore);
 
             // Filter out invalid colliders
-            nbHits = nbUnfilteredHits;
+            int nbHits = nbUnfilteredHits;
             for (int i = nbUnfilteredHits - 1; i >= 0; i--)
             {
                 if (!CheckIfColliderValidForCollisions(overlappedColliders[i]))
@@ -1564,8 +1442,6 @@ namespace TUI.KinematicLocomotionSystem
                 queryLayers = CollidableLayers & StableGroundLayers;
             }
 
-            // Raycast
-            int nbHits = 0;
             int nbUnfilteredHits = Physics.RaycastNonAlloc(
                 position,
                 direction,
@@ -1577,7 +1453,8 @@ namespace TUI.KinematicLocomotionSystem
             // Hits filter
             closestHit = new RaycastHit();
             float closestDistance = Mathf.Infinity;
-            nbHits = nbUnfilteredHits;
+            // Raycast
+            int nbHits = nbUnfilteredHits;
             for (int i = nbUnfilteredHits - 1; i >= 0; i--)
             {
                 RaycastHit hit = hits[i];
