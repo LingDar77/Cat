@@ -15,14 +15,6 @@ namespace TUI.KinematicLocomotionSystem
     }
 
     /// <summary>
-    /// Describes an overlap between the character capsule and another collider
-    /// </summary>
-    public struct OverlapResult
-    {
-        public Vector3 Normal;
-    }
-
-    /// <summary>
     /// Contains all the information for the motor's grounding status
     /// </summary>
     public struct CharacterGroundingReport
