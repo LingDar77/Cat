@@ -113,7 +113,7 @@ namespace TUI.KinematicLocomotionSystem
 
         private void Update()
         {
-            float deltaTime = Time.fixedDeltaTime;
+            // float deltaTime = Time.fixedDeltaTime;
 
             // PreSimulationInterpolationUpdate(deltaTime);
             Simulate(Time.deltaTime, CharacterMotors, PhysicsMovers);

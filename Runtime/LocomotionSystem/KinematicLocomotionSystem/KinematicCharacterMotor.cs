@@ -94,11 +94,6 @@ namespace TUI.KinematicLocomotionSystem
         [Tooltip("Maximum height of a step which the character can climb")]
         public float MaxStepHeight = 0.5f;
 
-        /// <summary>
-        /// Minimum length of a step that the character can step on (used in Extra stepping method. Use this to let the character step on steps that are smaller that its radius
-        /// </summary>    
-        [Tooltip("Minimum length of a step that the character can step on (used in Extra stepping method). Use this to let the character step on steps that are smaller that its radius")]
-        public float MinRequiredStepDepth = 0.1f;
 
         /// <summary>
         /// The distance from the capsule central axis at which the character can stand on a ledge and still be stable
@@ -181,7 +176,6 @@ namespace TUI.KinematicLocomotionSystem
         private List<Rigidbody> _rigidbodiesPushedThisMove = new(16);
         private readonly RigidbodyProjectionHit[] _internalRigidbodyProjectionHits = new RigidbodyProjectionHit[MaxRigidbodyOverlapsCount];
         private int _rigidbodyProjectionHitCount = 0;
-        private Vector3 _cachedWorldUp = Vector3.up;
         public Quaternion _transientRotation;
 
         /// <summary>
@@ -196,7 +190,7 @@ namespace TUI.KinematicLocomotionSystem
             private set
             {
                 _transientRotation = value;
-                _characterUp = _transientRotation * _cachedWorldUp;
+                _characterUp = _transientRotation * Vector3.up;
             }
         }
 
@@ -249,7 +243,6 @@ namespace TUI.KinematicLocomotionSystem
             SetCapsuleDimensions(Capsule.radius, Capsule.height, Capsule.center.y);
 
             MaxStepHeight = Mathf.Clamp(MaxStepHeight, 0f, Mathf.Infinity);
-            MinRequiredStepDepth = Mathf.Clamp(MinRequiredStepDepth, 0f, Capsule.radius);
             MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, Capsule.radius);
 
         }
@@ -279,9 +272,9 @@ namespace TUI.KinematicLocomotionSystem
             Capsule.height = Mathf.Clamp(Capsule.height, Capsule.radius * 2f, Capsule.height);
             Capsule.center = new Vector3(0f, Capsule.center.y, 0f);
 
-            _characterTransformToCapsuleBottom = Capsule.center + (-_cachedWorldUp * (Capsule.height * 0.5f));
-            _characterTransformToCapsuleBottomHemi = Capsule.center + (-_cachedWorldUp * (Capsule.height * 0.5f)) + (_cachedWorldUp * Capsule.radius);
-            _characterTransformToCapsuleTopHemi = Capsule.center + (_cachedWorldUp * (Capsule.height * 0.5f)) + (-_cachedWorldUp * Capsule.radius);
+            _characterTransformToCapsuleBottom = Capsule.center + (-Vector3.up * (Capsule.height * 0.5f));
+            _characterTransformToCapsuleBottomHemi = Capsule.center + (-Vector3.up * (Capsule.height * 0.5f)) + (Vector3.up * Capsule.radius);
+            _characterTransformToCapsuleTopHemi = Capsule.center + (Vector3.up * (Capsule.height * 0.5f)) + (-Vector3.up * Capsule.radius);
 
             OnCapsuleDimensionsUpdated?.Invoke(Capsule.radius, Capsule.height, Capsule.center.y);
         }
@@ -431,8 +424,7 @@ namespace TUI.KinematicLocomotionSystem
                                                 probedRigidbody,
                                                 BaseVelocity,
                                                 estimatedCollisionPoint,
-                                                resolutionDirection,
-                                                tmpReport);
+                                                resolutionDirection);
                                         }
                                     }
 
@@ -477,7 +469,7 @@ namespace TUI.KinematicLocomotionSystem
             // Process rigidbody hits/overlaps to affect velocity
             if (InteractiveRigidbodyHandling)
             {
-                ProcessVelocityForRigidbodyHits(ref BaseVelocity, deltaTime);
+                ProcessVelocityForRigidbodyHits(ref BaseVelocity);
             }
             #endregion
 
@@ -543,7 +535,7 @@ namespace TUI.KinematicLocomotionSystem
             int groundSweepsMade = 0;
             bool groundSweepingIsOver = false;
             Vector3 groundSweepPosition = probingPosition;
-            Vector3 groundSweepDirection = atRotation * -_cachedWorldUp;
+            Vector3 groundSweepDirection = atRotation * -Vector3.up;
             float groundProbeDistanceRemaining = probingDistance;
             while (groundProbeDistanceRemaining > 0 && (groundSweepsMade <= MaxGroundingSweepIterations) && !groundSweepingIsOver)
             {
@@ -584,7 +576,7 @@ namespace TUI.KinematicLocomotionSystem
                     else
                     {
                         // Calculate movement from this iteration and advance position
-                        Vector3 sweepMovement = (groundSweepDirection * groundSweepHit.distance) + (atRotation * _cachedWorldUp * Mathf.Max(CollisionOffset, groundSweepHit.distance));
+                        Vector3 sweepMovement = (groundSweepDirection * groundSweepHit.distance) + (atRotation * Vector3.up * Mathf.Max(CollisionOffset, groundSweepHit.distance));
                         groundSweepPosition += sweepMovement;
 
                         // Set remaining distance
@@ -714,8 +706,7 @@ namespace TUI.KinematicLocomotionSystem
                             closestSweepHitCollider.attachedRigidbody,
                             transientVelocity,
                             closestSweepHitPoint,
-                            obstructionNormal,
-                            moveHitStabilityReport);
+                            obstructionNormal);
                     }
 
                     bool stableOnHit = moveHitStabilityReport.IsStable;
@@ -780,7 +771,7 @@ namespace TUI.KinematicLocomotionSystem
         /// <summary>
         /// Remembers a rigidbody hit for processing later
         /// </summary>
-        private void StoreRigidbodyHit(Rigidbody hitRigidbody, Vector3 hitVelocity, Vector3 hitPoint, Vector3 obstructionNormal, HitStabilityReport hitStabilityReport)
+        private void StoreRigidbodyHit(Rigidbody hitRigidbody, Vector3 hitVelocity, Vector3 hitPoint, Vector3 obstructionNormal)
         {
             if (_rigidbodyProjectionHitCount < _internalRigidbodyProjectionHits.Length)
             {
@@ -963,7 +954,7 @@ namespace TUI.KinematicLocomotionSystem
         /// <summary>
         /// Takes into account rigidbody hits for adding to the velocity
         /// </summary>
-        private void ProcessVelocityForRigidbodyHits(ref Vector3 processedVelocity, float deltaTime)
+        private void ProcessVelocityForRigidbodyHits(ref Vector3 processedVelocity)
         {
             for (int i = 0; i < _rigidbodyProjectionHitCount; i++)
             {
@@ -974,68 +965,20 @@ namespace TUI.KinematicLocomotionSystem
                     // Remember we hit this rigidbody
                     _rigidbodiesPushedThisMove.Add(bodyHit.Rigidbody);
 
-                    float characterMass = SimulatedCharacterMass;
-                    Vector3 characterVelocity = bodyHit.HitVelocity;
-
-                    KinematicCharacterMotor hitCharacterMotor = bodyHit.Rigidbody.GetComponent<KinematicCharacterMotor>();
-                    bool hitBodyIsCharacter = hitCharacterMotor != null;
-                    bool hitBodyIsDynamic = !bodyHit.Rigidbody.isKinematic;
-                    float hitBodyMassAtPoint = bodyHit.Rigidbody.mass; // todo
-                    Vector3 hitBodyVelocity = bodyHit.Rigidbody.velocity;
-                    if (hitBodyIsCharacter)
-                    {
-                        hitBodyMassAtPoint = hitCharacterMotor.SimulatedCharacterMass; // todo
-                        hitBodyVelocity = hitCharacterMotor.BaseVelocity;
-                    }
-                    else if (!hitBodyIsDynamic)
-                    {
-                        PhysicsMover physicsMover = bodyHit.Rigidbody.GetComponent<PhysicsMover>();
-                        if (physicsMover)
-                        {
-                            hitBodyVelocity = physicsMover.Velocity;
-                        }
-                    }
-
                     // Calculate the ratio of the total mass that the character mass represents
-                    float characterToBodyMassRatio;
-                    {
-                        if (characterMass + hitBodyMassAtPoint > 0f)
-                        {
-                            characterToBodyMassRatio = characterMass / (characterMass + hitBodyMassAtPoint);
-                        }
-                        else
-                        {
-                            characterToBodyMassRatio = 0.5f;
-                        }
-
-                        // Hitting a non-dynamic body
-                        if (!hitBodyIsDynamic)
-                        {
-                            characterToBodyMassRatio = 0f;
-                        }
-
-                    }
+                    float characterToBodyMassRatio = SimulatedCharacterMass / (SimulatedCharacterMass + bodyHit.Rigidbody.mass);
 
                     ComputeCollisionResolutionForHitBody(
                         bodyHit.EffectiveHitNormal,
-                        characterVelocity,
-                        hitBodyVelocity,
+                        bodyHit.HitVelocity,
+                        bodyHit.Rigidbody.velocity,
                         characterToBodyMassRatio,
                         out Vector3 velocityChangeOnCharacter,
                         out Vector3 velocityChangeOnBody);
 
                     processedVelocity += velocityChangeOnCharacter;
 
-                    if (hitBodyIsCharacter)
-                    {
-                        hitCharacterMotor.BaseVelocity += velocityChangeOnCharacter;
-                    }
-                    else if (hitBodyIsDynamic)
-                    {
-                        bodyHit.Rigidbody.AddForceAtPosition(velocityChangeOnBody, bodyHit.HitPoint, ForceMode.VelocityChange);
-                    }
-
-
+                    bodyHit.Rigidbody.AddForceAtPosition(velocityChangeOnBody, bodyHit.HitPoint, ForceMode.VelocityChange);
                 }
             }
 
@@ -1094,7 +1037,7 @@ namespace TUI.KinematicLocomotionSystem
         public void EvaluateHitStability(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, Vector3 withCharacterVelocity, ref HitStabilityReport stabilityReport)
         {
 
-            Vector3 atCharacterUp = atCharacterRotation * _cachedWorldUp;
+            Vector3 atCharacterUp = atCharacterRotation * Vector3.up;
             Vector3 innerHitDirection = Vector3.ProjectOnPlane(hitNormal, atCharacterUp).normalized;
 
             stabilityReport.IsStable = IsStableOnNormal(hitNormal);
@@ -1164,7 +1107,7 @@ namespace TUI.KinematicLocomotionSystem
 
         private void DetectSteps(Vector3 characterPosition, Quaternion characterRotation, Vector3 hitPoint, Vector3 innerHitDirection, ref HitStabilityReport stabilityReport)
         {
-            Vector3 characterUp = characterRotation * _cachedWorldUp;
+            Vector3 characterUp = characterRotation * Vector3.up;
             Vector3 verticalCharToHit = Vector3.Project(hitPoint - characterPosition, characterUp);
             Vector3 horizontalCharToHitDirection = Vector3.ProjectOnPlane(hitPoint - characterPosition, characterUp).normalized;
             Vector3 stepCheckStartPos = hitPoint - verticalCharToHit + (characterUp * MaxStepHeight) + (3f * CollisionOffset * horizontalCharToHitDirection);
@@ -1231,7 +1174,7 @@ namespace TUI.KinematicLocomotionSystem
                                                 characterRotation, // rotation
                                                 characterUp, // direction
                                                 MaxStepHeight - farthestHit.distance, // distance
-                                                out RaycastHit tmpUpObstructionHit, // closest hit
+                                                out _, // closest hit
                                                 _internalCharacterHits) // all hits
                                     <= 0)
                             {
