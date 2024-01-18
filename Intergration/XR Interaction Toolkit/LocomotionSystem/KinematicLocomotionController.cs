@@ -71,7 +71,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
 
         public void MarkUngrounded()
         {
-            Motor.ForceUnground();
+           
         }
 
         #region KCC Implementation
