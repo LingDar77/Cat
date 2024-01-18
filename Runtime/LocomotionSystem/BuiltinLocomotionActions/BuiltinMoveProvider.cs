@@ -25,7 +25,7 @@ namespace TUI
         }
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
-            currentVelocity = new(input.x, 0, input.y);
+            currentVelocity = new(input.x, currentVelocity.y, input.y);
             currentVelocity.y -= 9.8f * deltaTime;
         }
     }

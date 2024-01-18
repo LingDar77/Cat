@@ -14,9 +14,6 @@ namespace TUI.KinematicLocomotionSystem
         public static List<KinematicCharacterMotor> CharacterMotors = new List<KinematicCharacterMotor>();
         public static List<PhysicsMover> PhysicsMovers = new List<PhysicsMover>();
 
-        private static float _lastCustomInterpolationStartTime = -1f;
-        private static float _lastCustomInterpolationDeltaTime = -1f;
-
         /// <summary>
         /// Creates a KinematicCharacterSystem instance if there isn't already one
         /// </summary>
@@ -114,52 +111,13 @@ namespace TUI.KinematicLocomotionSystem
             _instance = this;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             float deltaTime = Time.fixedDeltaTime;
 
-            PreSimulationInterpolationUpdate(deltaTime);
-            Simulate(deltaTime, CharacterMotors, PhysicsMovers);
-            PostSimulationInterpolationUpdate(deltaTime);
-        }
-
-        private void LateUpdate()
-        {
-            CustomInterpolationUpdate();
-        }
-
-        /// <summary>
-        /// Remembers the point to interpolate from for KinematicCharacterMotors and PhysicsMovers
-        /// </summary>
-        public static void PreSimulationInterpolationUpdate(float deltaTime)
-        {
-            // Save pre-simulation poses and place transform at transient pose
-            for (int i = 0; i < CharacterMotors.Count; i++)
-            {
-                KinematicCharacterMotor motor = CharacterMotors[i];
-                if (motor.CharacterController == null) continue;
-
-                var config = motor.CharacterController.GetConfig();
-
-                if (!config.ShouldDoInterpolate) continue;
-
-                motor.InitialTickPosition = motor.TransientPosition;
-                motor.InitialTickRotation = motor.TransientRotation;
-
-                motor.Transform.SetPositionAndRotation(motor.TransientPosition, motor.TransientRotation);
-            }
-
-            for (int i = 0; i < PhysicsMovers.Count; i++)
-            {
-                PhysicsMover mover = PhysicsMovers[i];
-
-                mover.InitialTickPosition = mover.TransientPosition;
-                mover.InitialTickRotation = mover.TransientRotation;
-
-                mover.Transform.SetPositionAndRotation(mover.TransientPosition, mover.TransientRotation);
-                mover.Rigidbody.position = mover.TransientPosition;
-                mover.Rigidbody.rotation = mover.TransientRotation;
-            }
+            // PreSimulationInterpolationUpdate(deltaTime);
+            Simulate(Time.deltaTime, CharacterMotors, PhysicsMovers);
+            // PostSimulationInterpolationUpdate(deltaTime);
         }
 
         /// <summary>
@@ -168,125 +126,19 @@ namespace TUI.KinematicLocomotionSystem
         public static void Simulate(float deltaTime, List<KinematicCharacterMotor> motors, List<PhysicsMover> movers)
         {
             int characterMotorsCount = motors.Count;
-            int physicsMoversCount = movers.Count;
-
-#pragma warning disable 0162
-            // Update PhysicsMover velocities
-            for (int i = 0; i < physicsMoversCount; i++)
-            {
-                movers[i].VelocityUpdate(deltaTime);
-            }
 
             // Character controller update phase 1
             for (int i = 0; i < characterMotorsCount; i++)
             {
                 var motor = motors[i];
-                if (motor.CharacterController == null) continue;
-                var config = motor.CharacterController.GetConfig();
-
-                if (!config.ShouldDoSimulation) continue;
-                motors[i].UpdatePhase1(deltaTime);
-            }
-
-            // Simulate PhysicsMover displacement
-            for (int i = 0; i < physicsMoversCount; i++)
-            {
-                PhysicsMover mover = movers[i];
-
-                mover.Transform.SetPositionAndRotation(mover.TransientPosition, mover.TransientRotation);
-                mover.Rigidbody.position = mover.TransientPosition;
-                mover.Rigidbody.rotation = mover.TransientRotation;
-            }
-
-            // Character controller update phase 2 and move
-            for (int i = 0; i < characterMotorsCount; i++)
-            {
-                KinematicCharacterMotor motor = motors[i];
-                if (motor.CharacterController == null) continue;
-                var config = motor.CharacterController.GetConfig();
-                if (!config.ShouldDoSimulation) continue;
+                motor.UpdatePhase1(deltaTime);
 
                 motor.UpdatePhase2(deltaTime);
 
                 motor.Transform.SetPositionAndRotation(motor.TransientPosition, motor.TransientRotation);
             }
-#pragma warning restore 0162
+
         }
 
-        /// <summary>
-        /// Initiates the interpolation for KinematicCharacterMotors and PhysicsMovers
-        /// </summary>
-        public static void PostSimulationInterpolationUpdate(float deltaTime)
-        {
-            _lastCustomInterpolationStartTime = Time.time;
-            _lastCustomInterpolationDeltaTime = deltaTime;
-
-            // Return interpolated roots to their initial poses
-            for (int i = 0; i < CharacterMotors.Count; i++)
-            {
-                KinematicCharacterMotor motor = CharacterMotors[i];
-                if (motor.CharacterController == null) continue;
-                var config = motor.CharacterController.GetConfig();
-
-                if (!config.ShouldDoInterpolate) continue;
-
-                motor.Transform.SetPositionAndRotation(motor.InitialTickPosition, motor.InitialTickRotation);
-            }
-
-            for (int i = 0; i < PhysicsMovers.Count; i++)
-            {
-                PhysicsMover mover = PhysicsMovers[i];
-
-                if (mover.MoveWithPhysics)
-                {
-                    mover.Rigidbody.position = mover.InitialTickPosition;
-                    mover.Rigidbody.rotation = mover.InitialTickRotation;
-
-                    mover.Rigidbody.MovePosition(mover.TransientPosition);
-                    mover.Rigidbody.MoveRotation(mover.TransientRotation);
-                }
-                else
-                {
-                    mover.Rigidbody.position = (mover.TransientPosition);
-                    mover.Rigidbody.rotation = (mover.TransientRotation);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Handles per-frame interpolation
-        /// </summary>
-        public static void CustomInterpolationUpdate()
-        {
-            float interpolationFactor = Mathf.Clamp01((Time.time - _lastCustomInterpolationStartTime) / _lastCustomInterpolationDeltaTime);
-
-            // Handle characters interpolation
-            for (int i = 0; i < CharacterMotors.Count; i++)
-            {
-                KinematicCharacterMotor motor = CharacterMotors[i];
-                if (motor.CharacterController == null) continue;
-                var config = motor.CharacterController.GetConfig();
-                if (!config.ShouldDoCustomInterpolate) continue;
-
-                motor.Transform.SetPositionAndRotation(Vector3.Lerp(motor.InitialSimulationPosition, motor.TransientPosition, interpolationFactor), config.ShouldDoCustomRotationInterpolate ? Quaternion.Slerp(motor.InitialTickRotation, motor.TransientRotation, interpolationFactor) : motor.InitialTickRotation);
-            }
-
-            // Handle PhysicsMovers interpolation
-            for (int i = 0; i < PhysicsMovers.Count; i++)
-            {
-                PhysicsMover mover = PhysicsMovers[i];
-
-                mover.Transform.SetPositionAndRotation(
-                    Vector3.Lerp(mover.InitialTickPosition, mover.TransientPosition, interpolationFactor),
-                    Quaternion.Slerp(mover.InitialTickRotation, mover.TransientRotation, interpolationFactor));
-
-                Vector3 newPos = mover.Transform.position;
-                Quaternion newRot = mover.Transform.rotation;
-                mover.PositionDeltaFromInterpolation = newPos - mover.LatestInterpolationPosition;
-                mover.RotationDeltaFromInterpolation = Quaternion.Inverse(mover.LatestInterpolationRotation) * newRot;
-                mover.LatestInterpolationPosition = newPos;
-                mover.LatestInterpolationRotation = newRot;
-            }
-        }
     }
 }
