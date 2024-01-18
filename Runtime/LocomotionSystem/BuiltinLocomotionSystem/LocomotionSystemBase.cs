@@ -1,5 +1,4 @@
-
-namespace TUI.LocomotioinSystem
+namespace TUI.LocomotionSystem
 {
     using System.Collections.Generic;
     using TUI.Utillities;
@@ -34,6 +33,18 @@ namespace TUI.LocomotioinSystem
         public virtual bool IsColliderValid(Collider collider)
         {
             return true;
+        }
+
+        public virtual void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+        {
+        }
+
+        public virtual void SetPosition(Vector3 position)
+        {
+        }
+
+        public virtual void SetRotation(Quaternion rotation)
+        {
         }
     }
 }

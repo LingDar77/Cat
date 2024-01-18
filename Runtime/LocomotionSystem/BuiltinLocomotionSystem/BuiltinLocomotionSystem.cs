@@ -1,7 +1,6 @@
-namespace TUI.LocomotioinSystem
+namespace TUI.LocomotionSystem
 {
     using System.Collections.Generic;
-    using TUI.KinematicLocomotionSystem;
     using TUI.Utillities;
     using UnityEngine;
 
@@ -116,18 +115,9 @@ namespace TUI.LocomotioinSystem
         [ReadOnlyInEditor]
         public LocomotioinControllerParams simulationParams = new();
         public LocomotionControllerConfig config = new();
-
-
         protected GroundingStatus LastGroundingStatus = new();
-        public override bool IsStableOnGround()
-        {
-            return GroundingStatus.IsStableOnGround;
-        }
-        public override void MarkUngrounded()
-        {
-            GroundingStatus.IsStableOnGround = false;
-        }
 
+        #region  Editor Interface
         protected virtual void Reset()
         {
             OnValidate();
@@ -154,12 +144,45 @@ namespace TUI.LocomotioinSystem
         protected virtual void Update()
         {
             var time = Time.deltaTime;
-            UpdatePhase1(time);
-            UpdatePhase2(time);
+            PrepareSimilation(time);
+            Simulation(time);
 
             transform.SetPositionAndRotation(simulationParams.TargetPosition, simulationParams.TargetRotation);
         }
 
+        #endregion
+
+        #region  Locomotion System Inteface
+
+        public override bool IsStableOnGround()
+        {
+            return GroundingStatus.IsStableOnGround;
+        }
+
+        public override void MarkUngrounded()
+        {
+            GroundingStatus.IsStableOnGround = false;
+        }
+
+        public override void SetPosition(Vector3 position)
+        {
+            simulationParams.TargetPosition = position;
+        }
+
+        public override void SetRotation(Quaternion rotation)
+        {
+            simulationParams.TargetRotation = rotation;
+        }
+
+        public override void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+        {
+            simulationParams.TargetPosition = position;
+            simulationParams.TargetRotation = rotation;
+        }
+
+        #endregion
+
+        #region  Helper Function
         private void BeforeUpdate(float time)
         {
             foreach (var provider in ActionProviders)
@@ -192,7 +215,7 @@ namespace TUI.LocomotioinSystem
             }
         }
 
-        public void UpdatePhase1(float deltaTime)
+        private void PrepareSimilation(float deltaTime)
         {
 
             simulationParams.RigidbodiesPushedThisMove.Clear();
@@ -233,7 +256,7 @@ namespace TUI.LocomotioinSystem
 
         }
 
-        public void UpdatePhase2(float deltaTime)
+        private void Simulation(float deltaTime)
         {
             UpdateRotation(ref simulationParams.TargetRotation, deltaTime);
 
@@ -341,7 +364,7 @@ namespace TUI.LocomotioinSystem
 
         }
 
-        public void ProbeGround(ref Vector3 probingPosition, Quaternion atRotation, float probingDistance, ref GroundingStatus groundingReport)
+        private void ProbeGround(ref Vector3 probingPosition, Quaternion atRotation, float probingDistance, ref GroundingStatus groundingReport)
         {
             if (probingDistance < LocomotionControllerConstant.MinimumGroundProbingDistance)
             {
@@ -775,7 +798,7 @@ namespace TUI.LocomotioinSystem
             return IsColliderValid(coll);
         }
 
-        public int CharacterCollisionsOverlap(Vector3 position, Quaternion rotation, Collider[] overlappedColliders, float inflate = 0f)
+        private int CharacterCollisionsOverlap(Vector3 position, Quaternion rotation, Collider[] overlappedColliders, float inflate = 0f)
         {
             int queryLayers = config.StableGroundLayers;
 
@@ -1021,7 +1044,7 @@ namespace TUI.LocomotioinSystem
             remainingMovementDirection = transientVelocity.normalized;
         }
 
-        public int CharacterCollisionsSweep(Vector3 position, Quaternion rotation, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits, float inflate = 0f)
+        private int CharacterCollisionsSweep(Vector3 position, Quaternion rotation, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits, float inflate = 0f)
         {
             int queryLayers = config.StableGroundLayers;
 
@@ -1079,5 +1102,6 @@ namespace TUI.LocomotioinSystem
 
             return nbHits;
         }
+        #endregion
     }
 }

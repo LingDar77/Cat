@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TUI.LocomotioinSystem
+namespace TUI.LocomotionSystem
 {
     /// <summary>
     /// Basic definition of an action provider.
