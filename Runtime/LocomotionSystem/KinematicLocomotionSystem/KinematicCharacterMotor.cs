@@ -4,13 +4,6 @@ using UnityEngine;
 
 namespace TUI.KinematicLocomotionSystem
 {
-    public enum RigidbodyInteractionType
-    {
-        None,
-        Kinematic,
-        SimulatedDynamic
-    }
-
     public enum StepHandlingMethod
     {
         None,
@@ -24,26 +17,6 @@ namespace TUI.KinematicLocomotionSystem
         AfterFirstHit,
         FoundBlockingCrease,
         FoundBlockingCorner,
-    }
-
-    /// <summary>
-    /// Represents the entire state of a character motor that is pertinent for simulation.
-    /// Use this to save state or revert to past state
-    /// </summary>
-    [System.Serializable]
-    public struct KinematicCharacterMotorState
-    {
-        public Vector3 Position;
-        public Quaternion Rotation;
-        public Vector3 BaseVelocity;
-
-        public bool MustUnground;
-        public float MustUngroundTime;
-        public bool LastMovementIterationFoundAnyGround;
-        public CharacterTransientGroundingReport GroundingStatus;
-
-        public Rigidbody AttachedRigidbody;
-        public Vector3 AttachedRigidbodyVelocity;
     }
 
     /// <summary>
@@ -155,45 +128,10 @@ namespace TUI.KinematicLocomotionSystem
     [RequireComponent(typeof(CapsuleCollider))]
     public class KinematicCharacterMotor : MonoBehaviour
     {
-        [Header("Components")]
-        /// <summary>
-        /// The capsule collider of this motor
-        /// </summary>
+
         public CapsuleCollider Capsule;
 
-        [Header("Capsule Settings")]
-        /// <summary>
-        /// Radius of the character's capsule
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Radius of the Character Capsule")]
-        private float CapsuleRadius = 0.5f;
-        /// <summary>
-        /// Height of the character's capsule
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Height of the Character Capsule")]
-        private float CapsuleHeight = 2f;
-        /// <summary>
-        /// Local y position of the character's capsule center
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Height of the Character Capsule")]
-        private float CapsuleYOffset = 1f;
-        /// <summary>
-        /// Physics material of the character's capsule
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Physics material of the Character Capsule (Does not affect character movement. Only affects things colliding with it)")]
-        private PhysicMaterial CapsulePhysicsMaterial;
 
-
-        [Header("Grounding settings")]
-        /// <summary>
-        /// Increases the range of ground detection, to allow snapping to ground at very high speeds
-        /// </summary>    
-        [Tooltip("Increases the range of ground detection, to allow snapping to ground at very high speeds")]
-        public float GroundDetectionExtraDistance = 0f;
         /// <summary>
         /// Maximum slope angle on which the character can be stable
         /// </summary>    
@@ -205,11 +143,7 @@ namespace TUI.KinematicLocomotionSystem
         /// </summary>    
         [Tooltip("Which layers can the character be considered stable on")]
         public LayerMask StableGroundLayers = -1;
-        /// <summary>
-        /// Notifies the Character Controller when discrete collisions are detected
-        /// </summary>    
-        [Tooltip("Notifies the Character Controller when discrete collisions are detected")]
-        public bool DiscreteCollisionEvents = false;
+
         public float CollisionDetectOffset;
 
 
@@ -224,34 +158,19 @@ namespace TUI.KinematicLocomotionSystem
         /// </summary>    
         [Tooltip("Maximum height of a step which the character can climb")]
         public float MaxStepHeight = 0.5f;
-        /// <summary>
-        /// Can the character step up obstacles even if it is not currently stable?
-        /// </summary>    
-        [Tooltip("Can the character step up obstacles even if it is not currently stable?")]
-        public bool AllowSteppingWithoutStableGrounding = false;
+
         /// <summary>
         /// Minimum length of a step that the character can step on (used in Extra stepping method. Use this to let the character step on steps that are smaller that its radius
         /// </summary>    
         [Tooltip("Minimum length of a step that the character can step on (used in Extra stepping method). Use this to let the character step on steps that are smaller that its radius")]
         public float MinRequiredStepDepth = 0.1f;
 
-
-        [Header("Ledge settings")]
-        /// <summary>
-        /// Handles properly detecting ledge information and grounding status, but has a performance cost.
-        /// </summary>
-        [Tooltip("Handles properly detecting ledge information and grounding status, but has a performance cost.")]
-        public bool LedgeAndDenivelationHandling = true;
         /// <summary>
         /// The distance from the capsule central axis at which the character can stand on a ledge and still be stable
         /// </summary>    
         [Tooltip("The distance from the capsule central axis at which the character can stand on a ledge and still be stable")]
         public float MaxStableDistanceFromLedge = 0.5f;
-        /// <summary>
-        /// Prevents snapping to ground on ledges beyond a certain velocity
-        /// </summary>    
-        [Tooltip("Prevents snapping to ground on ledges beyond a certain velocity")]
-        public float MaxVelocityForLedgeSnap = 0f;
+
         /// <summary>
         /// The maximun downward slope angle change that the character can be subjected to and still be snapping to the ground
         /// </summary>    
@@ -266,31 +185,9 @@ namespace TUI.KinematicLocomotionSystem
         /// </summary>
         [Tooltip("Handles properly being pushed by and standing on PhysicsMovers or dynamic rigidbodies. Also handles pushing dynamic rigidbodies")]
         public bool InteractiveRigidbodyHandling = true;
-        /// <summary>
-        /// How the character interacts with non-kinematic rigidbodies. \"Kinematic\" mode means the character pushes the rigidbodies with infinite force (as a kinematic body would). \"SimulatedDynamic\" pushes the rigidbodies with a simulated mass value.
-        /// </summary>
-        [Tooltip("How the character interacts with non-kinematic rigidbodies. \"Kinematic\" mode means the character pushes the rigidbodies with infinite force (as a kinematic body would). \"SimulatedDynamic\" pushes the rigidbodies with a simulated mass value.")]
-        public RigidbodyInteractionType RigidbodyInteractionType;
+
         [Tooltip("Mass used for pushing bodies")]
         public float SimulatedCharacterMass = 1f;
-        /// <summary>
-        /// Determines if the character preserves moving platform velocities when de-grounding from them
-        /// </summary>
-        [Tooltip("Determines if the character preserves moving platform velocities when de-grounding from them")]
-        public bool PreserveAttachedRigidbodyMomentum = true;
-
-
-        [Header("Constraints settings")]
-        /// <summary>
-        /// Determines if the character's movement uses the planar constraint
-        /// </summary>
-        [Tooltip("Determines if the character's movement uses the planar constraint")]
-        public bool HasPlanarConstraint = false;
-        /// <summary>
-        /// Defines the plane that the character's movement is constrained on, if HasMovementConstraintPlane is active
-        /// </summary>
-        [Tooltip("Defines the plane that the character's movement is constrained on, if HasMovementConstraintPlane is active")]
-        public Vector3 PlanarConstraintAxis = Vector3.forward;
 
         [Header("Other settings")]
         /// <summary>
@@ -303,21 +200,6 @@ namespace TUI.KinematicLocomotionSystem
         /// </summary>
         [Tooltip("How many times can we check for decollision per update")]
         public int MaxDecollisionIterations = 1;
-        /// <summary>
-        /// Checks for overlaps before casting movement, making sure all collisions are detected even when already intersecting geometry (has a performance cost, but provides safety against tunneling through colliders)
-        /// </summary>
-        [Tooltip("Checks for overlaps before casting movement, making sure all collisions are detected even when already intersecting geometry (has a performance cost, but provides safety against tunneling through colliders)")]
-        public bool CheckMovementInitialOverlaps = true;
-        /// <summary>
-        /// Sets the velocity to zero if exceed max movement iterations
-        /// </summary>
-        [Tooltip("Sets the velocity to zero if exceed max movement iterations")]
-        public bool KillVelocityWhenExceedMaxMovementIterations = true;
-        /// <summary>
-        /// Sets the remaining movement to zero if exceed max movement iterations
-        /// </summary>
-        [Tooltip("Sets the remaining movement to zero if exceed max movement iterations")]
-        public bool KillRemainingMovementWhenExceedMaxMovementIterations = true;
 
         /// <summary>
         /// Contains the current grounding information
@@ -334,66 +216,11 @@ namespace TUI.KinematicLocomotionSystem
         /// </summary>
         [System.NonSerialized]
         public LayerMask CollidableLayers = -1;
-
-        /// <summary>
-        /// The Transform of the character motor
-        /// </summary>
-        public Transform Transform { get { return _transform; } }
-        private Transform _transform;
-        /// <summary>
-        /// The character's goal position in its movement calculations (always up-to-date during the character update phase)
-        /// </summary>
-        public Vector3 TransientPosition { get { return _transientPosition; } }
-        private Vector3 _transientPosition;
-        /// <summary>
-        /// The character's up direction (always up-to-date during the character update phase)
-        /// </summary>
-        public Vector3 CharacterUp { get { return _characterUp; } }
+        public Vector3 _transientPosition;
         private Vector3 _characterUp;
-        /// <summary>
-        /// The character's forward direction (always up-to-date during the character update phase)
-        /// </summary>
-        public Vector3 CharacterForward { get { return _characterForward; } }
-        private Vector3 _characterForward;
-        /// <summary>
-        /// The character's right direction (always up-to-date during the character update phase)
-        /// </summary>
-        public Vector3 CharacterRight { get { return _characterRight; } }
-        private Vector3 _characterRight;
-        /// <summary>
-        /// The character's position before the movement calculations began
-        /// </summary>
-        public Vector3 InitialSimulationPosition { get { return _initialSimulationPosition; } }
-        private Vector3 _initialSimulationPosition;
-        /// <summary>
-        /// The character's rotation before the movement calculations began
-        /// </summary>
-        public Quaternion InitialSimulationRotation { get { return _initialSimulationRotation; } }
-        private Quaternion _initialSimulationRotation;
-        /// <summary>
-        /// Represents the Rigidbody to stay attached to
-        /// </summary>
-        public Rigidbody AttachedRigidbody { get { return _attachedRigidbody; } }
         private Rigidbody _attachedRigidbody;
-        /// <summary>
-        /// Vector3 from the character transform position to the capsule center
-        /// </summary>
-        public Vector3 CharacterTransformToCapsuleCenter { get { return _characterTransformToCapsuleCenter; } }
         private Vector3 _characterTransformToCapsuleCenter;
-        /// <summary>
-        /// Vector3 from the character transform position to the capsule bottom
-        /// </summary>
-        public Vector3 CharacterTransformToCapsuleBottom { get { return _characterTransformToCapsuleBottom; } }
         private Vector3 _characterTransformToCapsuleBottom;
-        /// <summary>
-        /// Vector3 from the character transform position to the capsule top
-        /// </summary>
-        public Vector3 CharacterTransformToCapsuleTop { get { return _characterTransformToCapsuleTop; } }
-        private Vector3 _characterTransformToCapsuleTop;
-        /// <summary>
-        /// Vector3 from the character transform position to the capsule bottom hemi center
-        /// </summary>
-        public Vector3 CharacterTransformToCapsuleBottomHemi { get { return _characterTransformToCapsuleBottomHemi; } }
         private Vector3 _characterTransformToCapsuleBottomHemi;
         private Vector3 _characterTransformToCapsuleTopHemi;
         private Vector3 _attachedRigidbodyVelocity;
@@ -411,21 +238,6 @@ namespace TUI.KinematicLocomotionSystem
         [NonSerialized]
         public bool LastMovementIterationFoundAnyGround;
         /// <summary>
-        /// Remembers initial position before all simulation are done
-        /// </summary>
-        [NonSerialized]
-        public Vector3 InitialTickPosition;
-        /// <summary>
-        /// Remembers initial rotation before all simulation are done
-        /// </summary>
-        [NonSerialized]
-        public Quaternion InitialTickRotation;
-        /// <summary>
-        /// Specifies a Rigidbody to stay attached to
-        /// </summary>
-        [NonSerialized]
-        public Rigidbody AttachedRigidbodyOverride;
-        /// <summary>
         /// The character's velocity resulting from direct movement
         /// </summary>
         [NonSerialized]
@@ -436,24 +248,14 @@ namespace TUI.KinematicLocomotionSystem
         private Collider[] _internalProbedColliders = new Collider[MaxCollisionBudget];
         private List<Rigidbody> _rigidbodiesPushedThisMove = new List<Rigidbody>(16);
         private RigidbodyProjectionHit[] _internalRigidbodyProjectionHits = new RigidbodyProjectionHit[MaxRigidbodyOverlapsCount];
-        private Rigidbody _lastAttachedRigidbody;
         private bool _solveMovementCollisions = true;
-        private bool _solveGrounding = true;
-        private bool _movePositionDirty = false;
-        private Vector3 _movePositionTarget = Vector3.zero;
-        private bool _moveRotationDirty = false;
-        private Quaternion _moveRotationTarget = Quaternion.identity;
-        private bool _lastSolvedOverlapNormalDirty = false;
         private int _rigidbodyProjectionHitCount = 0;
-        private bool _isMovingFromAttachedRigidbody = false;
         private bool _mustUnground = false;
         private float _mustUngroundTimeCounter = 0f;
         private Vector3 _cachedWorldUp = Vector3.up;
-        private Vector3 _cachedWorldForward = Vector3.forward;
-        private Vector3 _cachedWorldRight = Vector3.right;
         private Vector3 _cachedZeroVector = Vector3.zero;
 
-        private Quaternion _transientRotation;
+        public Quaternion _transientRotation;
 
         /// <summary>
         /// The character's goal rotation in its movement calculations (always up-to-date during the character update phase)
@@ -468,8 +270,6 @@ namespace TUI.KinematicLocomotionSystem
             {
                 _transientRotation = value;
                 _characterUp = _transientRotation * _cachedWorldUp;
-                _characterForward = _transientRotation * _cachedWorldForward;
-                _characterRight = _transientRotation * _cachedWorldRight;
             }
         }
 
@@ -524,167 +324,30 @@ namespace TUI.KinematicLocomotionSystem
             ValidateData();
         }
 
-        [ContextMenu("Remove Component")]
-        private void HandleRemoveComponent()
-        {
-            CapsuleCollider tmpCapsule = gameObject.GetComponent<CapsuleCollider>();
-            DestroyImmediate(this);
-            DestroyImmediate(tmpCapsule);
-        }
-
         /// <summary>
         /// Handle validating all required values
         /// </summary>
         public void ValidateData()
         {
             Capsule = GetComponent<CapsuleCollider>();
-            CapsuleRadius = Mathf.Clamp(CapsuleRadius, 0f, CapsuleHeight * 0.5f);
+            Capsule.radius = Mathf.Clamp(Capsule.radius, 0f, Capsule.height * 0.5f);
             Capsule.direction = 1;
-            Capsule.sharedMaterial = CapsulePhysicsMaterial;
-            SetCapsuleDimensions(CapsuleRadius, CapsuleHeight, CapsuleYOffset);
+            SetCapsuleDimensions(Capsule.radius, Capsule.height, Capsule.center.y);
 
             MaxStepHeight = Mathf.Clamp(MaxStepHeight, 0f, Mathf.Infinity);
-            MinRequiredStepDepth = Mathf.Clamp(MinRequiredStepDepth, 0f, CapsuleRadius);
-            MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, CapsuleRadius);
+            MinRequiredStepDepth = Mathf.Clamp(MinRequiredStepDepth, 0f, Capsule.radius);
+            MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, Capsule.radius);
 
-            transform.localScale = Vector3.one;
-
-#if UNITY_EDITOR
-            Capsule.hideFlags = HideFlags.NotEditable;
-            if (!Mathf.Approximately(transform.lossyScale.x, 1f) || !Mathf.Approximately(transform.lossyScale.y, 1f) || !Mathf.Approximately(transform.lossyScale.z, 1f))
-            {
-                Debug.LogError("Character's lossy scale is not (1,1,1). This is not allowed. Make sure the character's transform and all of its parents have a (1,1,1) scale.", this.gameObject);
-            }
-#endif
         }
 
-        /// <summary>
-        /// Sets whether or not the capsule collider will detect collisions
-        /// </summary>
-        public void SetCapsuleCollisionsActivation(bool collisionsActive)
-        {
-            Capsule.isTrigger = !collisionsActive;
-        }
-
-        /// <summary>
-        /// Sets whether or not the motor will solve collisions when moving (or moved onto)
-        /// </summary>
-        public void SetMovementCollisionsSolvingActivation(bool movementCollisionsSolvingActive)
-        {
-            _solveMovementCollisions = movementCollisionsSolvingActive;
-        }
-
-        /// <summary>
-        /// Sets whether or not grounding will be evaluated for all hits
-        /// </summary>
-        public void SetGroundSolvingActivation(bool stabilitySolvingActive)
-        {
-            _solveGrounding = stabilitySolvingActive;
-        }
-
-        /// <summary>
-        /// Sets the character's position directly
-        /// </summary>
-        public void SetPosition(Vector3 position, bool bypassInterpolation = true)
-        {
-            _transform.position = position;
-            _initialSimulationPosition = position;
-            _transientPosition = position;
-
-            if (bypassInterpolation)
-            {
-                InitialTickPosition = position;
-            }
-        }
 
         /// <summary>
         /// Sets the character's rotation directly
         /// </summary>
-        public void SetRotation(Quaternion rotation, bool bypassInterpolation = true)
+        public void SetRotation(Quaternion rotation)
         {
-            _transform.rotation = rotation;
-            _initialSimulationRotation = rotation;
+            transform.rotation = rotation;
             TransientRotation = rotation;
-
-            if (bypassInterpolation)
-            {
-                InitialTickRotation = rotation;
-            }
-        }
-
-        /// <summary>
-        /// Sets the character's position and rotation directly
-        /// </summary>
-        public void SetPositionAndRotation(Vector3 position, Quaternion rotation, bool bypassInterpolation = true)
-        {
-            _transform.SetPositionAndRotation(position, rotation);
-            _initialSimulationPosition = position;
-            _initialSimulationRotation = rotation;
-            _transientPosition = position;
-            TransientRotation = rotation;
-
-            if (bypassInterpolation)
-            {
-                InitialTickPosition = position;
-                InitialTickRotation = rotation;
-            }
-        }
-
-        /// <summary>
-        /// Moves the character position, taking all movement collision solving int account. The actual move is done the next time the motor updates are called
-        /// </summary>
-        public void MoveCharacter(Vector3 toPosition)
-        {
-            _movePositionDirty = true;
-            _movePositionTarget = toPosition;
-        }
-
-        /// <summary>
-        /// Moves the character rotation. The actual move is done the next time the motor updates are called
-        /// </summary>
-        public void RotateCharacter(Quaternion toRotation)
-        {
-            _moveRotationDirty = true;
-            _moveRotationTarget = toRotation;
-        }
-
-        /// <summary>
-        /// Returns all the state information of the motor that is pertinent for simulation
-        /// </summary>
-        public KinematicCharacterMotorState GetState()
-        {
-            KinematicCharacterMotorState state = new KinematicCharacterMotorState();
-
-            state.Position = _transientPosition;
-            state.Rotation = _transientRotation;
-
-            state.BaseVelocity = BaseVelocity;
-            state.AttachedRigidbodyVelocity = _attachedRigidbodyVelocity;
-
-            state.MustUnground = _mustUnground;
-            state.MustUngroundTime = _mustUngroundTimeCounter;
-            state.LastMovementIterationFoundAnyGround = LastMovementIterationFoundAnyGround;
-            state.GroundingStatus.CopyFrom(GroundingStatus);
-            state.AttachedRigidbody = _attachedRigidbody;
-
-            return state;
-        }
-
-        /// <summary>
-        /// Applies a motor state instantly
-        /// </summary>
-        public void ApplyState(KinematicCharacterMotorState state, bool bypassInterpolation = true)
-        {
-            SetPositionAndRotation(state.Position, state.Rotation, bypassInterpolation);
-
-            BaseVelocity = state.BaseVelocity;
-            _attachedRigidbodyVelocity = state.AttachedRigidbodyVelocity;
-
-            _mustUnground = state.MustUnground;
-            _mustUngroundTimeCounter = state.MustUngroundTime;
-            LastMovementIterationFoundAnyGround = state.LastMovementIterationFoundAnyGround;
-            GroundingStatus.CopyFrom(state.GroundingStatus);
-            _attachedRigidbody = state.AttachedRigidbody;
         }
 
         /// <summary>
@@ -694,17 +357,16 @@ namespace TUI.KinematicLocomotionSystem
         {
             height = Mathf.Max(height, (radius * 2f) + 0.01f); // Safety to prevent invalid capsule geometries
 
-            CapsuleRadius = radius;
-            CapsuleHeight = height;
-            CapsuleYOffset = yOffset;
+            Capsule.radius = radius;
+            Capsule.height = height;
+            Capsule.center = new Vector3(Capsule.center.x, yOffset, Capsule.center.z);
 
-            Capsule.radius = CapsuleRadius;
-            Capsule.height = Mathf.Clamp(CapsuleHeight, CapsuleRadius * 2f, CapsuleHeight);
-            Capsule.center = new Vector3(0f, CapsuleYOffset, 0f);
+            Capsule.radius = Capsule.radius;
+            Capsule.height = Mathf.Clamp(Capsule.height, Capsule.radius * 2f, Capsule.height);
+            Capsule.center = new Vector3(0f, Capsule.center.y, 0f);
 
             _characterTransformToCapsuleCenter = Capsule.center;
             _characterTransformToCapsuleBottom = Capsule.center + (-_cachedWorldUp * (Capsule.height * 0.5f));
-            _characterTransformToCapsuleTop = Capsule.center + (_cachedWorldUp * (Capsule.height * 0.5f));
             _characterTransformToCapsuleBottomHemi = Capsule.center + (-_cachedWorldUp * (Capsule.height * 0.5f)) + (_cachedWorldUp * Capsule.radius);
             _characterTransformToCapsuleTopHemi = Capsule.center + (_cachedWorldUp * (Capsule.height * 0.5f)) + (-_cachedWorldUp * Capsule.radius);
 
@@ -713,11 +375,10 @@ namespace TUI.KinematicLocomotionSystem
 
         private void Awake()
         {
-            _transform = this.transform;
             ValidateData();
 
-            _transientPosition = _transform.position;
-            TransientRotation = _transform.rotation;
+            _transientPosition = transform.position;
+            TransientRotation = transform.rotation;
 
             // Build CollidableLayers mask
             CollidableLayers = 0;
@@ -729,7 +390,7 @@ namespace TUI.KinematicLocomotionSystem
                 }
             }
 
-            SetCapsuleDimensions(CapsuleRadius, CapsuleHeight, CapsuleYOffset);
+            SetCapsuleDimensions(Capsule.radius, Capsule.height, Capsule.center.y);
         }
 
         /// <summary>
@@ -749,13 +410,10 @@ namespace TUI.KinematicLocomotionSystem
             // Before update
             CharacterController.BeforeCharacterUpdate(deltaTime);
 
-            _transientPosition = _transform.position;
-            TransientRotation = _transform.rotation;
-            _initialSimulationPosition = _transientPosition;
-            _initialSimulationRotation = _transientRotation;
+            _transientPosition = transform.position;
+            TransientRotation = transform.rotation;
             _rigidbodyProjectionHitCount = 0;
             _overlapsCount = 0;
-            _lastSolvedOverlapNormalDirty = false;
 
             LastGroundingStatus.CopyFrom(GroundingStatus);
             GroundingStatus = new CharacterGroundingReport
@@ -765,38 +423,34 @@ namespace TUI.KinematicLocomotionSystem
 
             #region Ground Probing and Snapping
             // Handle ungrounding
-            if (_solveGrounding)
+            if (MustUnground())
             {
-                if (MustUnground())
+                _transientPosition += _characterUp * (MinimumGroundProbingDistance * 1.5f);
+            }
+            else
+            {
+                // Choose the appropriate ground probing distance
+                float selectedGroundProbingDistance = MinimumGroundProbingDistance;
+                if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStableOnGround || LastMovementIterationFoundAnyGround))
                 {
-                    _transientPosition += _characterUp * (MinimumGroundProbingDistance * 1.5f);
+                    if (StepHandling != StepHandlingMethod.None)
+                    {
+                        selectedGroundProbingDistance = Mathf.Max(Capsule.radius, MaxStepHeight);
+                    }
+                    else
+                    {
+                        selectedGroundProbingDistance = Capsule.radius;
+                    }
+
                 }
-                else
+
+                ProbeGround(ref _transientPosition, _transientRotation, selectedGroundProbingDistance, ref GroundingStatus);
+
+                if (!LastGroundingStatus.IsStableOnGround && GroundingStatus.IsStableOnGround)
                 {
-                    // Choose the appropriate ground probing distance
-                    float selectedGroundProbingDistance = MinimumGroundProbingDistance;
-                    if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStableOnGround || LastMovementIterationFoundAnyGround))
-                    {
-                        if (StepHandling != StepHandlingMethod.None)
-                        {
-                            selectedGroundProbingDistance = Mathf.Max(CapsuleRadius, MaxStepHeight);
-                        }
-                        else
-                        {
-                            selectedGroundProbingDistance = CapsuleRadius;
-                        }
-
-                        selectedGroundProbingDistance += GroundDetectionExtraDistance;
-                    }
-
-                    ProbeGround(ref _transientPosition, _transientRotation, selectedGroundProbingDistance, ref GroundingStatus);
-
-                    if (!LastGroundingStatus.IsStableOnGround && GroundingStatus.IsStableOnGround)
-                    {
-                        // Handle stable landing
-                        BaseVelocity = Vector3.ProjectOnPlane(BaseVelocity, CharacterUp);
-                        BaseVelocity = GetDirectionTangentToSurface(BaseVelocity, GroundingStatus.GroundNormal) * BaseVelocity.magnitude;
-                    }
+                    // Handle stable landing
+                    BaseVelocity = Vector3.ProjectOnPlane(BaseVelocity, _characterUp);
+                    BaseVelocity = GetDirectionTangentToSurface(BaseVelocity, GroundingStatus.GroundNormal) * BaseVelocity.magnitude;
                 }
             }
 
@@ -809,12 +463,10 @@ namespace TUI.KinematicLocomotionSystem
             _mustUnground = false;
             #endregion
 
-            if (_solveGrounding)
-            {
-                CharacterController.PostGroundingUpdate(deltaTime);
-            }
+            CharacterController.PostGroundingUpdate(deltaTime);
 
-       }
+
+        }
 
         /// <summary>
         /// Update phase 2 is meant to be called after physics movers have simulated their goal positions/rotations. 
@@ -832,12 +484,6 @@ namespace TUI.KinematicLocomotionSystem
             CharacterController.UpdateRotation(ref _transientRotation, deltaTime);
             TransientRotation = _transientRotation;
 
-            // Handle move rotation
-            if (_moveRotationDirty)
-            {
-                TransientRotation = _moveRotationTarget;
-                _moveRotationDirty = false;
-            }
 
             if (_solveMovementCollisions && InteractiveRigidbodyHandling)
             {
@@ -973,42 +619,31 @@ namespace TUI.KinematicLocomotionSystem
         /// </summary>
         private bool IsStableWithSpecialCases(ref HitStabilityReport stabilityReport, Vector3 velocity)
         {
-            if (LedgeAndDenivelationHandling)
+
+            if (stabilityReport.LedgeDetected)
             {
-                if (stabilityReport.LedgeDetected)
-                {
-                    if (stabilityReport.IsMovingTowardsEmptySideOfLedge)
-                    {
-                        // Max snap vel
-                        Vector3 velocityOnLedgeNormal = Vector3.Project(velocity, stabilityReport.LedgeFacingDirection);
-                        if (velocityOnLedgeNormal.magnitude >= MaxVelocityForLedgeSnap)
-                        {
-                            return false;
-                        }
-                    }
 
-                    // Distance from ledge
-                    if (stabilityReport.IsOnEmptySideOfLedge && stabilityReport.DistanceFromLedge > MaxStableDistanceFromLedge)
-                    {
-                        return false;
-                    }
+                // Distance from ledge
+                if (stabilityReport.IsOnEmptySideOfLedge && stabilityReport.DistanceFromLedge > MaxStableDistanceFromLedge)
+                {
+                    return false;
                 }
+            }
 
-                // "Launching" off of slopes of a certain denivelation angle
-                if (LastGroundingStatus.FoundAnyGround && stabilityReport.InnerNormal.sqrMagnitude != 0f && stabilityReport.OuterNormal.sqrMagnitude != 0f)
+            // "Launching" off of slopes of a certain denivelation angle
+            if (LastGroundingStatus.FoundAnyGround && stabilityReport.InnerNormal.sqrMagnitude != 0f && stabilityReport.OuterNormal.sqrMagnitude != 0f)
+            {
+                float denivelationAngle = Vector3.Angle(stabilityReport.InnerNormal, stabilityReport.OuterNormal);
+                if (denivelationAngle > MaxStableDenivelationAngle)
                 {
-                    float denivelationAngle = Vector3.Angle(stabilityReport.InnerNormal, stabilityReport.OuterNormal);
+                    return false;
+                }
+                else
+                {
+                    denivelationAngle = Vector3.Angle(LastGroundingStatus.InnerGroundNormal, stabilityReport.OuterNormal);
                     if (denivelationAngle > MaxStableDenivelationAngle)
                     {
                         return false;
-                    }
-                    else
-                    {
-                        denivelationAngle = Vector3.Angle(LastGroundingStatus.InnerGroundNormal, stabilityReport.OuterNormal);
-                        if (denivelationAngle > MaxStableDenivelationAngle)
-                        {
-                            return false;
-                        }
                     }
                 }
             }
@@ -1127,12 +762,6 @@ namespace TUI.KinematicLocomotionSystem
             if (deltaTime <= 0f)
                 return false;
 
-            // Planar constraint
-            if (HasPlanarConstraint)
-            {
-                transientVelocity = Vector3.ProjectOnPlane(transientVelocity, PlanarConstraintAxis.normalized);
-            }
-
             bool wasCompleted = true;
             Vector3 remainingMovementDirection = transientVelocity.normalized;
             float remainingMovementMagnitude = transientVelocity.magnitude * deltaTime;
@@ -1185,49 +814,6 @@ namespace TUI.KinematicLocomotionSystem
                 float closestSweepHitDistance = 0f;
                 Collider closestSweepHitCollider = null;
 
-                if (CheckMovementInitialOverlaps)
-                {
-                    int numOverlaps = CharacterCollisionsOverlap(
-                                        tmpMovedPosition,
-                                        _transientRotation,
-                                        _internalProbedColliders,
-                                        0f,
-                                        false);
-                    if (numOverlaps > 0)
-                    {
-                        closestSweepHitDistance = 0f;
-
-                        float mostObstructingOverlapNormalDotProduct = 2f;
-
-                        for (int i = 0; i < numOverlaps; i++)
-                        {
-                            Collider tmpCollider = _internalProbedColliders[i];
-
-                            if (Physics.ComputePenetration(
-                                Capsule,
-                                tmpMovedPosition,
-                                _transientRotation,
-                                tmpCollider,
-                                tmpCollider.transform.position,
-                                tmpCollider.transform.rotation,
-                                out Vector3 resolutionDirection,
-                                out float resolutionDistance))
-                            {
-                                float dotProduct = Vector3.Dot(remainingMovementDirection, resolutionDirection);
-                                if (dotProduct < 0f && dotProduct < mostObstructingOverlapNormalDotProduct)
-                                {
-                                    mostObstructingOverlapNormalDotProduct = dotProduct;
-
-                                    closestSweepHitNormal = resolutionDirection;
-                                    closestSweepHitCollider = tmpCollider;
-                                    closestSweepHitPoint = tmpMovedPosition + (_transientRotation * CharacterTransformToCapsuleCenter) + (resolutionDirection * resolutionDistance);
-
-                                    foundClosestHit = true;
-                                }
-                            }
-                        }
-                    }
-                }
 
                 if (!foundClosestHit && CharacterCollisionsSweep(
                         tmpMovedPosition, // position
@@ -1259,7 +845,7 @@ namespace TUI.KinematicLocomotionSystem
 
                     // Handle stepping up steps points higher than bottom capsule radius
                     bool foundValidStepHit = false;
-                    if (_solveGrounding && StepHandling != StepHandlingMethod.None && moveHitStabilityReport.ValidStepDetected)
+                    if (StepHandling != StepHandlingMethod.None && moveHitStabilityReport.ValidStepDetected)
                     {
                         float obstructionCorrelation = Mathf.Abs(Vector3.Dot(closestSweepHitNormal, _characterUp));
                         if (obstructionCorrelation <= CorrelationForVerticalObstruction)
@@ -1289,7 +875,7 @@ namespace TUI.KinematicLocomotionSystem
                                     foundValidStepHit = true;
 
                                     // Project velocity on ground normal at step
-                                    transientVelocity = Vector3.ProjectOnPlane(transientVelocity, CharacterUp);
+                                    transientVelocity = Vector3.ProjectOnPlane(transientVelocity, _characterUp);
                                     remainingMovementDirection = transientVelocity.normalized;
 
                                     break;
@@ -1347,19 +933,7 @@ namespace TUI.KinematicLocomotionSystem
 
                 // Safety for exceeding max sweeps allowed
                 sweepsMade++;
-                if (sweepsMade > MaxMovementIterations)
-                {
-                    if (KillRemainingMovementWhenExceedMaxMovementIterations)
-                    {
-                        remainingMovementMagnitude = 0f;
-                    }
 
-                    if (KillVelocityWhenExceedMaxMovementIterations)
-                    {
-                        transientVelocity = Vector3.zero;
-                    }
-                    wasCompleted = false;
-                }
             }
 
             // Move position for the remainder of the movement
@@ -1480,11 +1054,6 @@ namespace TUI.KinematicLocomotionSystem
                 }
             }
 
-            if (HasPlanarConstraint)
-            {
-                transientVelocity = Vector3.ProjectOnPlane(transientVelocity, PlanarConstraintAxis.normalized);
-            }
-
             float newVelocityFactor = transientVelocity.magnitude / velocityBeforeProjection.magnitude;
             remainingMovementMagnitude *= newVelocityFactor;
             remainingMovementDirection = transientVelocity.normalized;
@@ -1567,7 +1136,7 @@ namespace TUI.KinematicLocomotionSystem
                 if (stableOnHit)
                 {
                     // Handle stable landing
-                    velocity = Vector3.ProjectOnPlane(velocity, CharacterUp);
+                    velocity = Vector3.ProjectOnPlane(velocity, _characterUp);
                     velocity = GetDirectionTangentToSurface(velocity, obstructionNormal) * velocity.magnitude;
                 }
                 // Handle generic obstruction
@@ -1576,14 +1145,6 @@ namespace TUI.KinematicLocomotionSystem
                     velocity = Vector3.ProjectOnPlane(velocity, obstructionNormal);
                 }
             }
-        }
-
-        /// <summary>
-        /// Allows you to override the way hit rigidbodies are pushed / interacted with. 
-        /// ProcessedVelocity is what must be modified if this interaction affects the character's velocity.
-        /// </summary>
-        public virtual void HandleSimulatedRigidbodyInteraction(ref Vector3 processedVelocity, RigidbodyProjectionHit hit, float deltaTime)
-        {
         }
 
         /// <summary>
@@ -1643,11 +1204,7 @@ namespace TUI.KinematicLocomotionSystem
                             {
                                 characterToBodyMassRatio = 0f;
                             }
-                            // Emulate kinematic body interaction
-                            else if (RigidbodyInteractionType == RigidbodyInteractionType.Kinematic && !hitBodyIsCharacter)
-                            {
-                                characterToBodyMassRatio = 1f;
-                            }
+
                         }
 
                         ComputeCollisionResolutionForHitBody(
@@ -1669,10 +1226,6 @@ namespace TUI.KinematicLocomotionSystem
                             bodyHit.Rigidbody.AddForceAtPosition(velocityChangeOnBody, bodyHit.HitPoint, ForceMode.VelocityChange);
                         }
 
-                        if (RigidbodyInteractionType == RigidbodyInteractionType.SimulatedDynamic)
-                        {
-                            HandleSimulatedRigidbodyInteraction(ref processedVelocity, bodyHit, deltaTime);
-                        }
                     }
                 }
             }
@@ -1722,63 +1275,15 @@ namespace TUI.KinematicLocomotionSystem
                 return false;
             }
 
-            if (!InternalIsColliderValidForCollisions(coll))
-            {
-                return false;
-            }
-
-            return true;
+            return CharacterController.IsColliderValidForCollisions(coll);
         }
 
-        /// <summary>
-        /// Determines if the input collider is valid for collision processing
-        /// </summary>
-        private bool InternalIsColliderValidForCollisions(Collider coll)
-        {
-            Rigidbody colliderAttachedRigidbody = coll.attachedRigidbody;
-            if (colliderAttachedRigidbody)
-            {
-                bool isRigidbodyKinematic = colliderAttachedRigidbody.isKinematic;
-
-                // If movement is made from AttachedRigidbody, ignore the AttachedRigidbody
-                if (_isMovingFromAttachedRigidbody && (!isRigidbodyKinematic || colliderAttachedRigidbody == _attachedRigidbody))
-                {
-                    return false;
-                }
-
-                // don't collide with dynamic rigidbodies if our RigidbodyInteractionType is kinematic
-                if (RigidbodyInteractionType == RigidbodyInteractionType.Kinematic && !isRigidbodyKinematic)
-                {
-                    // wake up rigidbody
-                    if (coll.attachedRigidbody)
-                    {
-                        coll.attachedRigidbody.WakeUp();
-                    }
-
-                    return false;
-                }
-            }
-
-            // Custom checks
-            bool colliderValid = CharacterController.IsColliderValidForCollisions(coll);
-            if (!colliderValid)
-            {
-                return false;
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// Determines if the motor is considered stable on a given hit
         /// </summary>
         public void EvaluateHitStability(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, Vector3 withCharacterVelocity, ref HitStabilityReport stabilityReport)
         {
-            if (!_solveGrounding)
-            {
-                stabilityReport.IsStable = false;
-                return;
-            }
 
             Vector3 atCharacterUp = atCharacterRotation * _cachedWorldUp;
             Vector3 innerHitDirection = Vector3.ProjectOnPlane(hitNormal, atCharacterUp).normalized;
@@ -1790,60 +1295,58 @@ namespace TUI.KinematicLocomotionSystem
             stabilityReport.InnerNormal = hitNormal;
             stabilityReport.OuterNormal = hitNormal;
 
-            // Ledge handling
-            if (LedgeAndDenivelationHandling)
+
+            float ledgeCheckHeight = MinDistanceForLedge;
+            if (StepHandling != StepHandlingMethod.None)
             {
-                float ledgeCheckHeight = MinDistanceForLedge;
-                if (StepHandling != StepHandlingMethod.None)
-                {
-                    ledgeCheckHeight = MaxStepHeight;
-                }
-
-                bool isStableLedgeInner = false;
-                bool isStableLedgeOuter = false;
-
-                if (CharacterCollisionsRaycast(
-                        hitPoint + (atCharacterUp * SecondaryProbesVertical) + (innerHitDirection * SecondaryProbesHorizontal),
-                        -atCharacterUp,
-                        ledgeCheckHeight + SecondaryProbesVertical,
-                        out RaycastHit innerLedgeHit,
-                        _internalCharacterHits) > 0)
-                {
-                    Vector3 innerLedgeNormal = innerLedgeHit.normal;
-                    stabilityReport.InnerNormal = innerLedgeNormal;
-                    stabilityReport.FoundInnerNormal = true;
-                    isStableLedgeInner = IsStableOnNormal(innerLedgeNormal);
-                }
-
-                if (CharacterCollisionsRaycast(
-                        hitPoint + (atCharacterUp * SecondaryProbesVertical) + (-innerHitDirection * SecondaryProbesHorizontal),
-                        -atCharacterUp,
-                        ledgeCheckHeight + SecondaryProbesVertical,
-                        out RaycastHit outerLedgeHit,
-                        _internalCharacterHits) > 0)
-                {
-                    Vector3 outerLedgeNormal = outerLedgeHit.normal;
-                    stabilityReport.OuterNormal = outerLedgeNormal;
-                    stabilityReport.FoundOuterNormal = true;
-                    isStableLedgeOuter = IsStableOnNormal(outerLedgeNormal);
-                }
-
-                stabilityReport.LedgeDetected = (isStableLedgeInner != isStableLedgeOuter);
-                if (stabilityReport.LedgeDetected)
-                {
-                    stabilityReport.IsOnEmptySideOfLedge = isStableLedgeOuter && !isStableLedgeInner;
-                    stabilityReport.LedgeGroundNormal = isStableLedgeOuter ? stabilityReport.OuterNormal : stabilityReport.InnerNormal;
-                    stabilityReport.LedgeRightDirection = Vector3.Cross(hitNormal, stabilityReport.LedgeGroundNormal).normalized;
-                    stabilityReport.LedgeFacingDirection = Vector3.ProjectOnPlane(Vector3.Cross(stabilityReport.LedgeGroundNormal, stabilityReport.LedgeRightDirection), CharacterUp).normalized;
-                    stabilityReport.DistanceFromLedge = Vector3.ProjectOnPlane((hitPoint - (atCharacterPosition + (atCharacterRotation * _characterTransformToCapsuleBottom))), atCharacterUp).magnitude;
-                    stabilityReport.IsMovingTowardsEmptySideOfLedge = Vector3.Dot(withCharacterVelocity.normalized, stabilityReport.LedgeFacingDirection) > 0f;
-                }
-
-                if (stabilityReport.IsStable)
-                {
-                    stabilityReport.IsStable = IsStableWithSpecialCases(ref stabilityReport, withCharacterVelocity);
-                }
+                ledgeCheckHeight = MaxStepHeight;
             }
+
+            bool isStableLedgeInner = false;
+            bool isStableLedgeOuter = false;
+
+            if (CharacterCollisionsRaycast(
+                    hitPoint + (atCharacterUp * SecondaryProbesVertical) + (innerHitDirection * SecondaryProbesHorizontal),
+                    -atCharacterUp,
+                    ledgeCheckHeight + SecondaryProbesVertical,
+                    out RaycastHit innerLedgeHit,
+                    _internalCharacterHits) > 0)
+            {
+                Vector3 innerLedgeNormal = innerLedgeHit.normal;
+                stabilityReport.InnerNormal = innerLedgeNormal;
+                stabilityReport.FoundInnerNormal = true;
+                isStableLedgeInner = IsStableOnNormal(innerLedgeNormal);
+            }
+
+            if (CharacterCollisionsRaycast(
+                    hitPoint + (atCharacterUp * SecondaryProbesVertical) + (-innerHitDirection * SecondaryProbesHorizontal),
+                    -atCharacterUp,
+                    ledgeCheckHeight + SecondaryProbesVertical,
+                    out RaycastHit outerLedgeHit,
+                    _internalCharacterHits) > 0)
+            {
+                Vector3 outerLedgeNormal = outerLedgeHit.normal;
+                stabilityReport.OuterNormal = outerLedgeNormal;
+                stabilityReport.FoundOuterNormal = true;
+                isStableLedgeOuter = IsStableOnNormal(outerLedgeNormal);
+            }
+
+            stabilityReport.LedgeDetected = (isStableLedgeInner != isStableLedgeOuter);
+            if (stabilityReport.LedgeDetected)
+            {
+                stabilityReport.IsOnEmptySideOfLedge = isStableLedgeOuter && !isStableLedgeInner;
+                stabilityReport.LedgeGroundNormal = isStableLedgeOuter ? stabilityReport.OuterNormal : stabilityReport.InnerNormal;
+                stabilityReport.LedgeRightDirection = Vector3.Cross(hitNormal, stabilityReport.LedgeGroundNormal).normalized;
+                stabilityReport.LedgeFacingDirection = Vector3.ProjectOnPlane(Vector3.Cross(stabilityReport.LedgeGroundNormal, stabilityReport.LedgeRightDirection), _characterUp).normalized;
+                stabilityReport.DistanceFromLedge = Vector3.ProjectOnPlane(hitPoint - (atCharacterPosition + (atCharacterRotation * _characterTransformToCapsuleBottom)), atCharacterUp).magnitude;
+                stabilityReport.IsMovingTowardsEmptySideOfLedge = Vector3.Dot(withCharacterVelocity.normalized, stabilityReport.LedgeFacingDirection) > 0f;
+            }
+
+            if (stabilityReport.IsStable)
+            {
+                stabilityReport.IsStable = IsStableWithSpecialCases(ref stabilityReport, withCharacterVelocity);
+            }
+
 
             // Step handling
             if (StepHandling != StepHandlingMethod.None && !stabilityReport.IsStable)
@@ -1970,28 +1473,20 @@ namespace TUI.KinematicLocomotionSystem
                                 bool innerStepValid = false;
                                 RaycastHit innerStepHit;
 
-                                if (AllowSteppingWithoutStableGrounding)
+                                // At the capsule center at the step height
+                                if (CharacterCollisionsRaycast(
+                                        characterPosition + Vector3.Project((characterPositionAtHit - characterPosition), characterUp),
+                                        -characterUp,
+                                        MaxStepHeight,
+                                        out innerStepHit,
+                                        _internalCharacterHits,
+                                        true) > 0)
                                 {
-                                    innerStepValid = true;
-                                }
-                                else
-                                {
-                                    // At the capsule center at the step height
-                                    if (CharacterCollisionsRaycast(
-                                            characterPosition + Vector3.Project((characterPositionAtHit - characterPosition), characterUp),
-                                            -characterUp,
-                                            MaxStepHeight,
-                                            out innerStepHit,
-                                            _internalCharacterHits,
-                                            true) > 0)
+                                    if (IsStableOnNormal(innerStepHit.normal))
                                     {
-                                        if (IsStableOnNormal(innerStepHit.normal))
-                                        {
-                                            innerStepValid = true;
-                                        }
+                                        innerStepValid = true;
                                     }
                                 }
-
                                 if (!innerStepValid)
                                 {
                                     // At inner step of the step point
@@ -2037,43 +1532,6 @@ namespace TUI.KinematicLocomotionSystem
         }
 
         /// <summary>
-        /// Get true linear velocity (taking into account rotational velocity) on a given point of a rigidbody
-        /// </summary>
-        public void GetVelocityFromRigidbodyMovement(Rigidbody interactiveRigidbody, Vector3 atPoint, float deltaTime, out Vector3 linearVelocity, out Vector3 angularVelocity)
-        {
-            if (deltaTime > 0f)
-            {
-                linearVelocity = interactiveRigidbody.velocity;
-                angularVelocity = interactiveRigidbody.angularVelocity;
-                if (interactiveRigidbody.isKinematic)
-                {
-                    PhysicsMover physicsMover = interactiveRigidbody.GetComponent<PhysicsMover>();
-                    if (physicsMover)
-                    {
-                        linearVelocity = physicsMover.Velocity;
-                        angularVelocity = physicsMover.AngularVelocity;
-                    }
-                }
-
-                if (angularVelocity != Vector3.zero)
-                {
-                    Vector3 centerOfRotation = interactiveRigidbody.transform.TransformPoint(interactiveRigidbody.centerOfMass);
-
-                    Vector3 centerOfRotationToPoint = atPoint - centerOfRotation;
-                    Quaternion rotationFromInteractiveRigidbody = Quaternion.Euler(Mathf.Rad2Deg * angularVelocity * deltaTime);
-                    Vector3 finalPointPosition = centerOfRotation + (rotationFromInteractiveRigidbody * centerOfRotationToPoint);
-                    linearVelocity += (finalPointPosition - atPoint) / deltaTime;
-                }
-            }
-            else
-            {
-                linearVelocity = default;
-                angularVelocity = default;
-                return;
-            }
-        }
-
-        /// <summary>
         /// Determines if a collider has an attached interactive rigidbody
         /// </summary>
         private Rigidbody GetInteractiveRigidbody(Collider onCollider)
@@ -2093,15 +1551,6 @@ namespace TUI.KinematicLocomotionSystem
             }
             return null;
         }
-
-        public Vector3 GetVelocityFromMovement(Vector3 movement, float deltaTime)
-        {
-            if (deltaTime <= 0f)
-                return Vector3.zero;
-
-            return movement / deltaTime;
-        }
-
         /// <summary>
         /// Detect if the character capsule is overlapping with anything collidable
         /// </summary>

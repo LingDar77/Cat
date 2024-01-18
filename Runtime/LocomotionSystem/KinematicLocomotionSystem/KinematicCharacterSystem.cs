@@ -135,7 +135,7 @@ namespace TUI.KinematicLocomotionSystem
 
                 motor.UpdatePhase2(deltaTime);
 
-                motor.Transform.SetPositionAndRotation(motor.TransientPosition, motor.TransientRotation);
+                motor.transform.SetPositionAndRotation(motor._transientPosition, motor._transientRotation);
             }
 
         }
