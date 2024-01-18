@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace TUI.LocomotioinSystem
+namespace TUI.LocomotionSystem
 {
     /// <summary>
     /// A simple definition of a bias rotation applied to a coordinate.

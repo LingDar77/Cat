@@ -69,11 +69,11 @@ namespace TUI.LocomotionSystem
     [System.Serializable]
     public class GroundingStatus
     {
-        public bool FoundAnyGround;
         public bool IsStableOnGround;
         public bool SnappingPrevented;
         public Vector3 GroundNormal;
         public Vector3 InnerGroundNormal;
+        public bool FoundAnyGround;
 
         public void Init()
         {
@@ -88,16 +88,16 @@ namespace TUI.LocomotionSystem
     [System.Serializable]
     public class LocomotioinControllerParams
     {
+        public Vector3 InputVelocity;
         public Vector3 TargetPosition;
         public Quaternion TargetRotation;
-        public Vector3 CharacterUp => TargetRotation * Vector3.up;
-        public Vector3 CharacterTransformToCapsuleBottom;
-        public Vector3 CharacterTransformToCapsuleBottomHemi;
-        public Vector3 CharacterTransformToCapsuleTopHemi;
-        public int RigidbodyProjectionHitCount = 0;
         public int OverlapsCount;
+        public int RigidbodyProjectionHitCount = 0;
+        public Vector3 CharacterUp => TargetRotation * Vector3.up;
+        public Vector3 CapsuleBottom;
+        public Vector3 CapsuleBottomHemi;
+        public Vector3 CapsuleTopHemi;
         public bool LastMovementIterationFoundAnyGround;
-        public Vector3 BaseVelocity;
         public readonly Vector3[] OverlapsNormals = new Vector3[LocomotionControllerConstant.MaxRigidbodyOverlapsCount];
         public readonly RaycastHit[] InternalCharacterHits = new RaycastHit[LocomotionControllerConstant.MaxHitsBudget];
         public readonly Collider[] InternalProbedColliders = new Collider[LocomotionControllerConstant.MaxCollisionBudget];
@@ -130,9 +130,9 @@ namespace TUI.LocomotionSystem
 #endif
             config.MaxStepHeight = Mathf.Clamp(config.MaxStepHeight, 0f, Mathf.Infinity);
             config.MaxStableDistanceFromLedge = Mathf.Clamp(config.MaxStableDistanceFromLedge, 0f, Capsule.radius);
-            simulationParams.CharacterTransformToCapsuleBottom = Capsule.center + (-Vector3.up * (Capsule.height * 0.5f));
-            simulationParams.CharacterTransformToCapsuleBottomHemi = Capsule.center + (-Vector3.up * (Capsule.height * 0.5f)) + (Vector3.up * Capsule.radius);
-            simulationParams.CharacterTransformToCapsuleTopHemi = Capsule.center + (Vector3.up * (Capsule.height * 0.5f)) + (-Vector3.up * Capsule.radius);
+            simulationParams.CapsuleBottom = Capsule.center + (-Vector3.up * (Capsule.height * 0.5f));
+            simulationParams.CapsuleBottomHemi = Capsule.center + (-Vector3.up * (Capsule.height * 0.5f)) + (Vector3.up * Capsule.radius);
+            simulationParams.CapsuleTopHemi = Capsule.center + (Vector3.up * (Capsule.height * 0.5f)) + (-Vector3.up * Capsule.radius);
         }
 
         protected virtual void Awake()
@@ -166,18 +166,17 @@ namespace TUI.LocomotionSystem
 
         public override void SetPosition(Vector3 position)
         {
-            simulationParams.TargetPosition = position;
+            transform.position = position;
         }
 
         public override void SetRotation(Quaternion rotation)
         {
-            simulationParams.TargetRotation = rotation;
+            transform.rotation = rotation;
         }
 
         public override void SetPositionAndRotation(Vector3 position, Quaternion rotation)
         {
-            simulationParams.TargetPosition = position;
-            simulationParams.TargetRotation = rotation;
+            transform.SetPositionAndRotation(position, rotation);
         }
 
         #endregion
@@ -245,8 +244,8 @@ namespace TUI.LocomotionSystem
             if (!LastGroundingStatus.IsStableOnGround && GroundingStatus.IsStableOnGround)
             {
                 // Handle stable landing
-                simulationParams.BaseVelocity = Vector3.ProjectOnPlane(simulationParams.BaseVelocity, simulationParams.CharacterUp);
-                simulationParams.BaseVelocity = GetDirectionTangentToSurface(simulationParams.BaseVelocity, GroundingStatus.GroundNormal) * simulationParams.BaseVelocity.magnitude;
+                simulationParams.InputVelocity = Vector3.ProjectOnPlane(simulationParams.InputVelocity, simulationParams.CharacterUp);
+                simulationParams.InputVelocity = GetDirectionTangentToSurface(simulationParams.InputVelocity, GroundingStatus.GroundNormal) * simulationParams.InputVelocity.magnitude;
             }
 
             simulationParams.LastMovementIterationFoundAnyGround = false;
@@ -310,7 +309,7 @@ namespace TUI.LocomotionSystem
 
                                         StoreRigidbodyHit(
                                             probedRigidbody,
-                                            simulationParams.BaseVelocity,
+                                            simulationParams.InputVelocity,
                                             estimatedCollisionPoint,
                                             resolutionDirection);
                                     }
@@ -338,25 +337,25 @@ namespace TUI.LocomotionSystem
             }
 
 
-            UpdateVelocity(ref simulationParams.BaseVelocity, deltaTime);
+            UpdateVelocity(ref simulationParams.InputVelocity, deltaTime);
 
             //this.CharacterController.UpdateVelocity(ref BaseVelocity, deltaTime);
-            if (simulationParams.BaseVelocity.magnitude < LocomotionControllerConstant.MinVelocityMagnitude)
+            if (simulationParams.InputVelocity.magnitude < LocomotionControllerConstant.MinVelocityMagnitude)
             {
-                simulationParams.BaseVelocity = Vector3.zero;
+                simulationParams.InputVelocity = Vector3.zero;
             }
 
             #region Calculate Character movement from base velocity   
             // Perform the move from base velocity
-            if (simulationParams.BaseVelocity.sqrMagnitude > 0f)
+            if (simulationParams.InputVelocity.sqrMagnitude > 0f)
             {
-                InternalCharacterMove(ref simulationParams.BaseVelocity, deltaTime);
+                InternalCharacterMove(ref simulationParams.InputVelocity, deltaTime);
             }
 
             // Process rigidbody hits/overlaps to affect velocity
             if (config.InteractiveRigidbodyHandling)
             {
-                ProcessVelocityForRigidbodyHits(ref simulationParams.BaseVelocity);
+                ProcessVelocityForRigidbodyHits(ref simulationParams.InputVelocity);
             }
             #endregion
 
@@ -436,8 +435,8 @@ namespace TUI.LocomotionSystem
             position.y -= config.CollisionDetectOffset;
             // Capsule cast
             int nbUnfilteredHits = Physics.CapsuleCastNonAlloc(
-                position + (rotation * simulationParams.CharacterTransformToCapsuleBottomHemi) - (direction * LocomotionControllerConstant.GroundProbingBackstepDistance),
-                position + (rotation * simulationParams.CharacterTransformToCapsuleTopHemi) - (direction * LocomotionControllerConstant.GroundProbingBackstepDistance),
+                position + (rotation * simulationParams.CapsuleBottomHemi) - (direction * LocomotionControllerConstant.GroundProbingBackstepDistance),
+                position + (rotation * simulationParams.CapsuleTopHemi) - (direction * LocomotionControllerConstant.GroundProbingBackstepDistance),
                 Capsule.radius,
                 direction,
                 simulationParams.InternalCharacterHits,
@@ -718,7 +717,7 @@ namespace TUI.LocomotionSystem
             if (stabilityReport.LedgeDetected)
             {
                 stabilityReport.IsOnEmptySideOfLedge = isStableLedgeOuter && !isStableLedgeInner;
-                stabilityReport.DistanceFromLedge = Vector3.ProjectOnPlane(hitPoint - (atCharacterPosition + (atCharacterRotation * simulationParams.CharacterTransformToCapsuleBottom)), atCharacterUp).magnitude;
+                stabilityReport.DistanceFromLedge = Vector3.ProjectOnPlane(hitPoint - (atCharacterPosition + (atCharacterRotation * simulationParams.CapsuleBottom)), atCharacterUp).magnitude;
             }
 
             if (stabilityReport.IsStable)
@@ -802,8 +801,8 @@ namespace TUI.LocomotionSystem
         {
             int queryLayers = config.StableGroundLayers;
 
-            Vector3 bottom = position + (rotation * simulationParams.CharacterTransformToCapsuleBottomHemi);
-            Vector3 top = position + (rotation * simulationParams.CharacterTransformToCapsuleTopHemi);
+            Vector3 bottom = position + (rotation * simulationParams.CapsuleBottomHemi);
+            Vector3 top = position + (rotation * simulationParams.CapsuleTopHemi);
             if (inflate != 0f)
             {
                 bottom += rotation * Vector3.down * inflate;
@@ -1049,8 +1048,8 @@ namespace TUI.LocomotionSystem
             int queryLayers = config.StableGroundLayers;
 
 
-            Vector3 bottom = position + (rotation * simulationParams.CharacterTransformToCapsuleBottomHemi) - (direction * LocomotionControllerConstant.SweepProbingBackstepDistance);
-            Vector3 top = position + (rotation * simulationParams.CharacterTransformToCapsuleTopHemi) - (direction * LocomotionControllerConstant.SweepProbingBackstepDistance);
+            Vector3 bottom = position + (rotation * simulationParams.CapsuleBottomHemi) - (direction * LocomotionControllerConstant.SweepProbingBackstepDistance);
+            Vector3 top = position + (rotation * simulationParams.CapsuleTopHemi) - (direction * LocomotionControllerConstant.SweepProbingBackstepDistance);
             if (inflate != 0f)
             {
                 bottom += rotation * Vector3.down * inflate;

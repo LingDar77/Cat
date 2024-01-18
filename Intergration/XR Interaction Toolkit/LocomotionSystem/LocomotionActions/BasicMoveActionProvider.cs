@@ -6,7 +6,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
     using UnityEngine.InputSystem;
     using UnityEngine.XR;
     using System.Collections.Generic;
-    using TUI.LocomotioinSystem;
+    using TUI.LocomotionSystem;
     using TUI.LocomotionSystem.Actions;
 
     /// <summary>

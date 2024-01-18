@@ -1,6 +1,6 @@
 #if XRIT
 using System.Collections;
-using TUI.LocomotioinSystem;
+using TUI.LocomotionSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

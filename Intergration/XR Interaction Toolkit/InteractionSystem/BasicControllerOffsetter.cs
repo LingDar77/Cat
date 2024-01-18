@@ -1,5 +1,5 @@
 #if XRIT
-using TUI.LocomotioinSystem;
+using TUI.LocomotionSystem;
 using UnityEngine;
 
 namespace TUI.Intergration.XRIT.InteractionSystem

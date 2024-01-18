@@ -6,10 +6,10 @@ namespace TUI.LocomotionSystem
     public abstract class LocomotionSystemBase : MonoBehaviour, ILocomotionSystem
     {
         [field: SerializeField, ReadOnlyInEditor]
-        public Vector3 CurrentVelocity { get; set; }
+        public Vector3 CurrentVelocity { get; protected set; }
         [field: SerializeField, ReadOnlyInEditor]
-        public Quaternion CurrentRotation { get; set; }
-        public ICollection<IActionProvider> ActionProviders { get; set; } = new HashSet<IActionProvider>();
+        public Quaternion CurrentRotation { get; protected set; }
+        public ICollection<IActionProvider> ActionProviders { get; private set; } = new HashSet<IActionProvider>();
 
 
         public virtual void RegisterActionProvider(IActionProvider action)
