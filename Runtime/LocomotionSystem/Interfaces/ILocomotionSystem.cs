@@ -41,6 +41,7 @@ namespace TUI.LocomotioinSystem
         /// Mark the charactor ungrounded, you must do this to clare that the charctor can leave in air.
         /// </summary>
         void MarkUngrounded();
+        bool IsColliderValid(Collider collider);
     }
 
 }

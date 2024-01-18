@@ -30,5 +30,10 @@ namespace TUI.LocomotioinSystem
         public virtual void MarkUngrounded()
         {
         }
+
+        public virtual bool IsColliderValid(Collider collider)
+        {
+            return true;
+        }
     }
 }

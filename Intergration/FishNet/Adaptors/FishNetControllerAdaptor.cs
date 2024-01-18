@@ -48,10 +48,13 @@ namespace TUI.Intergration.FN
         private void InitialzeAdaptor()
         {
             var locomotionSystem = GetComponent<ILocomotionSystem>();
-            if (locomotionSystem.transform.TryGetComponent(out motor) && IsOwner)
-            {
-                motor.OnCapsuleDimensionsUpdated += HandleCapsuleDimensions;
-            }
+
+
+            //TODO Refactored Locomotion
+            // if (locomotionSystem.transform.TryGetComponent(out motor) && IsOwner)
+            // {
+            //     motor.OnCapsuleDimensionsUpdated += HandleCapsuleDimensions;
+            // }
 
             if (!IsOwner)
             {

@@ -143,6 +143,12 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem
         {
             return true;
         }
+
+        public bool IsColliderValid(Collider collider)
+        {
+            return true;
+
+        }
         #endregion
 
     }
