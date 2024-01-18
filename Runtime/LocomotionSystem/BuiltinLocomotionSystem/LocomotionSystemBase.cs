@@ -24,7 +24,7 @@ namespace TUI.LocomotioinSystem
         }
         public virtual bool IsStableOnGround()
         {
-            return false;
+            return true;
         }
 
         public virtual void MarkUngrounded()
