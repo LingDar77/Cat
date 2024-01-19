@@ -7,7 +7,7 @@ namespace TUI.KinematicLocomotionSystem.Actions
     /// <summary>
     /// A basic implementation of a jump action
     /// </summary>
-    public class BasicJumpActionProvider : ActionProviderBase
+    public class BuiltinJumpProvider : ActionProviderBase
     {
         [Tooltip("The Key to Perform Jump.")]
         [SerializeField] private InputActionProperty jumpContrl;

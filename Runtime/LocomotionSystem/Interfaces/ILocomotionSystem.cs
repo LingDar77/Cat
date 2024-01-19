@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TUI.LocomotioinSystem
+namespace TUI.LocomotionSystem
 {
     /// <summary>
     /// Basic definition of locomotion system which is used to move a charactor.
@@ -41,6 +41,14 @@ namespace TUI.LocomotioinSystem
         /// Mark the charactor ungrounded, you must do this to clare that the charctor can leave in air.
         /// </summary>
         void MarkUngrounded();
+
+        bool IsColliderValid(Collider collider);
+
+        void SetPositionAndRotation(Vector3 position, Quaternion rotation);
+
+        void SetPosition(Vector3 position);
+        
+        void SetRotation(Quaternion rotation);
     }
 
 }
