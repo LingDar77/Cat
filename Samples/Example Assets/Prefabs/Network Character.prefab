@@ -8,6 +8,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2626446518210822673, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: m_ComponentOwner
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: EnableActionsOnStartup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449118933467115672, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481777478335534499, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8568591881549335230, guid: 45a390f23649abd48a603f39abb68688,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,10 +96,16 @@ PrefabInstance:
     - target: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688,
         type: 3}
       propertyPath: m_Name
-      value: Base Character Variant
+      value: Network Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5839742030118747613, guid: 45a390f23649abd48a603f39abb68688, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688,
@@ -75,7 +116,23 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1666229925860714263}
+    - targetCorrespondingSourceObject: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5392894920405322116}
   m_SourcePrefab: {fileID: 100100000, guid: 45a390f23649abd48a603f39abb68688, type: 3}
+--- !u!1 &2225425917775049424 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688,
+    type: 3}
+  m_PrefabInstance: {fileID: 2056111269015474959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3231619041189512876 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3481777478335534499, guid: 45a390f23649abd48a603f39abb68688,
+    type: 3}
+  m_PrefabInstance: {fileID: 2056111269015474959}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7748035204419738986 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688,
@@ -97,7 +154,9 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
+  _networkBehaviours:
+  - {fileID: 1666229925860714263}
+  - {fileID: 5392894920405322116}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -111,7 +170,7 @@ MonoBehaviour:
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 396714152
+  _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 0
 --- !u!114 &1666229925860714263
@@ -126,9 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 80802352793900045}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 80802352793900045}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:
@@ -159,3 +218,51 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &5392894920405322116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7748035204419738986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88da97e5d1e0ea468f2af52075b9e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 80802352793900045}
+  _networkObjectCache: {fileID: 80802352793900045}
+  StartAsClient:
+    m_PersistentCalls:
+      m_Calls: []
+  StartAsServer:
+    m_PersistentCalls:
+      m_Calls: []
+  StartAsOwner:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3231619041189512876}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2225425917775049424}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2

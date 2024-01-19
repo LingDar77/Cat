@@ -1,5 +1,105 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &174104758141166047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6827592059233518555}
+  - component: {fileID: 2850714989688305529}
+  - component: {fileID: 3449118933467115672}
+  - component: {fileID: 5492150192968636001}
+  m_Layer: 0
+  m_Name: InputActions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6827592059233518555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174104758141166047}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 8568591881549335230}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2850714989688305529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174104758141166047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c38d797ee8033148b6ebe9a87d03517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionMaps:
+  - {fileID: -944628639613478452, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
+  EnableActionsOnStartup: 1
+--- !u!114 &3449118933467115672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174104758141166047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ef3765a591d8643a51207f22e70044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpContrl:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Jump Contrl
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 2ca234c2-f7f5-4b57-a802-3994bd7b9014
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 1773500915477213953, guid: 90fedf7a2b959e44796f300737aaf88b,
+      type: 3}
+  JumpVelocity: 5
+--- !u!114 &5492150192968636001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174104758141166047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a99a9a489778a748a7ccdfa01ee589a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveControl:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Move Control
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cbdfc701-f7d4-4d04-b813-5702d94b63ce
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 6250460478399565822, guid: 90fedf7a2b959e44796f300737aaf88b,
+      type: 3}
 --- !u!1 &3481777478335534499
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,8 +250,6 @@ GameObject:
   - component: {fileID: 8568591881549335230}
   - component: {fileID: 8707019542956648189}
   - component: {fileID: 5081985959029848985}
-  - component: {fileID: 3827847747273429038}
-  - component: {fileID: 4525987937467551167}
   m_Layer: 0
   m_Name: Base Character
   m_TagString: Untagged
@@ -174,6 +272,7 @@ Transform:
   m_Children:
   - {fileID: 9038495734787469278}
   - {fileID: 6258749959777929937}
+  - {fileID: 6827592059233518555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &8707019542956648189
@@ -237,57 +336,6 @@ MonoBehaviour:
     OuterGroundNormal: {x: 0, y: 0, z: 0}
     GroundCollider: {fileID: 0}
     GroundPoint: {x: 0, y: 0, z: 0}
---- !u!114 &3827847747273429038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8578876500813581925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a99a9a489778a748a7ccdfa01ee589a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveControl:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Move Control
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: cbdfc701-f7d4-4d04-b813-5702d94b63ce
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6250460478399565822, guid: 90fedf7a2b959e44796f300737aaf88b,
-      type: 3}
---- !u!114 &4525987937467551167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8578876500813581925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1ef3765a591d8643a51207f22e70044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpContrl:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Jump Contrl
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 2ca234c2-f7f5-4b57-a802-3994bd7b9014
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 1773500915477213953, guid: 90fedf7a2b959e44796f300737aaf88b,
-      type: 3}
-  JumpVelocity: 5
 --- !u!1001 &8855649748479019061
 PrefabInstance:
   m_ObjectHideFlags: 0

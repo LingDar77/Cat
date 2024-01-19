@@ -14,16 +14,6 @@ namespace TUI
         {
             LocomotionSystem.SetPosition(new Vector3(Random.Range(-10f, 10f), 4, Random.Range(-10f, 10f)));
         }
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            moveControl.action.Enable();
-        }
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            moveControl.action.Disable();
-        }
         public override void BeforeProcess(float deltaTime)
         {
             input = moveControl.action.ReadValue<Vector2>();

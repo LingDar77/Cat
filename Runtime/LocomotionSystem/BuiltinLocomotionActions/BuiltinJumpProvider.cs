@@ -16,17 +16,7 @@ namespace TUI.KinematicLocomotionSystem.Actions
         [SerializeField] private float JumpVelocity = 5f;
 
         private bool shouldJump;
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            jumpContrl.action.Enable();
-        }
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            jumpContrl.action.Disable();
-
-        }
+        
         public override void BeforeProcess(float deltaTime)
         {
             base.BeforeProcess(deltaTime);
