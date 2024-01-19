@@ -5,13 +5,18 @@ namespace TUI.LocomotionSystem
     using UnityEngine;
     public abstract class LocomotionSystemBase : MonoBehaviour, ILocomotionSystem
     {
-        [field: SerializeField, ReadOnlyInEditor]
-        public Vector3 CurrentVelocity { get; protected set; }
-        [field: SerializeField, ReadOnlyInEditor]
-        public Quaternion CurrentRotation { get; protected set; }
+        public Vector3 CurrentVelocity => GetCurrentVelocity();
+        public Quaternion CurrentRotation => GetCurrentRotation();
         public ICollection<IActionProvider> ActionProviders { get; private set; } = new HashSet<IActionProvider>();
 
-
+        protected virtual Vector3 GetCurrentVelocity()
+        {
+            return Vector3.zero;
+        }
+        protected virtual Quaternion GetCurrentRotation()
+        {
+            return Quaternion.identity;
+        }
         public virtual void RegisterActionProvider(IActionProvider action)
         {
             ActionProviders.Add(action);

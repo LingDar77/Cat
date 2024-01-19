@@ -32,7 +32,7 @@ namespace TUI
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
             currentVelocity = new(input.x, currentVelocity.y, input.y);
-            if (LocomotionSystem.IsStableOnGround()) return;
+            if (LocomotionSystem.IsStableOnGround() && currentVelocity.y == 0) return;
             currentVelocity.y -= 9.8f * deltaTime;
         }
 
