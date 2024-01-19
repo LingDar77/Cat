@@ -107,7 +107,7 @@ namespace TUI.LocomotionSystem
         [Header("Simulation Params")]
         public float GroundDetectionExtraDistance = 0f;
         public LayerMask StableGroundLayers = -1;
-        public float MaxStepHeight = 0.5f;
+        public float MaxStepHeight = 0.6f;
         [Range(0f, 89f)]
         public float MaxStableSlopeAngle = 60f;
         [Range(1f, 180f)]
