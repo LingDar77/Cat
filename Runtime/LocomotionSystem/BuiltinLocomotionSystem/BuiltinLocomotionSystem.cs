@@ -39,7 +39,7 @@ namespace TUI.LocomotionSystem
         public const int MaxRigidbodyOverlapsCount = 16;
         public const float CollisionOffset = 0.01f;
         public const float GroundProbeReboundDistance = 0.02f;
-        public const float MinimumGroundProbingDistance = 0.005f;
+        public const float MinimumGroundProbingDistance = 0.02f;
         public const float GroundProbingBackstepDistance = 0.1f;
         public const float SweepProbingBackstepDistance = 0.002f;
         public const float SecondaryProbesVertical = 0.02f;
@@ -146,6 +146,9 @@ namespace TUI.LocomotionSystem
             var time = Time.deltaTime;
             PrepareSimilation(time);
             Simulation(time);
+
+            CurrentVelocity = simulationParams.InputVelocity;
+            CurrentRotation = simulationParams.TargetRotation;
 
             transform.SetPositionAndRotation(simulationParams.TargetPosition, simulationParams.TargetRotation);
         }

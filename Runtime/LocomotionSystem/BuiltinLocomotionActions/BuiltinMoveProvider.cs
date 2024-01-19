@@ -38,7 +38,7 @@ namespace TUI
 
         public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            currentRotation *= Quaternion.Euler(0, 2, 0);
+            // currentRotation *= Quaternion.Euler(0, 2, 0);
         }
     }
 }
