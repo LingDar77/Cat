@@ -156,6 +156,7 @@ namespace TUI.LocomotionSystem
         {
             OnValidate();
         }
+
         private void Update()
         {
             var time = Time.deltaTime;
@@ -221,7 +222,6 @@ namespace TUI.LocomotionSystem
         #endregion
 
         #region  Helper Function
-
         public void PrepareSimulatioin(float deltaTime)
         {
             // NaN propagation safety stop
