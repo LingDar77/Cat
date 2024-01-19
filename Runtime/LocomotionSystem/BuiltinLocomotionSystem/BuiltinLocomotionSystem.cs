@@ -182,38 +182,6 @@ namespace TUI.LocomotionSystem
         #endregion
 
         #region  Helper Function
-        private void BeforeUpdate(float time)
-        {
-            foreach (var provider in ActionProviders)
-            {
-                provider.BeforeProcess(time);
-            }
-        }
-
-        private void PostUpdate(float time)
-        {
-            foreach (var provider in ActionProviders)
-            {
-                provider.AfterProcess(time);
-            }
-        }
-
-        private void UpdateVelocity(ref Vector3 velocity, float time)
-        {
-            foreach (var provider in ActionProviders)
-            {
-                provider.ProcessVelocity(ref velocity, time);
-            }
-        }
-
-        private void UpdateRotation(ref Quaternion rotation, float time)
-        {
-            foreach (var provider in ActionProviders)
-            {
-                provider.ProcessRotation(ref rotation, time);
-            }
-        }
-
         private void PrepareSimilation(float deltaTime)
         {
 
@@ -229,14 +197,10 @@ namespace TUI.LocomotionSystem
             LastGroundingStatus = GroundingStatus;
             GroundingStatus.Init();
 
-            #region Ground Probing and Snapping
-
             float selectedGroundProbingDistance = LocomotionControllerConstant.MinimumGroundProbingDistance;
             if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStableOnGround || simulationParams.LastMovementIterationFoundAnyGround))
             {
                 selectedGroundProbingDistance = Mathf.Max(Capsule.radius, config.MaxStepHeight);
-
-
             }
 
             ProbeGround(ref simulationParams.TargetPosition, simulationParams.TargetRotation, selectedGroundProbingDistance, ref GroundingStatus);
@@ -249,10 +213,6 @@ namespace TUI.LocomotionSystem
             }
 
             simulationParams.LastMovementIterationFoundAnyGround = false;
-
-            #endregion
-
-
         }
 
         private void Simulation(float deltaTime)

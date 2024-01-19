@@ -46,5 +46,38 @@ namespace TUI.LocomotionSystem
         public virtual void SetRotation(Quaternion rotation)
         {
         }
+
+        protected virtual void BeforeUpdate(float time)
+        {
+            foreach (var provider in ActionProviders)
+            {
+                provider.BeforeProcess(time);
+            }
+        }
+
+        protected virtual void PostUpdate(float time)
+        {
+            foreach (var provider in ActionProviders)
+            {
+                provider.AfterProcess(time);
+            }
+        }
+
+        protected virtual void UpdateVelocity(ref Vector3 velocity, float time)
+        {
+            foreach (var provider in ActionProviders)
+            {
+                provider.ProcessVelocity(ref velocity, time);
+            }
+        }
+
+        protected virtual void UpdateRotation(ref Quaternion rotation, float time)
+        {
+            foreach (var provider in ActionProviders)
+            {
+                provider.ProcessRotation(ref rotation, time);
+            }
+        }
+
     }
 }
