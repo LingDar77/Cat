@@ -33,18 +33,18 @@ namespace TUI.LocomotionSystem
     }
     public static class LocomotionControllerConstant
     {
-        public const int MaxHitsBudget = 16;
-        public const int MaxCollisionBudget = 16;
         public const int MaxGroundingSweepIterations = 2;
-        public const int MaxRigidbodyOverlapsCount = 16;
+        public const int MaxHitsBudget = 8;
+        public const int MaxCollisionBudget = 8;
+        public const int MaxRigidbodyOverlapsCount = 8;
         public const float CollisionOffset = 0.01f;
         public const float GroundProbeReboundDistance = 0.02f;
-        public const float MinimumGroundProbingDistance = 0.02f;
+        public const float MinimumGroundProbingDistance = 0.002f;
         public const float GroundProbingBackstepDistance = 0.1f;
         public const float SweepProbingBackstepDistance = 0.002f;
         public const float SecondaryProbesVertical = 0.02f;
         public const float SecondaryProbesHorizontal = 0.001f;
-        public const float MinVelocityMagnitude = 0.01f;
+        public const float MinVelocitySqrMagnitude = 0.0001f;
     }
 
     [System.Serializable]
@@ -115,7 +115,7 @@ namespace TUI.LocomotionSystem
         [ReadOnlyInEditor]
         public LocomotioinControllerParams simulationParams = new();
         public LocomotionControllerConfig config = new();
-        protected GroundingStatus LastGroundingStatus = new();
+        public GroundingStatus LastGroundingStatus = new();
 
         #region  Editor Interface
         protected virtual void Reset()
@@ -201,7 +201,7 @@ namespace TUI.LocomotionSystem
             GroundingStatus.Init();
 
             float selectedGroundProbingDistance = LocomotionControllerConstant.MinimumGroundProbingDistance;
-            if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStableOnGround || simulationParams.LastMovementIterationFoundAnyGround))
+            if (!LastGroundingStatus.SnappingPrevented && LastGroundingStatus.IsStableOnGround)
             {
                 selectedGroundProbingDistance = Mathf.Max(Capsule.radius, config.MaxStepHeight);
             }
@@ -225,90 +225,76 @@ namespace TUI.LocomotionSystem
             if (config.InteractiveRigidbodyHandling)
             {
 
-                #region Resolve overlaps that could've been caused by rotation or physics movers simulation pushing the character
                 int iterationsMade = 0;
-                bool overlapSolved = false;
-                while (iterationsMade < config.MaxDecollisionIterations && !overlapSolved)
+                while (iterationsMade < config.MaxDecollisionIterations)
                 {
                     int nbOverlaps = CharacterCollisionsOverlap(simulationParams.TargetPosition, simulationParams.TargetRotation, simulationParams.InternalProbedColliders);
-                    if (nbOverlaps > 0)
+                    if (nbOverlaps == 0)
                     {
-                        for (int i = 0; i < nbOverlaps; i++)
+                        break;
+                    }
+
+                    for (int i = 0; i < nbOverlaps; i++)
+                    {
+                        // Process overlap
+                        Transform overlappedTransform = simulationParams.InternalProbedColliders[i].GetComponent<Transform>();
+                        if (!Physics.ComputePenetration(Capsule, simulationParams.TargetPosition, simulationParams.TargetRotation, simulationParams.InternalProbedColliders[i], overlappedTransform.position, overlappedTransform.rotation, out Vector3 resolutionDirection, out float resolutionDistance))
                         {
-                            // Process overlap
-                            Transform overlappedTransform = simulationParams.InternalProbedColliders[i].GetComponent<Transform>();
-                            if (Physics.ComputePenetration(
-                                    Capsule,
-                                    simulationParams.TargetPosition,
-                                    simulationParams.TargetRotation,
-                                    simulationParams.InternalProbedColliders[i],
-                                    overlappedTransform.position,
-                                    overlappedTransform.rotation,
-                                    out Vector3 resolutionDirection,
-                                    out float resolutionDistance))
+                            continue;
+                        }
+                        resolutionDirection = GetObstructionNormal(resolutionDirection, IsStableOnNormal(resolutionDirection));
+
+                        // Solve overlap
+                        Vector3 resolutionMovement = resolutionDirection * (resolutionDistance + LocomotionControllerConstant.CollisionOffset);
+                        simulationParams.TargetPosition += resolutionMovement;
+
+                        // If interactiveRigidbody, register as rigidbody hit for velocity
+                        if (config.InteractiveRigidbodyHandling)
+                        {
+                            Rigidbody probedRigidbody = GetInteractiveRigidbody(simulationParams.InternalProbedColliders[i]);
+                            if (probedRigidbody != null)
                             {
-
-                                resolutionDirection = GetObstructionNormal(resolutionDirection, IsStableOnNormal(resolutionDirection));
-
-                                // Solve overlap
-                                Vector3 resolutionMovement = resolutionDirection * (resolutionDistance + LocomotionControllerConstant.CollisionOffset);
-                                simulationParams.TargetPosition += resolutionMovement;
-
-                                // If interactiveRigidbody, register as rigidbody hit for velocity
-                                if (config.InteractiveRigidbodyHandling)
+                                HitStabilityReport tmpReport = new()
                                 {
-                                    Rigidbody probedRigidbody = GetInteractiveRigidbody(simulationParams.InternalProbedColliders[i]);
-                                    if (probedRigidbody != null)
-                                    {
-                                        HitStabilityReport tmpReport = new()
-                                        {
-                                            IsStable = IsStableOnNormal(resolutionDirection)
-                                        };
-                                        if (tmpReport.IsStable)
-                                        {
-                                            simulationParams.LastMovementIterationFoundAnyGround = tmpReport.IsStable;
-                                        }
-                                        Vector3 estimatedCollisionPoint = simulationParams.TargetPosition;
-
-                                        StoreRigidbodyHit(
-                                            probedRigidbody,
-                                            simulationParams.InputVelocity,
-                                            estimatedCollisionPoint,
-                                            resolutionDirection);
-                                    }
-                                }
-
-                                // Remember overlaps
-                                if (simulationParams.OverlapsCount < simulationParams.OverlapsNormals.Length)
+                                    IsStable = IsStableOnNormal(resolutionDirection)
+                                };
+                                if (tmpReport.IsStable)
                                 {
-                                    simulationParams.OverlapsNormals[simulationParams.OverlapsCount] = resolutionDirection;
-                                    simulationParams.OverlapsCount++;
+                                    simulationParams.LastMovementIterationFoundAnyGround = tmpReport.IsStable;
                                 }
+                                Vector3 estimatedCollisionPoint = simulationParams.TargetPosition;
 
-                                break;
+                                StoreRigidbodyHit(
+                                    probedRigidbody,
+                                    simulationParams.InputVelocity,
+                                    estimatedCollisionPoint,
+                                    resolutionDirection);
                             }
                         }
-                    }
-                    else
-                    {
-                        overlapSolved = true;
+
+                        // Remember overlaps
+                        if (simulationParams.OverlapsCount < simulationParams.OverlapsNormals.Length)
+                        {
+                            simulationParams.OverlapsNormals[simulationParams.OverlapsCount] = resolutionDirection;
+                            simulationParams.OverlapsCount++;
+                        }
+
+                        break;
                     }
 
                     iterationsMade++;
                 }
-                #endregion
             }
 
 
             UpdateVelocity(ref simulationParams.InputVelocity, deltaTime);
 
             //this.CharacterController.UpdateVelocity(ref BaseVelocity, deltaTime);
-            if (simulationParams.InputVelocity.magnitude < LocomotionControllerConstant.MinVelocityMagnitude)
+            if (simulationParams.InputVelocity.sqrMagnitude < LocomotionControllerConstant.MinVelocitySqrMagnitude)
             {
                 simulationParams.InputVelocity = Vector3.zero;
             }
 
-            #region Calculate Character movement from base velocity   
             // Perform the move from base velocity
             if (simulationParams.InputVelocity.sqrMagnitude > 0f)
             {
@@ -320,7 +306,6 @@ namespace TUI.LocomotionSystem
             {
                 ProcessVelocityForRigidbodyHits(ref simulationParams.InputVelocity);
             }
-            #endregion
 
             PostUpdate(deltaTime);
 
@@ -404,7 +389,7 @@ namespace TUI.LocomotionSystem
                 direction,
                 simulationParams.InternalCharacterHits,
                 distance + LocomotionControllerConstant.GroundProbingBackstepDistance,
-                 config.StableGroundLayers,
+                config.StableGroundLayers,
                 QueryTriggerInteraction.Ignore);
 
             // Hits filter
