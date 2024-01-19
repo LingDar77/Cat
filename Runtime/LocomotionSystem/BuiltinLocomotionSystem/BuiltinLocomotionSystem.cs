@@ -80,27 +80,28 @@ namespace TUI.LocomotionSystem
         public bool StableOnHit;
     }
 
-    public static class ControllerConstants
-    {
-        public const int MaxHitsBudget = 16;
-        public const int MaxCollisionBudget = 16;
-        public const int MaxGroundingSweepIterations = 2;
-        public const int MaxRigidbodyOverlapsCount = 16;
-        public const float CollisionOffset = 0.01f;
-        public const float GroundProbeReboundDistance = 0.02f;
-        public const float MinimumGroundProbingDistance = 0.005f;
-        public const float GroundProbingBackstepDistance = 0.1f;
-        public const float SweepProbingBackstepDistance = 0.002f;
-        public const float SecondaryProbesVertical = 0.02f;
-        public const float SecondaryProbesHorizontal = 0.001f;
-        public const float MinVelocityMagnitude = 0.01f;
-        public const float SteppingForwardDistance = 0.03f;
-        public const float CorrelationForVerticalObstruction = 0.01f;
-    }
-
     [RequireComponent(typeof(CapsuleCollider))]
     public class BuiltinLocomotionSystem : LocomotionSystemBase
     {
+        public static class ControllerConstants
+        {
+            public const int MaxHitsBudget = 8;
+            public const int MaxCollisionBudget = 8;
+            public const int MaxRigidbodyOverlapsCount = 8;
+            public const int MaxGroundingSweepIterations = 2;
+            public const float CollisionOffset = 0.01f;
+            public const float GroundProbeReboundDistance = 0.02f;
+            public const float MinimumGroundProbingDistance = 0.005f;
+            public const float GroundProbingBackstepDistance = 0.1f;
+            public const float SweepProbingBackstepDistance = 0.002f;
+            public const float SecondaryProbesVertical = 0.02f;
+            public const float SecondaryProbesHorizontal = 0.001f;
+            public const float MinVelocityMagnitude = 0.01f;
+            public const float SteppingForwardDistance = 0.03f;
+            public const float CorrelationForVerticalObstruction = 0.01f;
+        }
+
+        [ReadOnlyInEditor]
         public CapsuleCollider Capsule;
 
         #region  Simulation Params
@@ -117,19 +118,21 @@ namespace TUI.LocomotionSystem
         public float MinRequiredStepDepth = 0.1f;
         public float SimulatedCharacterMass = 1f;
         public bool InteractiveRigidbodyHandling = true;
-        public int MaxMovementIterations = 4;
+        public int MaxMovementIterations = 2;
         public int MaxDecollisionIterations = 1;
         #endregion
 
         #region  Simulation Status
         [Header("Simulation Status")]
+        [ReadOnlyInEditor]
         public Vector3 TargetVelocity;
+        [ReadOnlyInEditor]
         public Vector3 TargetPosition;
+        [ReadOnlyInEditor]
         public Quaternion TargetRotation;
-
+        [ReadOnlyInEditor]
         public GroundingStatus GroundingStatus = new();
-        public GroundingStatus LastGroundingStatus = new();
-
+        private readonly GroundingStatus LastGroundingStatus = new();
         #endregion
 
         #region Private Fields
