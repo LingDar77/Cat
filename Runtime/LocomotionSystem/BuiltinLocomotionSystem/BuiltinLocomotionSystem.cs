@@ -106,7 +106,7 @@ namespace TUI.LocomotionSystem
 
         #region  Simulation Params
         [Header("Simulation Params")]
-        public float GroundDetectionExtraDistance = 0f;
+        public float GroundDetectionExtra = 0f;
         public LayerMask StableGroundLayers = -1;
         public float MaxStepHeight = 0.6f;
         [Range(0f, 89f)]
@@ -116,8 +116,8 @@ namespace TUI.LocomotionSystem
 
         public float MaxStableDistanceFromLedge = 0.5f;
         public float MinRequiredStepDepth = 0.1f;
+        public bool AffectRigidbody = true;
         public float SimulatedCharacterMass = 1f;
-        public bool InteractiveRigidbodyHandling = true;
         public int MaxMovementIterations = 2;
         public int MaxDecollisionIterations = 1;
         #endregion
@@ -298,7 +298,7 @@ namespace TUI.LocomotionSystem
             float selectedGroundProbingDistance = ControllerConstants.MinimumGroundProbingDistance;
             if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStableOnGround || lastMovementIterationFoundAnyGround))
             {
-                selectedGroundProbingDistance = Capsule.radius + GroundDetectionExtraDistance;
+                selectedGroundProbingDistance = Capsule.radius + GroundDetectionExtra;
             }
 
             ProbeGround(ref TargetPosition, TargetRotation, selectedGroundProbingDistance, ref GroundingStatus);
@@ -319,7 +319,7 @@ namespace TUI.LocomotionSystem
         {
             UpdateRotation(ref TargetRotation, deltaTime);
 
-            if (InteractiveRigidbodyHandling)
+            if (AffectRigidbody)
             {
                 int iterationsMade = 0;
                 while (iterationsMade < MaxDecollisionIterations)
@@ -352,7 +352,7 @@ namespace TUI.LocomotionSystem
                             TargetPosition += resolutionMovement;
 
                             // If interactiveRigidbody, register as rigidbody hit for velocity
-                            if (InteractiveRigidbodyHandling)
+                            if (AffectRigidbody)
                             {
                                 Rigidbody probedRigidbody = GetInteractiveRigidbody(internalProbedColliders[i]);
                                 if (probedRigidbody != null)
@@ -398,7 +398,7 @@ namespace TUI.LocomotionSystem
             }
 
             // Process rigidbody hits/overlaps to affect velocity
-            if (InteractiveRigidbodyHandling)
+            if (AffectRigidbody)
             {
                 ProcessVelocityForRigidbodyHits(ref TargetVelocity, deltaTime);
             }
@@ -708,7 +708,7 @@ namespace TUI.LocomotionSystem
 
 
                         // Handle remembering rigidbody hits
-                        if (InteractiveRigidbodyHandling && closestSweepHitCollider.attachedRigidbody)
+                        if (AffectRigidbody && closestSweepHitCollider.attachedRigidbody)
                         {
                             StoreRigidbodyHit(
                                 closestSweepHitCollider.attachedRigidbody,
