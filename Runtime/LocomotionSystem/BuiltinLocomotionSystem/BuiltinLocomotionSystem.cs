@@ -157,7 +157,7 @@ namespace TUI.LocomotionSystem
             OnValidate();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             var time = Time.deltaTime;
             PrepareSimulatioin(time);
@@ -222,7 +222,7 @@ namespace TUI.LocomotionSystem
         #endregion
 
         #region  Helper Function
-        public void PrepareSimulatioin(float deltaTime)
+        protected virtual void PrepareSimulatioin(float deltaTime)
         {
             // NaN propagation safety stop
             if (float.IsNaN(TargetVelocity.x) || float.IsNaN(TargetVelocity.y) || float.IsNaN(TargetVelocity.z))
@@ -308,7 +308,7 @@ namespace TUI.LocomotionSystem
 
         }
 
-        public void Simulation(float deltaTime)
+        protected virtual void Simulation(float deltaTime)
         {
             UpdateRotation(ref TargetRotation, deltaTime);
 
@@ -394,12 +394,12 @@ namespace TUI.LocomotionSystem
             PostUpdate(deltaTime);
         }
 
-        private bool IsStableOnNormal(Vector3 normal)
+        protected virtual bool IsStableOnNormal(Vector3 normal)
         {
             return Vector3.Angle(CharacterUp, normal) < MaxStableSlopeAngle;
         }
 
-        private bool IsStableWithSpecialCases(ref HitStability stabilityReport, Vector3 velocity)
+        protected virtual bool IsStableWithSpecialCases(ref HitStability stabilityReport, Vector3 velocity)
         {
 
             if (stabilityReport.LedgeDetected)
@@ -502,13 +502,13 @@ namespace TUI.LocomotionSystem
             }
         }
 
-        public Vector3 GetDirectionTangentToSurface(Vector3 direction, Vector3 surfaceNormal)
+        protected virtual Vector3 GetDirectionTangentToSurface(Vector3 direction, Vector3 surfaceNormal)
         {
             Vector3 directionRight = Vector3.Cross(direction, CharacterUp);
             return Vector3.Cross(surfaceNormal, directionRight).normalized;
         }
 
-        private bool InternalCharacterMove(ref Vector3 transientVelocity, float deltaTime)
+        protected virtual bool InternalCharacterMove(ref Vector3 transientVelocity, float deltaTime)
         {
             if (deltaTime <= 0f) return false;
 
@@ -682,7 +682,7 @@ namespace TUI.LocomotionSystem
             return wasCompleted;
         }
 
-        private Vector3 GetObstructionNormal(Vector3 hitNormal, bool stableOnHit)
+        protected virtual Vector3 GetObstructionNormal(Vector3 hitNormal, bool stableOnHit)
         {
             // Find hit/obstruction/offset normal
             Vector3 obstructionNormal = hitNormal;
@@ -701,7 +701,7 @@ namespace TUI.LocomotionSystem
             return obstructionNormal;
         }
 
-        private void StoreRigidbodyHit(Rigidbody hitRigidbody, Vector3 hitVelocity, Vector3 hitPoint, Vector3 obstructionNormal, HitStability hitStabilityReport)
+        protected virtual void StoreRigidbodyHit(Rigidbody hitRigidbody, Vector3 hitVelocity, Vector3 hitPoint, Vector3 obstructionNormal, HitStability hitStabilityReport)
         {
             if (rigidbodyProjectionHitCount < internalRigidbodyProjectionHits.Length)
             {
@@ -724,7 +724,7 @@ namespace TUI.LocomotionSystem
             }
         }
 
-        private void InternalHandleVelocityProjection(bool stableOnHit, Vector3 obstructionNormal, ref MovementSweepState sweepState, bool previousHitIsStable, Vector3 previousVelocity, Vector3 previousObstructionNormal, ref Vector3 transientVelocity, ref float remainingMovementMagnitude, ref Vector3 remainingMovementDirection)
+        protected virtual void InternalHandleVelocityProjection(bool stableOnHit, Vector3 obstructionNormal, ref MovementSweepState sweepState, bool previousHitIsStable, Vector3 previousVelocity, Vector3 previousObstructionNormal, ref Vector3 transientVelocity, ref float remainingMovementMagnitude, ref Vector3 remainingMovementDirection)
         {
             if (transientVelocity.sqrMagnitude <= 0f)
             {
@@ -782,7 +782,7 @@ namespace TUI.LocomotionSystem
             remainingMovementDirection = transientVelocity.normalized;
         }
 
-        private void EvaluateCrease(Vector3 currentCharacterVelocity, Vector3 previousCharacterVelocity, Vector3 currentHitNormal, Vector3 previousHitNormal, bool currentHitIsStable, bool previousHitIsStable, bool characterIsStable, out bool isValidCrease, out Vector3 creaseDirection)
+        protected virtual void EvaluateCrease(Vector3 currentCharacterVelocity, Vector3 previousCharacterVelocity, Vector3 currentHitNormal, Vector3 previousHitNormal, bool currentHitIsStable, bool previousHitIsStable, bool characterIsStable, out bool isValidCrease, out Vector3 creaseDirection)
         {
             isValidCrease = false;
             creaseDirection = default;
@@ -824,7 +824,7 @@ namespace TUI.LocomotionSystem
             }
         }
 
-        public virtual void HandleVelocityProjection(ref Vector3 velocity, Vector3 obstructionNormal, bool stableOnHit)
+        protected virtual void HandleVelocityProjection(ref Vector3 velocity, Vector3 obstructionNormal, bool stableOnHit)
         {
             if (GroundingStatus.IsStableOnGround)
             {
@@ -851,7 +851,7 @@ namespace TUI.LocomotionSystem
             velocity = Vector3.ProjectOnPlane(velocity, obstructionNormal);
         }
 
-        private void ProcessVelocityForRigidbodyHits(ref Vector3 processedVelocity, float deltaTime)
+        protected virtual void ProcessVelocityForRigidbodyHits(ref Vector3 processedVelocity, float deltaTime)
         {
             for (int i = 0; i < rigidbodyProjectionHitCount; i++)
             {
@@ -894,7 +894,7 @@ namespace TUI.LocomotionSystem
 
         }
 
-        public void ComputeCollisionResolutionForHitBody(Vector3 hitNormal, Vector3 characterVelocity, Vector3 bodyVelocity, float characterToBodyMassRatio, out Vector3 velocityChangeOnCharacter, out Vector3 velocityChangeOnBody)
+        protected virtual void ComputeCollisionResolutionForHitBody(Vector3 hitNormal, Vector3 characterVelocity, Vector3 bodyVelocity, float characterToBodyMassRatio, out Vector3 velocityChangeOnCharacter, out Vector3 velocityChangeOnBody)
         {
             velocityChangeOnCharacter = default;
             velocityChangeOnBody = default;
@@ -919,7 +919,7 @@ namespace TUI.LocomotionSystem
             }
         }
 
-        private bool CheckIfColliderValidForCollisions(Collider coll)
+        protected virtual bool CheckIfColliderValidForCollisions(Collider coll)
         {
             // Ignore self
             if (coll == Capsule)
@@ -935,7 +935,7 @@ namespace TUI.LocomotionSystem
             return true;
         }
 
-        private bool InternalIsColliderValidForCollisions(Collider coll)
+        protected virtual bool InternalIsColliderValidForCollisions(Collider coll)
         {
 
             // Custom checks
@@ -948,7 +948,7 @@ namespace TUI.LocomotionSystem
             return true;
         }
 
-        public void EvaluateHitStability(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, Vector3 withCharacterVelocity, ref HitStability stabilityReport)
+        protected virtual void EvaluateHitStability(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, Vector3 withCharacterVelocity, ref HitStability stabilityReport)
         {
 
             Vector3 atCharacterUp = atCharacterRotation * Vector3.up;
@@ -1021,7 +1021,7 @@ namespace TUI.LocomotionSystem
             }
         }
 
-        private void DetectSteps(Vector3 characterPosition, Quaternion characterRotation, Vector3 hitPoint, Vector3 innerHitDirection, ref HitStability stabilityReport)
+        protected virtual void DetectSteps(Vector3 characterPosition, Quaternion characterRotation, Vector3 hitPoint, Vector3 innerHitDirection, ref HitStability stabilityReport)
         {
             Vector3 characterUp = characterRotation * Vector3.up;
             Vector3 verticalCharToHit = Vector3.Project(hitPoint - characterPosition, characterUp);
@@ -1041,7 +1041,7 @@ namespace TUI.LocomotionSystem
 
         }
 
-        private bool CheckStepValidity(int nbStepHits, Vector3 characterPosition, Quaternion characterRotation, Vector3 innerHitDirection, Vector3 stepCheckStartPos, out Collider hitCollider)
+        protected virtual bool CheckStepValidity(int nbStepHits, Vector3 characterPosition, Quaternion characterRotation, Vector3 innerHitDirection, Vector3 stepCheckStartPos, out Collider hitCollider)
         {
             hitCollider = null;
             Vector3 characterUp = characterRotation * Vector3.up;
@@ -1128,7 +1128,7 @@ namespace TUI.LocomotionSystem
             return false;
         }
 
-        private Rigidbody GetInteractiveRigidbody(Collider onCollider)
+        protected virtual Rigidbody GetInteractiveRigidbody(Collider onCollider)
         {
             Rigidbody colliderAttachedRigidbody = onCollider.attachedRigidbody;
             if (colliderAttachedRigidbody)
@@ -1141,7 +1141,7 @@ namespace TUI.LocomotionSystem
             return null;
         }
 
-        public int CharacterCollisionsOverlap(Vector3 position, Quaternion rotation, Collider[] overlappedColliders, float inflate = 0f, bool acceptOnlyStableGroundLayer = false)
+        protected virtual int CharacterCollisionsOverlap(Vector3 position, Quaternion rotation, Collider[] overlappedColliders, float inflate = 0f, bool acceptOnlyStableGroundLayer = false)
         {
 
             Vector3 bottom = position + (rotation * CharacterTransformToCapsuleBottomHemi);
@@ -1171,7 +1171,7 @@ namespace TUI.LocomotionSystem
             return nbHits;
         }
 
-        public int CharacterCollisionsSweep(Vector3 position, Quaternion rotation, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits, float inflate = 0f)
+        protected virtual int CharacterCollisionsSweep(Vector3 position, Quaternion rotation, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits, float inflate = 0f)
         {
 
             Vector3 bottom = position + (rotation * CharacterTransformToCapsuleBottomHemi) - (direction * ControllerConstants.SweepProbingBackstepDistance);
@@ -1259,7 +1259,7 @@ namespace TUI.LocomotionSystem
             return foundValidHit;
         }
 
-        public int CharacterCollisionsRaycast(Vector3 position, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits)
+        protected virtual int CharacterCollisionsRaycast(Vector3 position, Vector3 direction, float distance, out RaycastHit closestHit, RaycastHit[] hits)
         {
             int nbUnfilteredHits = Physics.RaycastNonAlloc(position, direction, hits, distance, StableGroundLayers, QueryTriggerInteraction.Ignore);
 

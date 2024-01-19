@@ -103,7 +103,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5081985959029848985, guid: 45a390f23649abd48a603f39abb68688, type: 3}
     m_RemovedGameObjects:
     - {fileID: 5839742030118747613, guid: 45a390f23649abd48a603f39abb68688, type: 3}
     m_AddedGameObjects: []
@@ -120,6 +121,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5392894920405322116}
+    - targetCorrespondingSourceObject: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4886382276245660131}
   m_SourcePrefab: {fileID: 100100000, guid: 45a390f23649abd48a603f39abb68688, type: 3}
 --- !u!1 &2225425917775049424 stripped
 GameObject:
@@ -130,6 +135,12 @@ GameObject:
 --- !u!1 &3231619041189512876 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3481777478335534499, guid: 45a390f23649abd48a603f39abb68688,
+    type: 3}
+  m_PrefabInstance: {fileID: 2056111269015474959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &7232018397063083506 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 8707019542956648189, guid: 45a390f23649abd48a603f39abb68688,
     type: 3}
   m_PrefabInstance: {fileID: 2056111269015474959}
   m_PrefabAsset: {fileID: 0}
@@ -192,7 +203,7 @@ MonoBehaviour:
   _synchronizeParent: 0
   _packing:
     Position: 1
-    Rotation: 1
+    Rotation: 0
     Scale: 0
   _interpolation: 2
   _extrapolation: 2
@@ -213,7 +224,7 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
-  _synchronizeScale: 1
+  _synchronizeScale: 0
   _scaleSnapping:
     X: 0
     Y: 0
@@ -266,3 +277,42 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &4886382276245660131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7748035204419738986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa09664aa0cf484e86aab170b92f12d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Capsule: {fileID: 7232018397063083506}
+  GroundDetectionExtra: 0
+  StableGroundLayers:
+    serializedVersion: 2
+    m_Bits: 55
+  MaxStepHeight: 0.6
+  MaxStableSlopeAngle: 60
+  MaxStableDenivelationAngle: 180
+  MaxStableDistanceFromLedge: 0.25
+  MinRequiredStepDepth: 0.1
+  AffectRigidbody: 1
+  SimulatedCharacterMass: 1
+  MaxMovementIterations: 2
+  MaxDecollisionIterations: 1
+  TargetVelocity: {x: 0, y: 0, z: 0}
+  TargetPosition: {x: 0, y: 0, z: 0}
+  TargetRotation: {x: 0, y: 0, z: 0, w: 0}
+  GroundingStatus:
+    FoundAnyGround: 0
+    IsStableOnGround: 0
+    SnappingPrevented: 0
+    GroundNormal: {x: 0, y: 0, z: 0}
+    InnerGroundNormal: {x: 0, y: 0, z: 0}
+    OuterGroundNormal: {x: 0, y: 0, z: 0}
+    GroundCollider: {fileID: 0}
+    GroundPoint: {x: 0, y: 0, z: 0}
+  TimeManager: {fileID: 0}
