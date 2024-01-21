@@ -9,10 +9,14 @@ namespace TUI.Intergration.LocomotionSystem
     {
         private TimeManager TimeManager;
 
-        private void Start()
+        private void OnEnable()
         {
             TimeManager = InstanceFinder.TimeManager;
             TimeManager.OnTick += OnTick;
+        }
+        private void OnDisable()
+        {
+            TimeManager.OnTick -= OnTick;
         }
 
         protected override void Update()
