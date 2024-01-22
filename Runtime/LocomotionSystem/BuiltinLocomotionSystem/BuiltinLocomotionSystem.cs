@@ -1,6 +1,5 @@
 namespace TUI.LocomotionSystem
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using TUI.Utillities;
@@ -13,6 +12,7 @@ namespace TUI.LocomotionSystem
         FoundBlockingCrease,
         FoundBlockingCorner,
     }
+   
     [System.Serializable]
     public class GroundingStatus
     {

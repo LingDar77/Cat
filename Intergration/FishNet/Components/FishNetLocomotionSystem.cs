@@ -3,6 +3,7 @@ namespace TUI.Intergration.LocomotionSystem
     using FishNet;
     using FishNet.Managing.Timing;
     using TUI.LocomotionSystem;
+    using UnityEngine;
 
     public class FishNetLocomotionSystem : BuiltinLocomotionSystem
     {
@@ -11,18 +12,18 @@ namespace TUI.Intergration.LocomotionSystem
         private void OnEnable()
         {
             TimeManager = InstanceFinder.TimeManager;
-            TimeManager.OnTick += OnTick;
+            TimeManager.OnUpdate += OnUpdate;
         }
         private void OnDisable()
         {
-            TimeManager.OnTick -= OnTick;
+            TimeManager.OnUpdate -= OnUpdate;
         }
         protected override void Start()
         {
         }
-        private void OnTick()
+        private void OnUpdate()
         {
-            DoSimulation((float)TimeManager.TickDelta);
+            DoSimulation(Time.deltaTime);
         }
     }
 }
