@@ -1,34 +1,57 @@
 using TUI.LocomotionSystem.Actions;
+using TUI.Utillities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace TUI
 {
     public class BuiltinMoveProvider : ActionProviderBase
     {
-        [SerializeField] private InputActionProperty moveControl;
+        [SerializeField] private InputActionProperty primaryControl;
+        [SerializeField] private InputActionProperty secondaryControl;
+        [SerializeField] private Transform forwardReference;
+        [SerializeField] private float MaxMoveSpeed = 2f;
+        [SerializeField] private bool CanMoveInAir = true;
+        public UnityEvent<float> OnVelocityUpdated;
+        private Vector2 moveInput;
 
-        private Vector2 input;
-        [ContextMenu("Random Teleport")]
-        private void RandomTeleport()
+        protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
-            LocomotionSystem.SetPosition(new Vector3(Random.Range(-10f, 10f), 4, Random.Range(-10f, 10f)));
+            if (LocomotionSystem.IsStableOnGround()) return;
+            currentVelocity.y -= 9.8f * deltaTime;
         }
         public override void BeforeProcess(float deltaTime)
         {
-            input = moveControl.action.ReadValue<Vector2>();
+            base.BeforeProcess(deltaTime);
+            moveInput = Vector2.zero;
+            if (primaryControl != null)
+            {
+                moveInput = primaryControl.action.ReadValue<Vector2>();
+            }
+            if (secondaryControl != null)
+            {
+                moveInput += secondaryControl.action.ReadValue<Vector2>();
+            }
         }
-
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
-            currentVelocity = new(input.x, currentVelocity.y, input.y);
-            if (LocomotionSystem.IsStableOnGround() && currentVelocity.y == 0) return;
-            currentVelocity.y -= 9.8f * deltaTime;
-        }
+            base.ProcessVelocity(ref currentVelocity, deltaTime);
 
-        public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
-        {
-            // currentRotation *= Quaternion.Euler(0, 2, 0);
+            if (!CanMoveInAir && !LocomotionSystem.IsStableOnGround())
+            {
+                TryApplyGravity(ref currentVelocity, deltaTime);
+                return;
+            }
+
+            var referencedMoveInputValue = moveInput.TransformVelocityTowards(forwardReference, transform).normalized;
+            currentVelocity.x = referencedMoveInputValue.x;
+            currentVelocity.z = referencedMoveInputValue.z;
+
+            OnVelocityUpdated.Invoke(new Vector2(currentVelocity.x, currentVelocity.z).magnitude);
+
+            TryApplyGravity(ref currentVelocity, deltaTime);
         }
+        
     }
 }

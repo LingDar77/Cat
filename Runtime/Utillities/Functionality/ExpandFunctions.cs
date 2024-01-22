@@ -37,7 +37,7 @@ namespace TUI.Utillities
             var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, origin.up);
             var forwardRotation = Quaternion.FromToRotation(origin.forward, inputForwardProjectedInWorldSpace);
 
-            var translationInRigSpace = forwardRotation * new Vector3(input.x, 0f, input.y);
+            var translationInRigSpace = forwardRotation * new Vector3(input.x, 0, input.y);
             var translationInWorldSpace = origin.TransformDirection(translationInRigSpace);
 
             return translationInWorldSpace;
@@ -196,7 +196,7 @@ namespace TUI.Utillities
             }
             return -1;
         }
-        
+
         #endregion
     }
 }

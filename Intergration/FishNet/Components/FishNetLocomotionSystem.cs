@@ -18,7 +18,7 @@ namespace TUI.Intergration.LocomotionSystem
         {
             TimeManager.OnUpdate -= OnUpdate;
         }
-        protected override void Start()
+        protected override void Update()
         {
         }
         private void OnUpdate()

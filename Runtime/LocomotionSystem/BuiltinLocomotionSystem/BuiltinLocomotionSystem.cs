@@ -12,7 +12,7 @@ namespace TUI.LocomotionSystem
         FoundBlockingCrease,
         FoundBlockingCorner,
     }
-   
+
     [System.Serializable]
     public class GroundingStatus
     {
@@ -177,9 +177,9 @@ namespace TUI.LocomotionSystem
             TargetRotation = transform.rotation;
         }
 
-        protected virtual void Start()
+        protected virtual void Update()
         {
-            StartCoroutine(StartUpdateEveryFrame());
+            DoSimulation(Time.deltaTime);
         }
 
 
@@ -196,7 +196,7 @@ namespace TUI.LocomotionSystem
         }
         public override bool IsStableOnGround()
         {
-            return GroundingStatus.IsStableOnGround;
+            return GroundingStatus.IsStableOnGround && TargetVelocity.y == 0;
         }
 
         public override void MarkUngrounded()
