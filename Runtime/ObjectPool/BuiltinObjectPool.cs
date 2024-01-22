@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-
 namespace TUI.ObjectPool
 {
+    using System.Collections.Generic;
     public class BuiltinObjectPool<Type> : IObjectPool<Type> where Type : IPooledObject<Type>, new()
     {
         public System.Action<Type> CreateProcesser;

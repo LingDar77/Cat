@@ -1,13 +1,12 @@
-using UnityEditor;
-using UnityEngine;
-
 namespace TUI.Utillities
 {
-
+    using UnityEditor;
+    using UnityEngine;
     public sealed class ReadOnlyInEditorAttribute : PropertyAttribute
     {
 
     }
+    
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ReadOnlyInEditorAttribute))]
     public class ReadOnlyInEditorPropertyDrawer : PropertyDrawer
