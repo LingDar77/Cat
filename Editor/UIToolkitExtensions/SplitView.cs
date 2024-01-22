@@ -1,8 +1,7 @@
-using UnityEngine.UIElements;
-
-
+#if UNITY_EDITOR
 namespace TUI.EditorScript.UIToolkitExtensions
 {
+    using UnityEngine.UIElements;
     public class SplitView : TwoPaneSplitView
     {
         public new class UxmlFactory : UxmlFactory<SplitView, UxmlTraits>
@@ -14,3 +13,4 @@ namespace TUI.EditorScript.UIToolkitExtensions
         }
     }
 }
+#endif

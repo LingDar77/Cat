@@ -1,7 +1,7 @@
-using UnityEditor;
-
+#if UNITY_EDITOR
 namespace TUI.EditorScript
 {
+    using UnityEditor;
     public class HideScriptEditor<Type> : Editor
     {
         public override void OnInspectorGUI()
@@ -22,3 +22,4 @@ namespace TUI.EditorScript
         }
     }
 }
+#endif

@@ -1,10 +1,12 @@
 #if UNITY_EDITOR
-using System.IO;
-using UnityEditor;
-using UnityEngine;
+
 
 namespace TUI.EditorScript
 {
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
+    
     public class ConfigableObject<Type> : ScriptableObject where Type : ConfigableObject<Type>
     {
         private static Type instance;
@@ -18,7 +20,7 @@ namespace TUI.EditorScript
             var path = $"{saveLocation}{typeof(Type).Name}.asset";
             instance = AssetDatabase.LoadAssetAtPath<Type>(path);
             if (instance != null) return instance;
-            
+
             instance = prototype;
             if (!Directory.Exists(saveLocation))
             {
