@@ -26,11 +26,14 @@ namespace TUI.LocomotionSystem
         {
             ActionProviders.Remove(action);
         }
-        public virtual bool IsStableOnGround()
+        public virtual bool IsOnGround()
         {
             return true;
         }
-
+        public virtual bool IsStable()
+        {
+            return true;
+        }
         public virtual void MarkUngrounded()
         {
         }

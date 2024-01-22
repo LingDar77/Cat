@@ -31,12 +31,9 @@ namespace TUI.LocomotionSystem
         /// </summary>
         /// <param name="action"></param>
         void UnregisterActionProvider(IActionProvider action);
+        bool IsStable();
 
-        /// <summary>
-        /// Check if the charactor is stably standing on ground.
-        /// </summary>
-        /// <returns> Is the charactor stable on ground </returns>
-        bool IsStableOnGround();
+        bool IsOnGround();
         /// <summary>
         /// Mark the charactor ungrounded, you must do this to clare that the charctor can leave in air.
         /// </summary>
@@ -47,7 +44,7 @@ namespace TUI.LocomotionSystem
         void SetPositionAndRotation(Vector3 position, Quaternion rotation);
 
         void SetPosition(Vector3 position);
-        
+
         void SetRotation(Quaternion rotation);
     }
 

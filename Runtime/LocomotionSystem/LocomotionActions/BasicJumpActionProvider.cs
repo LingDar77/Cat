@@ -35,7 +35,7 @@ namespace TUI.KinematicLocomotionSystem.Actions
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
             base.ProcessVelocity(ref currentVelocity, deltaTime);
-            if (!LocomotionSystem.IsStableOnGround() || !shouldJump) return;
+            if (!LocomotionSystem.IsOnGround() || !shouldJump) return;
 
             LocomotionSystem.MarkUngrounded();
             currentVelocity.y = JumpVelocity;

@@ -194,9 +194,13 @@ namespace TUI.LocomotionSystem
         {
             return TargetVelocity;
         }
-        public override bool IsStableOnGround()
+        public override bool IsOnGround()
         {
-            return GroundingStatus.IsStableOnGround && TargetVelocity.y == 0;
+            return GroundingStatus.IsStableOnGround;
+        }
+        public override bool IsStable()
+        {
+            return TargetVelocity.y == 0;
         }
 
         public override void MarkUngrounded()

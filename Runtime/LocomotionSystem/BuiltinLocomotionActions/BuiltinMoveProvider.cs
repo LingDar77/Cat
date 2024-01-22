@@ -18,7 +18,7 @@ namespace TUI
 
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
-            if (LocomotionSystem.IsStableOnGround()) return;
+            if (LocomotionSystem.IsOnGround() && LocomotionSystem.IsStable()) return;
             currentVelocity.y -= 9.8f * deltaTime;
         }
         public override void BeforeProcess(float deltaTime)
@@ -38,7 +38,7 @@ namespace TUI
         {
             base.ProcessVelocity(ref currentVelocity, deltaTime);
 
-            if (!CanMoveInAir && !LocomotionSystem.IsStableOnGround())
+            if (!CanMoveInAir && !LocomotionSystem.IsOnGround())
             {
                 TryApplyGravity(ref currentVelocity, deltaTime);
                 return;
@@ -52,6 +52,11 @@ namespace TUI
 
             TryApplyGravity(ref currentVelocity, deltaTime);
         }
-        
+
+        public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
+        {
+            currentRotation = Quaternion.Euler(0, forwardReference.eulerAngles.y, 0);
+        }
+
     }
 }
