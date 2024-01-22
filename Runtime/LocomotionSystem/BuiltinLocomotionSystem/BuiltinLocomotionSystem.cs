@@ -1,5 +1,7 @@
 namespace TUI.LocomotionSystem
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using TUI.Utillities;
     using UnityEngine;
@@ -157,15 +159,7 @@ namespace TUI.LocomotionSystem
             OnValidate();
         }
 
-        protected virtual void Update()
-        {
-            var time = Time.deltaTime;
-            PrepareSimulatioin(time);
-            Simulation(time);
-            transform.SetPositionAndRotation(TargetPosition, TargetRotation);
-        }
-
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
 #if UNITY_EDITOR
             if (Capsule == null) Capsule = GetComponent<CapsuleCollider>();
@@ -175,13 +169,19 @@ namespace TUI.LocomotionSystem
             MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, Capsule.radius);
         }
 
-        private void Awake()
+        protected virtual void AWake()
         {
             OnValidate();
 
             TargetPosition = transform.position;
             TargetRotation = transform.rotation;
         }
+
+        protected virtual void Start()
+        {
+            StartCoroutine(StartUpdateEveryFrame());
+        }
+
 
         #endregion
 
@@ -222,6 +222,22 @@ namespace TUI.LocomotionSystem
         #endregion
 
         #region  Helper Function
+        protected IEnumerator StartUpdateEveryFrame()
+        {
+            while (gameObject.activeSelf)
+            {
+                DoSimulation(Time.deltaTime);
+                yield return CoroutineHelper.nextUpdate;
+            }
+        }
+
+        public void DoSimulation(float deltaTime)
+        {
+            PrepareSimulatioin(deltaTime);
+            Simulation(deltaTime);
+            transform.SetPositionAndRotation(TargetPosition, TargetRotation);
+        }
+
         protected virtual void PrepareSimulatioin(float deltaTime)
         {
             // NaN propagation safety stop

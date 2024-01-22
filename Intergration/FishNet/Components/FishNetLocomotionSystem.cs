@@ -1,6 +1,5 @@
 namespace TUI.Intergration.LocomotionSystem
 {
-    using System;
     using FishNet;
     using FishNet.Managing.Timing;
     using TUI.LocomotionSystem;
@@ -18,17 +17,12 @@ namespace TUI.Intergration.LocomotionSystem
         {
             TimeManager.OnTick -= OnTick;
         }
-
-        protected override void Update()
+        protected override void Start()
         {
-            // base.Update();
         }
         private void OnTick()
         {
-            var time = (float)TimeManager.TickDelta;
-            PrepareSimulatioin(time);
-            Simulation(time);
-            transform.SetPositionAndRotation(TargetPosition, TargetRotation);
+            DoSimulation((float)TimeManager.TickDelta);
         }
     }
 }

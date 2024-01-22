@@ -277,6 +277,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  NetworkStop:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4886382276245660131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,4 +318,3 @@ MonoBehaviour:
     OuterGroundNormal: {x: 0, y: 0, z: 0}
     GroundCollider: {fileID: 0}
     GroundPoint: {x: 0, y: 0, z: 0}
-  TimeManager: {fileID: 0}
