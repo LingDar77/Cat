@@ -45,8 +45,8 @@ namespace TUI
             }
 
             var referencedMoveInputValue = moveInput.TransformVelocityTowards(forwardReference, transform).normalized;
-            currentVelocity.x = referencedMoveInputValue.x;
-            currentVelocity.z = referencedMoveInputValue.z;
+            currentVelocity.x = referencedMoveInputValue.x * MaxMoveSpeed;
+            currentVelocity.z = referencedMoveInputValue.z * MaxMoveSpeed;
 
             OnVelocityUpdated.Invoke(new Vector2(currentVelocity.x, currentVelocity.z).magnitude);
 
@@ -55,7 +55,8 @@ namespace TUI
 
         public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            currentRotation = Quaternion.Euler(0, forwardReference.eulerAngles.y, 0);
+            var percent = Mouse.current.position.ReadValue().x / Screen.currentResolution.width;
+            currentRotation = Quaternion.Slerp(currentRotation,Quaternion.Euler(0, percent * 360, 0),deltaTime * 4);
         }
 
     }
