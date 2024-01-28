@@ -7,7 +7,7 @@ namespace TUI.LocomotionSystem
     {
         public Vector3 CurrentVelocity => GetCurrentVelocity();
         public Quaternion CurrentRotation => GetCurrentRotation();
-        public ICollection<IActionProvider> ActionProviders { get; private set; } = new HashSet<IActionProvider>();
+        public IList<IActionProvider> ActionProviders { get; private set; } = new List<IActionProvider>();
 
         protected virtual Vector3 GetCurrentVelocity()
         {
@@ -57,33 +57,35 @@ namespace TUI.LocomotionSystem
 
         protected virtual void BeforeUpdate(float time)
         {
-            foreach (var provider in ActionProviders)
+            for (int i = 0; i != ActionProviders.Count; ++i)
             {
-                provider.BeforeProcess(time);
+                ActionProviders[i].BeforeProcess(time);
             }
         }
 
         protected virtual void PostUpdate(float time)
         {
-            foreach (var provider in ActionProviders)
+            for (int i = 0; i != ActionProviders.Count; ++i)
             {
-                provider.AfterProcess(time);
+                ActionProviders[i].AfterProcess(time);
             }
         }
 
         protected virtual void UpdateVelocity(ref Vector3 velocity, float time)
         {
-            foreach (var provider in ActionProviders)
+            for (int i = 0; i != ActionProviders.Count; ++i)
             {
-                provider.ProcessVelocity(ref velocity, time);
+                ActionProviders[i].ProcessVelocity(ref velocity, time);
+
             }
         }
 
         protected virtual void UpdateRotation(ref Quaternion rotation, float time)
         {
-            foreach (var provider in ActionProviders)
+            for (int i = 0; i != ActionProviders.Count; ++i)
             {
-                provider.ProcessRotation(ref rotation, time);
+                ActionProviders[i].ProcessRotation(ref rotation, time);
+
             }
         }
 

@@ -20,7 +20,7 @@ namespace TUI.LocomotionSystem
         /// <summary>
         /// All action providers.
         /// </summary>
-        ICollection<IActionProvider> ActionProviders { get; }
+        IList<IActionProvider> ActionProviders { get; }
         /// <summary>
         /// Register an action to drive this system <see cref="IActionProvider" />
         /// </summary>
