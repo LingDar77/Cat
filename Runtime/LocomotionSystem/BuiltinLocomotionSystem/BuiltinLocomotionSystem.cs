@@ -16,20 +16,20 @@ namespace TUI.LocomotionSystem
     [System.Serializable]
     public class GroundingStatus
     {
-        public bool FoundAnyGround;
-        public bool IsStableOnGround;
-        public bool SnappingPrevented;
+        public bool AnyGroundBelow;
+        public bool IsStandingOnGround;
         public Vector3 GroundNormal;
         public Vector3 InnerGroundNormal;
         public Vector3 OuterGroundNormal;
 
         public Collider GroundCollider;
         public Vector3 GroundPoint;
+        public bool SnappingPrevented;
 
         public void CopyFrom(GroundingStatus report)
         {
-            FoundAnyGround = report.FoundAnyGround;
-            IsStableOnGround = report.IsStableOnGround;
+            AnyGroundBelow = report.AnyGroundBelow;
+            IsStandingOnGround = report.IsStandingOnGround;
             SnappingPrevented = report.SnappingPrevented;
             GroundNormal = report.GroundNormal;
             InnerGroundNormal = report.InnerGroundNormal;
@@ -40,8 +40,8 @@ namespace TUI.LocomotionSystem
         }
         public void Init()
         {
-            FoundAnyGround = false;
-            IsStableOnGround = false;
+            AnyGroundBelow = false;
+            IsStandingOnGround = false;
             SnappingPrevented = false;
             GroundNormal = Vector3.up;
             InnerGroundNormal = Vector3.up;
@@ -162,7 +162,7 @@ namespace TUI.LocomotionSystem
         protected virtual void OnValidate()
         {
             this.EnsureComponent(ref Capsule);
-            
+
             MaxStepHeight = Mathf.Clamp(MaxStepHeight, 0f, Mathf.Infinity);
             MinRequiredStepDepth = Mathf.Clamp(MinRequiredStepDepth, 0f, Capsule.radius);
             MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, Capsule.radius);
@@ -195,7 +195,7 @@ namespace TUI.LocomotionSystem
         }
         public override bool IsOnGround()
         {
-            return GroundingStatus.IsStableOnGround;
+            return GroundingStatus.IsStandingOnGround;
         }
         public override bool IsStable()
         {
@@ -204,7 +204,7 @@ namespace TUI.LocomotionSystem
 
         public override void MarkUngrounded()
         {
-            GroundingStatus.IsStableOnGround = false;
+            GroundingStatus.IsStandingOnGround = false;
         }
 
         public override void SetPosition(Vector3 position)
@@ -300,14 +300,14 @@ namespace TUI.LocomotionSystem
 
             // Choose the appropriate ground probing distance
             float selectedGroundProbingDistance = ControllerConstants.MinimumGroundProbingDistance;
-            if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStableOnGround || lastMovementIterationFoundAnyGround))
+            if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStandingOnGround || lastMovementIterationFoundAnyGround))
             {
                 selectedGroundProbingDistance = Capsule.radius + GroundDetectionExtra;
             }
 
             ProbeGround(ref TargetPosition, TargetRotation, selectedGroundProbingDistance, ref GroundingStatus);
 
-            if (!LastGroundingStatus.IsStableOnGround && GroundingStatus.IsStableOnGround)
+            if (!LastGroundingStatus.IsStandingOnGround && GroundingStatus.IsStandingOnGround)
             {
                 // Handle stable landing
                 TargetVelocity = Vector3.ProjectOnPlane(TargetVelocity, CharacterUp);
@@ -433,7 +433,7 @@ namespace TUI.LocomotionSystem
             }
 
             // "Launching" off of slopes of a certain denivelation angle
-            if (LastGroundingStatus.FoundAnyGround && stabilityReport.InnerNormal.sqrMagnitude != 0f && stabilityReport.OuterNormal.sqrMagnitude != 0f)
+            if (LastGroundingStatus.AnyGroundBelow && stabilityReport.InnerNormal.sqrMagnitude != 0f && stabilityReport.OuterNormal.sqrMagnitude != 0f)
             {
                 float denivelationAngle = Vector3.Angle(stabilityReport.InnerNormal, stabilityReport.OuterNormal);
                 if (denivelationAngle > MaxStableDenivelationAngle)
@@ -474,7 +474,7 @@ namespace TUI.LocomotionSystem
                 HitStability groundHitStabilityReport = new();
                 EvaluateHitStability(groundSweepHit.collider, groundSweepHit.normal, groundSweepHit.point, targetPosition, TargetRotation, TargetVelocity, ref groundHitStabilityReport);
 
-                groundingReport.FoundAnyGround = true;
+                groundingReport.AnyGroundBelow = true;
                 groundingReport.GroundNormal = groundSweepHit.normal;
                 groundingReport.InnerGroundNormal = groundHitStabilityReport.InnerNormal;
                 groundingReport.OuterGroundNormal = groundHitStabilityReport.OuterNormal;
@@ -488,7 +488,7 @@ namespace TUI.LocomotionSystem
                     // Find all scenarios where ground snapping should be canceled
                     groundingReport.SnappingPrevented = !IsStableWithSpecialCases(ref groundHitStabilityReport, TargetVelocity);
 
-                    groundingReport.IsStableOnGround = true;
+                    groundingReport.IsStandingOnGround = true;
 
                     // Ground snapping
                     if (!groundingReport.SnappingPrevented)
@@ -697,7 +697,7 @@ namespace TUI.LocomotionSystem
         {
             // Find hit/obstruction/offset normal
             Vector3 obstructionNormal = hitNormal;
-            if (GroundingStatus.IsStableOnGround && !stableOnHit)
+            if (GroundingStatus.IsStandingOnGround && !stableOnHit)
             {
                 Vector3 obstructionLeftAlongGround = Vector3.Cross(GroundingStatus.GroundNormal, obstructionNormal).normalized;
                 obstructionNormal = Vector3.Cross(obstructionLeftAlongGround, CharacterUp).normalized;
@@ -760,11 +760,11 @@ namespace TUI.LocomotionSystem
                 // Blocking crease handling
                 else if (sweepState == MovementSweepState.AfterFirstHit)
                 {
-                    EvaluateCrease(transientVelocity, previousVelocity, obstructionNormal, previousObstructionNormal, stableOnHit, previousHitIsStable, GroundingStatus.IsStableOnGround, out bool foundCrease, out Vector3 creaseDirection);
+                    EvaluateCrease(transientVelocity, previousVelocity, obstructionNormal, previousObstructionNormal, stableOnHit, previousHitIsStable, GroundingStatus.IsStandingOnGround, out bool foundCrease, out Vector3 creaseDirection);
 
                     if (foundCrease)
                     {
-                        if (GroundingStatus.IsStableOnGround)
+                        if (GroundingStatus.IsStandingOnGround)
                         {
                             transientVelocity = Vector3.zero;
                             sweepState = MovementSweepState.FoundBlockingCorner;
