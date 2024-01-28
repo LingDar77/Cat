@@ -91,7 +91,7 @@ namespace TUI.LocomotionSystem
             public const int MaxCollisionBudget = 8;
             public const int MaxRigidbodyOverlapsCount = 8;
             public const int MaxGroundingSweepIterations = 2;
-            public const float CollisionOffset = 0.01f;
+            public const float CollisionOffset = 0.005f;
             public const float GroundProbeReboundDistance = 0.02f;
             public const float MinimumGroundProbingDistance = 0.005f;
             public const float GroundProbingBackstepDistance = 0.1f;
@@ -161,9 +161,8 @@ namespace TUI.LocomotionSystem
 
         protected virtual void OnValidate()
         {
-#if UNITY_EDITOR
-            if (Capsule == null) Capsule = GetComponent<CapsuleCollider>();
-#endif
+            this.EnsureComponent(ref Capsule);
+            
             MaxStepHeight = Mathf.Clamp(MaxStepHeight, 0f, Mathf.Infinity);
             MinRequiredStepDepth = Mathf.Clamp(MinRequiredStepDepth, 0f, Capsule.radius);
             MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, Capsule.radius);
@@ -226,14 +225,6 @@ namespace TUI.LocomotionSystem
         #endregion
 
         #region  Helper Function
-        protected IEnumerator StartUpdateEveryFrame()
-        {
-            while (gameObject.activeSelf)
-            {
-                DoSimulation(Time.deltaTime);
-                yield return CoroutineHelper.nextUpdate;
-            }
-        }
 
         public void DoSimulation(float deltaTime)
         {
@@ -846,21 +837,6 @@ namespace TUI.LocomotionSystem
 
         protected virtual void HandleVelocityProjection(ref Vector3 velocity, Vector3 obstructionNormal, bool stableOnHit)
         {
-            if (GroundingStatus.IsStableOnGround)
-            {
-                // On stable slopes, simply reorient the movement without any loss
-                if (stableOnHit)
-                {
-                    velocity = GetDirectionTangentToSurface(velocity, obstructionNormal) * velocity.magnitude;
-                    return;
-                }
-                Vector3 obstructionRightAlongGround = Vector3.Cross(obstructionNormal, GroundingStatus.GroundNormal).normalized;
-                Vector3 obstructionUpAlongGround = Vector3.Cross(obstructionRightAlongGround, obstructionNormal).normalized;
-                velocity = GetDirectionTangentToSurface(velocity, obstructionUpAlongGround) * velocity.magnitude;
-                velocity = Vector3.ProjectOnPlane(velocity, obstructionNormal);
-                return;
-            }
-
             if (stableOnHit)
             {
                 // Handle stable landing

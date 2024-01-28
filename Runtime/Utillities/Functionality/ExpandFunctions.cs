@@ -150,6 +150,27 @@ namespace TUI.Utillities
                 method(child.gameObject);
             }
         }
+        public static void EnsureComponent<ComponentType>(this MonoBehaviour content, ref ComponentType component)
+        {
+#if UNITY_EDITOR
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+#pragma warning disable IDE0074 // 使用复合分配
+            if (component == null) component = content.GetComponent<ComponentType>();
+#pragma warning restore IDE0074 // 使用复合分配
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+#endif
+        }
+        public static void EnsureComponentInChildren<ComponentType>(this MonoBehaviour content, ref ComponentType component)
+        {
+#if UNITY_EDITOR
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+#pragma warning disable IDE0074 // 使用复合分配
+            if (component == null) component = content.GetComponentInChildren<ComponentType>();
+#pragma warning restore IDE0074 // 使用复合分配
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+#endif
+        }
+
         #endregion
 
         #region Collection Expand

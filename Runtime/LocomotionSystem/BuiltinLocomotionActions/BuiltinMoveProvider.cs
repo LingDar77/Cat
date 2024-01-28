@@ -12,10 +12,14 @@ namespace TUI
         [SerializeField] private InputActionProperty secondaryControl;
         [SerializeField] private Transform forwardReference;
         [SerializeField] private float MaxMoveSpeed = 2f;
+        [SerializeField] private float TurnSpeed = 8f;
         [SerializeField] private bool CanMoveInAir = true;
         public UnityEvent<float> OnVelocityUpdated;
         private Vector2 moveInput;
-
+        private void Start()
+        {
+            if (forwardReference == null) forwardReference = LocomotionSystem.transform;
+        }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
             if (LocomotionSystem.IsOnGround() && LocomotionSystem.IsStable()) return;
@@ -44,9 +48,10 @@ namespace TUI
                 return;
             }
 
-            var referencedMoveInputValue = moveInput.TransformVelocityTowards(forwardReference, transform).normalized;
-            currentVelocity.x = referencedMoveInputValue.x * MaxMoveSpeed;
-            currentVelocity.z = referencedMoveInputValue.z * MaxMoveSpeed;
+            var refVelocity = moveInput.TransformVelocityTowards(forwardReference, transform);
+
+            currentVelocity.x = refVelocity.x * MaxMoveSpeed;
+            currentVelocity.z = refVelocity.z * MaxMoveSpeed;
 
             OnVelocityUpdated.Invoke(new Vector2(currentVelocity.x, currentVelocity.z).magnitude);
 
@@ -55,8 +60,9 @@ namespace TUI
 
         public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            var percent = Mouse.current.position.ReadValue().x / Screen.currentResolution.width;
-            currentRotation = Quaternion.Slerp(currentRotation,Quaternion.Euler(0, percent * 360, 0),deltaTime * 4);
+            if (!primaryControl.action.IsPressed()) return;
+            var target = forwardReference.rotation * Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
+            currentRotation = Quaternion.Euler(0, Quaternion.Slerp(currentRotation, target, deltaTime * TurnSpeed).eulerAngles.y, 0);
         }
 
     }
