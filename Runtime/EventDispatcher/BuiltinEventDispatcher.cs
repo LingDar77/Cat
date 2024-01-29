@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TUI.Utillities;
 using UnityEngine;
 namespace TUI.EventDispatchSystem
 {
@@ -7,6 +8,8 @@ namespace TUI.EventDispatchSystem
     {
         [Range(1, 16)]
         [SerializeField] private uint DispatchRate = 10;
+        [Tooltip("Enable Immediately Dispatch will cause protentially infinite invocation loops and may  drop frame rate when dispatching.")]
+        public bool DispatchImmediately = false;
         protected Queue<string> dispatchQueue = new();
         protected Queue<EventParam> dispatchParamQueue = new();
 
@@ -30,6 +33,24 @@ namespace TUI.EventDispatchSystem
 
         public virtual void Dispatch(string type, EventParam data)
         {
+            if (DispatchImmediately)
+            {
+                DispatchAllEventsImmediately(type, data);
+            }
+            else
+            {
+                DispatchAllEventsDelayed(type, data);
+            }
+        }
+
+        private void DispatchAllEventsImmediately(string type, EventParam data)
+        {
+            if (!events.TryGetValue(type, out var actions) || actions == null) return;
+            actions?.Invoke(data);
+        }
+
+        private void DispatchAllEventsDelayed(string type, EventParam data)
+        {
             dispatchQueue.Enqueue(type);
             dispatchParamQueue.Enqueue(data);
 
@@ -50,7 +71,7 @@ namespace TUI.EventDispatchSystem
 
                 if (hash.Contains(type))
                 {
-                    Debug.LogWarning($"Circular dependency detected when dispatching event: {type}, skipping it.", this);
+                    this.LogFormat("Circular dependency detected when dispatching event: {0}, skipping it.", LogType.Warning, type);
                     continue;
                 }
 
