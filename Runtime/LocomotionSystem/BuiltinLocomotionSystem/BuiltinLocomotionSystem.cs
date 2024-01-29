@@ -134,11 +134,12 @@ namespace TUI.LocomotionSystem
         [ReadOnlyInEditor]
         public GroundingStatus GroundingStatus = new();
         private readonly GroundingStatus LastGroundingStatus = new();
+        private bool forceUngrounded = false;
+
         #endregion
 
         #region Private Fields
         private int rigidbodyProjectionHitCount = 0;
-        private bool lastMovementIterationFoundAnyGround;
         private int overlapsCount;
         private readonly Vector3[] overlaps = new Vector3[ControllerConstants.MaxRigidbodyOverlapsCount];
         private readonly RaycastHit[] internalCharacterHits = new RaycastHit[ControllerConstants.MaxHitsBudget];
@@ -194,7 +195,7 @@ namespace TUI.LocomotionSystem
         }
         public override bool IsOnGround()
         {
-            return GroundingStatus.IsStandingOnGround;
+            return GroundingStatus.IsStandingOnGround && !forceUngrounded;
         }
         public override bool IsStable()
         {
@@ -203,7 +204,13 @@ namespace TUI.LocomotionSystem
 
         public override void MarkUngrounded()
         {
-            GroundingStatus.IsStandingOnGround = false;
+            if (!forceUngrounded)
+            {
+                forceUngrounded = true;
+                GroundingStatus.IsStandingOnGround = false;
+                LastGroundingStatus.AnyGroundBelow = false;
+                CoroutineHelper.WaitForSeconds(() => forceUngrounded = false, .1f);
+            }
         }
 
         public override void SetPosition(Vector3 position)
@@ -297,9 +304,18 @@ namespace TUI.LocomotionSystem
 
             #region Ground Probing and Snapping
 
+            if (forceUngrounded)
+            {
+                TargetPosition += CharacterUp * (ControllerConstants.MinimumGroundProbingDistance * 1.5f);
+                return;
+            }
+
             // Choose the appropriate ground probing distance
             float selectedGroundProbingDistance = ControllerConstants.MinimumGroundProbingDistance;
-            
+            if (!LastGroundingStatus.SnappingPrevented && LastGroundingStatus.IsStandingOnGround || LastGroundingStatus.AnyGroundBelow)
+            {
+                selectedGroundProbingDistance = Mathf.Max(Capsule.radius, MaxStepHeight);
+            }
             ProbeGround(ref TargetPosition, TargetRotation, selectedGroundProbingDistance, ref GroundingStatus);
 
             if (!LastGroundingStatus.IsStandingOnGround && GroundingStatus.IsStandingOnGround)
@@ -309,7 +325,6 @@ namespace TUI.LocomotionSystem
                 TargetVelocity = GetDirectionTangentToSurface(TargetVelocity, GroundingStatus.GroundNormal) * TargetVelocity.magnitude;
             }
 
-            lastMovementIterationFoundAnyGround = false;
             #endregion
 
         }
@@ -344,21 +359,6 @@ namespace TUI.LocomotionSystem
                         // Solve overlap
                         Vector3 resolutionMovement = resolutionDirection * (resolutionDistance + ControllerConstants.CollisionOffset);
                         TargetPosition += resolutionMovement;
-
-                        // If interactiveRigidbody, register as rigidbody hit for velocity
-                        if (AffectRigidbody)
-                        {
-                            Rigidbody probedRigidbody = GetInteractiveRigidbody(internalProbedColliders[i]);
-                            if (probedRigidbody != null)
-                            {
-
-                                if (IsStableOnNormal(resolutionDirection))
-                                {
-                                    lastMovementIterationFoundAnyGround = true;
-                                }
-
-                            }
-                        }
 
                         // Remember overlaps
                         if (overlapsCount < overlaps.Length)
@@ -741,7 +741,6 @@ namespace TUI.LocomotionSystem
 
             if (stableOnHit)
             {
-                lastMovementIterationFoundAnyGround = true;
                 HandleVelocityProjection(ref transientVelocity, obstructionNormal, stableOnHit);
             }
             else

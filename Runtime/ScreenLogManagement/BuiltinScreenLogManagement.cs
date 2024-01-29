@@ -14,7 +14,7 @@ namespace TUI.ScreenLogManagementSystem
         public int MaxLines = 32;
         [field: SerializeField] public int FontSize { get; set; } = 16;
         public List<string> LogLevelColors = new() { "red", "red", "yellow", "white", "red" };
-        public List<string> LogTextColors = new() { "red", "orange", "orange", "white", "orange" };
+        public List<string> LogTextColors = new() { "red", "orange", "orange", "white", "red" };
         public List<string> LogTextTypes = new() { "Error", "Assert", "Warning", "Log", "Exception" };
 
 

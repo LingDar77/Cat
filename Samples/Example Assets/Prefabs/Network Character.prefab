@@ -149,9 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 80802352793900045}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 80802352793900045}
   IgnoredParameters:
   - Speed Multiplier
   _animator: {fileID: 3965355017908938411}
@@ -182,6 +182,7 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: 1666229925860714263}
   - {fileID: 5392894920405322116}
+  - {fileID: 1790937170230598679}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -310,7 +311,7 @@ MonoBehaviour:
   StableGroundLayers:
     serializedVersion: 2
     m_Bits: 55
-  MaxStepHeight: 0.6
+  MaxStepHeight: 0.5
   MaxStableSlopeAngle: 60
   MaxStableDenivelationAngle: 180
   MaxStableDistanceFromLedge: 0.25

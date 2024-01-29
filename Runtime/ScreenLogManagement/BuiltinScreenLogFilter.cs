@@ -6,7 +6,7 @@ namespace TUI.ScreenLogManagementSystem
 
     public class BuiltinScreenLogFilter : MonoBehaviour, IScreenLogFilter
     {
-        [field: SerializeField] public LogType TracedLogLevel { get; set; } = LogType.Log;
+        [field: SerializeField] public LogType TracedLogLevel { get; set; } = LogType.Exception;
         [SerializeField] private MonoBehaviour[] Traces;
         public string[] TracedScriptInstances => instanceNames;
         private string[] instanceNames;
