@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using TUI.Library;
-using TUI.ScreenLogManagementSystem;
-using UnityEngine;
-
 namespace TUI.Utillities
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using TUI.Library;
+    using TUI.ScreenLogManagementSystem;
+    using UnityEngine;
     public static class ExpandFunctions
     {
         #region Math Expand
@@ -176,6 +175,20 @@ namespace TUI.Utillities
         public static void Log(this MonoBehaviour context, string message, LogType type = LogType.Log)
         {
 #if UNITY_EDITOR
+            LogToConsole(context, message, type);
+#else
+            LogToScreen(context, message, type);
+#endif
+        }
+
+        /// <summary>
+        /// Log to unity console to gain more trace infomation.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
+        /// <param name="type"></param>
+        public static void LogToConsole(MonoBehaviour context, string message, LogType type)
+        {
             switch (type)
             {
                 case LogType.Log:
@@ -188,16 +201,18 @@ namespace TUI.Utillities
                     Debug.LogError(message, context);
                     break;
             }
-#else
-            if (IScreenLogManagement.Singleton == null) return;
-            var trace = StackTraceUtility.ExtractStackTrace();
-            IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
-#endif
         }
+
+        /// <summary>
+        /// Provide less trace infomation to reduce gc alloc at run time.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
+        /// <param name="type"></param> <summary>
         public static void LogToScreen(this MonoBehaviour context, string message, LogType type = LogType.Log)
         {
             if (IScreenLogManagement.Singleton == null) return;
-            var trace = StackTraceUtility.ExtractStackTrace();
+            var trace = context.GetType().FullName;
             IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
         }
 
@@ -227,7 +242,18 @@ namespace TUI.Utillities
 
             }
         }
-
+        public static void LogFormatToConsole(this MonoBehaviour context, string format, LogType type = LogType.Log, params string[] args)
+        {
+            using (zstring.Block())
+            {
+                var zargs = new zstring[args.Length];
+                for (int i = 0; i != args.Length; ++i)
+                {
+                    zargs[i] = args[i];
+                }
+                LogToConsole(context, zstring.Format(format, zargs), type);
+            }
+        }
         #endregion
 
         #region Collection Expand
@@ -276,5 +302,6 @@ namespace TUI.Utillities
         }
 
         #endregion
+
     }
 }
