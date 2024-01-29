@@ -48,7 +48,7 @@ namespace TUI
                 return;
             }
 
-            var refVelocity = moveInput.TransformVelocityTowards(forwardReference, transform);
+            var refVelocity = forwardReference.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y));
 
             currentVelocity.x = refVelocity.x * MaxMoveSpeed;
             currentVelocity.z = refVelocity.z * MaxMoveSpeed;

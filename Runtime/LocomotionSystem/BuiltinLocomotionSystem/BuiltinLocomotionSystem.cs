@@ -207,8 +207,6 @@ namespace TUI.LocomotionSystem
             if (!forceUngrounded)
             {
                 forceUngrounded = true;
-                GroundingStatus.IsStandingOnGround = false;
-                LastGroundingStatus.AnyGroundBelow = false;
                 CoroutineHelper.WaitForSeconds(() => forceUngrounded = false, .1f);
             }
         }
@@ -682,7 +680,7 @@ namespace TUI.LocomotionSystem
             }
 
             // Move position for the remainder of the movement
-            tmpMovedPosition += (remainingMovementDirection * remainingMovementMagnitude);
+            tmpMovedPosition += remainingMovementDirection * remainingMovementMagnitude;
             TargetPosition = tmpMovedPosition;
 
             return wasCompleted;

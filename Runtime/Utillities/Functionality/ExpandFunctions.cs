@@ -24,44 +24,6 @@ namespace TUI.Utillities
         {
             return lhs.x.NearlyEqualsTo(rhs.x, threshold) && lhs.y.NearlyEqualsTo(rhs.y, threshold);
         }
-        public static Vector3 TransformVelocityTowards(this Vector2 input, Transform towards, Transform origin)
-        {
-            if (input == Vector2.zero)
-                return Vector3.zero;
-
-            var inputForwardInWorldSpace = towards.forward;
-            if (Mathf.Approximately(Mathf.Abs(Vector3.Dot(inputForwardInWorldSpace, origin.up)), 1f))
-            {
-                inputForwardInWorldSpace = -towards.up;
-            }
-
-            var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, origin.up);
-            var forwardRotation = Quaternion.FromToRotation(origin.forward, inputForwardProjectedInWorldSpace);
-
-            var translationInRigSpace = forwardRotation * new Vector3(input.x, 0, input.y);
-            var translationInWorldSpace = origin.TransformDirection(translationInRigSpace);
-
-            return translationInWorldSpace;
-        }
-        public static Vector3 TransformVelocityTowards(this Vector3 input, Transform towards, Transform origin)
-        {
-            if (input == Vector3.zero)
-                return Vector3.zero;
-
-            var inputForwardInWorldSpace = towards.forward;
-            if (Mathf.Approximately(Mathf.Abs(Vector3.Dot(inputForwardInWorldSpace, origin.up)), 1f))
-            {
-                inputForwardInWorldSpace = -towards.up;
-            }
-
-            var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, origin.up);
-            var forwardRotation = Quaternion.FromToRotation(origin.forward, inputForwardProjectedInWorldSpace);
-
-            var translationInRigSpace = forwardRotation * input;
-            var translationInWorldSpace = origin.TransformDirection(translationInRigSpace);
-
-            return translationInWorldSpace;
-        }
 
         public static string LimitDecimal(this float number, int totalDigits, bool fixedLength = true)
         {
