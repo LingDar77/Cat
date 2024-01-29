@@ -108,7 +108,6 @@ namespace TUI.LocomotionSystem
 
         #region  Simulation Params
         [Header("Simulation Params")]
-        public float GroundDetectionExtra = 0f;
         public LayerMask StableGroundLayers = -1;
         public float MaxStepHeight = 0.6f;
         [Range(0f, 89f)]
@@ -300,11 +299,7 @@ namespace TUI.LocomotionSystem
 
             // Choose the appropriate ground probing distance
             float selectedGroundProbingDistance = ControllerConstants.MinimumGroundProbingDistance;
-            if (!LastGroundingStatus.SnappingPrevented && (LastGroundingStatus.IsStandingOnGround || lastMovementIterationFoundAnyGround))
-            {
-                selectedGroundProbingDistance = Capsule.radius + GroundDetectionExtra;
-            }
-
+            
             ProbeGround(ref TargetPosition, TargetRotation, selectedGroundProbingDistance, ref GroundingStatus);
 
             if (!LastGroundingStatus.IsStandingOnGround && GroundingStatus.IsStandingOnGround)
