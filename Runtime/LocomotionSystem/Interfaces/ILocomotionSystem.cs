@@ -18,10 +18,6 @@ namespace TUI.LocomotionSystem
         /// </summary>
         Quaternion CurrentRotation { get; }
         /// <summary>
-        /// All action providers.
-        /// </summary>
-        IList<IActionProvider> ActionProviders { get; }
-        /// <summary>
         /// Register an action to drive this system <see cref="IActionProvider" />
         /// </summary>
         /// <param name="action"></param>

@@ -7,11 +7,19 @@ namespace TUI.ScreenLogManagementSystem
     public class BuiltinScreenLogFilter : MonoBehaviour, IScreenLogFilter
     {
         [field: SerializeField] public LogType TracedLogLevel { get; set; } = LogType.Log;
-        [field: SerializeField] public MonoBehaviour[] TracedScriptInstances { get; set; }
-
+        [SerializeField] private MonoBehaviour[] Traces;
+        public string[] TracedScriptInstances => instanceNames;
+        private string[] instanceNames;
         protected virtual void OnEnable()
         {
             if (IScreenLogManagement.Singleton == null) return;
+
+            instanceNames = new string[Traces.Length];
+            for (int i = 0; i < Traces.Length; i++)
+            {
+                instanceNames[i] = Traces[i].GetType().Name;
+            }
+
             IScreenLogManagement.Singleton.Filters.Add(this);
         }
 
@@ -20,5 +28,6 @@ namespace TUI.ScreenLogManagementSystem
             if (IScreenLogManagement.Singleton == null) return;
             IScreenLogManagement.Singleton.Filters.Remove(this);
         }
+
     }
 }

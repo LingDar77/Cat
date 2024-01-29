@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using TUI.Library;
+using TUI.ScreenLogManagementSystem;
 using UnityEngine;
 
 namespace TUI.Utillities
@@ -171,6 +173,61 @@ namespace TUI.Utillities
 #endif
         }
 
+        public static void Log(this MonoBehaviour context, string message, LogType type = LogType.Log)
+        {
+#if UNITY_EDITOR
+            switch (type)
+            {
+                case LogType.Log:
+                    Debug.Log(message, context);
+                    break;
+                case LogType.Warning:
+                    Debug.LogWarning(message, context);
+                    break;
+                default:
+                    Debug.LogError(message, context);
+                    break;
+            }
+#else
+            if (IScreenLogManagement.Singleton == null) return;
+            var trace = StackTraceUtility.ExtractStackTrace();
+            IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
+#endif
+        }
+        public static void LogToScreen(this MonoBehaviour context, string message, LogType type = LogType.Log)
+        {
+            if (IScreenLogManagement.Singleton == null) return;
+            var trace = StackTraceUtility.ExtractStackTrace();
+            IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
+        }
+
+        public static void LogFormat(this MonoBehaviour context, string format, LogType type = LogType.Log, params string[] args)
+        {
+            using (zstring.Block())
+            {
+                var zargs = new zstring[args.Length];
+                for (int i = 0; i != args.Length; ++i)
+                {
+                    zargs[i] = args[i];
+                }
+                Log(context, zstring.Format(format, zargs), type);
+
+            }
+        }
+        public static void LogFormatToScreen(this MonoBehaviour context, string format, LogType type = LogType.Log, params string[] args)
+        {
+            using (zstring.Block())
+            {
+                var zargs = new zstring[args.Length];
+                for (int i = 0; i != args.Length; ++i)
+                {
+                    zargs[i] = args[i];
+                }
+                LogToScreen(context, zstring.Format(format, zargs), type);
+
+            }
+        }
+
         #endregion
 
         #region Collection Expand
@@ -182,7 +239,7 @@ namespace TUI.Utillities
         /// <returns></returns>
         public static Type RandomElement<Type>(this IList<Type> list)
         {
-            return list[UnityEngine.Random.Range(0, list.Count)];
+            return list[Random.Range(0, list.Count)];
         }
         /// <summary>
         /// Note that a set has not ability to random access,

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Text;
+using TUI.Library;
 using UnityEngine;
 
 namespace TUI.ScreenLogManagementSystem
@@ -8,14 +10,18 @@ namespace TUI.ScreenLogManagementSystem
     {
         [field: SerializeField]
         public Vector2 ContentSize { get; set; } = new(.8f, .5f);
+        [Range(1, 32)]
+        public int MaxLines = 32;
         [field: SerializeField] public int FontSize { get; set; } = 16;
         public List<string> LogLevelColors = new() { "red", "red", "yellow", "white", "red" };
         public List<string> LogTextColors = new() { "red", "orange", "orange", "white", "orange" };
+        public List<string> LogTextTypes = new() { "Error", "Assert", "Warning", "Log", "Exception" };
+
 
         public List<IScreenLogFilter> Filters { get; set; } = new();
 
-        private string logMessage = "";
-        private readonly List<string> lines = new();
+        private zstring logMessage;
+        private readonly List<zstring> lines = new();
 
 
         protected virtual void OnEnable()
@@ -40,7 +46,7 @@ namespace TUI.ScreenLogManagementSystem
             if (stackTrace == null || filter.TracedScriptInstances == null || filter.TracedScriptInstances.Length == 0) return true;
             foreach (var traget in filter.TracedScriptInstances)
             {
-                if (stackTrace.Contains(traget.GetType().Name)) return true;
+                if (stackTrace.Contains(traget)) return true;
             }
             return false;
         }
@@ -56,9 +62,9 @@ namespace TUI.ScreenLogManagementSystem
             }
             return false;
         }
-        protected virtual string DecorateText(string text, LogType type)
+        protected virtual zstring DecorateText(zstring text, LogType type)
         {
-            return $"<b><color={LogLevelColors[(int)type]}>[{type}]:</color> <color={LogTextColors[(int)type]}>{text}</color></b>";
+            return zstring.Concat("<b><color=", LogLevelColors[(int)type], ">[", LogTextTypes[(int)type], "]:</color> <color=", LogTextColors[(int)type], ">", text, "</color></b>");
         }
         public virtual void LogToScreen(LogType type, string message, string stackTrace = null)
         {
@@ -69,24 +75,31 @@ namespace TUI.ScreenLogManagementSystem
             if (!FilterLogMessage(logString, stackTrace, type)) return;
 
             int maxLines = (int)(720 * ContentSize.y) / FontSize;
+            maxLines = Mathf.Min(maxLines, MaxLines);
 
-            foreach (var line in logString.Split('\n'))
+            using (zstring.Block())
             {
-                var current = DecorateText(line, type);
+                var current = DecorateText(logString, type);
                 lines.Add(current);
-            }
 
-            if (lines.Count > maxLines)
-            {
-                lines.RemoveRange(0, lines.Count - maxLines);
+                if (lines.Count > maxLines)
+                {
+                    lines.RemoveRange(0, lines.Count - maxLines);
+                }
+
+                logMessage = "";
+                foreach (var line in lines)
+                {
+                    logMessage = zstring.Concat(logMessage, "\n", line);
+                }
             }
-            logMessage = string.Join("\n", lines);
 
         }
 
 
         private void OnGUI()
         {
+            if (logMessage == null) return;
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,
                Vector3.one);
             GUI.Label(new Rect(

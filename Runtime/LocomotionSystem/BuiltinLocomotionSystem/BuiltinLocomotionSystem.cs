@@ -91,7 +91,7 @@ namespace TUI.LocomotionSystem
             public const int MaxCollisionBudget = 8;
             public const int MaxRigidbodyOverlapsCount = 8;
             public const int MaxGroundingSweepIterations = 2;
-            public const float CollisionOffset = 0.005f;
+            public const float CollisionOffset = 0.004f;
             public const float GroundProbeReboundDistance = 0.02f;
             public const float MinimumGroundProbingDistance = 0.005f;
             public const float GroundProbingBackstepDistance = 0.1f;

@@ -1,13 +1,12 @@
 namespace TUI.LocomotionSystem
 {
     using System.Collections.Generic;
-    using TUI.Utillities;
     using UnityEngine;
     public abstract class LocomotionSystemBase : MonoBehaviour, ILocomotionSystem
     {
         public Vector3 CurrentVelocity => GetCurrentVelocity();
         public Quaternion CurrentRotation => GetCurrentRotation();
-        public IList<IActionProvider> ActionProviders { get; private set; } = new List<IActionProvider>();
+        public readonly HashSet<IActionProvider> ActionProviders = new();
 
         protected virtual Vector3 GetCurrentVelocity()
         {
@@ -57,35 +56,33 @@ namespace TUI.LocomotionSystem
 
         protected virtual void BeforeUpdate(float time)
         {
-            for (int i = 0; i != ActionProviders.Count; ++i)
+            foreach (var provider in ActionProviders)
             {
-                ActionProviders[i].BeforeProcess(time);
+                provider.BeforeProcess(time);
             }
         }
 
         protected virtual void PostUpdate(float time)
         {
-            for (int i = 0; i != ActionProviders.Count; ++i)
+            foreach (var provider in ActionProviders)
             {
-                ActionProviders[i].AfterProcess(time);
+                provider.AfterProcess(time);
             }
         }
 
         protected virtual void UpdateVelocity(ref Vector3 velocity, float time)
         {
-            for (int i = 0; i != ActionProviders.Count; ++i)
+            foreach (var provider in ActionProviders)
             {
-                ActionProviders[i].ProcessVelocity(ref velocity, time);
-
+                provider.ProcessVelocity(ref velocity, time);
             }
         }
 
         protected virtual void UpdateRotation(ref Quaternion rotation, float time)
         {
-            for (int i = 0; i != ActionProviders.Count; ++i)
+            foreach (var provider in ActionProviders)
             {
-                ActionProviders[i].ProcessRotation(ref rotation, time);
-
+                provider.ProcessRotation(ref rotation, time);
             }
         }
 
