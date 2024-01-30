@@ -20,7 +20,7 @@ namespace TUI.EditorScript.LinkCombiner
         private Editor editor;
         private Vector2 scrollPosition;
 
-        [MenuItem("Window/The Unified Implementations/IL2CPP/Link Files Combiner")]
+        [MenuItem("Window/TUI/IL2CPP/Link Files Combiner")]
         private static void ShowWindow()
         {
             GetWindow<LinkCombinerConfigWindow>("Asset Reference Processer", true);

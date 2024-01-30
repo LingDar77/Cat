@@ -8,7 +8,7 @@ namespace TUI.EditorScript.QualityOfLife
 
     public class DisableAllGizmos
     {
-        [MenuItem("Tools/Gizmos/Disable All Gizmo Icons")]
+        [MenuItem("Window/TUI/Gizmos/Disable All Gizmo Icons")]
         static void DisableAllGizmoIconsMenu()
         {
             var Annotation = Type.GetType("UnityEditor.Annotation, UnityEditor");
@@ -28,7 +28,7 @@ namespace TUI.EditorScript.QualityOfLife
                 SetIconEnabled.Invoke(null, new object[] { classId, scriptClass, 0 });
             }
         }
-        [MenuItem("Tools/Gizmos/Enable All Gizmo Icons")]
+        [MenuItem("Window/TUI/Gizmos/Enable All Gizmo Icons")]
         static void EnableAllGizmoIconsMenu()
         {
             var Annotation = Type.GetType("UnityEditor.Annotation, UnityEditor");
