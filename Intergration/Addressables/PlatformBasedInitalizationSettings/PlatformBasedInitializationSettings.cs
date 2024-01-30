@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.Util;
 
 namespace TUI.Intergration.Addressables.EditorScript
 {
-    
+
     [CreateAssetMenu(fileName = "PlatformBasedInitializationSettings", menuName = "Addressables/Initialization/PlatformBasedInitializationSettings", order = 0)]
     public class PlatformBasedInitializationSettings : ScriptableObject, IObjectInitializationDataProvider
     {
@@ -33,12 +33,27 @@ namespace TUI.Intergration.Addressables.EditorScript
         }
         public string Name { get { return "Asset Bundle Cache Settings Switched by Platform Setting"; } }
         public List<PlatformCacheInitializationData> settings;
+        [Header("Editor Override")]
+        public bool CompressionEnabled;
+        public string CacheDirectoryOverride;
+        public bool LimitCacheSize;
+        public long MaximumCacheSize;
 
         public ObjectInitializationData CreateObjectInitializationData()
         {
+#if UNITY_EDITOR
+            return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, new CacheInitializationData
+            {
+                MaximumCacheSize = MaximumCacheSize,
+                LimitCacheSize = LimitCacheSize,
+                CacheDirectoryOverride = CacheDirectoryOverride,
+                CompressionEnabled = CompressionEnabled
+            });
+#else
             var target = EditorUserBuildSettings.activeBuildTarget;
             var setting = settings.Find(s => s.target == target);
             return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, setting.GetData());
+#endif
 
         }
     }
