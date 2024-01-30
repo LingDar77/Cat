@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2850714989688305529}
   - component: {fileID: 3449118933467115672}
   - component: {fileID: 5492150192968636001}
+  - component: {fileID: 9145604729289840818}
   m_Layer: 0
   m_Name: InputActions
   m_TagString: Untagged
@@ -61,13 +62,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ef3765a591d8643a51207f22e70044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpContrl:
+  JumpControl:
     m_UseReference: 1
     m_Action:
-      m_Name: Jump Contrl
+      m_Name: Jump Control
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 2ca234c2-f7f5-4b57-a802-3994bd7b9014
+      m_Id: f788534b-11d1-4a18-a7d3-de86f091bccf
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -86,31 +87,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a99a9a489778a748a7ccdfa01ee589a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryControl:
+  MoveControl:
     m_UseReference: 1
     m_Action:
-      m_Name: Primary Control
+      m_Name: Move Control
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: b0364e2d-c45b-4878-b483-60e5715f8841
+      m_Id: 7d810608-b032-4d6e-8436-e7312bb39f0f
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6250460478399565822, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
-  secondaryControl:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Secondary Control
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 6d01e8b5-b5f2-43ce-b513-70668b2c21f5
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 0}
-  forwardReference: {fileID: 2758180796033784611}
+  ForwardReference: {fileID: 2758180796033784611}
   MaxMoveSpeed: 2
   TurnSpeed: 8
   CanMoveInAir: 1
@@ -129,6 +118,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9145604729289840818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174104758141166047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e1d650f86bec7479c6b85aeff74449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinimumCrouchHeight: 1
+  CrouchSpeed: 5
+  CrouchControl:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Crouch Control
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 5ec14d82-44a4-4bbf-9aaf-42985c0eefe9
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -1464340630155665424, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
 --- !u!1 &2939183007108295919
 GameObject:
   m_ObjectHideFlags: 0

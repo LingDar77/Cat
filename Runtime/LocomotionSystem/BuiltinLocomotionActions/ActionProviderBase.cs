@@ -1,7 +1,7 @@
-using UnityEngine;
-
 namespace TUI.LocomotionSystem.Actions
 {
+    using UnityEngine;
+
     /// <summary>
     /// Basic implement for a action provider.
     /// Handled registeration and unregisteration, caching the locomotion system for derived actions.

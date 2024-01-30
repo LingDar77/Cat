@@ -1,16 +1,13 @@
-using TUI.LocomotionSystem.Actions;
-using TUI.Utillities;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
-
-namespace TUI
+namespace TUI.LocomotionSystem.Actions
 {
+    using UnityEngine;
+    using UnityEngine.Events;
+    using UnityEngine.InputSystem;
+
     public class BuiltinMoveProvider : ActionProviderBase
     {
-        [SerializeField] private InputActionProperty primaryControl;
-        [SerializeField] private InputActionProperty secondaryControl;
-        [SerializeField] private Transform forwardReference;
+        [SerializeField] private InputActionProperty MoveControl;
+        [SerializeField] private Transform ForwardReference;
         [SerializeField] private float MaxMoveSpeed = 2f;
         [SerializeField] private float TurnSpeed = 8f;
         [SerializeField] private bool CanMoveInAir = true;
@@ -18,7 +15,7 @@ namespace TUI
         private Vector2 moveInput;
         private void Start()
         {
-            if (forwardReference == null) forwardReference = LocomotionSystem.transform;
+            if (ForwardReference == null) ForwardReference = LocomotionSystem.transform;
         }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -29,14 +26,11 @@ namespace TUI
         {
             base.BeforeProcess(deltaTime);
             moveInput = Vector2.zero;
-            if (primaryControl != null)
+            if (MoveControl != null)
             {
-                moveInput = primaryControl.action.ReadValue<Vector2>();
+                moveInput = MoveControl.action.ReadValue<Vector2>();
             }
-            if (secondaryControl != null)
-            {
-                moveInput += secondaryControl.action.ReadValue<Vector2>();
-            }
+            
         }
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -48,7 +42,7 @@ namespace TUI
                 return;
             }
 
-            var refVelocity = forwardReference.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y));
+            var refVelocity = ForwardReference.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y));
 
             currentVelocity.x = refVelocity.x * MaxMoveSpeed;
             currentVelocity.z = refVelocity.z * MaxMoveSpeed;
@@ -60,8 +54,8 @@ namespace TUI
 
         public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            if (!primaryControl.action.IsPressed()) return;
-            var target = forwardReference.rotation * Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
+            if (!MoveControl.action.IsPressed()) return;
+            var target = ForwardReference.rotation * Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
             currentRotation = Quaternion.Euler(0, Quaternion.Slerp(currentRotation, target, deltaTime * TurnSpeed).eulerAngles.y, 0);
         }
 
