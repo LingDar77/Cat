@@ -530,7 +530,7 @@ MonoBehaviour:
   MinRequiredStepDepth: 0.1
   AffectRigidbody: 1
   SimulatedCharacterMass: 1
-  MaxMovementIterations: 4
+  MaxMovementIterations: 2
   MaxDecollisionIterations: 1
   TargetVelocity: {x: 0, y: 0, z: 0}
   TargetPosition: {x: 0, y: 0, z: 0}
