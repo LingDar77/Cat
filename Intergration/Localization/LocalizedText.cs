@@ -1,6 +1,5 @@
 namespace TUI.Intergration.Localization
 {
-    using System;
     using TMPro;
     using TUI.Utillities;
     using UnityEngine.Localization;
@@ -39,15 +38,18 @@ namespace TUI.Intergration.Localization
 
         private void OnStringChanged(string value)
         {
+            if (text == null) return;
             text.text = value;
         }
         private void OnFontChanged(TMP_FontAsset value)
         {
+            if (text == null) return;
             text.font = value;
         }
         public void RefreshString()
         {
-            StringReference?.RefreshString();
+            if (StringReference == null) return;
+            StringReference.RefreshString();
         }
     }
 }
