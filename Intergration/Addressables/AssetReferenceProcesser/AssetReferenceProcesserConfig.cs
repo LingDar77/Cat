@@ -1,14 +1,15 @@
 #if UNITY_EDITOR && ADDRESSABLES
-using System.Collections.Generic;
-using TUI.EditorScript;
-using UnityEditor;
-using UnityEditor.AddressableAssets;
-using UnityEditor.AddressableAssets.Settings;
-using UnityEngine;
+
 
 namespace TUI.Intergration.Addressables.EditorScript
 {
-
+    using System.Collections.Generic;
+    using TUI.EditorScript;
+    using UnityEditor;
+    using UnityEditor.AddressableAssets;
+    using UnityEditor.AddressableAssets.Settings;
+    using UnityEngine;
+    
     [System.Serializable]
     public class GroupConfig
     {
@@ -55,11 +56,10 @@ namespace TUI.Intergration.Addressables.EditorScript
         }
     }
 
-    [CustomEditor(typeof(AssetReferenceProcesserConfig))]
-    public class AssetReferenceProcesserConfigEditor : HideScriptEditor<AssetReferenceProcesserConfig> { }
-
     public class AssetReferenceProcesserConfigWindow : EditorWindow
     {
+        [CustomEditor(typeof(AssetReferenceProcesserConfig))]
+        class AssetReferenceProcesserConfigEditor : HideScriptEditor<AssetReferenceProcesserConfig> { }
         private Editor editor;
         private Vector2 scrollPosition;
 

@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.Util;
 namespace TUI.Intergration.Addressables.EditorScript
 {
 
-    [CreateAssetMenu(fileName = "PlatformBasedInitializationSettings", menuName = "Addressables/Initialization/PlatformBasedInitializationSettings", order = 0)]
+    [CreateAssetMenu(fileName = "PlatformBasedInitializationSettings", menuName = "Addressables/Initialization/Platform-Based Initialization Settings", order = 0)]
     public class PlatformBasedInitializationSettings : ScriptableObject, IObjectInitializationDataProvider
     {
         [System.Serializable]

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TUI.Intergration.Addressables
 {
 
-    [CreateAssetMenu(fileName = "RegexGroupStrategy", menuName = "SaltyFishContainer/Addressables/GroupManagementStrategy/RegexGroupStrategy", order = 0)]
+    [CreateAssetMenu(fileName = "RegexGroupStrategy", menuName = "Addressables/Group Management Strategy/Regex Group Strategy", order = 0)]
     public class RegexGroupStrategy : GroupManagementStrategyBase
     {
         public string expression;
