@@ -38,7 +38,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
         /// <param name="deltaTime"></param>
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
-            if (LocomotionSystem.IsStableOnGround()) return;
+            if (LocomotionSystem.IsStable() && LocomotionSystem.IsOnGround()) return;
             currentVelocity.y -= 9.8f * deltaTime;
         }
 
@@ -61,7 +61,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
             base.BeforeProcess(deltaTime);
             moveInputValue = ControllerMoveInput.action.ReadValue<Vector2>();
             headInputValue = biasable.Bias * HeadMoveInput.action.ReadValue<Vector3>();
-            if (!LocomotionSystem.IsStableOnGround())
+            if (!LocomotionSystem.IsOnGround())
             {
                 moveInputValue *= InputMultiplierInAir;
             }
@@ -71,7 +71,7 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
         {
             base.ProcessVelocity(ref currentVelocity, deltaTime);
 
-            if (!CanMoveInAir && !LocomotionSystem.IsStableOnGround())
+            if (!CanMoveInAir && !LocomotionSystem.IsOnGround())
             {
                 TryApplyGravity(ref currentVelocity, deltaTime);
                 return;
@@ -80,7 +80,8 @@ namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
             currentVelocity.x = headInputValue.x;
             currentVelocity.z = headInputValue.z;
 
-            var referencedMoveInputValue = moveInputValue.TransformVelocityTowards(biasable.transform, transform).normalized;
+            // var referencedMoveInputValue = moveInputValue.TransformVelocityTowards(biasable.transform, transform).normalized;
+            var referencedMoveInputValue = biasable.transform.TransformDirection(moveInputValue.x, 0, moveInputValue.y);
             var referencedMoveStrength = moveInputValue.sqrMagnitude * MaxMoveSpeed;
             currentVelocity.x += referencedMoveInputValue.x * referencedMoveStrength;
             currentVelocity.z += referencedMoveInputValue.z * referencedMoveStrength;
