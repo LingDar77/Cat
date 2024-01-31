@@ -16,7 +16,7 @@ namespace TUI.SDKManagementSystem
         protected virtual void OnValidate()
         {
 #if UNITY_EDITOR
-            if (!AutoCollectProviders) return;
+            if (!AutoCollectProviders || ProviderObjects == null) return;
             var providers = GetComponentsInChildren<ISDKProvider>(true);
             ProviderObjects.Clear();
             foreach (var provider in providers)
