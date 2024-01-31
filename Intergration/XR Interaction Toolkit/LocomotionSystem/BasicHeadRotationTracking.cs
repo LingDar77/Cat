@@ -1,14 +1,12 @@
 #if XRIT
-using System.Collections;
-using System.Collections.Generic;
-using TUI.LocomotionSystem;
-using TUI.Utillities;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.XR;
-
 namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 {
+    using System.Collections;
+    using TUI.LocomotionSystem;
+    using UnityEngine;
+    using UnityEngine.Events;
+    using UnityEngine.InputSystem;
+
     public class BasicHeadRotationTracking : MonoBehaviour, IRotateBiasable
     {
         [SerializeField] private Quaternion bias = Quaternion.identity;
@@ -17,6 +15,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         [SerializeField] private InputActionProperty HeadRotationInput;
         [Header("Simulation Input")]
         [SerializeField] private InputActionProperty RotateViewInput;
+        public UnityEvent<Quaternion> OnInitialized;
 
         private bool initialized = false;
         public bool Initialized { get => initialized; }
@@ -24,16 +23,11 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         private Vector2 simulationInput;
         private IEnumerator Start()
         {
-            List<XRInputSubsystem> subsystems = new();
-            SubsystemManager.GetInstances(subsystems);
-            if (subsystems.Count != 0)
-            {
-                this.Log($"Set tracking mode: {subsystems[0].TrySetTrackingOriginMode(TrackingOriginModeFlags.Device)}");
-            }
             Bias = transform.root.localRotation;
             yield return new WaitUntil(() => IsTrackedInput.action.IsPressed());
             Bias *= Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
             initialized = true;
+            OnInitialized.Invoke(Bias);
         }
 
         private void LateUpdate()

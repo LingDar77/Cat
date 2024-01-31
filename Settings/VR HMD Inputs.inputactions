@@ -38,6 +38,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b9bcb1d8-b95f-4f07-a17e-1505f801541f",
+                    "path": "<TrackedDevice>/deviceVelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Velocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "503d60bf-20f2-444e-939a-926f0c892a36",
                     "path": "<XRHMD>/centerEyeRotation",
                     "interactions": "",

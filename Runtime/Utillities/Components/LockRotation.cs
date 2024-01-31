@@ -8,6 +8,10 @@ namespace TUI.Utillities
         [SerializeField] private Quaternion TargetRotation = Quaternion.identity;
         private Quaternion initialRotation;
 
+        public void SetTargetRotation(Quaternion target)
+        {
+            TargetRotation = target;
+        }
         private void OnEnable()
         {
             initialRotation = transform.rotation;

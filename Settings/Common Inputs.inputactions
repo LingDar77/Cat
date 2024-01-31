@@ -152,6 +152,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "270ce9f6-60d5-4b9e-8bbc-0a7d786544ff",
+                    "path": "<XRController>{RightHand}/{Primary2DAxis}",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "WASD",
                     "id": "0a126d42-6ebb-4cfc-ba14-10d29069d182",
                     "path": "2DVector",
