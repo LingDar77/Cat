@@ -65,7 +65,6 @@ namespace TUI.LocomotionSystem.Actions
 
             currentVelocity.x = targetVelocity.x * MaxMoveSpeed + extroSpeed.x;
             currentVelocity.z = targetVelocity.z * MaxMoveSpeed + extroSpeed.y;
-            this.Log($"Current Velocity: {currentVelocity}");
 
             OnVelocityUpdated.Invoke(new Vector2(currentVelocity.x, currentVelocity.z).magnitude);
 
