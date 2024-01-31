@@ -1,21 +1,36 @@
 namespace TUI.LocomotionSystem.Actions
 {
+    using TUI.Utillities;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.InputSystem;
 
     public class BuiltinMoveProvider : ActionProviderBase
     {
+        [System.Serializable]
+        public enum RotateMethod
+        {
+            KeepInputDirection,
+            AlignToReference
+        }
+
         [SerializeField] private InputActionProperty MoveControl;
+        [SerializeField] private InputActionProperty ExtroSpeedInput;
+        [ImplementedInterface(typeof(IRotateBiasable))]
+        [SerializeField] private MonoBehaviour BiasableObject;
         [SerializeField] private Transform ForwardReference;
+        [SerializeField] private RotateMethod RotateType;
         [SerializeField] private float MaxMoveSpeed = 2f;
         [SerializeField] private float TurnSpeed = 8f;
         [SerializeField] private bool CanMoveInAir = true;
         public UnityEvent<float> OnVelocityUpdated;
         private Vector2 moveInput;
+        private Vector2 extroSpeed;
+        private IRotateBiasable biasable;
         private void Start()
         {
             if (ForwardReference == null) ForwardReference = LocomotionSystem.transform;
+            biasable = BiasableObject as IRotateBiasable;
         }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -30,7 +45,11 @@ namespace TUI.LocomotionSystem.Actions
             {
                 moveInput = MoveControl.action.ReadValue<Vector2>();
             }
-            
+            if (ExtroSpeedInput != null)
+            {
+                extroSpeed = (biasable.Bias * ExtroSpeedInput.action.ReadValue<Vector3>()).XZ();
+            }
+
         }
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -42,10 +61,10 @@ namespace TUI.LocomotionSystem.Actions
                 return;
             }
 
-            var refVelocity = ForwardReference.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y));
+            var targetVelocity = ForwardReference.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y));
 
-            currentVelocity.x = refVelocity.x * MaxMoveSpeed;
-            currentVelocity.z = refVelocity.z * MaxMoveSpeed;
+            currentVelocity.x = targetVelocity.x * MaxMoveSpeed + extroSpeed.x;
+            currentVelocity.z = targetVelocity.z * MaxMoveSpeed + extroSpeed.y;
 
             OnVelocityUpdated.Invoke(new Vector2(currentVelocity.x, currentVelocity.z).magnitude);
 
@@ -54,9 +73,17 @@ namespace TUI.LocomotionSystem.Actions
 
         public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            if (!MoveControl.action.IsPressed()) return;
-            var target = ForwardReference.rotation * Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
-            currentRotation = Quaternion.Euler(0, Quaternion.Slerp(currentRotation, target, deltaTime * TurnSpeed).eulerAngles.y, 0);
+            if (RotateType == RotateMethod.AlignToReference)
+            {
+                var target = Quaternion.Euler(0, ForwardReference.eulerAngles.y, 0);
+                currentRotation = Quaternion.Lerp(currentRotation, target, deltaTime * TurnSpeed / 4);
+            }
+            else
+            {
+                if (!MoveControl.action.IsPressed()) return;
+                var target = ForwardReference.rotation * Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
+                currentRotation = Quaternion.Euler(0, Quaternion.Slerp(currentRotation, target, deltaTime * TurnSpeed).eulerAngles.y, 0);
+            }
         }
 
     }

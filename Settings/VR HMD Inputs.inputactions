@@ -1,0 +1,133 @@
+{
+    "name": "VR HMD Inputs",
+    "maps": [
+        {
+            "name": "VR Head",
+            "id": "d4f296a5-a15a-4586-89bb-ec5edea66d81",
+            "actions": [
+                {
+                    "name": "Velocity",
+                    "type": "Value",
+                    "id": "108a8fcb-c66f-4cde-8e68-b9d6a5cd3576",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Rotation",
+                    "type": "Value",
+                    "id": "063cb0f7-1f58-4879-a829-15672de0743a",
+                    "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8e5b8809-6336-45c4-949e-cbebfa5b0db1",
+                    "path": "<XRHMD>/deviceVelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Velocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "503d60bf-20f2-444e-939a-926f0c892a36",
+                    "path": "<XRHMD>/centerEyeRotation",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d791bbed-3fda-4785-b03e-2fdc37b43365",
+                    "path": "<HandheldARInputDevice>/deviceRotation",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "VR Head Status",
+            "id": "2ee53ef7-f444-4e3a-877f-4f801e03a587",
+            "actions": [
+                {
+                    "name": "User Presence",
+                    "type": "Button",
+                    "id": "72abbe22-06c8-48fe-836a-86c280305a2a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Is Tracked",
+                    "type": "Button",
+                    "id": "ffd7e464-8ae5-444c-9b4c-0c01113343b0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Tracking State",
+                    "type": "Value",
+                    "id": "ae38dbc7-3692-44e5-b380-38ebf895826c",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "297b6563-3570-4857-84f3-a76f220707c6",
+                    "path": "<XRHMD>/{UserPresence}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "User Presence",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "611dbdbc-d962-4deb-824d-b9f486b79dc2",
+                    "path": "<XRHMD>/isTracked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Is Tracked",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "19864e86-fb8b-4fe5-9be0-6939842489e1",
+                    "path": "<XRHMD>/trackingState",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tracking State",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

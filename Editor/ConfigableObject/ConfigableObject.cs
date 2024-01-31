@@ -34,7 +34,7 @@ namespace TUI.EditorScript
 
         protected virtual string GetSaveLocation()
         {
-            return "Assets/Settings/";
+            return "Assets/Settings/TUI/";
         }
     }
 }

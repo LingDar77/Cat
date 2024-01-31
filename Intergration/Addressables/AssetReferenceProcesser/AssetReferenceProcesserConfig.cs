@@ -22,12 +22,6 @@ namespace TUI.Intergration.Addressables.EditorScript
         public Object[] targets;
         public GroupConfig[] groupConfigs;
         private AddressableAssetSettings settings;
-
-        protected override string GetSaveLocation()
-        {
-            return "Assets/Settings/";
-        }
-
         public void Scan()
         {
             settings = AddressableAssetSettingsDefaultObject.Settings;

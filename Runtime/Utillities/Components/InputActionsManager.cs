@@ -1,8 +1,7 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-
 namespace TUI
 {
+    using UnityEngine;
+    using UnityEngine.InputSystem;
     public class InputActionsManager : MonoBehaviour
     {
         public bool EnableActionsOnStartup = true;
@@ -30,9 +29,6 @@ namespace TUI
                     map.Enable();
                 }
             }
-
-            Cursor.lockState = CursorLockMode.Locked;
-
         }
 
         public void DisableAllActions()
@@ -45,24 +41,7 @@ namespace TUI
                 }
 
             }
-
-            Cursor.lockState = CursorLockMode.None;
-
         }
-        
-        
-        private void OnApplicationFocus(bool focusStatus)
-        {
-            if (focusStatus)
-            {
-                EnabelAllActions();
-            }
-            else
-            {
-                DisableAllActions();
-            }
-        }
-
 
     }
 }

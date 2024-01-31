@@ -4,7 +4,7 @@ using TUI.LocomotionSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TUI.Intergration.XRIT.KinematicLocomotionSystem.Actions
+namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 {
     public class BasicHeadRotationTracking : MonoBehaviour, IRotateBiasable
     {

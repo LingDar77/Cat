@@ -1,5 +1,5 @@
 {
-    "name": "Common Console Inputs",
+    "name": "Common Inputs",
     "maps": [
         {
             "name": "Basic Actions",
@@ -19,15 +19,6 @@
                     "type": "Button",
                     "id": "c6c36008-92dd-41a3-9126-954816faf0ab",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotate View",
-                    "type": "PassThrough",
-                    "id": "cddd3eca-3136-4eb9-8582-df9563673a0f",
-                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -107,17 +98,6 @@
                 },
                 {
                     "name": "",
-                    "id": "1806e9ab-aec9-4a0d-ac70-9a1cd002d0df",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate View",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "125c23cd-5c1a-43bf-ae92-9bb557b04bdc",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -157,6 +137,17 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e3335fa-368c-42ed-8639-fa53e0bdfc5e",
+                    "path": "<XRController>{LeftHand}/{Primary2DAxis}",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -220,9 +211,20 @@
                     "id": "19051ff6-2d13-46e6-b042-15598cbf47e7",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f25f049f-0480-41ff-8ecf-2ba16aba451b",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
