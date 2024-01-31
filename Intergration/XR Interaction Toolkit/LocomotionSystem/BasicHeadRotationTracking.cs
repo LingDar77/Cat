@@ -1,8 +1,11 @@
 #if XRIT
 using System.Collections;
+using System.Collections.Generic;
 using TUI.LocomotionSystem;
+using TUI.Utillities;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 {
@@ -21,6 +24,12 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         private Vector2 simulationInput;
         private IEnumerator Start()
         {
+            List<XRInputSubsystem> subsystems = new();
+            SubsystemManager.GetInstances(subsystems);
+            if (subsystems.Count != 0)
+            {
+                this.Log($"Set tracking mode: {subsystems[0].TrySetTrackingOriginMode(TrackingOriginModeFlags.Device)}");
+            }
             Bias = transform.root.localRotation;
             yield return new WaitUntil(() => IsTrackedInput.action.IsPressed());
             Bias *= Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
