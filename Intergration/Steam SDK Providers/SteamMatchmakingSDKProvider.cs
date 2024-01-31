@@ -1,3 +1,7 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLE_STEAMWORKS
+#endif
+#if !DISABLE_STEAMWORKS
 using System;
 using TUI.SDKProvider;
 using TUI.Utillities;
@@ -82,3 +86,4 @@ namespace TUI.Intergration.SteamSDKProviders
         }
     }
 }
+#endif
