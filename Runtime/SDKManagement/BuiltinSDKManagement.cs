@@ -39,8 +39,10 @@ namespace TUI.SDKManagementSystem
         {
             foreach (var provider in Providers)
             {
-                if (provider != null && !provider.IsAvailable) continue;
-                provider.enabled = true;
+                if (provider != null && provider.transform.gameObject.activeSelf && provider.IsAvailable && !provider.enabled)
+                {
+                    provider.enabled = true;
+                }
             }
         }
         public bool AddProvider(ISDKProvider provider)

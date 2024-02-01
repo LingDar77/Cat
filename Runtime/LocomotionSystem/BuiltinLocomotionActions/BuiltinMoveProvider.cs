@@ -27,11 +27,12 @@ namespace TUI.LocomotionSystem.Actions
         public UnityEvent<float> OnVelocityUpdated;
         private Vector2 moveInput;
         private Vector2 extroSpeed;
-        private IRotateBiasable biasable;
+
+        [SerializeField] private MonoBehaviour tracking;
+        private IRotateBiasable Tracking => tracking as IRotateBiasable;
         private void Start()
         {
             if (ForwardReference == null) ForwardReference = LocomotionSystem.transform;
-            biasable = BiasableObject as IRotateBiasable;
         }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -48,7 +49,7 @@ namespace TUI.LocomotionSystem.Actions
             }
             if (ExtroSpeedInput != null)
             {
-                extroSpeed = (biasable.Bias * ExtroSpeedInput.action.ReadValue<Vector3>()).XZ();
+                extroSpeed = Tracking.VelocityBias * ExtroSpeedInput.action.ReadValue<Vector3>().XZ();
             }
 
         }

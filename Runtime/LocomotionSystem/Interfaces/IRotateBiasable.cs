@@ -8,7 +8,8 @@ namespace TUI.LocomotionSystem
     /// </summary>
     public interface IRotateBiasable: ITransformGetable
     {
-        public Quaternion Bias { get; set; }
+        public Quaternion RotationBias { get; set; }
+        public Quaternion VelocityBias { get; set; }
         public bool Initialized { get; }
     }
 }

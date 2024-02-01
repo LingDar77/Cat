@@ -6,61 +6,64 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
     using TUI.SDKManagementSystem;
     using TUI.SDKProvider;
     using UnityEngine;
-    using UnityEngine.Events;
     using UnityEngine.InputSystem;
 
     public class BasicHeadRotationTracking : MonoBehaviour, IRotateBiasable
     {
         [SerializeField] private Quaternion bias = Quaternion.identity;
-        public Quaternion Bias { get => bias; set => bias = value; }
+        public Quaternion RotationBias { get => bias; set => bias = value; }
+        public Quaternion VelocityBias { get; set; }
         [SerializeField] private InputActionProperty IsTrackedInput;
         [SerializeField] private InputActionProperty HeadRotationInput;
         [Header("Simulation Input")]
         [SerializeField] private InputActionProperty RotateViewInput;
-        public UnityEvent<Quaternion> OnInitialized;
 
         private bool initialized = false;
         public bool Initialized { get => initialized; }
 
         private Vector2 simulationInput;
-        private Quaternion initialRotation;
         private IXRSDKProvider[] sdks;
+        private Quaternion initial;
 
         private IEnumerator Start()
         {
-            Bias = transform.root.localRotation;
-            initialRotation = Bias;
+            VelocityBias = RotationBias = initial = transform.root.localRotation;
             yield return new WaitUntil(() => IsTrackedInput.action.IsPressed());
-            Init();
+            VelocityBias = Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
+            RotationBias = initial * VelocityBias;
+            initialized = true;
+
+
             sdks = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProviders<IXRSDKProvider>();
             if (sdks == null) yield break;
             foreach (var sdk in sdks)
             {
-                sdk.OnRecenterSuccessed += Init;
+                sdk.OnRecenterSuccessed += OnRecenter;
             }
         }
+
         private void OnDestroy()
         {
             if (sdks == null) return;
             foreach (var sdk in sdks)
             {
-                sdk.OnRecenterSuccessed -= Init;
+                sdk.OnRecenterSuccessed -= OnRecenter;
             }
         }
 
-        private void Init()
+        private void OnRecenter()
         {
-            Bias = initialRotation * Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
-            initialized = true;
-            OnInitialized.Invoke(Bias);
+            VelocityBias = Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
+            RotationBias = initial * VelocityBias;
         }
+
 
         private void LateUpdate()
         {
 
             if (Initialized)
             {
-                transform.rotation = Bias * HeadRotationInput.action.ReadValue<Quaternion>();
+                transform.rotation = RotationBias * HeadRotationInput.action.ReadValue<Quaternion>();
                 return;
             }
 
@@ -70,7 +73,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
             simulationInput += input;
             simulationInput.y = Mathf.Clamp(simulationInput.y, -90, 90);
             var rot = Quaternion.Euler(-simulationInput.y, simulationInput.x, 0);
-            transform.rotation = Bias * rot;
+            transform.rotation = RotationBias * rot;
         }
 
     }

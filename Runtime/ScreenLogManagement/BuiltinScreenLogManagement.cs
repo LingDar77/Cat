@@ -20,7 +20,7 @@ namespace TUI.ScreenLogManagementSystem
 
         public List<IScreenLogFilter> Filters { get; set; } = new();
 
-        private zstring logMessage;
+        private zstring messageToPrint;
         private readonly List<zstring> lines = new();
 
 
@@ -76,10 +76,10 @@ namespace TUI.ScreenLogManagementSystem
                     lines.RemoveRange(0, lines.Count - maxLines);
                 }
 
-                logMessage = "";
+                messageToPrint = "";
                 foreach (var line in lines)
                 {
-                    logMessage = zstring.Concat(logMessage, "\n", line);
+                    messageToPrint = zstring.Concat(messageToPrint, "\n", line);
                 }
             }
 
@@ -88,16 +88,20 @@ namespace TUI.ScreenLogManagementSystem
 
         private void OnGUI()
         {
-            if (logMessage == null) return;
-            GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,
-               Vector3.one);
+            if (messageToPrint == null) return;
+            GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
             GUI.Label(new Rect(
                 (1 - ContentSize.x) * Screen.width / 2,
                 (1 - ContentSize.y) * Screen.height / 2,
                 Screen.width * ContentSize.x,
                 Screen.height * ContentSize.y),
-                logMessage,
-                new GUIStyle() { fontSize = FontSize * Screen.width / 1080, richText = true, wordWrap = true });
+                messageToPrint,
+                new GUIStyle()
+                {
+                    fontSize = FontSize * Screen.width / 1080,
+                    richText = true,
+                    wordWrap = true
+                });
         }
 
 

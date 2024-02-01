@@ -22,7 +22,7 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         private void LateUpdate()
         {
             if (!biasable.Initialized) return;
-            transform.rotation = biasable.Bias;
+            transform.rotation = biasable.RotationBias;
         }
     }
 }
