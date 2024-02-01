@@ -1,7 +1,12 @@
 {
     "name": "TheUnifiedImplementations.Intergration.PicoSDKProviders",
     "rootNamespace": "TUI.Intergration.PicoSDKProviders",
-    "references": [],
+    "references": [
+        "GUID:65a004a26c89ac5468e8d4b4b057f1c8",
+        "GUID:dc960734dc080426fa6612f1c5fe95f3",
+        "GUID:b98de7ff63394bdca25fc3bdddff73bf",
+        "GUID:c3eada64ce30a1448920b24b04bc2d39"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -9,8 +14,14 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "PICO"
+        "PICOXR"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.picoxr",
+            "expression": "1",
+            "define": "PICOXR"
+        }
+    ],
     "noEngineReferences": false
 }

@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using TUI.Utillities;
-using UnityEngine;
 namespace TUI.EventDispatchSystem
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using TUI.Utillities;
+    using UnityEngine;
+
     public class BuiltinEventDispatcher : MonoBehaviour, IEventDispatcher<string>
     {
         [Range(1, 16)]

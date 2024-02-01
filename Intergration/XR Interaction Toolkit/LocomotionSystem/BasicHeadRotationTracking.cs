@@ -3,6 +3,8 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 {
     using System.Collections;
     using TUI.LocomotionSystem;
+    using TUI.SDKManagementSystem;
+    using TUI.SDKProvider;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.InputSystem;
@@ -21,11 +23,34 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         public bool Initialized { get => initialized; }
 
         private Vector2 simulationInput;
+        private Quaternion initialRotation;
+        private IXRSDKProvider[] sdks;
+
         private IEnumerator Start()
         {
             Bias = transform.root.localRotation;
+            initialRotation = Bias;
             yield return new WaitUntil(() => IsTrackedInput.action.IsPressed());
-            Bias *= Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
+            Init();
+            sdks = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProviders<IXRSDKProvider>();
+            if (sdks == null) yield break;
+            foreach (var sdk in sdks)
+            {
+                sdk.OnRecenterSuccessed += Init;
+            }
+        }
+        private void OnDestroy()
+        {
+            if (sdks == null) return;
+            foreach (var sdk in sdks)
+            {
+                sdk.OnRecenterSuccessed -= Init;
+            }
+        }
+
+        private void Init()
+        {
+            Bias = initialRotation * Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
             initialized = true;
             OnInitialized.Invoke(Bias);
         }

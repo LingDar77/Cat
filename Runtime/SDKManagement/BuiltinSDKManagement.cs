@@ -4,6 +4,7 @@ namespace TUI.SDKManagementSystem
     using System.Linq;
     using TUI.Attributes;
     using TUI.SDKProvider;
+    using TUI.Utillities;
     using UnityEngine;
 
     public class BuiltinSDKManagement : SingletonSystemBase<BuiltinSDKManagement>, ISDKManagement
@@ -60,12 +61,11 @@ namespace TUI.SDKManagementSystem
                 foreach (var provider in Providers)
                 {
                     if (provider is not ProviderType || !provider.IsAvailable || !provider.transform.gameObject.activeSelf) continue;
-
+                    if (!provider.enabled) provider.enabled = true;
                     result.Add(provider);
                 }
                 providerCaches.Add(type, result.ToArray());
             }
-            Debug.Log($"Finded {providerCaches[type].Length} valid providers for {type.Name}.");
             return providerCaches[type].Cast<ProviderType>().ToArray();
         }
 

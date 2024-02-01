@@ -41,22 +41,11 @@ namespace TUI.ScreenLogManagementSystem
             Application.logMessageReceived -= Log2Screen;
 
         }
-        protected virtual bool ShouldTraceForFilter(string stackTrace, IScreenLogFilter filter)
-        {
-            if (stackTrace == null || filter.TracedScriptInstances == null || filter.TracedScriptInstances.Length == 0) return true;
-            foreach (var traget in filter.TracedScriptInstances)
-            {
-                if (stackTrace.Contains(traget)) return true;
-            }
-            return false;
-        }
         protected virtual bool FilterLogMessage(string logString, string stackTrace, LogType type)
         {
             foreach (var filter in Filters)
             {
-                if (!filter.enabled) continue;
-                if (type > filter.TracedLogLevel) continue;
-                if (!ShouldTraceForFilter(stackTrace, filter)) continue;
+                if (!filter.enabled || !filter.Filter(logString, stackTrace, type)) continue;
 
                 return true;
             }
