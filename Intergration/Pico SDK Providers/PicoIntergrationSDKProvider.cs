@@ -18,7 +18,6 @@ namespace TUI.Intergration.PicoSDKProviders
                 SubsystemManager.GetInstances(subsystems);
 
                 var result = subsystems.Count != 0 && subsystems[0].subsystemDescriptor.id.Contains("PICO", System.StringComparison.OrdinalIgnoreCase);
-                this.Log($"Pico SDK Init Statuis: {result}");
                 return result;
             }
         }
