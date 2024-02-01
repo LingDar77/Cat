@@ -2,6 +2,8 @@ namespace TUI.Intergration.XRIT
 {
     using TUI.Attributes;
     using TUI.LocomotionSystem.Actions;
+    using TUI.SDKManagementSystem;
+    using TUI.SDKProvider;
     using TUI.Utillities;
     using UnityEngine;
     using UnityEngine.InputSystem;
@@ -11,12 +13,32 @@ namespace TUI.Intergration.XRIT
     {
         [SerializeField] private InputActionProperty HeadSpeedInput;
         [ReadOnlyInEditor]
-        public Quaternion VelocityBias;
+        public Quaternion VelocityBias = Quaternion.identity;
         private Vector2 headVelocity;
+        private Quaternion initial;
+        private IXRSDKProvider[] sdks;
 
         private void Start()
         {
-            VelocityBias = transform.root.rotation;
+            initial = VelocityBias = transform.root.rotation;
+            sdks = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProviders<IXRSDKProvider>();
+            if (sdks == null) return;
+            foreach (var sdk in sdks)
+            {
+                sdk.OnRecenterSuccessed += OnRecenter;
+            }
+        }
+        private void OnDestroy()
+        {
+            if (sdks == null) return;
+            foreach (var sdk in sdks)
+            {
+                sdk.OnRecenterSuccessed -= OnRecenter;
+            }
+        }
+        private void OnRecenter()
+        {
+            VelocityBias = initial;
         }
 
         public override void BeforeProcess(float deltaTime)
