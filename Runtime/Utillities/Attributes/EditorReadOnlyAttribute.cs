@@ -1,4 +1,4 @@
-namespace TUI.Utillities
+namespace TUI.Attributes
 {
     using UnityEditor;
     using UnityEngine;

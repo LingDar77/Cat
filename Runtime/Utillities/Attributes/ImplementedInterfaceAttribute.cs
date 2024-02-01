@@ -1,11 +1,11 @@
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEditor;
-using Type = System.Type;
-using System.Text;
-using System.Linq;
-namespace TUI
+namespace TUI.Attributes
 {
+    using UnityEngine;
+    using System.Collections.Generic;
+    using UnityEditor;
+    using Type = System.Type;
+    using System.Text;
+    using System.Linq;
     public sealed class ImplementedInterfaceAttribute : PropertyAttribute
     {
 

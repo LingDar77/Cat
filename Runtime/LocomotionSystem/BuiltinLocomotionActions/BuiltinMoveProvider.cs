@@ -1,6 +1,7 @@
 namespace TUI.LocomotionSystem.Actions
 {
     using TUI.Utillities;
+    using TUI.Attributes;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.InputSystem;

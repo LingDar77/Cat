@@ -1,6 +1,7 @@
 #if XRIT
 namespace TUI.Intergration.XRIT.InteractionSystem
 {
+    using TUI.Attributes;
     using TUI.LocomotionSystem;
     using UnityEngine;
     public class BasicControllerOffsetter : MonoBehaviour

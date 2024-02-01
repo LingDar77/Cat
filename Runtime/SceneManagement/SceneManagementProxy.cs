@@ -1,9 +1,11 @@
-using System.Collections;
-using TUI.SceneManagementSystem;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 namespace TUI.ScreenLogManagementSystem
 {
+    using System.Collections;
+    using TUI.Attributes;
+    using TUI.SceneManagementSystem;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
     public class SceneManagementProxy : MonoBehaviour, ISceneManagement
     {
         [ImplementedInterface(typeof(ISceneManagement))]

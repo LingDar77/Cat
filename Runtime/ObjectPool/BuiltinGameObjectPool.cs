@@ -1,6 +1,7 @@
 namespace TUI.ObjectPool
 {
     using System.Collections.Generic;
+    using TUI.Attributes;
     using UnityEngine;
     public class BuiltinGameObjectPool : SingletonSystemBase<BuiltinGameObjectPool>, IGameObjectPool<string>
     {
