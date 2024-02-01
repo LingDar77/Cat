@@ -43,9 +43,6 @@ namespace TUI.Intergration.PicoSDKProviders
             manager = PXR_Manager.Instance;
             manager.lateLatching = true;
             manager.foveationLevel = Unity.XR.PXR.FoveationLevel.TopHigh;
-            manager.adaptiveResolution = true;
-            manager.adaptiveResolutionPowerSetting = AdaptiveResolutionPowerSetting.HIGH_QUALITY;
-            manager.maxEyeTextureScale = .5f;
 
             this.Log("pico sdk initialized.");
         }

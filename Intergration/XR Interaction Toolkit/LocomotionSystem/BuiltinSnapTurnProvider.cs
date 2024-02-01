@@ -1,9 +1,5 @@
 namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using TUI.LocomotionSystem;
     using TUI.LocomotionSystem.Actions;
     using UnityEngine;
     using UnityEngine.InputSystem;
@@ -12,6 +8,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
     {
         [SerializeField] private InputActionProperty TurnAction;
         [SerializeField] private BuiltinHeadRotationTracking Tracking;
+        [SerializeField] private BuiltinHeadVelocityProvider VelocityProvider;
 
         protected override void OnEnable()
         {
@@ -28,6 +25,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         private void OnTurn(InputAction.CallbackContext context)
         {
             Tracking.RotationBias *= Quaternion.Euler(0, 45, 0);
+            VelocityProvider.VelocityBias *= Quaternion.Euler(0, 45, 0);
         }
     }
 }

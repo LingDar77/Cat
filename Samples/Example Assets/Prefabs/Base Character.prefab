@@ -99,38 +99,11 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6250460478399565822, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
-  ExtroSpeedInput:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Extro Speed Input
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: e281d97b-2d7e-49a1-805f-3b4394b743f0
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 0}
   ForwardReference: {fileID: 2758180796033784611}
   RotateType: 0
   MaxMoveSpeed: 2
   TurnSpeed: 8
   CanMoveInAir: 1
-  OnVelocityUpdated:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1658229170526769400}
-        m_TargetAssemblyTypeName: TUI.Utillities.AnimatorParameterSetter, TheUnifiedImplementations.Runtime
-        m_MethodName: SetFloatParam
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &9145604729289840818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,6 +533,21 @@ MonoBehaviour:
   SimulatedCharacterMass: 1
   MaxMovementIterations: 2
   MaxDecollisionIterations: 1
+  OnVelocityUpdate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658229170526769400}
+        m_TargetAssemblyTypeName: TUI.Utillities.AnimatorParameterSetter, TheUnifiedImplementations.Runtime
+        m_MethodName: SetFloatParam
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   TargetVelocity: {x: 0, y: 0, z: 0}
   TargetPosition: {x: 0, y: 0, z: 0}
   TargetRotation: {x: 0, y: 0, z: 0, w: 0}

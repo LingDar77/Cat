@@ -4,6 +4,7 @@ namespace TUI.LocomotionSystem
     using TUI.Attributes;
     using TUI.Utillities;
     using UnityEngine;
+    using UnityEngine.Events;
 
     public enum MovementSweepState
     {
@@ -123,6 +124,8 @@ namespace TUI.LocomotionSystem
         public int MaxDecollisionIterations = 1;
         #endregion
 
+        public UnityEvent<float> OnVelocityUpdate;
+
         #region  Simulation Status
         [Header("Simulation Status")]
         [ReadOnlyInEditor]
@@ -235,6 +238,7 @@ namespace TUI.LocomotionSystem
             PrepareSimulatioin(deltaTime);
             Simulation(deltaTime);
             transform.SetPositionAndRotation(TargetPosition, TargetRotation);
+            OnVelocityUpdate.Invoke(TargetVelocity.magnitude);
         }
 
         protected virtual void PrepareSimulatioin(float deltaTime)

@@ -10,6 +10,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
     {
         [SerializeField] private Quaternion bias = Quaternion.identity;
         public Quaternion RotationBias { get => bias; set => bias = value; }
+        public Transform[] SyncTransforms;
         [SerializeField] private InputActionProperty IsTrackedInput;
         [SerializeField] private InputActionProperty HeadRotationInput;
         [Header("Simulation Input")]
@@ -59,6 +60,11 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
             if (Initialized)
             {
                 transform.rotation = RotationBias * HeadRotationInput.action.ReadValue<Quaternion>();
+                if (SyncTransforms == null) return;
+                foreach (var trans in SyncTransforms)
+                {
+                    trans.rotation = RotationBias;
+                }
                 return;
             }
 

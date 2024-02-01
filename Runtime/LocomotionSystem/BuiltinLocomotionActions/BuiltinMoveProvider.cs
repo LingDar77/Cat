@@ -1,10 +1,10 @@
 namespace TUI.LocomotionSystem.Actions
 {
-    using TUI.Utillities;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.InputSystem;
 
+    [DefaultExecutionOrder(1000)]
     public class BuiltinMoveProvider : ActionProviderBase
     {
         [System.Serializable]
@@ -15,21 +15,16 @@ namespace TUI.LocomotionSystem.Actions
         }
 
         [SerializeField] private InputActionProperty MoveControl;
-        [SerializeField] private InputActionProperty ExtroSpeedInput;
         [SerializeField] private Transform ForwardReference;
         [SerializeField] private RotateMethod RotateType;
         [SerializeField] private float MaxMoveSpeed = 2f;
         [SerializeField] private float TurnSpeed = 8f;
         [SerializeField] private bool CanMoveInAir = true;
-        public UnityEvent<float> OnVelocityUpdated;
         private Vector2 moveInput;
-        private Vector2 extroSpeed;
-        private Quaternion initialRotation;
 
         private void Start()
         {
             if (ForwardReference == null) ForwardReference = LocomotionSystem.transform;
-            initialRotation = transform.root.rotation;
         }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -44,11 +39,6 @@ namespace TUI.LocomotionSystem.Actions
             {
                 moveInput = MoveControl.action.ReadValue<Vector2>();
             }
-            if (ExtroSpeedInput != null)
-            {
-                extroSpeed = (initialRotation * ExtroSpeedInput.action.ReadValue<Vector3>()).XZ();
-            }
-
         }
         public override void ProcessVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -62,10 +52,8 @@ namespace TUI.LocomotionSystem.Actions
 
             var targetVelocity = ForwardReference.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y));
 
-            currentVelocity.x = targetVelocity.x * MaxMoveSpeed + extroSpeed.x;
-            currentVelocity.z = targetVelocity.z * MaxMoveSpeed + extroSpeed.y;
-
-            OnVelocityUpdated.Invoke(new Vector2(currentVelocity.x, currentVelocity.z).magnitude);
+            currentVelocity.x = targetVelocity.x * MaxMoveSpeed;
+            currentVelocity.z = targetVelocity.z * MaxMoveSpeed;
 
             TryApplyGravity(ref currentVelocity, deltaTime);
         }

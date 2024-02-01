@@ -6,7 +6,7 @@ namespace TUI.LocomotionSystem
     {
         public Vector3 CurrentVelocity => GetCurrentVelocity();
         public Quaternion CurrentRotation => GetCurrentRotation();
-        public readonly HashSet<IActionProvider> ActionProviders = new();
+        public readonly List<IActionProvider> ActionProviders = new();
 
         protected virtual Vector3 GetCurrentVelocity()
         {
