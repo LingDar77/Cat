@@ -1,7 +1,6 @@
 namespace TUI.LocomotionSystem.Actions
 {
     using TUI.Utillities;
-    using TUI.Attributes;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.InputSystem;
@@ -17,8 +16,6 @@ namespace TUI.LocomotionSystem.Actions
 
         [SerializeField] private InputActionProperty MoveControl;
         [SerializeField] private InputActionProperty ExtroSpeedInput;
-        [ImplementedInterface(typeof(IRotateBiasable))]
-        [SerializeField] private MonoBehaviour BiasableObject;
         [SerializeField] private Transform ForwardReference;
         [SerializeField] private RotateMethod RotateType;
         [SerializeField] private float MaxMoveSpeed = 2f;
@@ -27,12 +24,12 @@ namespace TUI.LocomotionSystem.Actions
         public UnityEvent<float> OnVelocityUpdated;
         private Vector2 moveInput;
         private Vector2 extroSpeed;
+        private Quaternion initialRotation;
 
-        [SerializeField] private MonoBehaviour tracking;
-        private IRotateBiasable Tracking => tracking as IRotateBiasable;
         private void Start()
         {
             if (ForwardReference == null) ForwardReference = LocomotionSystem.transform;
+            initialRotation = transform.root.rotation;
         }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -49,7 +46,7 @@ namespace TUI.LocomotionSystem.Actions
             }
             if (ExtroSpeedInput != null)
             {
-                extroSpeed = Tracking.VelocityBias * ExtroSpeedInput.action.ReadValue<Vector3>().XZ();
+                extroSpeed = (initialRotation * ExtroSpeedInput.action.ReadValue<Vector3>()).XZ();
             }
 
         }

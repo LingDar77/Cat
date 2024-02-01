@@ -1,18 +1,15 @@
-#if XRIT
 namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 {
     using System.Collections;
-    using TUI.LocomotionSystem;
     using TUI.SDKManagementSystem;
     using TUI.SDKProvider;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
-    public class BasicHeadRotationTracking : MonoBehaviour, IRotateBiasable
+    public class BuiltinHeadRotationTracking : MonoBehaviour
     {
         [SerializeField] private Quaternion bias = Quaternion.identity;
         public Quaternion RotationBias { get => bias; set => bias = value; }
-        public Quaternion VelocityBias { get; set; }
         [SerializeField] private InputActionProperty IsTrackedInput;
         [SerializeField] private InputActionProperty HeadRotationInput;
         [Header("Simulation Input")]
@@ -27,10 +24,9 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 
         private IEnumerator Start()
         {
-            VelocityBias = RotationBias = initial = transform.root.localRotation;
+            RotationBias = initial = transform.root.rotation;
             yield return new WaitUntil(() => IsTrackedInput.action.IsPressed());
-            VelocityBias = Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
-            RotationBias = initial * VelocityBias;
+            RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
             initialized = true;
 
 
@@ -53,8 +49,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 
         private void OnRecenter()
         {
-            VelocityBias = Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
-            RotationBias = initial * VelocityBias;
+            RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
         }
 
 
@@ -78,4 +73,3 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 
     }
 }
-#endif

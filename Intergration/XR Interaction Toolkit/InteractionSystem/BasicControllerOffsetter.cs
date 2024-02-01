@@ -1,19 +1,11 @@
-#if XRIT
 namespace TUI.Intergration.XRIT.InteractionSystem
 {
-    using TUI.Attributes;
-    using TUI.LocomotionSystem;
+    using TUI.Intergration.XRIT.LocomotionSystem.Actions;
     using UnityEngine;
     public class BasicControllerOffsetter : MonoBehaviour
     {
-        [ImplementedInterface(typeof(IRotateBiasable))]
-        [SerializeField] private Object BiasableImplement;
-        private IRotateBiasable biasable;
+        [SerializeField] private BuiltinHeadRotationTracking Tracking;
 
-        private void OnEnable()
-        {
-            biasable = BiasableImplement as IRotateBiasable;
-        }
 
         private void FixedUpdate()
         {
@@ -21,9 +13,8 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         }
         private void LateUpdate()
         {
-            if (!biasable.Initialized) return;
-            transform.rotation = biasable.RotationBias;
+            if (!Tracking.Initialized) return;
+            transform.rotation = Tracking.RotationBias;
         }
     }
 }
-#endif

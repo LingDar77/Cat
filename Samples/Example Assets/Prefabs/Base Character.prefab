@@ -99,7 +99,20 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6250460478399565822, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
+  ExtroSpeedInput:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Extro Speed Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e281d97b-2d7e-49a1-805f-3b4394b743f0
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   ForwardReference: {fileID: 2758180796033784611}
+  RotateType: 0
   MaxMoveSpeed: 2
   TurnSpeed: 8
   CanMoveInAir: 1

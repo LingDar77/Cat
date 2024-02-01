@@ -11,9 +11,8 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
     public class BuiltinSnapTurnProvider : ActionProviderBase
     {
         [SerializeField] private InputActionProperty TurnAction;
-        [SerializeField] private MonoBehaviour Tracking;
+        [SerializeField] private BuiltinHeadRotationTracking Tracking;
 
-        private IRotateBiasable biasable => Tracking as IRotateBiasable;
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -28,7 +27,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 
         private void OnTurn(InputAction.CallbackContext context)
         {
-            biasable.RotationBias *= Quaternion.Euler(0, 45, 0);
+            Tracking.RotationBias *= Quaternion.Euler(0, 45, 0);
         }
     }
 }
