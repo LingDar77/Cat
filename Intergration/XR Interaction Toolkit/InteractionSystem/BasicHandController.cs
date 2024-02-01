@@ -1,4 +1,3 @@
-#if XRIT
 namespace TUI.Intergration.XRIT.InteractionSystem
 {
     using UnityEngine;
@@ -16,4 +15,3 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         }
     }
 }
-#endif

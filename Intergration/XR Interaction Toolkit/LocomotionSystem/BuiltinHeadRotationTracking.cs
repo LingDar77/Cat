@@ -1,4 +1,4 @@
-namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
+namespace TUI.Intergration.XRIT.LocomotionSystem
 {
     using System.Collections;
     using TUI.SDKManagementSystem;

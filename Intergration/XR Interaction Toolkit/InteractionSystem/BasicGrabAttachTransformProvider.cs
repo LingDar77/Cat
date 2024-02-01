@@ -1,9 +1,8 @@
-#if XRIT
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-
 namespace TUI.Intergration.XRIT.InteractionSystem
 {
+    using UnityEngine;
+    using UnityEngine.XR.Interaction.Toolkit;
+
     public class BasicGrabAttachTransformProvider : MonoBehaviour
     {
         [SerializeField] private XRGrabInteractable GrabInteractable;
@@ -32,4 +31,3 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         }
     }
 }
-#endif

@@ -1,4 +1,4 @@
-namespace TUI.Intergration.XRIT
+namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 {
     using TUI.Attributes;
     using TUI.LocomotionSystem.Actions;
