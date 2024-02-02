@@ -14,5 +14,7 @@ namespace TUI.SDKProvider
         int FoveationLevel { get; set; }
      
         int SharpeningLevel { get; set; }
+
+        void Recenter();
     }
 }

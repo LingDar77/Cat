@@ -13,14 +13,16 @@ namespace TUI.Intergration.XRIT.LocomotionSystem
         public Transform[] SyncTransforms;
         [SerializeField] private InputActionProperty IsTrackedInput;
         [SerializeField] private InputActionProperty HeadRotationInput;
+        [SerializeField] private InputActionProperty UserPresenceInput;
+
         [Header("Simulation Input")]
         [SerializeField] private InputActionProperty RotateViewInput;
 
         private bool initialized = false;
-        public bool Initialized { get => initialized; }
+        public bool Initialized => initialized;
 
         private Vector2 simulationInput;
-        private IXRSDKProvider[] sdks;
+        private IXRSDKProvider sdk;
         private Quaternion initial;
 
         private IEnumerator Start()
@@ -30,22 +32,17 @@ namespace TUI.Intergration.XRIT.LocomotionSystem
             RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
             initialized = true;
 
-
-            sdks = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProviders<IXRSDKProvider>();
-            if (sdks == null) yield break;
-            foreach (var sdk in sdks)
-            {
-                sdk.OnRecenterSuccessed += OnRecenter;
-            }
+            sdk = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProvider<IXRSDKProvider>();
+            if (sdk == null) yield break;
+            sdk.OnRecenterSuccessed += OnRecenter;
         }
+
+
 
         private void OnDestroy()
         {
-            if (sdks == null) return;
-            foreach (var sdk in sdks)
-            {
-                sdk.OnRecenterSuccessed -= OnRecenter;
-            }
+            if (sdk == null) return;
+            sdk.OnRecenterSuccessed -= OnRecenter;
         }
 
         private void OnRecenter()

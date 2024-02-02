@@ -11,5 +11,6 @@ namespace TUI.SDKManagementSystem
         bool RemoveProvider(ISDKProvider provider);
 
         ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider;
+        ProviderType GetValidProvider<ProviderType>() where ProviderType : ISDKProvider;
     }
 }

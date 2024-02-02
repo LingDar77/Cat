@@ -16,25 +16,19 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         public Quaternion VelocityBias = Quaternion.identity;
         private Vector2 headVelocity;
         private Quaternion initial;
-        private IXRSDKProvider[] sdks;
+        private IXRSDKProvider sdk;
 
         private void Start()
         {
             initial = VelocityBias = transform.root.rotation;
-            sdks = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProviders<IXRSDKProvider>();
-            if (sdks == null) return;
-            foreach (var sdk in sdks)
-            {
-                sdk.OnRecenterSuccessed += OnRecenter;
-            }
+            sdk = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProvider<IXRSDKProvider>();
+            if (sdk == null) return;
+            sdk.OnRecenterSuccessed += OnRecenter;
         }
         private void OnDestroy()
         {
-            if (sdks == null) return;
-            foreach (var sdk in sdks)
-            {
-                sdk.OnRecenterSuccessed -= OnRecenter;
-            }
+            if (sdk == null) return;
+            sdk.OnRecenterSuccessed -= OnRecenter;
         }
         private void OnRecenter()
         {

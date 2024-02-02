@@ -1,8 +1,4 @@
-#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_ANDROID
-#define ENABLE_OCULUS
-#endif
 
-#if ENABLE_OCULUS
 using System.Collections.Generic;
 using Oculus.Platform;
 using TUI.SDKProvider;
@@ -36,4 +32,3 @@ namespace TUI.Intergration.OculusSDKProviders
         }
     }
 }
-#endif

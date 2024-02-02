@@ -37,6 +37,10 @@ namespace TUI.Intergration.PicoSDKProviders
             add => PXR_Plugin.System.RecenterSuccess += value;
             remove => PXR_Plugin.System.RecenterSuccess -= value;
         }
+        public void Recenter()
+        {
+            PXR_Plugin.Sensor.UPxr_ResetSensor(ResetSensorOption.ResetRotation);
+        }
         private void Start()
         {
             manager = PXR_Manager.Instance;
@@ -45,6 +49,8 @@ namespace TUI.Intergration.PicoSDKProviders
 
             this.Log("pico sdk initialized.");
         }
+
+
     }
 
 }
