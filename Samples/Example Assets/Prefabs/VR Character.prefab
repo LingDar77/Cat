@@ -112,6 +112,18 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6530997830975913932, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
+  UserPresenceInput:
+    m_UseReference: 1
+    m_Action:
+      m_Name: User Presence Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 7378cad3-87a6-407d-aead-d123c45223f5
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 5700449273907402708, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
   RotateViewInput:
     m_UseReference: 1
     m_Action:
@@ -415,7 +427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: m_Name
-      value: Base Character.VR Variant
+      value: VR Character
       objectReference: {fileID: 0}
     - target: {fileID: 8578876500813581925, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: m_IsActive

@@ -37,7 +37,11 @@ namespace TUI.Intergration.XRIT.LocomotionSystem
             sdk.OnRecenterSuccessed += OnRecenter;
         }
 
-
+        private void OnApplicationFocus(bool focusStatus)
+        {
+            if (!focusStatus || sdk == null) return;
+            sdk.Recenter();
+        }
 
         private void OnDestroy()
         {

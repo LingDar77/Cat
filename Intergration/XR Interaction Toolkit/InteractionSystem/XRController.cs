@@ -4,9 +4,9 @@ namespace TUI.Intergration.XRIT.InteractionSystem
     using UnityEngine.InputSystem;
     using UnityEngine.XR.Interaction.Toolkit;
 
-    public class BasicHandController : ActionBasedController
+    public class XRController : ActionBasedController
     {
-        [SerializeField] private InputActionProperty HeadPositionInput;
+        [SerializeField] protected InputActionProperty HeadPositionInput;
 
         protected override void UpdateTrackingInput(XRControllerState controllerState)
         {

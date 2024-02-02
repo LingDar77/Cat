@@ -3,7 +3,7 @@ namespace TUI.Intergration.XRIT.InteractionSystem
     using UnityEngine;
     using UnityEngine.XR.Interaction.Toolkit;
 
-    public class BasicGrabAttachTransformProvider : MonoBehaviour
+    public class GrabAttachTransformProvider : MonoBehaviour
     {
         [SerializeField] private XRGrabInteractable GrabInteractable;
         [SerializeField] private Transform AttachTransform;
