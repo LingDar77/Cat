@@ -1,7 +1,6 @@
 namespace TUI.SDKManagementSystem
 {
     using System.Collections.Generic;
-    using System.Linq;
     using TUI.Attributes;
     using TUI.SDKProvider;
     using UnityEngine;
@@ -31,8 +30,11 @@ namespace TUI.SDKManagementSystem
         protected override void OnEnable()
         {
             base.OnEnable();
-            Providers = ProviderObjects.Cast<ISDKProvider>().ToHashSet();
-
+            foreach (var obj in ProviderObjects)
+            {
+                if (obj == null) continue;
+                Providers.Add((ISDKProvider)obj);
+            }
         }
         private void Start()
         {
@@ -52,22 +54,6 @@ namespace TUI.SDKManagementSystem
         public bool RemoveProvider(ISDKProvider provider)
         {
             return Providers.Remove(provider);
-        }
-        public virtual ProviderType[] GetValidProviders<ProviderType>() where ProviderType : ISDKProvider
-        {
-            var type = typeof(ProviderType);
-            if (!providerCaches.ContainsKey(type))
-            {
-                List<ISDKProvider> result = new();
-                foreach (var provider in Providers)
-                {
-                    if (provider is not ProviderType || !provider.IsAvailable || !provider.transform.gameObject.activeSelf) continue;
-                    if (!provider.enabled) provider.enabled = true;
-                    result.Add(provider);
-                }
-                providerCaches.Add(type, result.ToArray());
-            }
-            return providerCaches[type].Cast<ProviderType>().ToArray();
         }
 
         public ProviderType GetValidProvider<ProviderType>() where ProviderType : ISDKProvider
