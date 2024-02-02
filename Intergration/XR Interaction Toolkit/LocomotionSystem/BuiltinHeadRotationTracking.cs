@@ -78,7 +78,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem
                 return;
             }
 
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
             var input = Vector2.zero;
             if (Mouse.current.rightButton.isPressed) input = RotateViewInput.action.ReadValue<Vector2>();
 
