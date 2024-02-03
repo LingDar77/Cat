@@ -6,26 +6,33 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
 
     public class BuiltinSnapTurnProvider : ActionProviderBase
     {
+        [SerializeField] private float TurnAmount = 45f;
+        [SerializeField] private float TurnCooldownTime = .1f;
         [SerializeField] private InputActionProperty TurnAction;
         [SerializeField] private BuiltinHeadRotationTracking Tracking;
         [SerializeField] private BuiltinHeadVelocityProvider VelocityProvider;
 
-        protected override void OnEnable()
+        private float turnInput = 0;
+        private bool canTurn = true;
+        public override void BeforeProcess(float deltaTime)
         {
-            base.OnEnable();
-            TurnAction.action.performed += OnTurn;
+            turnInput = 0;
+            if (TurnAction == null || !canTurn || Mathf.Abs(TurnAction.action.ReadValue<Vector2>().x) < .5f) return;
+            turnInput = Mathf.Sign(TurnAction.action.ReadValue<Vector2>().x);
         }
-
-        protected override void OnDisable()
+        public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            base.OnDisable();
-            TurnAction.action.performed -= OnTurn;
+            if (turnInput == 0 || !canTurn) return;
+            var trans = Quaternion.Euler(0, turnInput * TurnAmount, 0);
+            currentRotation *= trans;
+            Tracking.RotationBias *= trans;
+            VelocityProvider.VelocityBias *= trans;
+            canTurn = false;
+            CoroutineHelper.WaitForSeconds(ResetTimer, TurnCooldownTime);
         }
-
-        private void OnTurn(InputAction.CallbackContext context)
+        private void ResetTimer()
         {
-            Tracking.RotationBias *= Quaternion.Euler(0, 45, 0);
-            VelocityProvider.VelocityBias *= Quaternion.Euler(0, 45, 0);
+            canTurn = true;
         }
     }
 }

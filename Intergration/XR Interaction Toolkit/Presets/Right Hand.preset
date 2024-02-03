@@ -9,8 +9,7 @@ Preset:
   m_Name: Right Hand
   m_TargetType:
     m_NativeTypeID: 114
-    m_ManagedTypePPtr: {fileID: 11500000, guid: 0ddb04b954e94e045a1f1edb0a8b036b,
-      type: 3}
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 0ddb04b954e94e045a1f1edb0a8b036b, type: 3}
     m_ManagedTypeFallback: 
   m_Properties:
   - target: {fileID: 0}
@@ -40,7 +39,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_ModelPrefab
     value: 
-    objectReference: {fileID: 0}
+    objectReference: {fileID: 8488693082452456174, guid: 9073d13a1c22a1846baf59b6b17462db, type: 3}
   - target: {fileID: 0}
     propertyPath: m_ModelParent
     value: 
@@ -100,8 +99,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_PositionAction.m_Reference
     value: 
-    objectReference: {fileID: -3326005586356538449, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -7071500625888626988, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_RotationAction.m_UseReference
     value: 1
@@ -141,8 +139,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_RotationAction.m_Reference
     value: 
-    objectReference: {fileID: 5101698808175986029, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 1194571750552193615, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_IsTrackedAction.m_UseReference
     value: 1
@@ -182,8 +179,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_IsTrackedAction.m_Reference
     value: 
-    objectReference: {fileID: -7044516463258014562, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 7779068098370953854, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_TrackingStateAction.m_UseReference
     value: 1
@@ -223,8 +219,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_TrackingStateAction.m_Reference
     value: 
-    objectReference: {fileID: -1277054153949319361, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 3768847968775836173, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SelectAction.m_UseReference
     value: 1
@@ -264,8 +259,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_SelectAction.m_Reference
     value: 
-    objectReference: {fileID: 187161793506945269, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 6950574930647118054, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SelectActionValue.m_UseReference
     value: 1
@@ -305,8 +299,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_SelectActionValue.m_Reference
     value: 
-    objectReference: {fileID: -1758520528963094988, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 4987593890605324855, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_ActivateAction.m_UseReference
     value: 1
@@ -346,8 +339,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_ActivateAction.m_Reference
     value: 
-    objectReference: {fileID: 83097790271614945, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 8378739369314339019, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_ActivateActionValue.m_UseReference
     value: 1
@@ -387,8 +379,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_ActivateActionValue.m_Reference
     value: 
-    objectReference: {fileID: 7904272356298805229, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -7604200588756009556, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_UIPressAction.m_UseReference
     value: 1
@@ -428,8 +419,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_UIPressAction.m_Reference
     value: 
-    objectReference: {fileID: 3279264004350380116, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -4490148371456668593, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_UIPressActionValue.m_UseReference
     value: 1
@@ -469,8 +459,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_UIPressActionValue.m_Reference
     value: 
-    objectReference: {fileID: -5908353012961274365, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -4852187405723482374, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_UIScrollAction.m_UseReference
     value: 1
@@ -510,8 +499,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_UIScrollAction.m_Reference
     value: 
-    objectReference: {fileID: -6756787485274679044, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -3555999252467886844, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_HapticDeviceAction.m_UseReference
     value: 1
@@ -551,8 +539,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_HapticDeviceAction.m_Reference
     value: 
-    objectReference: {fileID: -8222252007134549311, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -2585446273713553590, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_RotateAnchorAction.m_UseReference
     value: 1
@@ -592,8 +579,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_RotateAnchorAction.m_Reference
     value: 
-    objectReference: {fileID: -5913262927076077117, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 6293893433410502544, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_DirectionalAnchorRotationAction.m_UseReference
     value: 1
@@ -633,8 +619,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_DirectionalAnchorRotationAction.m_Reference
     value: 
-    objectReference: {fileID: -440298646266941818, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -440298646266941818, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_TranslateAnchorAction.m_UseReference
     value: 1
@@ -674,8 +659,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_TranslateAnchorAction.m_Reference
     value: 
-    objectReference: {fileID: 875253871413052681, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: 6585386176184075467, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_ScaleToggleAction.m_UseReference
     value: 1
@@ -715,8 +699,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_ScaleToggleAction.m_Reference
     value: 
-    objectReference: {fileID: -2524354804938687746, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -1562650153001877581, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_ScaleDeltaAction.m_UseReference
     value: 1
@@ -756,8 +739,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_ScaleDeltaAction.m_Reference
     value: 
-    objectReference: {fileID: -6447266317303757838, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -1346289059973433257, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   - target: {fileID: 0}
     propertyPath: m_ButtonPressPoint
     value: 0.5
@@ -801,6 +783,5 @@ Preset:
   - target: {fileID: 0}
     propertyPath: HeadPositionInput.m_Reference
     value: 
-    objectReference: {fileID: 7862207684358717888, guid: 46a65385d8261874bbb1a1bb75c7e102,
-      type: 3}
+    objectReference: {fileID: -2801111879120858542, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
   m_ExcludedProperties: []

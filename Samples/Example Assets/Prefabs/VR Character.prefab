@@ -135,7 +135,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 4490807388238125304, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
+    m_Reference: {fileID: -7603451140665755772, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
 --- !u!1 &1041576027992768154
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,12 +398,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ActionMaps.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
+      propertyPath: ActionMaps.Array.data[0]
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
     - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ActionMaps.Array.data[1]
       value: 
-      objectReference: {fileID: -944628639613478452, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
+      objectReference: {fileID: -944628639613478452, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
     - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ActionMaps.Array.data[2]
       value: 
@@ -414,8 +418,12 @@ PrefabInstance:
       objectReference: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     - target: {fileID: 3449118933467115672, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3449118933467115672, guid: 45a390f23649abd48a603f39abb68688, type: 3}
+      propertyPath: JumpControl.m_Reference
+      value: 
+      objectReference: {fileID: -4563686958810974387, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
     - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: RotateType
       value: 1
@@ -431,7 +439,7 @@ PrefabInstance:
     - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: MoveControl.m_Reference
       value: 
-      objectReference: {fileID: 6250460478399565822, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
+      objectReference: {fileID: 8559374061392919344, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
     - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ExtroSpeedInput.m_Reference
       value: 
@@ -496,6 +504,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9145604729289840818, guid: 45a390f23649abd48a603f39abb68688, type: 3}
+      propertyPath: CrouchControl.m_Reference
+      value: 
+      objectReference: {fileID: 7385969771158679617, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5279909376796817948, guid: 45a390f23649abd48a603f39abb68688, type: 3}
@@ -509,7 +521,7 @@ PrefabInstance:
       addedObject: {fileID: 2661868769881795981}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688, type: 3}
-      insertIndex: 4
+      insertIndex: -1
       addedObject: {fileID: 4345562088332163233}
     - targetCorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       insertIndex: -1
@@ -557,6 +569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bced7d7ad365624b829a24492ddeb39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TurnAmount: 45
+  TurnCooldownTime: 0.1
   TurnAction:
     m_UseReference: 1
     m_Action:
@@ -568,7 +582,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 1773500915477213953, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
+    m_Reference: {fileID: -933024532317452336, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
   Tracking: {fileID: 8146639187279406582}
   VelocityProvider: {fileID: 4345562088332163233}
 --- !u!4 &5277205315591339628 stripped
