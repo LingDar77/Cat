@@ -16,7 +16,6 @@ namespace TUI.EventDispatchSystem
             PerInvocation
         }
 
-        [Range(1, 32)]
         [SerializeField] private uint DispatchRate = 10;
         public DispatchingMode Mode = DispatchingMode.Asynchronous;
         public bool CheckCircularDependency = false;
