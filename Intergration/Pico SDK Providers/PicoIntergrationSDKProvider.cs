@@ -44,9 +44,11 @@ namespace TUI.Intergration.PicoSDKProviders
         private void Start()
         {
             manager = PXR_Manager.Instance;
+            PXR_Plugin.System.UPxr_SetConfigInt(ConfigType.UnityLogLevel, 3); //fuck PLog
             manager.lateLatching = true;
             manager.foveationLevel = Unity.XR.PXR.FoveationLevel.TopHigh;
-            this.Log("pico sdk initialized.");
+            manager.adaptiveResolution = false; // fuck this
+            this.Log("Pico sdk initialized.");
         }
 
 

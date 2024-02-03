@@ -62,12 +62,12 @@ namespace TUI.ScreenLogManagementSystem
 
         public bool Filter(string message, string stackTrace, LogType type)
         {
-            if(message==null || message.Trim().Length == 0) return false;
             if (rules == null || rules.Length == 0) return true;
             var result = true;
             foreach (var rule in rules)
             {
                 result &= rule.Filter(message, stackTrace, type);
+                if (result == false) break;
             }
             return result;
         }
