@@ -1,7 +1,6 @@
-using UnityEngine;
-
 namespace TUI.LocomotionSystem
 {
+    using UnityEngine;
     /// <summary>
     /// Basic definition of an action provider.
     /// An action provider is defined to simulate a certain movement for charactor.

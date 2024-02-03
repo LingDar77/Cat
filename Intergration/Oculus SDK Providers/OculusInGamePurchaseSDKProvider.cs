@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-using Oculus.Platform;
-using Oculus.Platform.Models;
-using TUI.SDKProvider;
-using TUI.Utillities;
-using UnityEngine;
-using UnityEngine.XR;
-
 namespace TUI.Intergration.OculusSDKProviders
 {
+    using System.Collections.Generic;
+    using Oculus.Platform;
+    using Oculus.Platform.Models;
+    using TUI.SDKProvider;
+    using TUI.Utillities;
+    using UnityEngine;
+    using UnityEngine.XR;
+
     public partial class OculusInGamePurchaseSDKProvider : DisableInEdtorScript, IInGamePurchaseSDKProvider
     {
         public bool IsInitialized { get => Core.IsInitialized(); }

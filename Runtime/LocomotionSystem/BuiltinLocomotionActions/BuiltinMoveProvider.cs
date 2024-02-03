@@ -1,8 +1,6 @@
 namespace TUI.LocomotionSystem.Actions
 {
-    using TUI.Utillities;
     using UnityEngine;
-    using UnityEngine.Events;
     using UnityEngine.InputSystem;
 
     [DefaultExecutionOrder(1000)]

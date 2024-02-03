@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace TUI
+namespace TUI.Utillities
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public static class CoroutineHelper
     {
         public static readonly WaitForEndOfFrame nextUpdate = new();
@@ -12,7 +12,6 @@ namespace TUI
         private static readonly Dictionary<float, WaitForSecondsRealtime> realtimeWaits = new();
 
         public static MonoBehaviour Context => ISingletonSystem<SystemContent>.GetChecked();
-
 
         public static WaitForSeconds WaitFor(float seconds)
         {
@@ -23,7 +22,7 @@ namespace TUI
             }
             return wait;
         }
-        
+
         public static WaitForSecondsRealtime WaitForRealtime(float seconds)
         {
             if (!realtimeWaits.TryGetValue(seconds, out var wait))

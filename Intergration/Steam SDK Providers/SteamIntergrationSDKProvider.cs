@@ -2,14 +2,14 @@
 #define DISABLE_STEAMWORKS
 #endif
 #if !DISABLE_STEAMWORKS
-using System.Collections;
-using TUI.SDKProvider;
-using TUI.Utillities;
-using Steamworks;
-using UnityEngine;
 
 namespace TUI.Intergration.SteamSDKProviders
 {
+    using System.Collections;
+    using TUI.SDKProvider;
+    using TUI.Utillities;
+    using Steamworks;
+    using UnityEngine;
     public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
         [SerializeField] private uint appid = 480;

@@ -1,11 +1,10 @@
-#if FISHNET
-using System.Collections;
-using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using UnityEngine;
-
 namespace TUI.Intergration.FN
 {
+    using System.Collections;
+    using FishNet.Object;
+    using FishNet.Object.Synchronizing;
+    using UnityEngine;
+
     [RequireComponent(typeof(Rigidbody))]
     public class NetworkRigidbody : NetworkBehaviour
     {
@@ -47,4 +46,3 @@ namespace TUI.Intergration.FN
     }
 
 }
-#endif

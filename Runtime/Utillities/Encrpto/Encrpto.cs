@@ -1,8 +1,8 @@
-using System.Security.Cryptography;
-using System.Text;
-
 namespace TUI.Utillities
 {
+    using System.Security.Cryptography;
+    using System.Text;
+
     public static class Encrpto
     {
         public static string Sha256Encrpto(string content)

@@ -1,9 +1,9 @@
-#if UNITY_EDITOR && ADDRESSABLES
-using UnityEditor.AddressableAssets.Settings;
-using UnityEngine;
-
+#if UNITY_EDITOR
 namespace TUI.Intergration.Addressables
 {
+    using UnityEditor.AddressableAssets.Settings;
+    using UnityEngine;
+
     public interface IGroupManagementStrategy
     {
         bool Match(string path, AddressableAssetGroup group);

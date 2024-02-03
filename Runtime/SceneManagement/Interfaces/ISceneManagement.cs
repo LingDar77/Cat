@@ -1,8 +1,8 @@
-using System.Collections;
-using UnityEngine.SceneManagement;
-
 namespace TUI.SceneManagementSystem
 {
+    using System.Collections;
+    using UnityEngine.SceneManagement;
+
     public interface ISceneManagement : IGameSystem<ISceneManagement>
     {
         float LoadingProgress { get; }

@@ -1,6 +1,4 @@
 #if UNITY_EDITOR
-
-
 namespace TUI.EditorScript
 {
     using System.IO;

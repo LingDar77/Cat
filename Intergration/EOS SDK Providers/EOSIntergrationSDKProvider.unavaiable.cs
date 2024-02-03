@@ -3,10 +3,10 @@
 #endif
 
 #if !EOS_CAN_SHUTDOWN
-using TUI.SDKProvider;
 
 namespace TUI.Intergration.EOSSDKProviders
 {
+    using TUI.SDKProvider;
     public partial class EOSIntergrationSDKProvider : UnsupportedSDKBase<EOSIntergrationSDKProvider>
     {
     }

@@ -1,6 +1,5 @@
 namespace TUI.SDKProvider
 {
-
     public interface IInGamePurchaseSDKProvider : ISDKProvider
     {
         [System.Serializable]

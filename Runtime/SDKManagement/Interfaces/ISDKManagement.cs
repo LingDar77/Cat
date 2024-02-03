@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using TUI.SDKProvider;
-
 namespace TUI.SDKManagementSystem
 {
+    using System.Collections.Generic;
+    using TUI.SDKProvider;
     public interface ISDKManagement : IGameSystem<ISDKManagement>
     {
         HashSet<ISDKProvider> Providers { get; }

@@ -1,7 +1,6 @@
-using UnityEngine;
-
 namespace TUI.SDKProvider
 {
+    using UnityEngine;
     public interface IUsersSDKProvider : ISDKProvider
     {
         [System.Serializable]

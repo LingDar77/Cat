@@ -1,10 +1,10 @@
-using System.Collections;
-using TUI.SceneManagementSystem;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
 namespace TUI.Intergration.Addressables
 {
+    using System.Collections;
+    using TUI.SceneManagementSystem;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
     using Addressables = UnityEngine.AddressableAssets.Addressables;
     public class AddressableSceneManagement : BuiltinSceneManagement
     {

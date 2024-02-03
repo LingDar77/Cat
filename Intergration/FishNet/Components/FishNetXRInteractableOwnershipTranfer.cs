@@ -1,10 +1,10 @@
-#if XRIT && FISHNET
-using FishNet.Connection;
-using FishNet.Object;
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+#if XRIT
 namespace TUI.Intergration.FN
 {
+    using FishNet.Connection;
+    using FishNet.Object;
+    using UnityEngine;
+    using UnityEngine.XR.Interaction.Toolkit;
     public class FishNetXRInteractableOwnershipTranfer : NetworkBehaviour
     {
         [SerializeField] private XRBaseInteractable Interactable;

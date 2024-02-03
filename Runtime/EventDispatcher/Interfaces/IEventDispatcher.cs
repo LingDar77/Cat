@@ -1,4 +1,3 @@
-
 namespace TUI.EventDispatchSystem
 {
     public class EventParam { }

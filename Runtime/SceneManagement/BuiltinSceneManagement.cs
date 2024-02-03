@@ -1,8 +1,8 @@
-using System.Collections;
-using UnityEngine.SceneManagement;
-
 namespace TUI.SceneManagementSystem
 {
+    using System.Collections;
+    using UnityEngine.SceneManagement;
+
     public class BuiltinSceneManagement : SingletonSystemBase<BuiltinSceneManagement>, ISceneManagement
     {
         public float LoadingProgress { get; set; }

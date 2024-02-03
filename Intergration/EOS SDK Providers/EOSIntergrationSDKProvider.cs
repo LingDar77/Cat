@@ -1,16 +1,15 @@
 #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || EOS
 #define EOS_CAN_SHUTDOWN
 #endif
-
 #if EOS_CAN_SHUTDOWN
-using Epic.OnlineServices;
-using PlayEveryWare.EpicOnlineServices;
-using TUI.SDKProvider;
-using TUI.Utillities;
-using UnityEngine;
 
 namespace TUI.Intergration.EOSSDKProviders
 {
+    using Epic.OnlineServices;
+    using PlayEveryWare.EpicOnlineServices;
+    using TUI.SDKProvider;
+    using TUI.Utillities;
+    using UnityEngine;
     public partial class EOSIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
         [HideInInspector] public EOSManager Manager;

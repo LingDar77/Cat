@@ -1,7 +1,6 @@
-using UnityEngine;
 namespace TUI.SDKProvider
 {
-
+    using UnityEngine;
     public class UnsupportedSDKBase<ImplementType> : MonoBehaviour, ISDKProvider
     {
         public bool IsInitialized { get; } = false;

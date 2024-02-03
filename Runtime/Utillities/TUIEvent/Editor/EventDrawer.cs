@@ -1,4 +1,5 @@
-﻿namespace TUI.Utillities.Editor
+﻿#if UNITY_EDITOR
+namespace TUI.Utillities.Editor
 {
     using System;
     using System.Collections;
@@ -10,7 +11,7 @@
     using UnityEditorInternal;
     using UnityEngine;
     using UnityEngine.Events;
-    using static TUI.Utillities.EventProAttributes;
+    using static TUI.Utillities.EventAttributes;
     using Object = UnityEngine.Object;
     
     [CustomPropertyDrawer(typeof(EventBase), true)]
@@ -1367,3 +1368,4 @@
         }
     }
 }
+#endif

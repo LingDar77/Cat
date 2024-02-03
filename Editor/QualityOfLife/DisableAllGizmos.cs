@@ -1,5 +1,4 @@
 #if UNITY_EDITOR
-
 namespace TUI.EditorScript.QualityOfLife
 {
     using UnityEditor;

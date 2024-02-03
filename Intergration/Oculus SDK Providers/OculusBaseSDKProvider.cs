@@ -1,13 +1,11 @@
-
-using System.Collections.Generic;
-using Oculus.Platform;
-using TUI.SDKProvider;
-using TUI.Utillities;
-using UnityEngine;
-using UnityEngine.XR;
-
 namespace TUI.Intergration.OculusSDKProviders
 {
+    using System.Collections.Generic;
+    using Oculus.Platform;
+    using TUI.SDKProvider;
+    using TUI.Utillities;
+    using UnityEngine;
+    using UnityEngine.XR;
 
     public abstract class OculusBaseSDKProvider : DisableInEdtorScript, ISDKProvider
     {

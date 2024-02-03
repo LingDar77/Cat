@@ -1,5 +1,6 @@
 #if XRIT
 using System.Collections;
+using TUI.Utillities;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 

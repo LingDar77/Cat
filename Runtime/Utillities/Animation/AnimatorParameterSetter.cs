@@ -1,7 +1,6 @@
-using UnityEngine;
-
 namespace TUI.Utillities
 {
+    using UnityEngine;
     public class AnimatorParameterSetter : MonoBehaviour
     {
         [SerializeField] private Animator animator;

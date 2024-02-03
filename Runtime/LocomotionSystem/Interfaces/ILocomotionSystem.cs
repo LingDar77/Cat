@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace TUI.LocomotionSystem
 {
+    using UnityEngine;
+
     /// <summary>
     /// Basic definition of locomotion system which is used to move a charactor.
     /// The system is driven by ActionProviders <see cref="IActionProvider" />.

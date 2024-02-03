@@ -1,7 +1,7 @@
-using UnityEngine;
-
 namespace TUI
 {
+    using UnityEngine;
+
     public class CommonFunctions : MonoBehaviour
     {
         public void SetLocalScale(float scale)

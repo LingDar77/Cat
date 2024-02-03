@@ -1,6 +1,5 @@
 namespace TUI.Intergration.XRIT.LocomotionSystem
 {
-    using System;
     using System.Collections;
     using TUI.SDKManagementSystem;
     using TUI.SDKProvider;

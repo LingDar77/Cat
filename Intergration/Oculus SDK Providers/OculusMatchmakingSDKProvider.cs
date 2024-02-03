@@ -1,10 +1,10 @@
-using System;
-using Oculus.Platform;
-using TUI.SDKProvider;
-using TUI.Utillities;
-using UnityEngine;
 namespace TUI.Intergration.OculusSDKProviders
 {
+    using System;
+    using Oculus.Platform;
+    using TUI.SDKProvider;
+    using TUI.Utillities;
+    using UnityEngine;
     public partial class OculusMatchmakingSDKProvider : OculusBaseSDKProvider, IMatchmakingSDKProvider
     {
         [field: ReadOnlyInEditor]

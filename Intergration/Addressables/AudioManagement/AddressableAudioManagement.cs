@@ -1,9 +1,8 @@
-using TUI.AduioManagement;
-using UnityEngine;
-using UnityEngine.Audio;
-
 namespace TUI.Intergration.Addressables
 {
+    using TUI.AduioManagement;
+    using UnityEngine;
+    using UnityEngine.Audio;
     using Addressables = UnityEngine.AddressableAssets.Addressables;
     /// <summary>
     /// The basic addressable impmentation for AudioManagementSystem.

@@ -2,14 +2,13 @@
 #define DISABLE_STEAMWORKS
 #endif
 #if !DISABLE_STEAMWORKS
-using System;
-using TUI.SDKProvider;
-using TUI.Utillities;
-using Steamworks;
-using UnityEngine;
 namespace TUI.Intergration.SteamSDKProviders
 {
-
+    using System;
+    using TUI.SDKProvider;
+    using TUI.Utillities;
+    using Steamworks;
+    using UnityEngine;
     public class SteamMatchmakingSDKProvider : DisableInEdtorScript, IMatchmakingSDKProvider
     {
         [SerializeField] private SteamIntergrationSDKProvider intergration;

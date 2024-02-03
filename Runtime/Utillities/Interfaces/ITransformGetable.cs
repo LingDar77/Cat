@@ -1,7 +1,6 @@
-using UnityEngine;
-
 namespace TUI
 {
+    using UnityEngine;
     public interface ITransformGetable
     {
 #pragma warning disable IDE1006 // 命名样式

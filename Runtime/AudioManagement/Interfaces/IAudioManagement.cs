@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.Audio;
-
 namespace TUI.AduioManagement
 {
+    using UnityEngine;
+    using UnityEngine.Audio;
+
     /// <summary>
     /// Definition of an audio management system that allocate certain amount of audio sources 
     /// and manage them to correctlly play audio resources.

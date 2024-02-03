@@ -1,9 +1,9 @@
-using System.Collections;
-using UnityEngine;
-using UnityEngine.Events;
-
 namespace TUI
 {
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.Events;
+
     public class CommonEvents : MonoBehaviour
     {
         public UnityEvent OnAake;

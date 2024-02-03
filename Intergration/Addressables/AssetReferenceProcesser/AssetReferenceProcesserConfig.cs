@@ -1,6 +1,4 @@
-#if UNITY_EDITOR && ADDRESSABLES
-
-
+#if UNITY_EDITOR 
 namespace TUI.Intergration.Addressables.EditorScript
 {
     using System.Collections.Generic;

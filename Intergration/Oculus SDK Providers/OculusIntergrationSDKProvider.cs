@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using TUI.SDKProvider;
-using TUI.Utillities;
-using UnityEngine;
-using UnityEngine.XR;
-
 namespace TUI.Intergration.OculusSDKProviders
 {
+    using System.Collections.Generic;
+    using TUI.SDKProvider;
+    using TUI.Utillities;
+    using UnityEngine;
+    using UnityEngine.XR;
     public partial class OculusIntergrationSDKProvider : DisableInEdtorScript, IXRSDKProvider
     {
         public bool IsInitialized { get => manager != null; }

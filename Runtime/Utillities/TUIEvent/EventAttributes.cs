@@ -2,7 +2,7 @@ namespace TUI.Utillities
 {
 	using System;
 	using UnityEngine;
-	public class EventProAttributes : MonoBehaviour
+	public class EventAttributes : MonoBehaviour
 	{
 		/// <summary>
 		/// Use this attribute to turn an integer parameter into a layer enum.

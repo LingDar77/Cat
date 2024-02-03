@@ -1,12 +1,12 @@
-#if UNITY_EDITOR && ADDRESSABLES
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.AddressableAssets.Initialization;
-using UnityEngine.ResourceManagement.Util;
-
+#if UNITY_EDITOR
 namespace TUI.Intergration.Addressables.EditorScript
 {
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEngine;
+    using UnityEngine.AddressableAssets.Initialization;
+    using UnityEngine.ResourceManagement.Util;
+
 
     [CreateAssetMenu(fileName = "PlatformBasedInitializationSettings", menuName = "Addressables/Initialization/Platform-Based Initialization Settings", order = 0)]
     public class PlatformBasedInitializationSettings : ScriptableObject, IObjectInitializationDataProvider

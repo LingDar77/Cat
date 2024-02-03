@@ -1,10 +1,10 @@
-using System;
-using Oculus.Platform;
-using Oculus.Platform.Models;
-using TUI.SDKProvider;
-
 namespace TUI.Intergration.OculusSDKProviders
 {
+    using System;
+    using Oculus.Platform;
+    using Oculus.Platform.Models;
+    using TUI.SDKProvider;
+
     public partial class OculusUsersSDKProvider : OculusBaseSDKProvider, IUsersSDKProvider
     {
         public void GetCurrentUser(Action<IUsersSDKProvider.User> onSuccess = null, Action<string> onFailure = null)

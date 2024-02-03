@@ -1,7 +1,6 @@
-using UnityEngine;
-
 namespace TUI.ObjectPool
 {
+    using UnityEngine;
     public interface IGameObjectFactory<RefType>
     {
         GameObject Create(RefType reference, Vector3 position, Quaternion rotation);

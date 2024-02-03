@@ -1,11 +1,9 @@
-#if UNITY_EDITOR && ADDRESSABLES
-using System.Text.RegularExpressions;
-using UnityEditor.AddressableAssets.Settings;
-using UnityEngine;
-
-
+#if UNITY_EDITOR
 namespace TUI.Intergration.Addressables
 {
+    using System.Text.RegularExpressions;
+    using UnityEditor.AddressableAssets.Settings;
+    using UnityEngine;
 
     [CreateAssetMenu(fileName = "RegexGroupStrategy", menuName = "Addressables/Group Management Strategy/Regex Group Strategy", order = 0)]
     public class RegexGroupStrategy : GroupManagementStrategyBase

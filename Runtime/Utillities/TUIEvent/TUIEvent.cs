@@ -87,15 +87,15 @@ namespace TUI.Utillities
         }
     }
 
-	[Serializable]
-    public abstract class EventPro<T0> : EventBase
+    [Serializable]
+    public class TUIEvent<T0> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[1];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -163,15 +163,15 @@ namespace TUI.Utillities
         }
     }
 
-	[Serializable]
-    public abstract class EventPro<T0, T1> : EventBase
+    [Serializable]
+    public class TUIEvent<T0, T1> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[2];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -257,14 +257,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2> : EventBase
+    public class TUIEvent<T0, T1, T2> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[3];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -352,14 +352,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2, T3> : EventBase
+    public class TUIEvent<T0, T1, T2, T3> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[4];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -449,14 +449,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2, T3, T4> : EventBase
+    public class TUIEvent<T0, T1, T2, T3, T4> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[5];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -548,14 +548,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2, T3, T4, T5> : EventBase
+    public class TUIEvent<T0, T1, T2, T3, T4, T5> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[6];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -649,14 +649,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2, T3, T4, T5, T6> : EventBase
+    public class TUIEvent<T0, T1, T2, T3, T4, T5, T6> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[7];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -752,14 +752,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2, T3, T4, T5, T6, T7> : EventBase
+    public class TUIEvent<T0, T1, T2, T3, T4, T5, T6, T7> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[8];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -857,14 +857,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2, T3, T4, T5, T6, T7, T8> : EventBase
+    public class TUIEvent<T0, T1, T2, T3, T4, T5, T6, T7, T8> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[9];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.
@@ -964,14 +964,14 @@ namespace TUI.Utillities
     }
 
     [Serializable]
-    public abstract class EventPro<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : EventBase
+    public class TUIEvent<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> : EventBase
     {
         private readonly object[] m_InvokeArray = new object[10];
 
         /// <summary>
         ///   <para>Constructor.</para>
         /// </summary>
-        public EventPro() { }
+        public TUIEvent() { }
 
         /// <summary>
         /// Add a non persistent listener to the UnityEvent.

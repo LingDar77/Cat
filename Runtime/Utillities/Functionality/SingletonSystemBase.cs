@@ -1,7 +1,6 @@
-using UnityEngine;
-
 namespace TUI
 {
+    using UnityEngine;
     /// <summary>
     /// A base class for sperate singleton systems that can be accessed by:
     /// ISingletonSystem<ImplementType>.Singleton

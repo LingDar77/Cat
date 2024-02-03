@@ -1,6 +1,6 @@
-using UnityEngine;
 namespace TUI.Utillities
 {
+    using UnityEngine;
     public class DisableInEdtorScript : MonoBehaviour
     {
         protected virtual void OnValidate()
