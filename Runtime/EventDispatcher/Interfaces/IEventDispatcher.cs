@@ -1,6 +1,16 @@
+using TUI.ObjectPool;
+
 namespace TUI.EventDispatchSystem
 {
-    public class EventParam { }
+    public class EventParam : IPooledObject<EventParam>
+    {
+        public IObjectPool<EventParam> Pool { get; set; }
+
+        public void Dispose()
+        {
+            Pool?.Return(this);
+        }
+    }
     public interface IEventDispatcher<EventType> : ISingletonSystem<IEventDispatcher<EventType>>
     {
         void Dispatch(EventType type, EventParam data);

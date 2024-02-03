@@ -4,18 +4,28 @@ namespace TUI.EventDispatchSystem
     using System.Collections.Generic;
     using TUI.Utillities;
     using UnityEngine;
+    using SerializableAttribute = System.SerializableAttribute;
 
     public class BuiltinEventDispatcher : MonoBehaviour, IEventDispatcher<string>
     {
-        [Range(1, 16)]
+        [Serializable]
+        public enum DispatchingMode
+        {
+            Synchronous,
+            Asynchronous,
+            PerInvocation
+        }
+
+        [Range(1, 32)]
         [SerializeField] private uint DispatchRate = 10;
-        [Tooltip("Enable Immediately Dispatch will cause protentially infinite invocation loops and may  drop frame rate when dispatching.")]
-        public bool DispatchImmediately = false;
+        public DispatchingMode Mode = DispatchingMode.Asynchronous;
+        public bool CheckCircularDependency = false;
+
         protected Queue<string> dispatchQueue = new();
         protected Queue<EventParam> dispatchParamQueue = new();
-
+        protected HashSet<string> dispatched = new();
         protected bool isDispatching = false;
-        protected readonly Dictionary<string, System.Action<EventParam>> events = new();
+        protected readonly Dictionary<string, HashSet<System.Action<EventParam>>> events = new();
 
         protected virtual void OnEnable()
         {
@@ -32,79 +42,111 @@ namespace TUI.EventDispatchSystem
             IEventDispatcher<string>.Singleton = null;
         }
 
-        public virtual void Dispatch(string type, EventParam data)
+
+        public void Dispatch(string type, EventParam data)
         {
-            if (DispatchImmediately)
+            if (Mode == DispatchingMode.Synchronous)
             {
-                DispatchAllEventsImmediately(type, data);
+                DispatchSynchronously(type, data);
             }
             else
             {
-                DispatchAllEventsDelayed(type, data);
+                DispatchAsynchronously(type, data);
             }
-        }
-
-        private void DispatchAllEventsImmediately(string type, EventParam data)
-        {
-            if (!events.TryGetValue(type, out var actions) || actions == null) return;
-            actions?.Invoke(data);
-        }
-
-        private void DispatchAllEventsDelayed(string type, EventParam data)
-        {
-            dispatchQueue.Enqueue(type);
-            dispatchParamQueue.Enqueue(data);
-
-            if (!isDispatching) StartCoroutine(DispatchAllEvents());
-        }
-
-        private IEnumerator DispatchAllEvents()
-        {
-            isDispatching = true;
-            var count = DispatchRate;
-            var hash = new HashSet<string>();
-            while (dispatchQueue.Count != 0)
-            {
-                var type = dispatchQueue.Dequeue();
-                var data = dispatchParamQueue.Dequeue();
-
-                if (!events.TryGetValue(type, out var actions) || actions == null) continue;
-
-                if (hash.Contains(type))
-                {
-                    this.LogFormat("Circular dependency detected when dispatching event: {0}, skipping it.", LogType.Warning, type);
-                    continue;
-                }
-
-                hash.Add(type);
-                foreach (var action in actions.GetInvocationList())
-                {
-                    (action as System.Action<EventParam>)?.Invoke(data);
-                    if (--count != 0) continue;
-
-                    count = DispatchRate;
-                    yield return CoroutineHelper.nextUpdate;
-                }
-            }
-            isDispatching = false;
         }
 
         public virtual void Subscribe(string type, System.Action<EventParam> callback)
         {
             if (events.TryGetValue(type, out var list))
             {
-                events[type] = list += callback;
+                events[type].Add(callback);
                 return;
             }
 
-            events.Add(type, callback);
+            events.Add(type, new() { callback });
         }
 
         public virtual void Unsubscribe(string type, System.Action<EventParam> callback)
         {
             if (!events.TryGetValue(type, out var list)) return;
 
-            events[type] = list -= callback;
+            events[type].Remove(callback);
+        }
+
+        protected virtual void DispatchSynchronously(string type, EventParam data)
+        {
+            if (!events.ContainsKey(type)) return;
+            var callbacks = events[type];
+            foreach (var callback in callbacks)
+            {
+                callback.Invoke(data);
+            }
+            data?.Dispose();
+        }
+
+        protected virtual void DispatchAsynchronously(string type, EventParam data)
+        {
+            dispatchQueue.Enqueue(type);
+            dispatchParamQueue.Enqueue(data);
+            if (!isDispatching) StartCoroutine(DoDispatchAsynchronously());
+        }
+
+        private IEnumerator DoDispatchAsynchronously()
+        {
+            isDispatching = true;
+            yield return CoroutineHelper.nextUpdate;
+            var count = DispatchRate;
+            if (CheckCircularDependency) dispatched.Clear();
+
+            while (dispatchQueue.Count != 0)
+            {
+                var type = dispatchQueue.Dequeue();
+                var data = dispatchParamQueue.Dequeue();
+
+                if (!events.TryGetValue(type, out var actions) || actions == null)
+                {
+                    data?.Dispose();
+                    continue;
+                }
+
+
+                if (CheckCircularDependency)
+                {
+                    if (dispatched.Contains(type))
+                    {
+                        this.LogFormat("Circular dependency detected when dispatching event: {0}, skipping it.", LogType.Warning, type);
+                        data?.Dispose();
+                        continue;
+                    }
+                    dispatched.Add(type);
+                }
+
+                if (Mode == DispatchingMode.Asynchronous)
+                {
+                    foreach (var action in actions)
+                    {
+                        action.Invoke(data);
+                        if (--count != 0) continue;
+                        count = DispatchRate;
+                        yield return CoroutineHelper.nextUpdate;
+                    }
+                }
+                else
+                {
+                    foreach (var action in actions)
+                    {
+                        foreach (var invocation in action.GetInvocationList())
+                        {
+                            (invocation as System.Action<EventParam>)?.Invoke(data);
+                            if (--count != 0) continue;
+                            count = DispatchRate;
+                            yield return CoroutineHelper.nextUpdate;
+                        }
+                    }
+                }
+                data?.Dispose();
+            }
+            isDispatching = false;
         }
     }
 }
