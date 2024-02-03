@@ -213,6 +213,10 @@ namespace TUI.LocomotionSystem
                 CoroutineHelper.WaitForSeconds(() => forceUngrounded = false, .1f);
             }
         }
+        public override Vector3 GetGroundNormal()
+        {
+            return GroundingStatus.GroundNormal;
+        }
 
         public override void SetPosition(Vector3 position)
         {
@@ -324,7 +328,7 @@ namespace TUI.LocomotionSystem
             {
                 // Handle stable landing
                 TargetVelocity = Vector3.ProjectOnPlane(TargetVelocity, CharacterUp);
-                TargetVelocity = GetDirectionTangentToSurface(TargetVelocity, GroundingStatus.GroundNormal) * TargetVelocity.magnitude;
+                TargetVelocity = TargetVelocity.GetDirectionTangentToSurface(GroundingStatus.GroundNormal, CharacterUp) * TargetVelocity.magnitude;
             }
 
             #endregion
@@ -508,12 +512,6 @@ namespace TUI.LocomotionSystem
 
                 groundSweepsMade++;
             }
-        }
-
-        protected virtual Vector3 GetDirectionTangentToSurface(Vector3 direction, Vector3 surfaceNormal)
-        {
-            Vector3 directionRight = Vector3.Cross(direction, CharacterUp);
-            return Vector3.Cross(surfaceNormal, directionRight).normalized;
         }
 
         protected virtual bool InternalCharacterMove(ref Vector3 transientVelocity, float deltaTime)
@@ -837,7 +835,7 @@ namespace TUI.LocomotionSystem
             {
                 // Handle stable landing
                 velocity = Vector3.ProjectOnPlane(velocity, CharacterUp);
-                velocity = GetDirectionTangentToSurface(velocity, obstructionNormal) * velocity.magnitude;
+                velocity = velocity.GetDirectionTangentToSurface(obstructionNormal, CharacterUp) * velocity.magnitude;
                 return;
             }
             velocity = Vector3.ProjectOnPlane(velocity, obstructionNormal);

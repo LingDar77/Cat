@@ -48,13 +48,19 @@ namespace TUI.Utillities
             return angle;
         }
 
+        public static Vector3 GetDirectionTangentToSurface(this Vector3 direction, Vector3 surfaceNormal, Vector3 up)
+        {
+            Vector3 directionRight = Vector3.Cross(direction, up);
+            return Vector3.Cross(surfaceNormal, directionRight).normalized;
+        }
+
         public static Vector2 XZ(this Vector3 v)
         {
             return new Vector2(v.x, v.z);
         }
         public static Vector2 XY(this Vector3 v)
         {
-            return new Vector2(v.x, v.y);
+            return (Vector2)v;
         }
         public static Vector2 YZ(this Vector3 v)
         {

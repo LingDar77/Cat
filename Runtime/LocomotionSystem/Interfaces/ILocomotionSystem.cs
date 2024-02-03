@@ -42,6 +42,7 @@ namespace TUI.LocomotionSystem
         void SetPosition(Vector3 position);
 
         void SetRotation(Quaternion rotation);
+        Vector3 GetGroundNormal();
     }
 
 }

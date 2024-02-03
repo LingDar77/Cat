@@ -53,6 +53,10 @@ namespace TUI.LocomotionSystem
         public virtual void SetRotation(Quaternion rotation)
         {
         }
+        public virtual Vector3 GetGroundNormal()
+        {
+            return default;
+        }
 
         protected virtual void BeforeUpdate(float time)
         {
@@ -85,6 +89,7 @@ namespace TUI.LocomotionSystem
                 provider.ProcessRotation(ref rotation, time);
             }
         }
+
 
     }
 }
