@@ -54,7 +54,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem
         }
         private void OnUserPresence(InputAction.CallbackContext context)
         {
-            sdk.Recenter();
+            sdk?.Recenter();
         }
         private void OnRecenter()
         {

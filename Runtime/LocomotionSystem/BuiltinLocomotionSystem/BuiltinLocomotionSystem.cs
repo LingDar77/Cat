@@ -673,9 +673,9 @@ namespace TUI.LocomotionSystem
                 sweepsMade++;
                 if (sweepsMade > MaxMovementIterations)
                 {
-                    remainingMovementMagnitude = 0f;
+                    // remainingMovementMagnitude = 0f;
 
-                    transientVelocity = Vector3.zero;
+                    // transientVelocity = Vector3.zero;
 
                     wasCompleted = false;
                 }
