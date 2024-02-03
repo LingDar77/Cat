@@ -59,6 +59,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         }
         private void ResetInitialHeight(InputAction.CallbackContext context)
         {
+            this.Log("Trying to reset initial height.");
             var height = HMDPosition.action.ReadValue<Vector3>().y;
             if (height > initialHeight)
             {
@@ -75,7 +76,6 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         protected void SetCapsuleHeight(float height)
         {
             var targetHeight = Mathf.Clamp(height, MinimumCrouchHeight, initalCapsuleHeight);
-            this.LogFormat("Current Height: {0}", LogType.Log, targetHeight.ToString());
             capsule.height = targetHeight;
             capsule.center = new Vector3(capsule.center.x, initalCapsuleHeight - targetHeight / 2 - initialCapsuleOffset, capsule.center.z);
         }
