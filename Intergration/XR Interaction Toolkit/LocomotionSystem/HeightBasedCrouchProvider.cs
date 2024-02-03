@@ -59,7 +59,11 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
         }
         private void ResetInitialHeight(InputAction.CallbackContext context)
         {
-            initialHeight = HMDPosition.action.ReadValue<Vector3>().y;
+            var height = HMDPosition.action.ReadValue<Vector3>().y;
+            if (height > initialHeight)
+            {
+                initialHeight = height;
+            }
         }
         public override void BeforeProcess(float deltaTime)
         {
