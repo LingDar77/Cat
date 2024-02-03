@@ -398,16 +398,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ActionMaps.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ActionMaps.Array.data[0]
       value: 
-      objectReference: {fileID: -944628639613478452, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
+      objectReference: {fileID: -944628639613478452, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
     - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ActionMaps.Array.data[1]
       value: 
-      objectReference: {fileID: -944628639613478452, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
+      objectReference: {fileID: -944628639613478452, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
     - target: {fileID: 2850714989688305529, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: ActionMaps.Array.data[2]
       value: 
@@ -507,7 +507,7 @@ PrefabInstance:
     - target: {fileID: 9145604729289840818, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: CrouchControl.m_Reference
       value: 
-      objectReference: {fileID: 7385969771158679617, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
+      objectReference: {fileID: -1464340630155665424, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5279909376796817948, guid: 45a390f23649abd48a603f39abb68688, type: 3}
@@ -522,6 +522,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 8408832312561468214}
+    - targetCorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 4345562088332163233}
     - targetCorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       insertIndex: -1
@@ -532,6 +535,55 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688, type: 3}
   m_PrefabInstance: {fileID: 4599765855039173842}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8408832312561468214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449325492677448973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a59613676d15644c83c3e228a2fb163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinimumCrouchHeight: 1
+  HMDPosition:
+    m_UseReference: 1
+    m_Action:
+      m_Name: HMD Position
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: f8bba450-6936-4195-b0fc-fad0cdc4f039
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -2801111879120858542, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
+  IsTracked:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Is Tracked
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: f46e92bf-51e3-4192-8289-9258210195a4
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -1682387165397651903, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
+  UserPresence:
+    m_UseReference: 1
+    m_Action:
+      m_Name: User Presence
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 86b17336-b30e-4fea-b4ba-e3e9f051b61b
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 5700449273907402708, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
 --- !u!114 &4345562088332163233
 MonoBehaviour:
   m_ObjectHideFlags: 0

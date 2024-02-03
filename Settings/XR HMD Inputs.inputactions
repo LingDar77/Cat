@@ -2,7 +2,7 @@
     "name": "XR HMD Inputs",
     "maps": [
         {
-            "name": "VR Head",
+            "name": "Head",
             "id": "d4f296a5-a15a-4586-89bb-ec5edea66d81",
             "actions": [
                 {
@@ -92,7 +92,7 @@
             ]
         },
         {
-            "name": "VR Head Status",
+            "name": "Head Status",
             "id": "2ee53ef7-f444-4e3a-877f-4f801e03a587",
             "actions": [
                 {

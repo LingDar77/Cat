@@ -1956,17 +1956,6 @@
                 },
                 {
                     "name": "",
-                    "id": "605d34f1-5bc7-40b3-b65c-2456f63cdc04",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Secondary Button",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0bdd2fdb-a710-41af-9660-c3b3f18aac89",
                     "path": "<XRController>{RightHand}/{MenuButton}",
                     "interactions": "",

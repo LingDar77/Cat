@@ -7,7 +7,7 @@ namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
     public class BuiltinSnapTurnProvider : ActionProviderBase
     {
         [SerializeField] private float TurnAmount = 45f;
-        [SerializeField] private float TurnCooldownTime = .1f;
+        [SerializeField] private float TurnCooldownTime = .25f;
         [SerializeField] private InputActionProperty TurnAction;
         [SerializeField] private BuiltinHeadRotationTracking Tracking;
         [SerializeField] private BuiltinHeadVelocityProvider VelocityProvider;
