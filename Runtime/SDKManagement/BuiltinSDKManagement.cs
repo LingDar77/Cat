@@ -4,7 +4,7 @@ namespace TUI.SDKManagementSystem
     using TUI.Attributes;
     using TUI.SDKProvider;
     using UnityEngine;
-    
+
     [DefaultExecutionOrder(-1000)]
     public class BuiltinSDKManagement : SingletonSystemBase<BuiltinSDKManagement>, ISDKManagement
     {
@@ -31,6 +31,7 @@ namespace TUI.SDKManagementSystem
         protected override void OnEnable()
         {
             base.OnEnable();
+            if (ProviderObjects == null) return;
             foreach (var obj in ProviderObjects)
             {
                 if (obj == null) continue;

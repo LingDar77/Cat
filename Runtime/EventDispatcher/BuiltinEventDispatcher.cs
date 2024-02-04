@@ -2,6 +2,7 @@ namespace TUI.EventDispatchSystem
 {
     using System.Collections;
     using System.Collections.Generic;
+    using TUI.ObjectPool;
     using TUI.Utillities;
     using UnityEngine;
     using SerializableAttribute = System.SerializableAttribute;
@@ -16,6 +17,27 @@ namespace TUI.EventDispatchSystem
             PerInvocation
         }
 
+        public class Subscriptioin : IPooledObject<Subscriptioin>
+        {
+            public string Type;
+            public System.Action<EventParam> Callback;
+            public bool Subscribed;
+
+            public Subscriptioin Init(string type, System.Action<EventParam> callback, bool subscribed)
+            {
+                Type = type;
+                Callback = callback;
+                Subscribed = subscribed;
+                return this;
+            }
+
+            public IObjectPool<Subscriptioin> Pool { get; set; }
+
+            public void Dispose()
+            {
+                Pool?.Return(this);
+            }
+        }
         [SerializeField] private uint DispatchRate = 10;
         public DispatchingMode Mode = DispatchingMode.Asynchronous;
         public bool CheckCircularDependency = false;
@@ -25,6 +47,8 @@ namespace TUI.EventDispatchSystem
         protected HashSet<string> dispatched = new();
         protected bool isDispatching = false;
         protected readonly Dictionary<string, HashSet<System.Action<EventParam>>> events = new();
+        protected Queue<Subscriptioin> subscriptioins = new();
+        protected readonly BuiltinObjectPool<Subscriptioin> pool = new();
 
         protected virtual void OnEnable()
         {
@@ -41,7 +65,6 @@ namespace TUI.EventDispatchSystem
             IEventDispatcher<string>.Singleton = null;
         }
 
-
         public void Dispatch(string type, EventParam data)
         {
             if (Mode == DispatchingMode.Synchronous)
@@ -56,6 +79,11 @@ namespace TUI.EventDispatchSystem
 
         public virtual void Subscribe(string type, System.Action<EventParam> callback)
         {
+            if (isDispatching)
+            {
+                subscriptioins.Enqueue(pool.Get().Init(type, callback, true));
+                return;
+            }
             if (events.TryGetValue(type, out var list))
             {
                 events[type].Add(callback);
@@ -67,6 +95,11 @@ namespace TUI.EventDispatchSystem
 
         public virtual void Unsubscribe(string type, System.Action<EventParam> callback)
         {
+            if (isDispatching)
+            {
+                subscriptioins.Enqueue(pool.Get().Init(type, callback, false));
+                return;
+            }
             if (!events.TryGetValue(type, out var list)) return;
 
             events[type].Remove(callback);
@@ -145,7 +178,26 @@ namespace TUI.EventDispatchSystem
                 }
                 data?.Dispose();
             }
+
             isDispatching = false;
+            
+            if (subscriptioins.Count != 0)
+            {
+                while (subscriptioins.Count != 0)
+                {
+                    var sub = subscriptioins.Dequeue();
+                    if (sub.Subscribed)
+                    {
+                        Subscribe(sub.Type, sub.Callback);
+                    }
+                    else
+                    {
+                        Unsubscribe(sub.Type, sub.Callback);
+                    }
+                    sub.Dispose();
+                }
+            }
+
         }
     }
 }
