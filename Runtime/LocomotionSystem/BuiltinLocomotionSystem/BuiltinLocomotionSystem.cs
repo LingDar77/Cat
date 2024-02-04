@@ -218,6 +218,10 @@ namespace TUI.LocomotionSystem
             return GroundingStatus.GroundNormal;
         }
 
+        public override Collider GetGrandCollider()
+        {
+            return Capsule;
+        }
         public override void SetPosition(Vector3 position)
         {
             transform.position = position;

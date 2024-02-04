@@ -81,6 +81,26 @@ namespace TUI.Utillities
         #endregion
 
         #region GameObject Expand
+        public static bool TryGetComponentInParent<Type>(this GameObject context, out Type component, bool includeInactive = false)
+        {
+            component = (Type)(object)context.GetComponentInParent(typeof(Type), includeInactive);
+            return component != null;
+        }
+        public static bool TryGetComponentInChildren<Type>(this GameObject context, out Type component, bool includeInactive = false)
+        {
+            component = (Type)(object)context.GetComponentInChildren(typeof(Type), includeInactive);
+            return component != null;
+        }
+        public static bool TryGetComponentInParent<Type>(this Component context, out Type component, bool includeInactive = false)
+        {
+            component = (Type)(object)context.GetComponentInParent(typeof(Type), includeInactive);
+            return component != null;
+        }
+        public static bool TryGetComponentInChildren<Type>(this Component context, out Type component, bool includeInactive = false)
+        {
+            component = (Type)(object)context.GetComponentInChildren(typeof(Type), includeInactive);
+            return component != null;
+        }
         public static void DestroyAllChildren(this GameObject content)
         {
             for (var i = 0; i != content.transform.childCount; ++i)
@@ -139,7 +159,16 @@ namespace TUI.Utillities
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 #endif
         }
-
+        public static void EnsureComponentInParent<ComponentType>(this MonoBehaviour content, ref ComponentType component)
+        {
+#if UNITY_EDITOR
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+#pragma warning disable IDE0074 // 使用复合分配
+            if (component == null) component = content.GetComponentInParent<ComponentType>();
+#pragma warning restore IDE0074 // 使用复合分配
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+#endif
+        }
         public static void Log(this MonoBehaviour context, string message, LogType type = LogType.Log)
         {
 #if UNITY_EDITOR

@@ -1,6 +1,8 @@
 namespace TUI.LocomotionSystem
 {
     using System.Collections.Generic;
+    using TUI.LocomotionSystem.Filter;
+    using TUI.Utillities;
     using UnityEngine;
     public abstract class LocomotionSystemBase : MonoBehaviour, ILocomotionSystem
     {
@@ -39,6 +41,10 @@ namespace TUI.LocomotionSystem
 
         public virtual bool IsColliderValid(Collider collider)
         {
+            if (collider.TryGetComponentInParent<IColliderFilter>(out var filter))
+            {
+                return filter.ShouldCollide(GetGrandCollider());
+            }
             return true;
         }
 
@@ -57,7 +63,10 @@ namespace TUI.LocomotionSystem
         {
             return default;
         }
-
+        public virtual Collider GetGrandCollider()
+        {
+            return null;
+        }
         protected virtual void BeforeUpdate(float time)
         {
             foreach (var provider in ActionProviders)
@@ -89,7 +98,6 @@ namespace TUI.LocomotionSystem
                 provider.ProcessRotation(ref rotation, time);
             }
         }
-
 
     }
 }
