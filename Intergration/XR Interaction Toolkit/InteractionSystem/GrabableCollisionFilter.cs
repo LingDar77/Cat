@@ -1,6 +1,5 @@
 namespace TUI.Intergration.XRIT.InteractionSystem
 {
-    using System;
     using TUI.LocomotionSystem.Filter;
     using TUI.Utillities;
     using UnityEngine;
@@ -9,7 +8,9 @@ namespace TUI.Intergration.XRIT.InteractionSystem
     public class GrabableCollisionFilter : MonoBehaviour, IColliderFilter
     {
         [SerializeField] private XRGrabInteractable interactable;
+        [SerializeField] private float delay = 1f;
         private bool grabed;
+        private Coroutine coroutine;
 
         private void OnValidate()
         {
@@ -29,11 +30,17 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         }
         private void OnSelectEntered(SelectEnterEventArgs e)
         {
+            if (coroutine != null) StopCoroutine(coroutine);
             grabed = true;
         }
         private void OnSelectExited(SelectExitEventArgs e)
         {
+            coroutine = CoroutineHelper.WaitForSeconds(ResetState, delay);
+        }
+        private void ResetState()
+        {
             grabed = false;
+            coroutine = null;
         }
         public bool ShouldCollide(Collider other)
         {
