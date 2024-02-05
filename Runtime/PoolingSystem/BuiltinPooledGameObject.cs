@@ -11,14 +11,5 @@ namespace TUI.PoolingSystem
         {
             Pool?.Enpool(this);
         }
-
-        private void OnEnable()
-        {
-            CoroutineHelper.WaitForSeconds(() =>
-            {
-                Pool?.Enpool(this);
-                gameObject.SetActive(false);
-            }, 1f);
-        }
     }
 }
