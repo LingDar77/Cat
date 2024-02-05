@@ -136,11 +136,10 @@ namespace TUI.EventDispatchSystem
             while (dispatchQueue.Count != 0)
             {
                 var type = dispatchQueue.Dequeue();
-                var data = dispatchParamQueue.Dequeue();
+                using var data = dispatchParamQueue.Dequeue();
 
                 if (!events.TryGetValue(type, out var actions) || actions == null)
                 {
-                    data?.Dispose();
                     continue;
                 }
 
@@ -150,7 +149,6 @@ namespace TUI.EventDispatchSystem
                     if (dispatched.Contains(type))
                     {
                         this.LogFormat("Circular dependency detected when dispatching event: {0}, skipping it.", LogType.Warning, type);
-                        data?.Dispose();
                         continue;
                     }
                     dispatched.Add(type);
@@ -179,7 +177,6 @@ namespace TUI.EventDispatchSystem
                         }
                     }
                 }
-                data?.Dispose();
             }
 
             isDispatching = false;
@@ -188,7 +185,7 @@ namespace TUI.EventDispatchSystem
             {
                 while (subscriptioins.Count != 0)
                 {
-                    var sub = subscriptioins.Dequeue();
+                    using var sub = subscriptioins.Dequeue();
                     if (sub.Subscribed)
                     {
                         Subscribe(sub.Type, sub.Callback);
@@ -197,7 +194,6 @@ namespace TUI.EventDispatchSystem
                     {
                         Unsubscribe(sub.Type, sub.Callback);
                     }
-                    sub.Dispose();
                 }
             }
 

@@ -20,11 +20,6 @@ namespace TUI
             ISingletonSystem<ImplementType>.Singleton = null;
         }
 
-        protected virtual void OnDestroy()
-        {
-            if (ISingletonSystem<ImplementType>.Singleton.transform != this) return;
-            ISingletonSystem<ImplementType>.Singleton = null;
-        }
     }
 
 }

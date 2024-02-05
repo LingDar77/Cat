@@ -1,14 +1,15 @@
 namespace TUI
 {
     using System.Collections;
+    using TUI.Utillities;
     using UnityEngine;
-    using UnityEngine.Events;
 
     public class CommonEvents : MonoBehaviour
     {
-        public UnityEvent OnAake;
-        public UnityEvent OnStart;
-        public UnityEvent OnFirstFrame;
+        public TUIEvent OnAake;
+        public TUIEvent OnStart;
+        public TUIEvent OnFirstFrame;
+        public TUIEvent OnUpdate;
         private void Awake()
         {
             OnAake.Invoke();
@@ -18,6 +19,10 @@ namespace TUI
             OnStart.Invoke();
             yield return new WaitForEndOfFrame();
             OnFirstFrame.Invoke();
+        }
+        private void Update()
+        {
+            OnUpdate.Invoke();
         }
     }
 }
