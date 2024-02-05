@@ -40,17 +40,18 @@ namespace TUI.Utillities
 
         public static Coroutine NextUpdate(System.Action action, int time = 1, MonoBehaviour context = null)
         {
-            IEnumerator NextUpdateCoroutine()
-            {
-                while (time != 0)
-                {
-                    yield return nextUpdate;
-                    --time;
-                }
-                action?.Invoke();
-            }
             if (context == null) context = Context;
-            return context.StartCoroutine(NextUpdateCoroutine());
+            return context.StartCoroutine(NextUpdateCoroutine(time, action));
+        }
+
+        private static IEnumerator NextUpdateCoroutine(int time, System.Action action)
+        {
+            while (time != 0)
+            {
+                yield return nextUpdate;
+                --time;
+            }
+            action?.Invoke();
         }
 
         public static Coroutine NextFixedUpdate(this MonoBehaviour context, System.Action action, int time = 1)
@@ -60,17 +61,18 @@ namespace TUI.Utillities
 
         public static Coroutine NextFixedUpdate(System.Action action, int time = 1, MonoBehaviour context = null)
         {
-            IEnumerator NextFixedUpdateCoroutine()
-            {
-                while (time != 0)
-                {
-                    yield return nextFixedUpdate;
-                    --time;
-                }
-                action?.Invoke();
-            }
             if (context == null) context = Context;
-            return context.StartCoroutine(NextFixedUpdateCoroutine());
+            return context.StartCoroutine(NextFixedUpdateCoroutine(time, action));
+        }
+
+        private static IEnumerator NextFixedUpdateCoroutine(int time, System.Action action)
+        {
+            while (time != 0)
+            {
+                yield return nextFixedUpdate;
+                --time;
+            }
+            action?.Invoke();
         }
 
         public static Coroutine WaitForSeconds(this MonoBehaviour context, System.Action action, float time = 1f)
@@ -80,14 +82,14 @@ namespace TUI.Utillities
 
         public static Coroutine WaitForSeconds(System.Action action, float time = 1f, MonoBehaviour context = null)
         {
-            var waitForSeconds = WaitFor(time);
-            IEnumerator WaitForSecondsCoroutine()
-            {
-                yield return waitForSeconds;
-                action?.Invoke();
-            }
             if (context == null) context = Context;
-            return context.StartCoroutine(WaitForSecondsCoroutine());
+            return context.StartCoroutine(WaitForSecondsCoroutine(time, action));
+        }
+
+        private static IEnumerator WaitForSecondsCoroutine(float time, System.Action action)
+        {
+            yield return WaitFor(time);
+            action?.Invoke();
         }
 
         public static Coroutine WaitForSecondsRealtime(this MonoBehaviour context, System.Action action, float time = 1f)
@@ -97,14 +99,15 @@ namespace TUI.Utillities
 
         public static Coroutine WaitForSecondsRealtime(System.Action action, float time = 1f, MonoBehaviour context = null)
         {
-            var waitForSecondsRealtime = WaitForRealtime(time);
-            IEnumerator WaitForSecondsRealtimeCoroutine()
-            {
-                yield return waitForSecondsRealtime;
-                action?.Invoke();
-            }
+
             if (context == null) context = Context;
-            return context.StartCoroutine(WaitForSecondsRealtimeCoroutine());
+            return context.StartCoroutine(WaitForSecondsRealtimeCoroutine(time, action));
+        }
+
+        private static IEnumerator WaitForSecondsRealtimeCoroutine(float time, System.Action action)
+        {
+            yield return WaitForRealtime(time);
+            action?.Invoke();
         }
 
         public static Coroutine WaitUntil(this MonoBehaviour context, System.Func<bool> condition, System.Action action)
@@ -114,16 +117,15 @@ namespace TUI.Utillities
 
         public static Coroutine WaitUntil(System.Func<bool> condition, System.Action action, MonoBehaviour context = null)
         {
-            var waitUntil = new WaitUntil(condition);
-            IEnumerator WaitUntilCoroutine()
-            {
-                yield return waitUntil;
-                action?.Invoke();
-            }
+
             if (context == null) context = Context;
-            return context.StartCoroutine(WaitUntilCoroutine());
+            return context.StartCoroutine(WaitUntilCoroutine(condition, action));
         }
 
-
+        private static IEnumerator WaitUntilCoroutine(System.Func<bool> condition, System.Action action)
+        {
+            yield return new WaitUntil(condition);
+            action?.Invoke();
+        }
     }
 }

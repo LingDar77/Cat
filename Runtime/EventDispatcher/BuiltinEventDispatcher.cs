@@ -2,7 +2,7 @@ namespace TUI.EventDispatchSystem
 {
     using System.Collections;
     using System.Collections.Generic;
-    using TUI.ObjectPool;
+    using TUI.PoolingSystem;
     using TUI.Utillities;
     using UnityEngine;
     using SerializableAttribute = System.SerializableAttribute;
@@ -22,6 +22,7 @@ namespace TUI.EventDispatchSystem
             public string Type;
             public System.Action<EventParam> Callback;
             public bool Subscribed;
+            public IPoolingSystem<Subscriptioin> Pool { get; set; }
 
             public Subscriptioin Init(string type, System.Action<EventParam> callback, bool subscribed)
             {
@@ -31,12 +32,12 @@ namespace TUI.EventDispatchSystem
                 return this;
             }
 
-            public IObjectPool<Subscriptioin> Pool { get; set; }
 
             public void Dispose()
             {
-                Pool?.Return(this);
+                Pool?.Enpool(this);
             }
+
         }
         [SerializeField] private uint DispatchRate = 10;
         public DispatchingMode Mode = DispatchingMode.Asynchronous;
@@ -48,7 +49,7 @@ namespace TUI.EventDispatchSystem
         protected bool isDispatching = false;
         protected readonly Dictionary<string, HashSet<System.Action<EventParam>>> events = new();
         protected Queue<Subscriptioin> subscriptioins = new();
-        protected readonly BuiltinObjectPool<Subscriptioin> pool = new();
+        protected readonly BuiltinPoolingSystem<Subscriptioin> pool = new();
 
         protected virtual void OnEnable()
         {
@@ -81,7 +82,7 @@ namespace TUI.EventDispatchSystem
         {
             if (isDispatching)
             {
-                subscriptioins.Enqueue(pool.Get().Init(type, callback, true));
+                subscriptioins.Enqueue(pool.Depool().Init(type, callback, true));
                 return;
             }
             if (events.TryGetValue(type, out var list))
@@ -97,7 +98,7 @@ namespace TUI.EventDispatchSystem
         {
             if (isDispatching)
             {
-                subscriptioins.Enqueue(pool.Get().Init(type, callback, false));
+                subscriptioins.Enqueue(pool.Depool().Init(type, callback, false));
                 return;
             }
             if (!events.TryGetValue(type, out var list)) return;
@@ -120,7 +121,9 @@ namespace TUI.EventDispatchSystem
         {
             dispatchQueue.Enqueue(type);
             dispatchParamQueue.Enqueue(data);
-            if (!isDispatching) StartCoroutine(DoDispatchAsynchronously());
+            if (isDispatching) return;
+
+            StartCoroutine(DoDispatchAsynchronously());
         }
 
         private IEnumerator DoDispatchAsynchronously()
@@ -180,7 +183,7 @@ namespace TUI.EventDispatchSystem
             }
 
             isDispatching = false;
-            
+
             if (subscriptioins.Count != 0)
             {
                 while (subscriptioins.Count != 0)

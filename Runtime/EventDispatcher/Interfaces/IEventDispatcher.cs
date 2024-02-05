@@ -1,15 +1,15 @@
-using TUI.ObjectPool;
-
 namespace TUI.EventDispatchSystem
 {
+    using TUI.PoolingSystem;
     public class EventParam : IPooledObject<EventParam>
     {
-        public IObjectPool<EventParam> Pool { get; set; }
+        public IPoolingSystem<EventParam> Pool { get; set; }
 
         public void Dispose()
         {
-            Pool?.Return(this);
+            Pool?.Enpool(this);
         }
+
     }
     public interface IEventDispatcher<EventType> : ISingletonSystem<IEventDispatcher<EventType>>
     {
