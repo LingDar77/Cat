@@ -9,8 +9,13 @@ namespace TUI.PoolingSystem
         public int Count { get; }
         public System.Action<Type> OnEnpool;
         public System.Action<Type> OnDepool;
-        public System.Func<Type> CreateInstance => CreateNew;
+        public System.Func<Type> CreateInstance;
         protected Queue<Type> pool = new();
+
+        public BuiltinPoolingSystem()
+        {
+            CreateInstance = CreateNew;
+        }
 
         public void Enpool(Type obj)
         {

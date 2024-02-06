@@ -1,67 +1,39 @@
-namespace TUI.Intergration.Addressables
+namespace TUI.Intergration.Addressables.AudioManagement
 {
+    using System.Threading.Tasks;
+    using TUI.Utillities;
     using TUI.AduioManagement;
     using UnityEngine;
-    using UnityEngine.Audio;
     using Addressables = UnityEngine.AddressableAssets.Addressables;
-    /// <summary>
-    /// The basic addressable impmentation for AudioManagementSystem.
-    /// <see cref="IAudioManagementSystem"/>
-    /// </summary>
-    public class AddressableAudioManagement : BuiltinAudioManagement, IAudioManagement<string>, ISingletonSystem<AddressableAudioManagement>
+    public class AddressableAudioManagement : BuiltinAudioManagement, IAudioManagement<string>
     {
-        protected override void OnEnable()
+        public AudioSource PlaySoundAtPosition(string reference, Vector3 positioin, bool play = true)
         {
-            if (ISingletonSystem<AddressableAudioManagement>.Singleton != null) return;
-
-            ISingletonSystem<AddressableAudioManagement>.Singleton = this;
-            DontDestroyOnLoad(transform.root.gameObject);
-        }
-        protected override void OnDisable()
-        {
-            if (ISingletonSystem<AddressableAudioManagement>.Singleton.transform != transform) return;
-            ISingletonSystem<AddressableAudioManagement>.Singleton = null;
+            return PlaySoundAtPosition(Addressables.LoadAssetAsync<AudioClip>(reference).WaitForCompletion(), positioin, play);
         }
 
-        public void PlaySoundAtPosition(Vector3 position, string reference, float volume = 1, System.Action<AudioSource> onReadyPlay = null)
+        public AudioSource PlaySoundAttachedTo(string reference, Transform target, bool play = true)
         {
-            PlaySoundAtPosition(position, reference, null, onReadyPlay += source => source.volume = volume);
+            return PlaySoundAttachedTo(Addressables.LoadAssetAsync<AudioClip>(reference).WaitForCompletion(), target, play);
         }
 
-        public void PlaySoundAtPosition(Vector3 position, string reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
+        public async Task<AudioSource> PlaySoundAtPositionAsync(string reference, Vector3 positioin, bool play = true)
         {
-            Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op => PlaySoundAtPosition(position, op.Result, group);
+            var clip = await Addressables.LoadAssetAsync<AudioClip>(reference).Task;
+            var source = GetValidAudioSource().Clip(clip);
+            source.transform.position = positioin;
+            if (play) source.Play();
+            return source;
         }
 
-        public void PlaySoundFrom(Transform trans, string reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
+        public async Task<AudioSource> PlaySoundAttachedToAsync(string reference, Transform target, bool play = true)
         {
-            Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op =>
-            {
-                PlaySoundFrom(trans, op.Result, null, onReadyPlay);
-            };
-        }
-
-        public void PlaySoundFrom(Transform trans, string reference, System.Action<AudioSource> onReadyPlay = null)
-        {
-            PlaySoundFrom(trans, reference, null, onReadyPlay);
-        }
-
-        public void AttatchAudioSourceTo(Transform trans, string reference, System.Action<AudioSource> onReadyPlay = null)
-        {
-            Addressables.LoadAssetAsync<AudioClip>(reference).Completed += op =>
-           {
-               PlaySoundFrom(trans, op.Result, null, onReadyPlay);
-           };
-        }
-
-        public void AttatchAudioSourceTo(Transform trans, string reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
-        {
-            PlaySoundFrom(trans, reference, null, onReadyPlay);
-        }
-
-        public AudioSource[] Query(string reference)
-        {
-            return Query(source => source.clip.name == reference);
+            var clip = await Addressables.LoadAssetAsync<AudioClip>(reference).Task;
+            var source = GetValidAudioSource().Clip(clip);
+            source.transform.SetParent(target, false);
+            source.transform.localPosition = Vector3.zero;
+            if (play) source.Play();
+            return source;
         }
     }
 }

@@ -1,171 +1,101 @@
 namespace TUI.AduioManagement
 {
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
     using TUI.Utillities;
     using UnityEngine;
-    using UnityEngine.Audio;
-
-    /// <summary>
-    /// The simplest implementation of an AudioManagementSystem.
-    /// <see cref="IAudioManagementSystem"/>
-    /// </summary>
     public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagement<AudioClip>
     {
-        public int CurrentAllocation = 0;
-        [field: SerializeField] public int MaxAllocation { get; set; } = 16;
-        [field: SerializeField] public bool ReplaceNearestToEnd { get; set; } = false;
-        public event System.Action<AudioClip> OnCompletePlay;
+        [ReadOnlyInEditor]
+        [SerializeField] private int CurrentAllocation;
+        [SerializeField] private bool IgnoreMaxAllocation = false;
+        [field: SerializeField] private int MaxAllocation { get; set; } = 16;
 
+        private readonly LinkedHashSet<AudioSource> used = new();
+        private readonly Queue<AudioSource> unused = new();
+        private readonly List<AudioSource> buffer = new();
 
-
-        protected List<AudioSource> unusedSources = new();
-        protected HashSet<AudioSource> usedSources = new();
-        protected Dictionary<int, Coroutine> coroutines = new();
-
-
-
-        public virtual void PlaySoundAtPosition(Vector3 position, AudioClip reference, float volume = 1f, System.Action<AudioSource> onReadyPlay = null)
+        protected override void OnEnable()
         {
-            PlaySoundAtPosition(position, reference, null, onReadyPlay += source => source.volume = volume);
-        }
-        public void PlaySoundAtPosition(Vector3 position, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
-        {
-            var source = GetValidAudioSource();
-            source.loop = false;
-            source.transform.SetParent(null, false);
-            source.transform.position = position;
-            source.outputAudioMixerGroup = group;
-            onReadyPlay?.Invoke(source);
-            source.clip = reference;
-            source.Play();
-            usedSources.Add(source);
-            coroutines.Add(source.GetHashCode(), CoroutineHelper.WaitUntil(
-            () => source.isPlaying == false,
-            () => ReturnAudioSource(source)));
+            base.OnEnable();
+            StartCoroutine(CheckUsedSources());
         }
 
-
-
-        public virtual void PlaySoundFrom(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
+        protected override void OnDisable()
         {
-            PlaySoundFrom(trans, reference, null, onReadyPlay);
+            base.OnDisable();
+            StopAllCoroutines();
         }
-        public void PlaySoundFrom(Transform trans, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
+
+        protected IEnumerator CheckUsedSources()
         {
-            var source = GetValidAudioSource();
-            source.loop = false;
-            source.transform.SetParent(trans, false);
+            yield return CoroutineHelper.nextUpdate;
+            while (true)
+            {
+                foreach (var source in used)
+                {
+                    if (source.isPlaying) continue;
+
+                    buffer.Add(source);
+                }
+                foreach (var source in buffer)
+                {
+                    used.Remove(source);
+                    unused.Enqueue(source);
+                    source.transform.SetParent(transform);
+                }
+                buffer.Clear();
+                yield return CoroutineHelper.nextUpdate;
+            }
+        }
+
+        public AudioSource PlaySoundAtPosition(AudioClip clip, Vector3 positioin, bool play = true)
+        {
+            var source = GetValidAudioSource().Clip(clip);
+            source.transform.position = positioin;
+            if (play) source.Play();
+            return source;
+        }
+
+        public AudioSource PlaySoundAttachedTo(AudioClip clip, Transform target, bool play = true)
+        {
+            var source = GetValidAudioSource().Clip(clip);
+            source.transform.SetParent(target, false);
             source.transform.localPosition = Vector3.zero;
-            source.outputAudioMixerGroup = group;
-            onReadyPlay?.Invoke(source);
-            source.clip = reference;
-            source.Play();
-            usedSources.Add(source);
-            coroutines.Add(source.GetHashCode(), CoroutineHelper.WaitUntil(
-            () => source.isPlaying == false,
-            () => ReturnAudioSource(source)));
-        }
-
-
-
-        public void AttatchAudioSourceTo(Transform trans, AudioClip reference, System.Action<AudioSource> onReadyPlay = null)
-        {
-            AttatchAudioSourceTo(trans, reference, null, onReadyPlay);
-        }
-        public void AttatchAudioSourceTo(Transform trans, AudioClip reference, AudioMixerGroup group, System.Action<AudioSource> onReadyPlay = null)
-        {
-            var source = GetValidAudioSource();
-            source.loop = false;
-            source.transform.SetParent(trans, false);
-            source.transform.localPosition = Vector3.zero;
-            source.outputAudioMixerGroup = group;
-            onReadyPlay?.Invoke(source);
-            source.clip = reference;
-            source.Play();
-            usedSources.Add(source);
-            coroutines.Add(source.GetHashCode(), CoroutineHelper.WaitUntil(
-            () => source.isPlaying == false,
-            () => ReturnAudioSource(source)));
-        }
-
-        public AudioSource[] Query(AudioClip reference)
-        {
-            return Query(source => source.clip == reference);
-        }
-
-        public AudioSource[] Query(AudioMixerGroup mixerGroup)
-        {
-            return Query(source => source.outputAudioMixerGroup == mixerGroup);
-        }
-
-        public AudioSource[] Query(System.Func<AudioSource, bool> predicate)
-        {
-            return usedSources.Where(predicate).ToArray();
+            if (play) source.Play();
+            return source;
         }
 
         protected virtual AudioSource GetValidAudioSource()
         {
-            if (CurrentAllocation >= MaxAllocation && unusedSources.Count == 0)
+            AudioSource source;
+            if (unused.Count != 0)
             {
-                if (ReplaceNearestToEnd && usedSources.Count != 0)
-                {
-                    AudioSource last = SelectNearestEndSource();
-                    var hashcode = last.GetHashCode();
-                    usedSources.Remove(last);
-                    if (coroutines.ContainsKey(hashcode))
-                    {
-                        StopCoroutine(coroutines[hashcode]);
-                        coroutines.Remove(hashcode);
-                    }
-                    last.Stop();
-                    return last;
-                }
-                Debug.LogWarning($"Max allocation reached( {CurrentAllocation} allocated ). Consider increasing the MaxAllocation value.", this);
+                source = unused.Dequeue();
             }
-            if (unusedSources.Count == 0)
+            else
             {
-                unusedSources.Add(new GameObject("Audio Source", typeof(AudioSource)).GetComponent<AudioSource>());
-#if UNITY_EDITOR
-                ++CurrentAllocation;
-#endif
+                source = AllocateNewAudioSource();
             }
-            var source = unusedSources.RandomElement();
-            unusedSources.Remove(source);
-            usedSources.Add(source);
+            used.Add(source);
             return source;
         }
-        protected virtual void ReturnAudioSource(AudioSource source)
-        {
-            usedSources.Remove(source);
-            unusedSources.Add(source);
-            coroutines.Remove(source.GetHashCode());
-            source.transform.SetParent(transform, false);
 
-            if (source.clip == null) return;
-            OnCompletePlay?.Invoke(source.clip);
-        }
-        protected virtual AudioSource SelectNearestEndSource()
+        protected virtual AudioSource AllocateNewAudioSource()
         {
-            float nearestProgress = 0;
-            AudioSource nearestSource = null;
-            foreach (var source in usedSources)
+            AudioSource source;
+            if (!IgnoreMaxAllocation && CurrentAllocation >= MaxAllocation)
             {
-                if (!source.isPlaying)
-                {
-                    nearestSource = source;
-                    break;
-                }
-                var progress = source.time / source.clip.length;
-                if (progress > nearestProgress)
-                {
-                    nearestProgress = progress;
-                    nearestSource = source;
-                }
+                source = used.GetOldestItem();
+                source.Stop();
+                used.Remove(source);
             }
-            return nearestSource;
+            else
+            {
+                source = new GameObject($"AudioSource.{CurrentAllocation++}", typeof(AudioSource)).GetComponent<AudioSource>();
+            }
+            source.transform.SetParent(transform);
+            return source;
         }
-
-
     }
 }

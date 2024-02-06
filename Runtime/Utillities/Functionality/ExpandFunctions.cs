@@ -5,6 +5,8 @@ namespace TUI.Utillities
     using TUI.Library;
     using TUI.ScreenLogManagementSystem;
     using UnityEngine;
+    using UnityEngine.Audio;
+
     public static class ExpandFunctions
     {
         #region Math Expand
@@ -250,6 +252,39 @@ namespace TUI.Utillities
                 }
                 LogToConsole(context, zstring.Format(format, zargs), type);
             }
+        }
+        #endregion
+
+        #region AudioSource Expand
+        public static AudioSource Clip(this AudioSource source, AudioClip clip)
+        {
+            source.clip = clip;
+            return source;
+        }
+        public static AudioSource SpatialBlend(this AudioSource source, float spatialBlend)
+        {
+            source.spatialBlend = spatialBlend;
+            return source;
+        }
+        public static AudioSource Loop(this AudioSource source, bool loop)
+        {
+            source.loop = loop;
+            return source;
+        }
+        public static AudioSource Volume(this AudioSource source, float volume)
+        {
+            source.volume = volume;
+            return source;
+        }
+        public static AudioSource MixerGroup(this AudioSource source, AudioMixerGroup mixerGroup)
+        {
+            source.outputAudioMixerGroup = mixerGroup;
+            return source;
+        }
+        public static void PlayAWhile(this AudioSource source, float time)
+        {
+            source.Play();
+            CoroutineHelper.WaitForSeconds(() => { source.Stop(); }, time);
         }
         #endregion
 

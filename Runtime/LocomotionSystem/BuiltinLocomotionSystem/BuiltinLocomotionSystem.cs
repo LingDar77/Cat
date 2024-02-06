@@ -1,7 +1,6 @@
 namespace TUI.LocomotionSystem
 {
     using System.Collections.Generic;
-    using TUI.Attributes;
     using TUI.Utillities;
     using UnityEngine;
     using UnityEngine.Events;
