@@ -32,7 +32,7 @@ namespace Cat.EditorScript
 
         protected virtual string GetSaveLocation()
         {
-            return "Assets/Settings/TUI/";
+            return "Assets/Settings/Cat/";
         }
     }
 }
