@@ -2,7 +2,7 @@ namespace Cat.AduioManagement
 {
     using System.Collections;
     using System.Collections.Generic;
-    using global::Cat.Utillities;
+    using Cat.Utillities;
     using UnityEngine;
     public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagement<AudioClip>
     {

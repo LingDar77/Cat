@@ -2,8 +2,8 @@ namespace Cat.Utillities
 {
     using System.Collections.Generic;
     using System.Linq;
-    using global::Cat.Library;
-    using global::Cat.ScreenLogManagementSystem;
+    using Cat.Library;
+    using Cat.ScreenLogManagementSystem;
     using UnityEngine;
     using UnityEngine.Audio;
 

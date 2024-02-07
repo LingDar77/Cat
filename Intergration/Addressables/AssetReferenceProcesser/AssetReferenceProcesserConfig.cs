@@ -2,7 +2,7 @@
 namespace Cat.Intergration.Addressables.EditorScript
 {
     using System.Collections.Generic;
-    using global::Cat.EditorScript;
+    using Cat.EditorScript;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;

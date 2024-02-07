@@ -1,7 +1,7 @@
 namespace Cat.LocomotionSystem
 {
     using System.Collections.Generic;
-    using global::Cat.Utillities;
+    using Cat.Utillities;
     using UnityEngine;
     using UnityEngine.Events;
 

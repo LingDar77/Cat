@@ -1,8 +1,8 @@
 namespace Cat.LocomotionSystem
 {
     using System.Collections.Generic;
-    using global::Cat.LocomotionSystem.Filter;
-    using global::Cat.Utillities;
+    using Cat.LocomotionSystem.Filter;
+    using Cat.Utillities;
     using UnityEngine;
     public abstract class LocomotionSystemBase : MonoBehaviour, ILocomotionSystem
     {

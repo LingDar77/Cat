@@ -11,7 +11,7 @@ namespace Cat.Utillities.Editor
     using UnityEditorInternal;
     using UnityEngine;
     using UnityEngine.Events;
-    using static global::Cat.Utillities.EventAttributes;
+    using static Cat.Utillities.EventAttributes;
     using Object = UnityEngine.Object;
     
     [CustomPropertyDrawer(typeof(EventBase), true)]

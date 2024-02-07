@@ -1,7 +1,7 @@
 namespace Cat
 {
     using UnityEngine;
-    public interface ISingletonSystem<Type> : ICatSystem<Type>
+    public interface ISingletonSystem<Type> : IGameSystem<Type>
     {
         static Type Singleton { get; set; }
         static Type GetChecked()

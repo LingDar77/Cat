@@ -40,7 +40,7 @@ namespace Cat.PoolingSystem
         }
     }
 
-    public class BuiltinPoolingSystem : MonoBehaviour, ICatSystem<BuiltinPoolingSystem>, IPoolingSystem<BuiltinPooledGameObject>
+    public class BuiltinPoolingSystem : MonoBehaviour, IGameSystem<BuiltinPoolingSystem>, IPoolingSystem<BuiltinPooledGameObject>
     {
         public int Count { get; }
 

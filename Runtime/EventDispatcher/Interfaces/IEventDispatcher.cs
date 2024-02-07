@@ -1,6 +1,6 @@
 namespace Cat.EventDispatchSystem
 {
-    using global::Cat.PoolingSystem;
+    using Cat.PoolingSystem;
     public class EventParam : IPooledObject<EventParam>
     {
         public IPoolingSystem<EventParam> Pool { get; set; }

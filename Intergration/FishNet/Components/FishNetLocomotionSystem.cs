@@ -2,7 +2,7 @@ namespace Cat.Intergration.LocomotionSystem
 {
     using FishNet;
     using FishNet.Managing.Timing;
-    using global::Cat.LocomotionSystem;
+    using Cat.LocomotionSystem;
     using UnityEngine;
 
     public class FishNetLocomotionSystem : BuiltinLocomotionSystem

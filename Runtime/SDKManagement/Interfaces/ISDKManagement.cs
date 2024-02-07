@@ -1,8 +1,8 @@
 namespace Cat.SDKManagementSystem
 {
     using System.Collections.Generic;
-    using global::Cat.SDKProvider;
-    public interface ISDKManagement : ICatSystem<ISDKManagement>
+    using Cat.SDKProvider;
+    public interface ISDKManagement : IGameSystem<ISDKManagement>
     {
         HashSet<ISDKProvider> Providers { get; }
 

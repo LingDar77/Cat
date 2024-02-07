@@ -6,7 +6,7 @@ namespace Cat.LocomotionSystem
     /// Basic definition of locomotion system which is used to move a charactor.
     /// The system is driven by ActionProviders <see cref="IActionProvider" />.
     /// </summary>
-    public interface ILocomotionSystem : ICatSystem<ILocomotionSystem>
+    public interface ILocomotionSystem : IGameSystem<ILocomotionSystem>
     {
         /// <summary>
         /// The current velocity of this system

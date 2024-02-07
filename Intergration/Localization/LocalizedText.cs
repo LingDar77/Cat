@@ -1,7 +1,7 @@
 namespace Cat.Intergration.Localization
 {
     using TMPro;
-    using global::Cat.Utillities;
+    using Cat.Utillities;
     using UnityEngine.Localization;
     using UnityEngine.Localization.Components;
 
