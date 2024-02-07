@@ -1,8 +1,7 @@
 #if UNITY_EDITOR
-namespace Cat.Tools.LinkCombiner
+namespace Cat.Utillities
 {
     using System.Collections.Generic;
-    using Cat.EditorScript;
     using UnityEditor;
     using UnityEngine;
 

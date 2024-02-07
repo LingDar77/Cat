@@ -1,4 +1,5 @@
-namespace Cat.EditorScript
+#if UNITY_EDITOR
+namespace Cat.Utillities
 {
     using UnityEditor;
 
@@ -12,3 +13,4 @@ namespace Cat.EditorScript
 
     }
 }
+#endif

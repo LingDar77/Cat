@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace Cat.EditorScript
+namespace Cat.Utillities
 {
     using UnityEditor;
 

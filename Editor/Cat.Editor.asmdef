@@ -1,6 +1,6 @@
 {
     "name": "Cat.Editor",
-    "rootNamespace": "Cat.EditorScript",
+    "rootNamespace": "Cat",
     "references": [],
     "includePlatforms": [
         "Editor"

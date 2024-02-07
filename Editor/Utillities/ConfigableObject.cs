@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace Cat.EditorScript
+namespace Cat.Utillities
 {
     using System.IO;
     using UnityEditorInternal;
@@ -9,8 +9,8 @@ namespace Cat.EditorScript
     {
         private static Type instance;
         public static string SaveFolder = $"ProjectSettings/Cats";
-        public static string SavePath = $"{SaveFolder}/{typeof(Type).Name}.asset";
-        
+        public static string SavePath = $"{SaveFolder}/{typeof(Type).Name}.neko";
+
         public static Type Get()
         {
             if (instance != null) return instance;
