@@ -8,18 +8,19 @@ namespace Cat.EditorScript
     public class ConfigableObject<Type> : ScriptableObject where Type : ConfigableObject<Type>
     {
         private static Type instance;
+        public static string SaveFolder = $"ProjectSettings/Cats";
+        public static string SavePath = $"{SaveFolder}/{typeof(Type).Name}.asset";
+        
         public static Type Get()
         {
             if (instance != null) return instance;
-            var name = typeof(Type).Name;
-            var assembly = typeof(Type).Assembly.GetName().Name;
 
-            if (!Directory.Exists($"ProjectSettings/{assembly}"))
+            if (!Directory.Exists(SaveFolder))
             {
-                Directory.CreateDirectory($"ProjectSettings/{assembly}");
+                Directory.CreateDirectory(SaveFolder);
             }
 
-            var results = InternalEditorUtility.LoadSerializedFileAndForget($"ProjectSettings/{assembly}/{name}.asset");
+            var results = InternalEditorUtility.LoadSerializedFileAndForget(SavePath);
             if (results != null && results.Length != 0)
             {
                 instance = results[0] as Type;
@@ -27,7 +28,7 @@ namespace Cat.EditorScript
             else
             {
                 instance = CreateInstance<Type>();
-                InternalEditorUtility.SaveToSerializedFileAndForget(new Type[] { instance }, $"ProjectSettings/{assembly}/{name}.asset", true);
+                InternalEditorUtility.SaveToSerializedFileAndForget(new Type[] { instance }, SavePath, true);
             }
 
             return instance;
@@ -35,7 +36,7 @@ namespace Cat.EditorScript
 
         public static void Save()
         {
-            InternalEditorUtility.SaveToSerializedFileAndForget(new Type[] { instance }, $"ProjectSettings/{typeof(Type).Assembly.GetName().Name}/{typeof(Type).Name}.asset", true);
+            InternalEditorUtility.SaveToSerializedFileAndForget(new Type[] { instance }, SavePath, true);
         }
 
     }
