@@ -7,7 +7,7 @@ namespace Cat.Intergration.Addressables.EditorScript
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;
-    
+
     [System.Serializable]
     public class GroupConfig
     {
@@ -48,11 +48,8 @@ namespace Cat.Intergration.Addressables.EditorScript
         }
     }
 
-    public class AssetReferenceProcesserConfigWindow : EditorWindow
+    public class AssetReferenceProcesserConfigWindow : ConfigWindow<AssetReferenceProcesserConfig>
     {
-        [CustomEditor(typeof(AssetReferenceProcesserConfig))]
-        class AssetReferenceProcesserConfigEditor : HideScriptEditor<AssetReferenceProcesserConfig> { }
-        private Editor editor;
         private Vector2 scrollPosition;
 
         [MenuItem("Window/Cat/Addressables/Asset Reference Processer")]
@@ -60,10 +57,7 @@ namespace Cat.Intergration.Addressables.EditorScript
         {
             GetWindow<AssetReferenceProcesserConfigWindow>("Asset Reference Processer", true);
         }
-        private void OnEnable()
-        {
-            editor = Editor.CreateEditor(AssetReferenceProcesserConfig.Get());
-        }
+
         private void OnGUI()
         {
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
@@ -79,9 +73,11 @@ namespace Cat.Intergration.Addressables.EditorScript
             {
                 AssetReferenceProcesserConfig.Get().Scan();
             }
+
             EditorGUILayout.EndScrollView();
 
         }
+
     }
 
 }

@@ -1,7 +1,8 @@
 #if UNITY_EDITOR
-namespace Cat.EditorScript.LinkCombiner
+namespace Cat.Tools.LinkCombiner
 {
     using System.Collections.Generic;
+    using Cat.EditorScript;
     using UnityEditor;
     using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace Cat.EditorScript.LinkCombiner
     public class LinkCombinerConfigWindow : EditorWindow
     {
         [CustomEditor(typeof(LinkCombinerConfig))]
-        class EditorWindow : HideScriptEditor<LinkCombinerConfig> { }
+        class EditorWindow : HideScriptEditor { }
 
         private Editor editor;
         private Vector2 scrollPosition;

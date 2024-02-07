@@ -2,38 +2,42 @@
 namespace Cat.EditorScript
 {
     using System.IO;
-    using UnityEditor;
+    using UnityEditorInternal;
     using UnityEngine;
-    
+
     public class ConfigableObject<Type> : ScriptableObject where Type : ConfigableObject<Type>
     {
         private static Type instance;
-
         public static Type Get()
         {
             if (instance != null) return instance;
+            var name = typeof(Type).Name;
+            var assembly = typeof(Type).Assembly.GetName().Name;
 
-            var prototype = CreateInstance<Type>();
-            var saveLocation = prototype.GetSaveLocation();
-            var path = $"{saveLocation}{typeof(Type).Name}.asset";
-            instance = AssetDatabase.LoadAssetAtPath<Type>(path);
-            if (instance != null) return instance;
-
-            instance = prototype;
-            if (!Directory.Exists(saveLocation))
+            if (!Directory.Exists($"ProjectSettings/{assembly}"))
             {
-                Directory.CreateDirectory(saveLocation);
-                AssetDatabase.Refresh();
+                Directory.CreateDirectory($"ProjectSettings/{assembly}");
             }
 
-            AssetDatabase.CreateAsset(instance, path);
+            var results = InternalEditorUtility.LoadSerializedFileAndForget($"ProjectSettings/{assembly}/{name}.asset");
+            if (results != null && results.Length != 0)
+            {
+                instance = results[0] as Type;
+            }
+            else
+            {
+                instance = CreateInstance<Type>();
+                InternalEditorUtility.SaveToSerializedFileAndForget(new Type[] { instance }, $"ProjectSettings/{assembly}/{name}.asset", true);
+            }
+
             return instance;
         }
 
-        protected virtual string GetSaveLocation()
+        public static void Save()
         {
-            return "Assets/Settings/Cat/";
+            InternalEditorUtility.SaveToSerializedFileAndForget(new Type[] { instance }, $"ProjectSettings/{typeof(Type).Assembly.GetName().Name}/{typeof(Type).Name}.asset", true);
         }
+
     }
 }
 

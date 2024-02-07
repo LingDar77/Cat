@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace Cat.EditorScript.QualityOfLife
+namespace Cat.Tools.DisableAllGizmos
 {
     using UnityEditor;
     using System;

@@ -2,11 +2,13 @@
 namespace Cat.EditorScript
 {
     using UnityEditor;
-    public class HideScriptEditor<Type> : Editor
+
+
+    public class HideScriptEditor : Editor
     {
         public override void OnInspectorGUI()
         {
-            var fields = typeof(Type).GetFields();
+            var fields = serializedObject.targetObject.GetType().GetFields();
             serializedObject.UpdateIfRequiredOrScript();
             EditorGUILayout.BeginVertical();
             foreach (var field in fields)
@@ -18,8 +20,15 @@ namespace Cat.EditorScript
                 }
             }
             EditorGUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            if (serializedObject.hasModifiedProperties)
+            {
+                serializedObject.ApplyModifiedProperties();
+                var type = serializedObject.targetObject.GetType().BaseType;
+                var method = type.GetMethod("Save", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                method?.Invoke(null, null);
+            }
         }
+
     }
 }
 #endif
