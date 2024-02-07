@@ -55,7 +55,7 @@ namespace Cat.Intergration.Addressables.EditorScript
         private Editor editor;
         private Vector2 scrollPosition;
 
-        [MenuItem("Window/TUI/Addressables/Asset Reference Processer")]
+        [MenuItem("Window/Cat/Addressables/Asset Reference Processer")]
         private static void ShowWindow()
         {
             GetWindow<AssetReferenceProcesserConfigWindow>("Asset Reference Processer", true);
