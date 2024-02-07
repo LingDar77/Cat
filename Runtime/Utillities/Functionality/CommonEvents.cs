@@ -1,15 +1,15 @@
-namespace TUI
+namespace Cat
 {
     using System.Collections;
-    using TUI.Utillities;
+    using Cat.Utillities;
     using UnityEngine;
 
     public class CommonEvents : MonoBehaviour
     {
-        public TUIEvent OnAake;
-        public TUIEvent OnStart;
-        public TUIEvent OnFirstFrame;
-        public TUIEvent OnUpdate;
+        public CatEvent OnAake;
+        public CatEvent OnStart;
+        public CatEvent OnFirstFrame;
+        public CatEvent OnUpdate;
         private void Awake()
         {
             OnAake.Invoke();

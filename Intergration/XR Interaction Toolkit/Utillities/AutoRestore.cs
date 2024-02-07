@@ -1,10 +1,10 @@
 #if XRIT
 using System.Collections;
-using TUI.Utillities;
+using Cat.Utillities;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-namespace TUI.Intergration.XRIT.InteractionSystem.Utils
+namespace Cat.Intergration.XRIT.InteractionSystem.Utils
 {
     [RequireComponent(typeof(XRGrabInteractable))]
     public class AutoRestore : MonoBehaviour

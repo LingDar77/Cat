@@ -1,7 +1,7 @@
-namespace TUI.Utillities
+namespace Cat.Utillities
 {
     using System.Collections.Generic;
-    using TUI.PoolingSystem;
+    using Cat.PoolingSystem;
 
     public class LinkedListNode<Type> : IPooledObject<LinkedListNode<Type>>
     {

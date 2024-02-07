@@ -1,8 +1,8 @@
-namespace TUI.Intergration.OculusSDKProviders
+namespace Cat.Intergration.OculusSDKProviders
 {
     using System.Collections.Generic;
-    using TUI.SDKProvider;
-    using TUI.Utillities;
+    using Cat.SDKProvider;
+    using Cat.Utillities;
     using UnityEngine;
     using UnityEngine.XR;
     public partial class OculusIntergrationSDKProvider : DisableInEdtorScript, IXRSDKProvider

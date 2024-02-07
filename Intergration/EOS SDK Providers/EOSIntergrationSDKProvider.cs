@@ -3,12 +3,12 @@
 #endif
 #if EOS_CAN_SHUTDOWN
 
-namespace TUI.Intergration.EOSSDKProviders
+namespace Cat.Intergration.EOSSDKProviders
 {
     using Epic.OnlineServices;
     using PlayEveryWare.EpicOnlineServices;
-    using TUI.SDKProvider;
-    using TUI.Utillities;
+    using Cat.SDKProvider;
+    using Cat.Utillities;
     using UnityEngine;
     public partial class EOSIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {

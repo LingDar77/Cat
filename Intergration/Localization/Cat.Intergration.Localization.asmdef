@@ -1,6 +1,6 @@
 {
-    "name": "TheUnifiedImplementations.Intergration.Localization",
-    "rootNamespace": "TUI.Intergration.Localization",
+    "name": "Cat.Intergration.Localization",
+    "rootNamespace": "Cat.Intergration.Localization",
     "references": [
         "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
         "GUID:c3eada64ce30a1448920b24b04bc2d39",

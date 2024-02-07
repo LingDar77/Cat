@@ -1,7 +1,7 @@
-namespace TUI.Intergration.XRIT.InteractionSystem
+namespace Cat.Intergration.XRIT.InteractionSystem
 {
-    using TUI.LocomotionSystem.Filter;
-    using TUI.Utillities;
+    using Cat.LocomotionSystem.Filter;
+    using Cat.Utillities;
     using UnityEngine;
     using UnityEngine.XR.Interaction.Toolkit;
 

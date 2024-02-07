@@ -3,9 +3,9 @@
 #endif
 #if DISABLE_STEAMWORKS
 
-using TUI.SDKProvider;
+using Cat.SDKProvider;
 
-namespace TUI.Intergration.SteamSDKProviders
+namespace Cat.Intergration.SteamSDKProviders
 {
     public partial class SteamIntergrationSDKProvider : UnsupportedSDKBase<SteamIntergrationSDKProvider>
     {

@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace TUI.EditorScript
+namespace Cat.EditorScript
 {
     using System.IO;
     using UnityEditor;

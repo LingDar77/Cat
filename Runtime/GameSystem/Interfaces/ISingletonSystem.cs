@@ -1,7 +1,6 @@
-using UnityEngine;
-
-namespace TUI
+namespace Cat
 {
+    using UnityEngine;
     public interface ISingletonSystem<Type> : IGameSystem<Type>
     {
         static Type Singleton { get; set; }

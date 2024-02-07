@@ -1,6 +1,6 @@
 {
-    "name": "TheUnifiedImplementations.Intergration.OculusSDKProviders",
-    "rootNamespace": "TUI.Intergration.OculusSDKProviders",
+    "name": "Cat.Intergration.OculusSDKProviders",
+    "rootNamespace": "Cat.Intergration.OculusSDKProviders",
     "references": [
         "GUID:a3e7656b45677bf4b85e02a291fe5569",
         "GUID:7040c93f6035f5749888e6fdf5ef28f8",

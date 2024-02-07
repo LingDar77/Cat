@@ -1,10 +1,11 @@
 {
-    "name": "TheUnifiedImplementations.Intergration.XRIT",
-    "rootNamespace": "TUI.Intergration.XRIT",
+    "name": "Cat.Intergration.FishNet",
+    "rootNamespace": "Cat.Intergration.FN",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:fe685ec1767f73d42b749ea8045bfe43",
-        "GUID:c3eada64ce30a1448920b24b04bc2d39"
+        "GUID:7c88a4a7926ee5145ad2dfa06f454c67",
+        "GUID:c3eada64ce30a1448920b24b04bc2d39",
+        "GUID:fe685ec1767f73d42b749ea8045bfe43"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -13,12 +14,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "XRIT"
+        "FISHNET_V3"
     ],
     "versionDefines": [
         {
             "name": "com.unity.xr.interaction.toolkit",
-            "expression": "2",
+            "expression": "1",
             "define": "XRIT"
         }
     ],

@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace TUI.EditorScript.UIToolkitExtensions
+namespace Cat.EditorScript.UIToolkitExtensions
 {
     using UnityEngine.UIElements;
     public class SplitView : TwoPaneSplitView

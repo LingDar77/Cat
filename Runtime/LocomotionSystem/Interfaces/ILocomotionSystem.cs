@@ -1,4 +1,4 @@
-namespace TUI.LocomotionSystem
+namespace Cat.LocomotionSystem
 {
     using UnityEngine;
 

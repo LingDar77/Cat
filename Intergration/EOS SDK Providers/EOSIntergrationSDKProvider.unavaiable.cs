@@ -4,9 +4,9 @@
 
 #if !EOS_CAN_SHUTDOWN
 
-namespace TUI.Intergration.EOSSDKProviders
+namespace Cat.Intergration.EOSSDKProviders
 {
-    using TUI.SDKProvider;
+    using Cat.SDKProvider;
     public partial class EOSIntergrationSDKProvider : UnsupportedSDKBase<EOSIntergrationSDKProvider>
     {
     }

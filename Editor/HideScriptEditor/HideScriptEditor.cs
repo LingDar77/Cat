@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace TUI.EditorScript
+namespace Cat.EditorScript
 {
     using UnityEditor;
     public class HideScriptEditor<Type> : Editor

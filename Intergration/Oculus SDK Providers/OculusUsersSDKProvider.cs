@@ -1,9 +1,9 @@
-namespace TUI.Intergration.OculusSDKProviders
+namespace Cat.Intergration.OculusSDKProviders
 {
     using System;
     using Oculus.Platform;
     using Oculus.Platform.Models;
-    using TUI.SDKProvider;
+    using Cat.SDKProvider;
 
     public partial class OculusUsersSDKProvider : OculusBaseSDKProvider, IUsersSDKProvider
     {

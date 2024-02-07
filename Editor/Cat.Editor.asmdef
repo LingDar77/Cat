@@ -1,6 +1,6 @@
 {
-    "name": "TheUnifiedImplementations.Editor",
-    "rootNamespace": "TUI.EditorScript",
+    "name": "Cat.Editor",
+    "rootNamespace": "Cat.EditorScript",
     "references": [],
     "includePlatforms": [
         "Editor"

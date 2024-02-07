@@ -1,8 +1,8 @@
-namespace TUI.Intergration.Addressables.AudioManagement
+namespace Cat.Intergration.Addressables.AudioManagement
 {
     using System.Threading.Tasks;
-    using TUI.Utillities;
-    using TUI.AduioManagement;
+    using Cat.Utillities;
+    using Cat.AduioManagement;
     using UnityEngine;
     using Addressables = UnityEngine.AddressableAssets.Addressables;
     public class AddressableAudioManagement : BuiltinAudioManagement, IAudioManagement<string>

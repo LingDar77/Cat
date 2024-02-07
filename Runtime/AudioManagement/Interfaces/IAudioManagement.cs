@@ -1,4 +1,4 @@
-namespace TUI.AduioManagement
+namespace Cat.AduioManagement
 {
     using UnityEngine;
     public interface IAudioManagement<ReferenceType> : IGameSystem<IAudioManagement<ReferenceType>>
@@ -7,7 +7,7 @@ namespace TUI.AduioManagement
         
         AudioSource PlaySoundAttachedTo(ReferenceType reference, Transform target, bool play = true);
     
-        AudioSource RentAudioSource();
+        AudioSource LendAudioSource();
 
         void ReturnAudioSource(AudioSource source);
     }

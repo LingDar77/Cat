@@ -1,4 +1,4 @@
-namespace TUI.Attributes
+namespace Cat.Attributes
 {
     using UnityEngine;
     using System.Collections.Generic;

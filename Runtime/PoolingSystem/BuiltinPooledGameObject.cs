@@ -1,4 +1,4 @@
-namespace TUI.PoolingSystem
+namespace Cat.PoolingSystem
 {
     using UnityEngine;
 

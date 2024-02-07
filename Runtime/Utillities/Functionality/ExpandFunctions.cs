@@ -1,9 +1,9 @@
-namespace TUI.Utillities
+namespace Cat.Utillities
 {
     using System.Collections.Generic;
     using System.Linq;
-    using TUI.Library;
-    using TUI.ScreenLogManagementSystem;
+    using Cat.Library;
+    using Cat.ScreenLogManagementSystem;
     using UnityEngine;
     using UnityEngine.Audio;
 

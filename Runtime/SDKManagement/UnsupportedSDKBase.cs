@@ -1,4 +1,4 @@
-namespace TUI.SDKProvider
+namespace Cat.SDKProvider
 {
     using UnityEngine;
     public class UnsupportedSDKBase<ImplementType> : MonoBehaviour, ISDKProvider

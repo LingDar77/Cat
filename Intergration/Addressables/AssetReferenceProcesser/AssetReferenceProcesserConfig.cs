@@ -1,8 +1,8 @@
 #if UNITY_EDITOR 
-namespace TUI.Intergration.Addressables.EditorScript
+namespace Cat.Intergration.Addressables.EditorScript
 {
     using System.Collections.Generic;
-    using TUI.EditorScript;
+    using Cat.EditorScript;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;

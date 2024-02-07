@@ -1,9 +1,9 @@
-namespace TUI.Intergration.XRIT.LocomotionSystem.Actions
+namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
 {
-    using TUI.LocomotionSystem.Actions;
-    using TUI.SDKManagementSystem;
-    using TUI.SDKProvider;
-    using TUI.Utillities;
+    using Cat.LocomotionSystem.Actions;
+    using Cat.SDKManagementSystem;
+    using Cat.SDKProvider;
+    using Cat.Utillities;
     using UnityEngine;
     using UnityEngine.InputSystem;
 

@@ -1,8 +1,8 @@
-namespace TUI.AduioManagement
+namespace Cat.AduioManagement
 {
     using System.Collections;
     using System.Collections.Generic;
-    using TUI.Utillities;
+    using Cat.Utillities;
     using UnityEngine;
     public class BuiltinAudioManagement : SingletonSystemBase<BuiltinAudioManagement>, IAudioManagement<AudioClip>
     {
@@ -66,7 +66,7 @@ namespace TUI.AduioManagement
             return source;
         }
 
-        public AudioSource RentAudioSource()
+        public AudioSource LendAudioSource()
         {
             return GetValidAudioSource(false);
         }

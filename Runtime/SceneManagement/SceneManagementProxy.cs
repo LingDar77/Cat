@@ -1,8 +1,8 @@
-namespace TUI.ScreenLogManagementSystem
+namespace Cat.ScreenLogManagementSystem
 {
     using System.Collections;
-    using TUI.Attributes;
-    using TUI.SceneManagementSystem;
+    using Cat.Attributes;
+    using Cat.SceneManagementSystem;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 

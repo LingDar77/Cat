@@ -1,7 +1,7 @@
-namespace TUI.LocomotionSystem
+namespace Cat.LocomotionSystem
 {
     using System.Collections.Generic;
-    using TUI.Utillities;
+    using Cat.Utillities;
     using UnityEngine;
     using UnityEngine.Events;
 

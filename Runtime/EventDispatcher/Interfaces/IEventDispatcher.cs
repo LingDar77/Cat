@@ -1,6 +1,6 @@
-namespace TUI.EventDispatchSystem
+namespace Cat.EventDispatchSystem
 {
-    using TUI.PoolingSystem;
+    using Cat.PoolingSystem;
     public class EventParam : IPooledObject<EventParam>
     {
         public IPoolingSystem<EventParam> Pool { get; set; }

@@ -1,4 +1,4 @@
-namespace TUI
+namespace Cat
 {
     public class SystemContent : SingletonSystemBase<SystemContent>
     {

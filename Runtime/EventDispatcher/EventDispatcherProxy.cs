@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
-namespace TUI.EventDispatchSystem
+namespace Cat.EventDispatchSystem
 {
     public class EventDispatcherProxy : MonoBehaviour, IEventDispatcher<string>
     {

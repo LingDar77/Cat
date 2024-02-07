@@ -1,8 +1,8 @@
-namespace TUI.SDKManagementSystem
+namespace Cat.SDKManagementSystem
 {
     using System.Collections.Generic;
-    using TUI.Attributes;
-    using TUI.SDKProvider;
+    using Cat.Attributes;
+    using Cat.SDKProvider;
     using UnityEngine;
 
     [DefaultExecutionOrder(-1000)]

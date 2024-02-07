@@ -1,4 +1,4 @@
-namespace TUI.ScreenLogManagementSystem
+namespace Cat.ScreenLogManagementSystem
 {
     using UnityEngine;
 

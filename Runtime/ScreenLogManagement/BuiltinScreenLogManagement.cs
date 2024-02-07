@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using TUI.Library;
+using Cat.Library;
 using UnityEngine;
 
-namespace TUI.ScreenLogManagementSystem
+namespace Cat.ScreenLogManagementSystem
 {
     [DefaultExecutionOrder(-1000)]
     public class BuiltinScreenLogManagement : MonoBehaviour, IScreenLogManagement

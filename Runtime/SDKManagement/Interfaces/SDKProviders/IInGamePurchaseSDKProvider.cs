@@ -1,4 +1,4 @@
-namespace TUI.SDKProvider
+namespace Cat.SDKProvider
 {
     public interface IInGamePurchaseSDKProvider : ISDKProvider
     {

@@ -1,8 +1,8 @@
-namespace TUI.LocomotionSystem
+namespace Cat.LocomotionSystem
 {
     using System.Collections.Generic;
-    using TUI.LocomotionSystem.Filter;
-    using TUI.Utillities;
+    using Cat.LocomotionSystem.Filter;
+    using Cat.Utillities;
     using UnityEngine;
     public abstract class LocomotionSystemBase : MonoBehaviour, ILocomotionSystem
     {

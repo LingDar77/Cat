@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace TUI.EditorScript.LinkCombiner
+namespace Cat.EditorScript.LinkCombiner
 {
     using System.Collections.Generic;
     using UnityEditor;

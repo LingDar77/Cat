@@ -1,4 +1,4 @@
-namespace TUI.Intergration.XRIT.InteractionSystem
+namespace Cat.Intergration.XRIT.InteractionSystem
 {
     using UnityEngine;
     using UnityEngine.XR.Interaction.Toolkit;

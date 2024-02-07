@@ -1,7 +1,7 @@
-namespace TUI.Intergration.Addressables
+namespace Cat.Intergration.Addressables
 {
     using System.Collections;
-    using TUI.SceneManagementSystem;
+    using Cat.SceneManagementSystem;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 

@@ -1,5 +1,5 @@
 ﻿#if UNITY_EDITOR
-namespace TUI.Utillities.Editor
+namespace Cat.Utillities.Editor
 {
     using System;
     using System.Collections;
@@ -11,7 +11,7 @@ namespace TUI.Utillities.Editor
     using UnityEditorInternal;
     using UnityEngine;
     using UnityEngine.Events;
-    using static TUI.Utillities.EventAttributes;
+    using static Cat.Utillities.EventAttributes;
     using Object = UnityEngine.Object;
     
     [CustomPropertyDrawer(typeof(EventBase), true)]
@@ -420,7 +420,7 @@ namespace TUI.Utillities.Editor
             //Use the SerializedProperty path to iterate through the fields of the inspected targetObject
             Object tgtobj = prop.serializedObject.targetObject;
             if (tgtobj == null)
-                return new TUIEvent();
+                return new CatEvent();
 
             string propPath = prop.propertyPath;
             Type ft = tgtobj.GetType();
@@ -456,7 +456,7 @@ namespace TUI.Utillities.Editor
             if (ft.IsSubclassOf(typeof(EventBase)))
                 return Activator.CreateInstance(ft) as EventBase;
 
-            return new TUIEvent();
+            return new CatEvent();
         }
 
 

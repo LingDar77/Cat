@@ -1,4 +1,4 @@
-namespace TUI.PoolingSystem
+namespace Cat.PoolingSystem
 {
     public interface IPoolingSystem<PooledType> where PooledType : IPooledObject<PooledType>, new()
     {

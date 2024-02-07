@@ -1,9 +1,9 @@
-namespace TUI.EventDispatchSystem
+namespace Cat.EventDispatchSystem
 {
     using System.Collections;
     using System.Collections.Generic;
-    using TUI.PoolingSystem;
-    using TUI.Utillities;
+    using Cat.PoolingSystem;
+    using Cat.Utillities;
     using UnityEngine;
     using SerializableAttribute = System.SerializableAttribute;
 

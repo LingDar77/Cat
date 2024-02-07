@@ -1,4 +1,4 @@
-namespace TUI
+namespace Cat
 {
     using UnityEngine;
     /// <summary>

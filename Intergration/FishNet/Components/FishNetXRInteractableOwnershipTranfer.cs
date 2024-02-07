@@ -1,5 +1,5 @@
 #if XRIT
-namespace TUI.Intergration.FN
+namespace Cat.Intergration.FN
 {
     using FishNet.Connection;
     using FishNet.Object;

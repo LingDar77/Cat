@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace TUI.EditorScript.QualityOfLife
+namespace Cat.EditorScript.QualityOfLife
 {
     using UnityEditor;
     using System;

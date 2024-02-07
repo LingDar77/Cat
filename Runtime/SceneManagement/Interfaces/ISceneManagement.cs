@@ -1,4 +1,4 @@
-namespace TUI.SceneManagementSystem
+namespace Cat.SceneManagementSystem
 {
     using System.Collections;
     using UnityEngine.SceneManagement;

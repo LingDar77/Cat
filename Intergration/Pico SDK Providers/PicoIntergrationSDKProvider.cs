@@ -1,8 +1,8 @@
-namespace TUI.Intergration.PicoSDKProviders
+namespace Cat.Intergration.PicoSDKProviders
 {
     using System.Collections.Generic;
-    using TUI.SDKProvider;
-    using TUI.Utillities;
+    using Cat.SDKProvider;
+    using Cat.Utillities;
     using Unity.XR.PXR;
     using UnityEngine;
     using UnityEngine.XR;

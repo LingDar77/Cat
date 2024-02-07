@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace TUI.Intergration.Addressables
+namespace Cat.Intergration.Addressables
 {
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;

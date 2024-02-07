@@ -1,8 +1,8 @@
 #if UNITY_EDITOR
 
-namespace TUI.Intergration.HybridCLR
+namespace Cat.Intergration.HybridCLR
 {
-    using TUI.EditorScript;
+    using Cat.EditorScript;
     public class AssemblyOrderConfig : ConfigableObject<AssemblyOrderConfig>
     {
         //TODO: Sort assembly to load correctly.

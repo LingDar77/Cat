@@ -1,6 +1,6 @@
 {
-    "name": "TheUnifiedImplementations.Intergration.HybridCLR",
-    "rootNamespace": "TUI.Intergration.HybridCLR",
+    "name": "Cat.Intergration.HybridCLR",
+    "rootNamespace": "Cat.Intergration.HybridCLR",
     "references": [
         "GUID:13ba8ce62aa80c74598530029cb2d649",
         "GUID:2373f786d14518f44b0f475db77ba4de",

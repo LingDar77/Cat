@@ -1,7 +1,7 @@
-namespace TUI.Intergration.Localization
+namespace Cat.Intergration.Localization
 {
     using TMPro;
-    using TUI.Utillities;
+    using Cat.Utillities;
     using UnityEngine.Localization;
     using UnityEngine.Localization.Components;
 

@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace TUI.ScreenLogManagementSystem
+namespace Cat.ScreenLogManagementSystem
 {
+    using System.Collections.Generic;
+    using UnityEngine;
     public interface IScreenLogManagement : ISingletonSystem<IScreenLogManagement>
     {
         List<IScreenLogFilter> Filters { get; }
