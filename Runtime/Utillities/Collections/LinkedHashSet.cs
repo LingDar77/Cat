@@ -5,7 +5,7 @@ namespace TUI.Utillities
     public class LinkedHashSet<Type> : ICollection<Type> where Type : class, new()
     {
         private readonly HashSet<Type> set = new();
-        private readonly LinkedList<Type> list = new();
+        private readonly LinkedCache<Type> list = new();
         public int Count => set.Count;
         public bool IsReadOnly => false;
 

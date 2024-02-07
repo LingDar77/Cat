@@ -156,7 +156,7 @@ namespace TUI.Utillities
 #if UNITY_EDITOR
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
 #pragma warning disable IDE0074 // 使用复合分配
-            if (component == null) component = content.GetComponentInChildren<ComponentType>();
+            if (component == null) component = content.GetComponentInChildren<ComponentType>(true);
 #pragma warning restore IDE0074 // 使用复合分配
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 #endif
@@ -166,7 +166,7 @@ namespace TUI.Utillities
 #if UNITY_EDITOR
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
 #pragma warning disable IDE0074 // 使用复合分配
-            if (component == null) component = content.GetComponentInParent<ComponentType>();
+            if (component == null) component = content.GetComponentInParent<ComponentType>(true);
 #pragma warning restore IDE0074 // 使用复合分配
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 #endif

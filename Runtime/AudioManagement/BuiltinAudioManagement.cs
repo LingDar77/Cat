@@ -66,7 +66,17 @@ namespace TUI.AduioManagement
             return source;
         }
 
-        protected virtual AudioSource GetValidAudioSource()
+        public AudioSource RentAudioSource()
+        {
+            return GetValidAudioSource(false);
+        }
+
+        public void ReturnAudioSource(AudioSource source)
+        {
+            unused.Enqueue(source);
+        }
+
+        protected virtual AudioSource GetValidAudioSource(bool markAsUsed = true)
         {
             AudioSource source;
             if (unused.Count != 0)
@@ -77,7 +87,7 @@ namespace TUI.AduioManagement
             {
                 source = AllocateNewAudioSource();
             }
-            used.Add(source);
+            if (markAsUsed) used.Add(source);
             return source;
         }
 

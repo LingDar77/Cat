@@ -10,6 +10,7 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         [SerializeField] private XRGrabInteractable interactable;
         [SerializeField] private float delay = 1f;
         private bool grabed;
+        private System.Action ResetState;
 
         private void OnValidate()
         {
@@ -18,6 +19,7 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         private void OnEnable()
         {
             if (interactable == null) return;
+            ResetState = () => grabed = false;
             interactable.selectEntered.AddListener(OnSelectEntered);
             interactable.selectExited.AddListener(OnSelectExited);
         }
@@ -36,10 +38,7 @@ namespace TUI.Intergration.XRIT.InteractionSystem
         {
             this.WaitForSeconds(ResetState, delay);
         }
-        private void ResetState()
-        {
-            grabed = false;
-        }
+
         public bool ShouldCollide(Collider other)
         {
             return !grabed;
