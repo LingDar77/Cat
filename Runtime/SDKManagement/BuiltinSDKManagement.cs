@@ -1,8 +1,8 @@
 namespace Cat.SDKManagementSystem
 {
     using System.Collections.Generic;
-    using Cat.Attributes;
-    using Cat.SDKProvider;
+    using global::Cat.Attributes;
+    using global::Cat.SDKProvider;
     using UnityEngine;
 
     [DefaultExecutionOrder(-1000)]

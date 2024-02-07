@@ -1,9 +1,9 @@
 namespace Cat.Intergration.XRIT.LocomotionSystem
 {
     using System.Collections;
-    using Cat.SDKManagementSystem;
-    using Cat.SDKProvider;
-    using Cat.Utillities;
+    using global::Cat.SDKManagementSystem;
+    using global::Cat.SDKProvider;
+    using global::Cat.Utillities;
     using UnityEngine;
     using UnityEngine.InputSystem;
 

@@ -2,7 +2,7 @@
 
 namespace Cat.Intergration.HybridCLR
 {
-    using Cat.EditorScript;
+    using global::Cat.EditorScript;
     public class AssemblyOrderConfig : ConfigableObject<AssemblyOrderConfig>
     {
         //TODO: Sort assembly to load correctly.

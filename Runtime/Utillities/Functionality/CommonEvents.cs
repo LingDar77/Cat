@@ -1,7 +1,7 @@
 namespace Cat
 {
     using System.Collections;
-    using Cat.Utillities;
+    using global::Cat.Utillities;
     using UnityEngine;
 
     public class CommonEvents : MonoBehaviour

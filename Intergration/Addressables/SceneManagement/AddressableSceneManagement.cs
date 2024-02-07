@@ -1,7 +1,7 @@
 namespace Cat.Intergration.Addressables
 {
     using System.Collections;
-    using Cat.SceneManagementSystem;
+    using global::Cat.SceneManagementSystem;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 

@@ -1,8 +1,8 @@
 namespace Cat.Intergration.PicoSDKProviders
 {
     using System.Collections.Generic;
-    using Cat.SDKProvider;
-    using Cat.Utillities;
+    using global::Cat.SDKProvider;
+    using global::Cat.Utillities;
     using Unity.XR.PXR;
     using UnityEngine;
     using UnityEngine.XR;

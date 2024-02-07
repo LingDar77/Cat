@@ -2,8 +2,8 @@ namespace Cat.EventDispatchSystem
 {
     using System.Collections;
     using System.Collections.Generic;
-    using Cat.PoolingSystem;
-    using Cat.Utillities;
+    using global::Cat.PoolingSystem;
+    using global::Cat.Utillities;
     using UnityEngine;
     using SerializableAttribute = System.SerializableAttribute;
 
