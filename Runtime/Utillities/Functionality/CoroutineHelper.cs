@@ -12,7 +12,7 @@ namespace Cat.Utillities
         private static readonly Dictionary<float, WaitForSeconds> waits = new();
         private static readonly Dictionary<float, WaitForSecondsRealtime> realtimeWaits = new();
 
-        public static MonoBehaviour Context => CatContext.Instance;
+        public static MonoBehaviour Context => CatContent.Instance;
 
         public static WaitForSeconds WaitFor(float seconds)
         {
