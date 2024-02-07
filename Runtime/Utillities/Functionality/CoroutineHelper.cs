@@ -3,6 +3,7 @@ namespace Cat.Utillities
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Cat;
 
     public static class CoroutineHelper
     {
@@ -11,7 +12,7 @@ namespace Cat.Utillities
         private static readonly Dictionary<float, WaitForSeconds> waits = new();
         private static readonly Dictionary<float, WaitForSecondsRealtime> realtimeWaits = new();
 
-        public static MonoBehaviour Context => ISingletonSystem<SystemContent>.GetChecked();
+        public static MonoBehaviour Context => CatContext.Instance;
 
         public static WaitForSeconds WaitFor(float seconds)
         {
