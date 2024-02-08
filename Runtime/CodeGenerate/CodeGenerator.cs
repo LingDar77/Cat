@@ -1,11 +1,10 @@
 #if UNITY_EDITOR
 namespace Cat.CodeGen
 {
-    using System;
     using System.Linq;
     using System.IO;
     using UnityEditor;
-    internal static class ScriptGenerator
+    internal static class CodeGenerator
     {
         const string KEY_ISGENERATING = "CatGen-IsGenerating";
 
@@ -51,29 +50,31 @@ namespace Cat.CodeGen
         {
             if (IsGenerating) return;
             IsGenerating = true;
-
-            // fileNames.Clear();
-            var generatorTypes = TypeCache.GetTypesDerivedFrom<ICodeGenerator>()
-                .Where(x => !x.IsAbstract);
-
-            var changed = false;
-            foreach (var t in generatorTypes)
+            try
             {
-                var generator = (ICodeGenerator)Activator.CreateInstance(t);
-                var context = new GeneratorContext();
-                generator.Execute(context);
+                var generatorTypes = TypeCache.GetTypesDerivedFrom<ICodeGenerator>()
+                    .Where(x => !x.IsAbstract);
 
-                if (GenerateScriptFromContext(context))
+                var changed = false;
+                foreach (var t in generatorTypes)
                 {
-                    changed = true;
+                    var generator = (ICodeGenerator)System.Activator.CreateInstance(t);
+                    var context = new GeneratorContext();
+                    generator.Execute(context);
+
+                    if (GenerateScriptFromContext(context))
+                    {
+                        changed = true;
+                    }
+                }
+
+                if (changed)
+                {
+                    AssetDatabase.Refresh();
+                    AssetDatabase.SaveAssets();
                 }
             }
-
-            if (changed)
-            {
-                AssetDatabase.Refresh();
-                AssetDatabase.SaveAssets();
-            }
+            catch (System.Exception) { }
         }
 
         static bool GenerateScriptFromContext(GeneratorContext context)
@@ -107,13 +108,11 @@ namespace Cat.CodeGen
                     var text = File.ReadAllText(path);
                     if (text == code.Text)
                     {
-                        // fileNames.Add(code.fileName);
                         continue;
                     }
                 }
 
                 File.WriteAllText(path, code.Text);
-                // fileNames.Add(code.fileName);
                 changed = true;
             }
 

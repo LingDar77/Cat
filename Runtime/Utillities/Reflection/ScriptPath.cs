@@ -1,8 +1,10 @@
-using System.IO;
-using UnityEditor;
-
+#if UNITY_EDITOR
 namespace Cat.Utillities
 {
+    using System.IO;
+    using UnityEditor;
+
+
     public class ScriptPath
     {
         public static string GetScriptPath(System.Type type)
@@ -14,3 +16,4 @@ namespace Cat.Utillities
         }
     }
 }
+#endif
