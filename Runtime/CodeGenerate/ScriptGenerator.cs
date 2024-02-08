@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 namespace Cat.CodeGen
 {
     using System;
@@ -121,3 +122,4 @@ namespace Cat.CodeGen
     }
 
 }
+#endif
