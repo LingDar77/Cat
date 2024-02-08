@@ -50,31 +50,27 @@ namespace Cat.CodeGen
         {
             if (IsGenerating) return;
             IsGenerating = true;
-            try
-            {
-                var generatorTypes = TypeCache.GetTypesDerivedFrom<ICodeGenerator>()
+            var generatorTypes = TypeCache.GetTypesDerivedFrom<ICodeGenerator>()
                     .Where(x => !x.IsAbstract);
 
-                var changed = false;
-                foreach (var t in generatorTypes)
-                {
-                    var generator = (ICodeGenerator)System.Activator.CreateInstance(t);
-                    var context = new GeneratorContext();
-                    generator.Execute(context);
+            var changed = false;
+            foreach (var t in generatorTypes)
+            {
+                var generator = (ICodeGenerator)System.Activator.CreateInstance(t);
+                var context = new GeneratorContext();
+                generator.Execute(context);
 
-                    if (GenerateScriptFromContext(context))
-                    {
-                        changed = true;
-                    }
-                }
-
-                if (changed)
+                if (GenerateScriptFromContext(context))
                 {
-                    AssetDatabase.Refresh();
-                    AssetDatabase.SaveAssets();
+                    changed = true;
                 }
             }
-            catch (System.Exception) { }
+
+            if (changed)
+            {
+                AssetDatabase.Refresh();
+                AssetDatabase.SaveAssets();
+            }
         }
 
         static bool GenerateScriptFromContext(GeneratorContext context)
