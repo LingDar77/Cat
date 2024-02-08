@@ -1,8 +1,8 @@
 namespace Cat.CodeGen
 {
-    internal class CodeText
+    public class CodeText
     {
-        public string fileName;
-        public string text;
+        public string FileName;
+        public string Text;
     }
 }

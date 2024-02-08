@@ -3,20 +3,18 @@ namespace Cat.CodeGen
     using System.Collections.Generic;
     public sealed class GeneratorContext
     {
-        private List<CodeText> _codeList = new List<CodeText>();
-        internal IReadOnlyList<CodeText> codeList => _codeList;
+        public readonly List<CodeText> CodeList = new();
 
-        private string _overrideFolderPath = null;
-        internal string overrideFolderPath => _overrideFolderPath;
+        public string GerateFolderPath = null;
 
         public void AddCode(string fileName, string text)
         {
-            _codeList.Add(new CodeText() { fileName = fileName, text = text });
+            CodeList.Add(new CodeText() { FileName = fileName, Text = text });
         }
 
-        public void OverrideFolderPath(string path)
+        public void GenerateFolder(string path)
         {
-            _overrideFolderPath = path;
+            GerateFolderPath = path;
         }
     }
 }
