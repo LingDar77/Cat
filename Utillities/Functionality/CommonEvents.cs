@@ -1,15 +1,15 @@
 namespace Cat
 {
     using System.Collections;
-    using Cat.Utillities;
     using UnityEngine;
+    using UnityEngine.Events;
 
     public class CommonEvents : MonoBehaviour
     {
-        public CatEvent OnAake;
-        public CatEvent OnStart;
-        public CatEvent OnFirstFrame;
-        public CatEvent OnUpdate;
+        public UnityEvent OnAake;
+        public UnityEvent OnStart;
+        public UnityEvent OnFirstFrame;
+        public UnityEvent OnUpdate;
         private void Awake()
         {
             OnAake.Invoke();
