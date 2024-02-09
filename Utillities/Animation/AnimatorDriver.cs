@@ -7,13 +7,13 @@ namespace Cat.Utillities
 #if UNITY_EDITOR
         [SerializeField] private string ParameterName;
 #endif
-        [ReadOnlyInEditor] public int paramHash;
+        [ReadOnlyInEditor] public int ParamHash;
 
         private void OnValidate()
         {
             this.EnsureComponent(ref Animator);
 #if UNITY_EDITOR
-            paramHash = Animator.StringToHash(ParameterName);
+            ParamHash = Animator.StringToHash(ParameterName);
 #endif
         }
         public void Drive(Vector3 value)
@@ -23,7 +23,7 @@ namespace Cat.Utillities
 #if UNITY_EDITOR
             Animator.SetFloat(ParameterName, value.magnitude);
 #else
-            animator.SetFloat(paramHash, value.magnitude);
+            animator.SetFloat(ParamHash, value.magnitude);
 #endif
         }
     }
