@@ -3,7 +3,6 @@ namespace Cat.LocomotionSystem
     using System.Collections.Generic;
     using Cat.Utillities;
     using UnityEngine;
-    using UnityEngine.Events;
 
     public enum MovementSweepState
     {
@@ -123,8 +122,6 @@ namespace Cat.LocomotionSystem
         public int MaxDecollisionIterations = 1;
         #endregion
 
-        public UnityEvent<float> OnVelocityUpdate;
-
         #region  Simulation Status
         [Header("Simulation Status")]
         [ReadOnlyInEditor]
@@ -152,6 +149,8 @@ namespace Cat.LocomotionSystem
         private Vector3 CharacterTransformToCapsuleBottom => Capsule.center + (-Vector3.up * (Capsule.height * 0.5f));
         private Vector3 CharacterTransformToCapsuleBottomHemi => Capsule.center + (-Vector3.up * (Capsule.height * 0.5f)) + (Vector3.up * Capsule.radius);
         private Vector3 CharacterTransformToCapsuleTopHemi => Capsule.center + (Vector3.up * (Capsule.height * 0.5f)) + (-Vector3.up * Capsule.radius);
+
+        private IVector3Driver driver;
         #endregion
 
 
@@ -170,12 +169,13 @@ namespace Cat.LocomotionSystem
             MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, Capsule.radius);
         }
 
-        protected virtual void AWake()
+        protected virtual void Awake()
         {
             OnValidate();
 
             TargetPosition = transform.position;
             TargetRotation = transform.rotation;
+            driver = GetComponentInChildren<IVector3Driver>();
         }
 
         protected virtual void Update()
@@ -245,7 +245,7 @@ namespace Cat.LocomotionSystem
             PrepareSimulatioin(deltaTime);
             Simulation(deltaTime);
             transform.SetPositionAndRotation(TargetPosition, TargetRotation);
-            OnVelocityUpdate.Invoke(TargetVelocity.magnitude);
+            driver?.Drive(CurrentVelocity);
         }
 
         protected virtual void PrepareSimulatioin(float deltaTime)
