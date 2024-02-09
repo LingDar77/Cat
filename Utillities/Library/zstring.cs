@@ -1,3 +1,4 @@
+#pragma warning disable IDE1006 // 命名样式
 namespace Cat.Library
 {
     using System;
@@ -1391,6 +1392,7 @@ namespace Cat.Library
             getStackInCache(length, out stack);
             return stack.Count;
         }
+        
         //自身+value拼接
         public zstring Concat(zstring value)
         {
@@ -1625,3 +1627,4 @@ namespace Cat.Library
         #endregion
     }
 }
+#pragma warning restore IDE1006 // 命名样式

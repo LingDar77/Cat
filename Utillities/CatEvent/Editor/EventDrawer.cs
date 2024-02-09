@@ -6,14 +6,14 @@ namespace Cat.Utillities.Editor
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
+    using Cat.Library;
     using UnityEditor;
     using UnityEditorInternal;
     using UnityEngine;
     using UnityEngine.Events;
     using static Cat.Utillities.EventAttributes;
     using Object = UnityEngine.Object;
-    
+
     [CustomPropertyDrawer(typeof(EventBase), true)]
     public class EventDrawer : PropertyDrawer
     {
@@ -27,12 +27,10 @@ namespace Cat.Utillities.Editor
 
         // Persistent Listener Paths
         internal const string kInstancePath = "m_Target";
-        internal const string kInstanceTypePath = "m_TargetAssemblyTypeName";
         internal const string kMethodNamePath = "m_MethodName";
         internal const string kCallStatePath = "m_CallState";
         internal const string kArgumentsPath = "m_Arguments";
         internal const string kModesPath = "m_Modes";
-        internal const string kModePath = "m_Mode";
 
         //ArgumentCache paths
         internal const string kFloatArgument = "m_FloatArgument";
@@ -40,7 +38,6 @@ namespace Cat.Utillities.Editor
         internal const string kObjectArgument = "m_ObjectArgument";
         internal const string kStringArgument = "m_StringArgument";
         internal const string kBoolArgument = "m_BoolArgument";
-        internal const string kEnumArgument = "m_EnumArgument";
         internal const string kVector2Argument = "m_Vector2Argument";
         internal const string kVector2IntArgument = "m_Vector2IntArgument";
         internal const string kVector3Argument = "m_Vector3Argument";
@@ -55,19 +52,6 @@ namespace Cat.Utillities.Editor
         //property path splits and separators
         private const float kSpacing = 5;
         private const int kExtraSpacing = 9;
-        private const string kDotString = ".";
-        private const string kArrayDataString = "Array.data[";
-        private static readonly char[] kDotSeparator = { '.' };
-        private static readonly char[] kClosingSquareBraceSeparator = { ']' };
-
-        // uss names
-        internal const string kUssClassName = "unity-event";
-        internal const string kLeftColumnClassName = kUssClassName + "__left-column";
-        internal const string kRightColumnClassName = kUssClassName + "__right-column";
-        internal const string kContainerClassName = kUssClassName + "__container";
-        internal const string kHeaderClassName = "unity-list-view__header";
-        internal const string kListViewScrollViewClassName = kUssClassName + "__list-view-scroll-view";
-        internal const string kListViewItemClassName = kUssClassName + "__list-view-item";
 
         private string m_Text;
         private EventBase m_DummyEvent;
@@ -84,20 +68,21 @@ namespace Cat.Utillities.Editor
             var methodInfo = evt.FindMethod(evt, "Invoke", ListenerMode.EventDefined);
             var types = methodInfo.GetParameters().Select(x => x.ParameterType).ToArray();
 
-            var sb = new StringBuilder();
+            using var block = zstring.Block();
+            zstring sb = "";
 
-            sb.Append(" (");
+            sb = zstring.Concat(sb, " (");
             for (int i = 0; i < types.Length; i++)
             {
-                sb.Append(GetTypeName(types[i]));
+                sb = zstring.Concat(sb, GetTypeName(types[i]));
                 if (i < types.Length - 1)
                 {
-                    sb.Append(", ");
+                    sb = zstring.Concat(sb, ", ");
                 }
             }
-            sb.Append(")");
+            sb = zstring.Concat(sb, ")");
 
-            return sb.ToString();
+            return sb;
         }
 
         private State GetState(SerializedProperty property)
@@ -183,13 +168,13 @@ namespace Cat.Utillities.Editor
 
         private void DrawEventHeader(Rect rect)
         {
-            string label = (string.IsNullOrEmpty(m_Text) ? "Event" : m_Text) + GetEventParams(m_DummyEvent);
+            string label = (string.IsNullOrEmpty(m_Text) ? "CatEvent" : m_Text) + GetEventParams(m_DummyEvent);
             float buttonWidth = 15f;
 
             rect.width -= buttonWidth;
             rect.height = EditorGUIUtility.singleLineHeight;
 
-            Rect trashButtonRect = new Rect(rect.x + rect.width, rect.y, buttonWidth, rect.height);
+            Rect trashButtonRect = new(rect.x + rect.width, rect.y, buttonWidth, rect.height);
             GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
             trashButton.tooltip = "Clear event list";
 
@@ -268,10 +253,11 @@ namespace Cat.Utillities.Editor
                     }
                     else
                     {
-                        var buttonLabel = new StringBuilder();
+                        using var block = zstring.Block();
+                        zstring buttonLabel = "";
                         if (listenerTarget.objectReferenceValue == null || string.IsNullOrEmpty(methodName.stringValue))
                         {
-                            buttonLabel.Append(kNoFunctionString);
+                            buttonLabel = zstring.Concat(buttonLabel, kNoFunctionString);
                         }
                         else if (!IsListenerValid(listenerTarget.objectReferenceValue, methodName.stringValue, desiredTypes))
                         {
@@ -280,19 +266,19 @@ namespace Cat.Utillities.Editor
                             if (instance != null)
                                 instanceString = instance.GetType().Name;
 
-                            buttonLabel.Append($"<Missing {instanceString}.{methodName.stringValue}>");
+                            buttonLabel = zstring.Concat(buttonLabel, $"<Missing {instanceString}.{methodName.stringValue}>");
                         }
                         else
                         {
-                            buttonLabel.Append(listenerTarget.objectReferenceValue.GetType().Name);
+                            buttonLabel = zstring.Concat(buttonLabel, listenerTarget.objectReferenceValue.GetType().Name);
 
                             if (!string.IsNullOrEmpty(methodName.stringValue))
                             {
-                                buttonLabel.Append(".");
+                                buttonLabel = zstring.Concat(buttonLabel, ".");
                                 if (methodName.stringValue.StartsWith("set_"))
-                                    buttonLabel.Append(methodName.stringValue.Substring(4));
+                                    buttonLabel = zstring.Concat(buttonLabel, methodName.stringValue[4..]);
                                 else
-                                    buttonLabel.Append(methodName.stringValue);
+                                    buttonLabel = zstring.Concat(buttonLabel, methodName.stringValue);
                             }
                         }
                         buttonContent = new GUIContent(buttonLabel.ToString());
@@ -562,12 +548,11 @@ namespace Cat.Utillities.Editor
                                 if (methodIntSliderAttr == null && attr is IntSliderAttribute)
                                     paramIntSliderAttr = (IntSliderAttribute)attr;
 
-                                if (attr is CustomInspectorAttribute)
-                                    customInspectorAttr = (CustomInspectorAttribute)attr;
+                                if (attr is CustomInspectorAttribute attribute1)
+                                    customInspectorAttr = attribute1;
                             }
                         }
 
-#if UNITY_2020_2_OR_NEWER
                         argument = modeEnum switch
                         {
                             ListenerMode.Float => argument.FindPropertyRelative(kFloatArgument),
@@ -585,57 +570,7 @@ namespace Cat.Utillities.Editor
                             ListenerMode.Quaternion => argument.FindPropertyRelative(kQuaternionArgument),
                             _ => argument.FindPropertyRelative(kIntArgument)
                         };
-#else
-                        SerializedProperty _result;
 
-                        switch (modeEnum)
-                        {
-                            case EP_PersistentListenerMode.Float:
-                                _result = argument.FindPropertyRelative(kFloatArgument);
-                                break;
-                            case EP_PersistentListenerMode.Int:
-                                _result = argument.FindPropertyRelative(kIntArgument);
-                                break;
-                            case EP_PersistentListenerMode.Object:
-                                _result = argument.FindPropertyRelative(kObjectArgument);
-                                break;
-                            case EP_PersistentListenerMode.String:
-                                _result = argument.FindPropertyRelative(kStringArgument);
-                                break;
-                            case EP_PersistentListenerMode.Bool:
-                                _result = argument.FindPropertyRelative(kBoolArgument);
-                                break;
-                            case EP_PersistentListenerMode.Vector2:
-                                _result = argument.FindPropertyRelative(kVector2Argument);
-                                break;
-                            case EP_PersistentListenerMode.Vector2Int:
-                                _result = argument.FindPropertyRelative(kVector2IntArgument);
-                                break;
-                            case EP_PersistentListenerMode.Vector3:
-                                _result = argument.FindPropertyRelative(kVector3Argument);
-                                break;
-                            case EP_PersistentListenerMode.Vector3Int:
-                                _result = argument.FindPropertyRelative(kVector3IntArgument);
-                                break;
-                            case EP_PersistentListenerMode.Vector4:
-                                _result = argument.FindPropertyRelative(kVector4Argument);
-                                break;
-                            case EP_PersistentListenerMode.LayerMask:
-                                _result = argument.FindPropertyRelative(kLayerMaskArgument);
-                                break;
-                            case EP_PersistentListenerMode.Color:
-                                _result = argument.FindPropertyRelative(kColorArgument);
-                                break;
-                            case EP_PersistentListenerMode.Quaternion:
-                                _result = argument.FindPropertyRelative(kQuaternionArgument);
-                                break;
-                            default:
-                                _result = argument.FindPropertyRelative(kIntArgument);
-                                break;
-                        }
-
-                        argument = _result;
-#endif
 
                         if (argument == null)
                             continue;
@@ -1012,16 +947,17 @@ namespace Cat.Utillities.Editor
             var methodName = listener.FindPropertyRelative(kMethodNamePath).stringValue;
             var modes = listener.FindPropertyRelative(kModesPath);
 
-            var args = new StringBuilder();
+            using var block = zstring.Block();
+            zstring args = "";
             var parameters = method.methodInfo.GetParameters();
             var count = parameters.Length;
             for (int index = 0; index < count; index++)
             {
                 var methodArg = parameters[index];
-                args.Append(GetTypeName(methodArg.ParameterType));
+                args = zstring.Concat(args, GetTypeName(methodArg.ParameterType));
 
                 if (index < count - 1)
-                    args.Append(", ");
+                    args = zstring.Concat(args, ", ");
             }
 
             var isCurrentlySet = listenerTarget == method.target
@@ -1142,29 +1078,30 @@ namespace Cat.Utillities.Editor
                     return $"{targetName}/{method.Name.Substring(4)}";
                 else
                 {
-                    var builder = new StringBuilder();
+                    using var block = zstring.Block();
+                    zstring builder = "";
 
                     var count = delegateArgumentsTypes.Length;
                     for (int i = 0; i < count; i++)
                     {
-                        builder.Append("[dynamic]");
+                        builder = zstring.Concat(builder, "[dynamic]");
 
                         if (i < count - 1)
-                            builder.Append(", ");
+                            builder = zstring.Concat(builder, ", ");
                     }
 
                     var parameters = method.GetParameters();
                     count = parameters.Length;
 
                     if (count - delegateArgumentsTypes.Length > 0)
-                        builder.Append(", ");
+                        builder = zstring.Concat(builder, ", ");
 
                     for (int i = delegateArgumentsTypes.Length; i < count; i++)
                     {
-                        builder.Append(GetTypeName(parameters[i].ParameterType));
+                        builder = zstring.Concat(builder, GetTypeName(parameters[i].ParameterType));
 
                         if (i < count - 1)
-                            builder.Append(", ");
+                            builder = zstring.Concat(builder, ", ");
                     }
 
                     return $"{targetName}/{method.Name} ({builder.ToString()})";
