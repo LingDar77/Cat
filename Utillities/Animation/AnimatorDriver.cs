@@ -4,17 +4,17 @@ namespace Cat.Utillities
     public class AnimatorDriver : MonoBehaviour, IVector3Driver
     {
         [SerializeField] private Animator Animator;
+#if UNITY_EDITOR
         [SerializeField] private string ParameterName;
-
-        private int paramHash;
+#endif
+        [ReadOnlyInEditor] public int paramHash;
 
         private void OnValidate()
         {
             this.EnsureComponent(ref Animator);
-        }
-        private void OnEnable()
-        {
+#if UNITY_EDITOR
             paramHash = Animator.StringToHash(ParameterName);
+#endif
         }
         public void Drive(Vector3 value)
         {
