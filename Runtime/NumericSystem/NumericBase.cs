@@ -91,7 +91,6 @@ namespace Cat.NumericSystem
             IsDirty = true;
             UpdateValue();
 
-            SetCurrentValue(currentValue > cacheValue ? cacheValue : currentValue);
         }
 
         protected void UpdateValue()
@@ -109,6 +108,8 @@ namespace Cat.NumericSystem
 
             IsDirty = false;
             OnValueRecalculated.Invoke(cacheValue);
+
+            SetCurrentValue(currentValue > cacheValue ? cacheValue : currentValue);
         }
     }
 

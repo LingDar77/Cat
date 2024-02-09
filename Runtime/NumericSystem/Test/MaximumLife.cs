@@ -5,10 +5,7 @@ namespace Cat.NumericSystem
     {
         private void Start()
         {
-            OnCurrentValueChanged.AddListener((value, max) =>
-            {
-                this.LogToScreen($"Life changed: {value} / {max}");
-            });
+           
         }
     }
 }
