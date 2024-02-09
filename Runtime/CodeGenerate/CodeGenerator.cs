@@ -26,8 +26,8 @@ namespace Cat.CodeGen
 
         // static List<string> fileNames = new List<string>();
 
-        [UnityEditor.Callbacks.DidReloadScripts]
-        [InitializeOnLoadMethod]
+        // [UnityEditor.Callbacks.DidReloadScripts]
+        // [InitializeOnLoadMethod]
         static void Initialize()
         {
             if (IsGenerating)

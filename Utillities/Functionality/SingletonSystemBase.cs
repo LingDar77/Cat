@@ -14,9 +14,10 @@ namespace Cat
             ISingletonSystem<ImplementType>.Singleton = this as ImplementType;
             DontDestroyOnLoad(transform.root.gameObject);
         }
+
         protected virtual void OnDisable()
         {
-            if (ISingletonSystem<ImplementType>.Singleton.transform != this) return;
+            if (!ISingletonSystem<ImplementType>.Singleton.Equals(this)) return;
             ISingletonSystem<ImplementType>.Singleton = null;
         }
 

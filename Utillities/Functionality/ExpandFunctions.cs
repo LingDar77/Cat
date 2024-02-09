@@ -82,17 +82,7 @@ namespace Cat.Utillities
         }
         #endregion
 
-        #region GameObject Expand
-        public static bool TryGetComponentInParent<Type>(this GameObject context, out Type component, bool includeInactive = false)
-        {
-            component = (Type)(object)context.GetComponentInParent(typeof(Type), includeInactive);
-            return component != null;
-        }
-        public static bool TryGetComponentInChildren<Type>(this GameObject context, out Type component, bool includeInactive = false)
-        {
-            component = (Type)(object)context.GetComponentInChildren(typeof(Type), includeInactive);
-            return component != null;
-        }
+        #region Compoent Expand
         public static bool TryGetComponentInParent<Type>(this Component context, out Type component, bool includeInactive = false)
         {
             component = (Type)(object)context.GetComponentInParent(typeof(Type), includeInactive);
@@ -103,7 +93,7 @@ namespace Cat.Utillities
             component = (Type)(object)context.GetComponentInChildren(typeof(Type), includeInactive);
             return component != null;
         }
-        public static void DestroyAllChildren(this GameObject content)
+        public static void DestroyAllChildren(this Component content)
         {
             for (var i = 0; i != content.transform.childCount; ++i)
             {
@@ -117,7 +107,7 @@ namespace Cat.Utillities
                 GameObject.Destroy(content.GetChild(i).gameObject);
             }
         }
-        public static void DestroyAllChildren(this GameObject content, System.Action<Object> method)
+        public static void DestroyAllChildren(this Component content, System.Action<Object> method)
         {
             var children = new List<Transform>();
             for (var i = 0; i != content.transform.childCount; ++i)
@@ -141,7 +131,7 @@ namespace Cat.Utillities
                 method(child.gameObject);
             }
         }
-        public static void EnsureComponent<ComponentType>(this MonoBehaviour content, ref ComponentType component)
+        public static void EnsureComponent<ComponentType>(this Component content, ref ComponentType component)
         {
 #if UNITY_EDITOR
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
@@ -151,7 +141,7 @@ namespace Cat.Utillities
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 #endif
         }
-        public static void EnsureComponentInChildren<ComponentType>(this MonoBehaviour content, ref ComponentType component)
+        public static void EnsureComponentInChildren<ComponentType>(this Component content, ref ComponentType component)
         {
 #if UNITY_EDITOR
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
@@ -161,7 +151,7 @@ namespace Cat.Utillities
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 #endif
         }
-        public static void EnsureComponentInParent<ComponentType>(this MonoBehaviour content, ref ComponentType component)
+        public static void EnsureComponentInParent<ComponentType>(this Component content, ref ComponentType component)
         {
 #if UNITY_EDITOR
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
@@ -171,7 +161,7 @@ namespace Cat.Utillities
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 #endif
         }
-        public static void Log(this MonoBehaviour context, string message, LogType type = LogType.Log)
+        public static void Log(this Component context, string message, LogType type = LogType.Log)
         {
 #if UNITY_EDITOR
             LogToConsole(context, message, type);
@@ -186,7 +176,7 @@ namespace Cat.Utillities
         /// <param name="context"></param>
         /// <param name="message"></param>
         /// <param name="type"></param>
-        public static void LogToConsole(MonoBehaviour context, string message, LogType type)
+        public static void LogToConsole(Component context, string message, LogType type)
         {
             switch (type)
             {
@@ -208,14 +198,14 @@ namespace Cat.Utillities
         /// <param name="context"></param>
         /// <param name="message"></param>
         /// <param name="type"></param> <summary>
-        public static void LogToScreen(this MonoBehaviour context, string message, LogType type = LogType.Log)
+        public static void LogToScreen(this Component context, string message, LogType type = LogType.Log)
         {
             if (IScreenLogManagement.Singleton == null) return;
             var trace = context.GetType().FullName;
             IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
         }
 
-        public static void LogFormat(this MonoBehaviour context, string format, LogType type = LogType.Log, params string[] args)
+        public static void LogFormat(this Component context, string format, LogType type = LogType.Log, params string[] args)
         {
             using (zstring.Block())
             {
@@ -228,7 +218,7 @@ namespace Cat.Utillities
 
             }
         }
-        public static void LogFormatToScreen(this MonoBehaviour context, string format, LogType type = LogType.Log, params string[] args)
+        public static void LogFormatToScreen(this Component context, string format, LogType type = LogType.Log, params string[] args)
         {
             using (zstring.Block())
             {
@@ -241,7 +231,7 @@ namespace Cat.Utillities
 
             }
         }
-        public static void LogFormatToConsole(this MonoBehaviour context, string format, LogType type = LogType.Log, params string[] args)
+        public static void LogFormatToConsole(this Component context, string format, LogType type = LogType.Log, params string[] args)
         {
             using (zstring.Block())
             {

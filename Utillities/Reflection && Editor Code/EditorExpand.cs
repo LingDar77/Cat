@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 namespace Cat.Utillities
 {
     using System.Collections;
@@ -124,3 +125,4 @@ namespace Cat.Utillities
 
 
 }
+#endif
