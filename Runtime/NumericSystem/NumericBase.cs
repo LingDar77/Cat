@@ -26,9 +26,9 @@ namespace Cat.NumericSystem
 
         public virtual void SetCurrentValue(float value)
         {
-            currentValue = Mathf.Clamp(value, 0, GetValue());
-           
-            if (OnCurrentValueChanged == null) return;
+            currentValue = Mathf.Clamp(value, 0, MaxValue);
+
+            if (OnCurrentValueChanged == null || currentValue == 0) return;
             OnCurrentValueChanged.Drive(CurrentValue, MaxValue);
         }
 

@@ -20,6 +20,7 @@ namespace Cat.NumericSystem
         public override void SetCurrentValue(float value)
         {
             currentValue = value;
+            
             if (OnCurrentValueChanged == null) return;
             OnCurrentValueChanged.Drive(CurrentValue, MaxValue);
         }
