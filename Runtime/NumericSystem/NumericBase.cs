@@ -57,7 +57,7 @@ namespace Cat.NumericSystem
                     break;
                 case ModifierBase.ModifierType.Increase:
                 case ModifierBase.ModifierType.Multiply:
-                    cacheValue *= (modifier.GetValue() / 100) + 1;
+                    cacheValue *= (modifier.CurrentValue / 100) + 1;
                     break;
                 default:
                     throw new System.Exception("Unknown modifier type!");
@@ -65,11 +65,6 @@ namespace Cat.NumericSystem
         }
 
         public override int GetHashCode()
-        {
-            return (int)CurrentValue + GetModifiersHash();
-        }
-
-        protected int GetModifiersHash()
         {
             int hash = 0;
             foreach (var mod in Modifiers)
@@ -95,6 +90,7 @@ namespace Cat.NumericSystem
 
         protected void UpdateValue()
         {
+            if (!IsDirty) return;
             cacheValue = BaseValue;
             for (int i = 0; i != (int)ModifierBase.ModifierType.Max; ++i)
             {
@@ -109,7 +105,8 @@ namespace Cat.NumericSystem
             IsDirty = false;
             OnValueRecalculated.Invoke(cacheValue);
 
-            SetCurrentValue(currentValue > cacheValue ? cacheValue : currentValue);
+            if (currentValue > cacheValue)
+                SetCurrentValue(cacheValue);
         }
     }
 
