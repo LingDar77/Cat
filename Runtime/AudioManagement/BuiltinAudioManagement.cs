@@ -29,7 +29,7 @@ namespace Cat.AduioManagement
 
         protected IEnumerator CheckUsedSources()
         {
-            yield return CoroutineHelper.nextUpdate;
+            yield return CoroutineHelper.GetNextUpdate();
             while (true)
             {
                 foreach (var source in used)
@@ -45,7 +45,7 @@ namespace Cat.AduioManagement
                     source.transform.SetParent(transform);
                 }
                 buffer.Clear();
-                yield return CoroutineHelper.nextUpdate;
+                yield return CoroutineHelper.GetNextUpdate();
             }
         }
 

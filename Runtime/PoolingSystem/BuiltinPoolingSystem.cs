@@ -1,8 +1,8 @@
 namespace Cat.PoolingSystem
 {
     using System.Collections.Generic;
+    using Cat.Utillities;
     using UnityEngine;
-    using UnityEngine.Events;
 
     public class BuiltinPoolingSystem<Type> : IPoolingSystem<Type> where Type : IPooledObject<Type>, new()
     {
@@ -40,13 +40,13 @@ namespace Cat.PoolingSystem
         }
     }
 
-    public class BuiltinPoolingSystem : MonoBehaviour, IGameSystem<BuiltinPoolingSystem>, IPoolingSystem<BuiltinPooledGameObject>
+    public class BuiltinPoolingSystem : MonoBehaviour, ICatSystem<BuiltinPoolingSystem>, IPoolingSystem<BuiltinPooledGameObject>
     {
         public int Count { get; }
 
         public Transform Prefab;
-        public UnityEvent<BuiltinPooledGameObject> OnEnpool;
-        public UnityEvent<BuiltinPooledGameObject> OnDepool;
+        public CatDriver<BuiltinPooledGameObject> OnEnpool;
+        public CatDriver<BuiltinPooledGameObject> OnDepool;
         public System.Func<BuiltinPooledGameObject> CreateInstance => CreateNew;
         protected Queue<BuiltinPooledGameObject> pool = new();
 
@@ -55,13 +55,15 @@ namespace Cat.PoolingSystem
         public void Enpool(BuiltinPooledGameObject obj)
         {
             pool.Enqueue(obj);
-            OnEnpool?.Invoke(obj);
+            if (OnEnpool == null) return;
+            OnEnpool.Drive(obj);
         }
 
         public BuiltinPooledGameObject Depool()
         {
             var instance = pool.Count == 0 ? CreateInstance() : pool.Dequeue();
-            OnDepool?.Invoke(instance);
+            if (OnDepool != null)
+                OnDepool.Drive(instance);
             instance.gameObject.SetActive(true);
             return instance;
         }

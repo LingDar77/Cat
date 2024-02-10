@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using Cat.Library;
-using UnityEngine;
-
 namespace Cat.ScreenLogManagementSystem
 {
+    using System.Collections.Generic;
+    using Cat.Library;
+    using UnityEngine;
+
     [DefaultExecutionOrder(-1000)]
     public class BuiltinScreenLogManagement : MonoBehaviour, IScreenLogManagement
     {

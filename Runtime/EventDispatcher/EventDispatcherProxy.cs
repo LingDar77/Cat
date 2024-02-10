@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.Events;
 namespace Cat.EventDispatchSystem
 {
+    using UnityEngine;
+    using UnityEngine.Events;
+
     public class EventDispatcherProxy : MonoBehaviour, IEventDispatcher<string>
     {
         [System.Serializable]

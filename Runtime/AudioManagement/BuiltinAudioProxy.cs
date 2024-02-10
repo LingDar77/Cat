@@ -39,7 +39,7 @@ namespace Cat.AduioManagement
                     .SpatialBlend(1)
                     .Volume(volume)
                     .Play();
-                yield return CoroutineHelper.WaitFor(time);
+                yield return CoroutineHelper.GetWaitForSeconds(time);
             }
         }
 

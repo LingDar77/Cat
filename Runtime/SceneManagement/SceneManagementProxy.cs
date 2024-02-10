@@ -14,7 +14,7 @@ namespace Cat.ScreenLogManagementSystem
         public float LoadingProgress { get; }
 
 #if UNITY_EDITOR
-        public string TestScene2Load = "Test Scene";
+        public string TestSceneToLoad = "Test Scene";
 #endif
 
         private void Start()
@@ -25,12 +25,12 @@ namespace Cat.ScreenLogManagementSystem
         [ContextMenu("Load Test Scene")]
         public void LoadScene()
         {
-            SceneManagement.LoadScene(TestScene2Load, LoadSceneMode.Single);
+            SceneManagement.LoadScene(TestSceneToLoad, LoadSceneMode.Single);
         }
         [ContextMenu("Load Test Scene Async")]
         public void LoadSceneAsync()
         {
-            SceneManagement.LoadSceneAsync(TestScene2Load, LoadSceneMode.Single);
+            SceneManagement.LoadSceneAsync(TestSceneToLoad, LoadSceneMode.Single);
         }
 #endif
         public void LoadScene(string scene)

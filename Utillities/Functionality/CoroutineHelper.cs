@@ -7,14 +7,24 @@ namespace Cat.Utillities
 
     public static class CoroutineHelper
     {
-        public static readonly WaitForEndOfFrame nextUpdate = new();
-        public static readonly WaitForFixedUpdate nextFixedUpdate = new();
+        private static readonly WaitForEndOfFrame nextUpdate = new();
+        private static readonly WaitForFixedUpdate nextFixedUpdate = new();
         private static readonly Dictionary<float, WaitForSeconds> waits = new();
         private static readonly Dictionary<float, WaitForSecondsRealtime> realtimeWaits = new();
 
         public static MonoBehaviour Context => CatContent.Instance;
+        
+        public static WaitForEndOfFrame GetNextUpdate()
+        {
+            return nextUpdate;
+        }
 
-        public static WaitForSeconds WaitFor(float seconds)
+        public static WaitForFixedUpdate GetNextFixedUpdate()
+        {
+            return nextFixedUpdate;
+        }
+
+        public static WaitForSeconds GetWaitForSeconds(float seconds)
         {
             if (!waits.TryGetValue(seconds, out var wait))
             {
@@ -24,7 +34,7 @@ namespace Cat.Utillities
             return wait;
         }
 
-        public static WaitForSecondsRealtime WaitForRealtime(float seconds)
+        public static WaitForSecondsRealtime GetWaitForRealtime(float seconds)
         {
             if (!realtimeWaits.TryGetValue(seconds, out var wait))
             {
@@ -89,7 +99,7 @@ namespace Cat.Utillities
 
         private static IEnumerator WaitForSecondsCoroutine(float time, System.Action action)
         {
-            yield return WaitFor(time);
+            yield return GetWaitForSeconds(time);
             action?.Invoke();
         }
 
@@ -107,7 +117,7 @@ namespace Cat.Utillities
 
         private static IEnumerator WaitForSecondsRealtimeCoroutine(float time, System.Action action)
         {
-            yield return WaitForRealtime(time);
+            yield return GetWaitForRealtime(time);
             action?.Invoke();
         }
 

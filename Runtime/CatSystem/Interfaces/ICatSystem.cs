@@ -1,7 +1,7 @@
 
 namespace Cat
 {
-    public interface IGameSystem<Type> : ITransformGetable, IEnabledSetable
+    public interface ICatSystem<Type> : ITransformGetable, IEnabledSetable
     {
     }
 }

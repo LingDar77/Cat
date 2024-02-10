@@ -41,7 +41,7 @@ namespace Cat.EventDispatchSystem
         }
         [SerializeField] private uint DispatchRate = 10;
         public DispatchingMode Mode = DispatchingMode.Asynchronous;
-        public bool CheckCircularDependency = false;
+        public bool CheckCircularDependency = true;
 
         protected Queue<string> dispatchQueue = new();
         protected Queue<EventParam> dispatchParamQueue = new();
@@ -129,7 +129,7 @@ namespace Cat.EventDispatchSystem
         private IEnumerator DoDispatchAsynchronously()
         {
             isDispatching = true;
-            yield return CoroutineHelper.nextUpdate;
+            yield return CoroutineHelper.GetNextUpdate();
             var count = DispatchRate;
             if (CheckCircularDependency) dispatched.Clear();
 
@@ -161,7 +161,7 @@ namespace Cat.EventDispatchSystem
                         action.Invoke(data);
                         if (--count != 0) continue;
                         count = DispatchRate;
-                        yield return CoroutineHelper.nextUpdate;
+                        yield return CoroutineHelper.GetNextUpdate();
                     }
                 }
                 else
@@ -173,7 +173,7 @@ namespace Cat.EventDispatchSystem
                             (invocation as System.Action<EventParam>)?.Invoke(data);
                             if (--count != 0) continue;
                             count = DispatchRate;
-                            yield return CoroutineHelper.nextUpdate;
+                            yield return CoroutineHelper.GetNextUpdate();
                         }
                     }
                 }
