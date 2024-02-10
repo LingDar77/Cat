@@ -1,11 +1,10 @@
-#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLE_STEAMWORKS
-#endif
-#if !DISABLE_STEAMWORKS
 namespace Cat.Intergration.SteamSDKProviders
 {
-    using System;
     using Cat.SDKProvider;
+
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
+
+    using System;
     using Cat.Utillities;
     using Steamworks;
     using UnityEngine;
@@ -84,5 +83,11 @@ namespace Cat.Intergration.SteamSDKProviders
             SessionID = session;
         }
     }
-}
+#else
+    public partial class SteamMatchmakingSDKProvider : UnsupportedSDKBase<SteamMatchmakingSDKProvider>
+    {
+
+    }
 #endif
+
+}

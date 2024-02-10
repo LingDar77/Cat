@@ -1,15 +1,14 @@
-#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLE_STEAMWORKS
-#endif
-#if !DISABLE_STEAMWORKS
-
 namespace Cat.Intergration.SteamSDKProviders
 {
-    using System.Collections;
     using Cat.SDKProvider;
+
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
+
+    using System.Collections;
     using Cat.Utillities;
     using Steamworks;
     using UnityEngine;
+    
     public partial class SteamIntergrationSDKProvider : DisableInEdtorScript, ISDKProvider
     {
         [SerializeField] private uint appid = 480;
@@ -77,5 +76,10 @@ namespace Cat.Intergration.SteamSDKProviders
         }
 
     }
-}
+#else
+    public partial class SteamIntergrationSDKProvider : UnsupportedSDKBase<SteamIntergrationSDKProvider>
+    {
+    }
+
 #endif
+}
