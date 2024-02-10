@@ -3,7 +3,6 @@ namespace Cat.LocomotionSystem
     using System.Collections.Generic;
     using Cat.Utillities;
     using UnityEngine;
-
     public enum MovementSweepState
     {
         Initial,
@@ -130,6 +129,7 @@ namespace Cat.LocomotionSystem
         public Vector3 TargetPosition;
         [ReadOnlyInEditor]
         public Quaternion TargetRotation;
+        [SerializeField] protected CatDriver<Vector3> driver;
         [ReadOnlyInEditor]
         public GroundingStatus GroundingStatus = new();
         private readonly GroundingStatus LastGroundingStatus = new();
@@ -150,7 +150,7 @@ namespace Cat.LocomotionSystem
         private Vector3 CharacterTransformToCapsuleBottomHemi => Capsule.center + (-Vector3.up * (Capsule.height * 0.5f)) + (Vector3.up * Capsule.radius);
         private Vector3 CharacterTransformToCapsuleTopHemi => Capsule.center + (Vector3.up * (Capsule.height * 0.5f)) + (-Vector3.up * Capsule.radius);
 
-        private IVector3Driver driver;
+
         #endregion
 
 
@@ -175,7 +175,6 @@ namespace Cat.LocomotionSystem
 
             TargetPosition = transform.position;
             TargetRotation = transform.rotation;
-            driver = GetComponentInChildren<IVector3Driver>();
         }
 
         protected virtual void Update()
@@ -245,7 +244,8 @@ namespace Cat.LocomotionSystem
             PrepareSimulatioin(deltaTime);
             Simulation(deltaTime);
             transform.SetPositionAndRotation(TargetPosition, TargetRotation);
-            driver?.Drive(CurrentVelocity);
+            if (driver != null)
+                driver.Drive(CurrentVelocity);
         }
 
         protected virtual void PrepareSimulatioin(float deltaTime)

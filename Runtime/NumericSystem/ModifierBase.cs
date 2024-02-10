@@ -18,7 +18,8 @@ namespace Cat.NumericSystem
         public override void SetCurrentValue(float value)
         {
             currentValue = value;
-            OnCurrentValueChanged.Invoke(currentValue, MaxValue);
+            if(OnCurrentValueChanged == null) return;
+            OnCurrentValueChanged?.Drive(currentValue, MaxValue);
         }
         protected override void OnEnable()
         {

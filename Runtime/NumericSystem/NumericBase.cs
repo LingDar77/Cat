@@ -1,8 +1,8 @@
 namespace Cat.NumericSystem
 {
     using System.Collections.Generic;
+    using Cat.Utillities;
     using UnityEngine;
-    using UnityEngine.Events;
 
     public abstract class NumericBase : MonoBehaviour
     {
@@ -12,8 +12,8 @@ namespace Cat.NumericSystem
         protected float MaxValue => cacheValue;
         public readonly Dictionary<ModifierBase.ModifierType, HashSet<ModifierBase>> Modifiers = new();
 
-        public UnityEvent<float> OnValueRecalculated;
-        public UnityEvent<float, float> OnCurrentValueChanged;
+        public CatDriver<float> OnValueRecalculated;
+        public CatDriver<float, float> OnCurrentValueChanged;
 
         protected bool IsDirty = true;
         private float cacheValue;
@@ -27,7 +27,8 @@ namespace Cat.NumericSystem
         public virtual void SetCurrentValue(float value)
         {
             currentValue = Mathf.Clamp(value, 0, GetValue());
-            OnCurrentValueChanged.Invoke(currentValue, MaxValue);
+            if(OnCurrentValueChanged == null) return;
+            OnCurrentValueChanged.Drive(currentValue, MaxValue);
         }
 
         protected virtual void OnEnable()
@@ -103,7 +104,9 @@ namespace Cat.NumericSystem
             }
 
             IsDirty = false;
-            OnValueRecalculated.Invoke(cacheValue);
+
+            if(OnValueRecalculated != null)
+            OnValueRecalculated.Drive(cacheValue);
 
             if (currentValue > cacheValue)
                 SetCurrentValue(cacheValue);

@@ -1,11 +1,12 @@
-namespace Cat.Attributes
+namespace Cat.Utillities
 {
     using UnityEngine;
     using System.Collections.Generic;
     using UnityEditor;
     using Type = System.Type;
-    using System.Text;
     using System.Linq;
+    using Cat.Library;
+
     public sealed class ImplementedInterfaceAttribute : PropertyAttribute
     {
 
@@ -34,7 +35,6 @@ namespace Cat.Attributes
         }
 
         private static readonly Dictionary<Type, Dictionary<Type, string>> filterMapByFieldType = new();
-        private static readonly StringBuilder searchFilterBuilder = new();
         private static readonly List<Type> minimumAssignableImplementations = new();
 
         #region Object Field
@@ -123,14 +123,14 @@ namespace Cat.Attributes
             minimumAssignableImplementations.Clear();
             GetDirectImplementations(fieldType, interfaceType, minimumAssignableImplementations);
 
-            searchFilterBuilder.Clear();
+            using var block = zstring.Block();
+            zstring searchFilter = "";
             foreach (var type in minimumAssignableImplementations)
             {
-                searchFilterBuilder.Append("t:");
-                searchFilterBuilder.Append(type.Name);
-                searchFilterBuilder.Append(" ");
+                searchFilter = zstring.Concat(searchFilter, "t:");
+                searchFilter = zstring.Concat(searchFilter, type.Name);
+                searchFilter = zstring.Concat(searchFilter, " ");
             }
-            var searchFilter = searchFilterBuilder.ToString();
 
             filterByInterfaceType.Add(interfaceType, searchFilter);
             return searchFilter;

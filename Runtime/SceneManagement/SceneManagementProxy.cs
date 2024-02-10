@@ -1,8 +1,8 @@
 namespace Cat.ScreenLogManagementSystem
 {
     using System.Collections;
-    using Cat.Attributes;
     using Cat.SceneManagementSystem;
+    using Cat.Utillities;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 

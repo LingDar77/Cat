@@ -548,6 +548,10 @@ MonoBehaviour:
     GroundCollider: {fileID: 0}
     GroundPoint: {x: 0, y: 0, z: 0}
     SnappingPrevented: 0
+  driver: {fileID: 7199151518377399001}
+  event1:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &8855649748479019061
 PrefabInstance:
   m_ObjectHideFlags: 0

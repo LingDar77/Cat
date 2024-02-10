@@ -1,7 +1,7 @@
 namespace Cat.Utillities
 {
     using UnityEngine;
-    public class AnimatorDriver : MonoBehaviour, IVector3Driver
+    public class AnimatorDriver : CatDriver<Vector3>
     {
         [SerializeField] private Animator Animator;
 #if UNITY_EDITOR
@@ -16,7 +16,7 @@ namespace Cat.Utillities
             ParamHash = Animator.StringToHash(ParameterName);
 #endif
         }
-        public void Drive(Vector3 value)
+        public override void Drive(Vector3 value)
         {
             if (Animator == null) return;
 
@@ -26,5 +26,6 @@ namespace Cat.Utillities
             animator.SetFloat(ParamHash, value.magnitude);
 #endif
         }
+
     }
 }
