@@ -1154,6 +1154,16 @@ namespace Cat.Library
         {
             return value._value;
         }
+
+        public static zstring Convert(object value)
+        {
+            if (value is bool boolVal) return boolVal;
+            if (value is long longVal) return longVal;
+            if (value is int intVal) return intVal;
+            if (value is float floatVal) return floatVal;
+            if (value is string stringVal) return stringVal;
+            return value.ToString();
+        }
         //+重载
         public static zstring operator +(zstring left, zstring right)
         {
@@ -1392,7 +1402,7 @@ namespace Cat.Library
             getStackInCache(length, out stack);
             return stack.Count;
         }
-        
+
         //自身+value拼接
         public zstring Concat(zstring value)
         {
@@ -1595,6 +1605,16 @@ namespace Cat.Library
                 g_format_args[i] = args[i];
             }
             return internal_format(input, args.Length);
+        }
+
+        public static zstring Format(string input, int length, params zstring[] args)
+        {
+            if (args == null || length == 0 || length > 10) throw new ArgumentNullException("args");
+            for (int i = 0; i != length; ++i)
+            {
+                g_format_args[i] = args[i];
+            }
+            return internal_format(input, length);
         }
 
         // 普通的float->string是隐式转换，小数点后只保留三位有效数字

@@ -6,7 +6,7 @@ namespace Cat.NumericSystem
     {
         public override void Drive(float p1, float p2)
         {
-            this.LogToScreen("drive");
+            this.LogFormatToScreen("Current Value: {0}, Max Value: {1}", UnityEngine.LogType.Log, p1, p2);
         }
     }
 }

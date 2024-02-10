@@ -1,3 +1,5 @@
+using Cat.Utillities;
+
 namespace Cat.NumericSystem
 {
     public abstract class ModifierBase : NumericBase
@@ -18,8 +20,8 @@ namespace Cat.NumericSystem
         public override void SetCurrentValue(float value)
         {
             currentValue = value;
-            if(OnCurrentValueChanged == null) return;
-            OnCurrentValueChanged?.Drive(currentValue, MaxValue);
+            if (OnCurrentValueChanged == null) return;
+            OnCurrentValueChanged.Drive(CurrentValue, MaxValue);
         }
         protected override void OnEnable()
         {
@@ -48,7 +50,7 @@ namespace Cat.NumericSystem
 
         public override int GetHashCode()
         {
-            return (int)CurrentValue + (int)GetModifierType();
+            return base.GetHashCode() + (int)CurrentValue + (int)GetModifierType();
         }
 
     }

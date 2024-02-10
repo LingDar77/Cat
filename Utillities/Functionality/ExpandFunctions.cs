@@ -1,5 +1,6 @@
 namespace Cat.Utillities
 {
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Linq;
     using Cat.Library;
@@ -207,41 +208,36 @@ namespace Cat.Utillities
 
         public static void LogFormat(this Component context, string format, LogType type = LogType.Log, params string[] args)
         {
-            using (zstring.Block())
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
+            for (int i = 0; i != args.Length; ++i)
             {
-                var zargs = new zstring[args.Length];
-                for (int i = 0; i != args.Length; ++i)
-                {
-                    zargs[i] = args[i];
-                }
-                Log(context, zstring.Format(format, zargs), type);
-
+                zargs[i] = args[i];
             }
+            Log(context, zstring.Format(format, args.Length, zargs), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
         }
-        public static void LogFormatToScreen(this Component context, string format, LogType type = LogType.Log, params string[] args)
+        public static void LogFormatToScreen(this Component context, string format, LogType type = LogType.Log, params object[] args)
         {
-            using (zstring.Block())
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
+            for (int i = 0; i != args.Length; ++i)
             {
-                var zargs = new zstring[args.Length];
-                for (int i = 0; i != args.Length; ++i)
-                {
-                    zargs[i] = args[i];
-                }
-                LogToScreen(context, zstring.Format(format, zargs), type);
-
+                zargs[i] = zstring.Convert(args[i]);
             }
+            LogToScreen(context, zstring.Format(format, args.Length, zargs), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
         }
-        public static void LogFormatToConsole(this Component context, string format, LogType type = LogType.Log, params string[] args)
+        public static void LogFormatToConsole(this Component context, string format, LogType type = LogType.Log, params object[] args)
         {
-            using (zstring.Block())
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
+            for (int i = 0; i != args.Length; ++i)
             {
-                var zargs = new zstring[args.Length];
-                for (int i = 0; i != args.Length; ++i)
-                {
-                    zargs[i] = args[i];
-                }
-                LogToConsole(context, zstring.Format(format, zargs), type);
+                zargs[i] = zstring.Convert(args[i]);
             }
+            LogToConsole(context, zstring.Format(format, args.Length, zargs), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
         }
         #endregion
 

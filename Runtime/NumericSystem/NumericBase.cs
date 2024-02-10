@@ -27,8 +27,9 @@ namespace Cat.NumericSystem
         public virtual void SetCurrentValue(float value)
         {
             currentValue = Mathf.Clamp(value, 0, GetValue());
-            if(OnCurrentValueChanged == null) return;
-            OnCurrentValueChanged.Drive(currentValue, MaxValue);
+           
+            if (OnCurrentValueChanged == null) return;
+            OnCurrentValueChanged.Drive(CurrentValue, MaxValue);
         }
 
         protected virtual void OnEnable()
@@ -105,8 +106,8 @@ namespace Cat.NumericSystem
 
             IsDirty = false;
 
-            if(OnValueRecalculated != null)
-            OnValueRecalculated.Drive(cacheValue);
+            if (OnValueRecalculated != null)
+                OnValueRecalculated.Drive(cacheValue);
 
             if (currentValue > cacheValue)
                 SetCurrentValue(cacheValue);
