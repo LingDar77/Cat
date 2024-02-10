@@ -2,11 +2,13 @@ namespace Cat.Utillities
 {
     using System.Buffers;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Cat.Library;
     using Cat.ScreenLogManagementSystem;
     using UnityEngine;
     using UnityEngine.Audio;
+    using Debug = UnityEngine.Debug;
 
     public static class ExpandFunctions
     {
@@ -162,83 +164,7 @@ namespace Cat.Utillities
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 #endif
         }
-        public static void Log(this Component context, string message, LogType type = LogType.Log)
-        {
-#if UNITY_EDITOR
-            LogToConsole(context, message, type);
-#else
-            LogToScreen(context, message, type);
-#endif
-        }
 
-        /// <summary>
-        /// Log to unity console to gain more trace infomation.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="message"></param>
-        /// <param name="type"></param>
-        public static void LogToConsole(Component context, string message, LogType type)
-        {
-            switch (type)
-            {
-                case LogType.Log:
-                    Debug.Log(message, context);
-                    break;
-                case LogType.Warning:
-                    Debug.LogWarning(message, context);
-                    break;
-                default:
-                    Debug.LogError(message, context);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Provide less trace infomation to reduce gc alloc at run time.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="message"></param>
-        /// <param name="type"></param> <summary>
-        public static void LogToScreen(this Component context, string message, LogType type = LogType.Log)
-        {
-            if (IScreenLogManagement.Singleton == null) return;
-            var trace = context.GetType().FullName;
-            IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
-        }
-
-        public static void LogFormat(this Component context, string format, LogType type = LogType.Log, params string[] args)
-        {
-            using var block = zstring.Block();
-            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
-            for (int i = 0; i != args.Length; ++i)
-            {
-                zargs[i] = args[i];
-            }
-            Log(context, zstring.Format(format, args.Length, zargs), type);
-            ArrayPool<zstring>.Shared.Return(zargs);
-        }
-        public static void LogFormatToScreen(this Component context, string format, LogType type = LogType.Log, params object[] args)
-        {
-            using var block = zstring.Block();
-            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
-            for (int i = 0; i != args.Length; ++i)
-            {
-                zargs[i] = zstring.Convert(args[i]);
-            }
-            LogToScreen(context, zstring.Format(format, args.Length, zargs), type);
-            ArrayPool<zstring>.Shared.Return(zargs);
-        }
-        public static void LogFormatToConsole(this Component context, string format, LogType type = LogType.Log, params object[] args)
-        {
-            using var block = zstring.Block();
-            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
-            for (int i = 0; i != args.Length; ++i)
-            {
-                zargs[i] = zstring.Convert(args[i]);
-            }
-            LogToConsole(context, zstring.Format(format, args.Length, zargs), type);
-            ArrayPool<zstring>.Shared.Return(zargs);
-        }
         #endregion
 
         #region AudioSource Expand
@@ -320,6 +246,554 @@ namespace Cat.Utillities
         }
 
         #endregion
+
+    }
+
+    public static class LogExpandFunctions
+    {
+        [Conditional("INCLUDE_LOG")]
+        public static void Log(this Component context, string message, LogType type = LogType.Log)
+        {
+#if UNITY_EDITOR
+            LogToConsole(context, message, type);
+#else
+            LogToScreen(context, message, type);
+#endif
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogToConsole(Component context, string message, LogType type)
+        {
+            switch (type)
+            {
+                case LogType.Log:
+                    Debug.Log(message, context);
+                    break;
+                case LogType.Warning:
+                    Debug.LogWarning(message, context);
+                    break;
+                default:
+                    Debug.LogError(message, context);
+                    break;
+            }
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogToScreen(this Component context, string message, LogType type = LogType.Log)
+        {
+            if (IScreenLogManagement.Singleton == null) return;
+            var trace = context.GetType().FullName;
+            IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
+        }
+
+        
+        
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat(this Component context, string format, LogType type = LogType.Log, params object[] args)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
+            for (int i = 0; i != args.Length; ++i)
+            {
+                zargs[i] = args[i].ToString();
+            }
+            Log(context, zstring.Format(format, zargs, args.Length), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen(this Component context, string format, LogType type = LogType.Log, params object[] args)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
+            for (int i = 0; i != args.Length; ++i)
+            {
+                zargs[i] = args[i].ToString();
+            }
+            LogToScreen(context, zstring.Format(format, zargs, args.Length), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole(this Component context, string format, LogType type = LogType.Log, params object[] args)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(args.Length);
+            for (int i = 0; i != args.Length; ++i)
+            {
+                zargs[i] = args[i].ToString();
+            }
+            LogToConsole(context, zstring.Format(format, zargs, args.Length), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        
+        
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(1);
+            zargs[0] = arg0.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, 1), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(2);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(3);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2, T3>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(4);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2, T3, T4>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(5);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(6);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(7);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6, T7>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(8);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6, T7, T8>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(9);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            zargs[cnt++] = arg8.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default, T9 arg9 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(10);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            zargs[cnt++] = arg8.ToString();
+            zargs[cnt++] = arg9.ToString();
+            LogToScreen(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(1);
+            zargs[0] = arg0.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, 1), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(2);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(3);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2, T3>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(4);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2, T3, T4>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(5);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(6);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(7);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6, T7>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(8);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6, T7, T8>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(9);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            zargs[cnt++] = arg8.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default, T9 arg9 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(10);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            zargs[cnt++] = arg8.ToString();
+            zargs[cnt++] = arg9.ToString();
+            LogToConsole(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+
+       
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(1);
+            zargs[0] = arg0.ToString();
+            Log(context, zstring.Format(format, zargs, 1), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(2);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(3);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2, T3>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(4);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2, T3, T4>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(5);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2, T3, T4, T5>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(6);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2, T3, T4, T5, T6>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(7);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2, T3, T4, T5, T6, T7>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(8);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2, T3, T4, T5, T6, T7, T8>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(9);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            zargs[cnt++] = arg8.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
+
+        [Conditional("INCLUDE_LOG")]
+        public static void LogFormat<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default, T9 arg9 = default)
+        {
+            using var block = zstring.Block();
+            var zargs = ArrayPool<zstring>.Shared.Rent(10);
+            var cnt = 0;
+            zargs[cnt++] = arg0.ToString();
+            zargs[cnt++] = arg1.ToString();
+            zargs[cnt++] = arg2.ToString();
+            zargs[cnt++] = arg3.ToString();
+            zargs[cnt++] = arg4.ToString();
+            zargs[cnt++] = arg5.ToString();
+            zargs[cnt++] = arg6.ToString();
+            zargs[cnt++] = arg7.ToString();
+            zargs[cnt++] = arg8.ToString();
+            zargs[cnt++] = arg9.ToString();
+            Log(context, zstring.Format(format, zargs, cnt), type);
+            ArrayPool<zstring>.Shared.Return(zargs);
+        }
 
     }
 }

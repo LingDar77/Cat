@@ -117,7 +117,7 @@ namespace Cat.Library
                        );
 
             g_finds = new List<int>(10);
-            g_format_args = new zstring[10];
+            g_format_args = new zstring[16];
         }
         //析构
         private void dispose()
@@ -1138,32 +1138,26 @@ namespace Cat.Library
             }
             return result;
         }
+
         //string->zstring转换
         public static implicit operator zstring(string value)
         {
             //return get(value);
             return getShallow(value);
         }
+
         //string->zstring转换
         public static zstring shallow(string value)
         {
             return getShallow(value);
         }
+
         //zstring->string转换
         public static implicit operator string(zstring value)
         {
             return value._value;
         }
 
-        public static zstring Convert(object value)
-        {
-            if (value is bool boolVal) return boolVal;
-            if (value is long longVal) return longVal;
-            if (value is int intVal) return intVal;
-            if (value is float floatVal) return floatVal;
-            if (value is string stringVal) return stringVal;
-            return value.ToString();
-        }
         //+重载
         public static zstring operator +(zstring left, zstring right)
         {
@@ -1607,7 +1601,7 @@ namespace Cat.Library
             return internal_format(input, args.Length);
         }
 
-        public static zstring Format(string input, int length, params zstring[] args)
+        public static zstring Format(string input, zstring[] args, int length)
         {
             if (args == null || length == 0 || length > 10) throw new ArgumentNullException("args");
             for (int i = 0; i != length; ++i)
