@@ -1,4 +1,4 @@
-namespace Cat.Intergration.SteamSDKProviders
+namespace Cat.Intergration.Steam.SDKProvider
 {
     using Cat.SDKProvider;
 
