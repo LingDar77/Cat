@@ -1,4 +1,4 @@
-namespace Cat.Intergration.PicoSDKProviders
+namespace Cat.Intergration.Pico.SDKProviders
 {
     using System.Collections.Generic;
     using Cat.SDKProvider;

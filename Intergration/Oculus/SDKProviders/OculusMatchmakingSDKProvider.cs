@@ -1,4 +1,4 @@
-namespace Cat.Intergration.OculusSDKProviders
+namespace Cat.Intergration.Oculus.SDKProviders
 {
     using System;
     using Oculus.Platform;
