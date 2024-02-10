@@ -5,10 +5,14 @@ namespace Cat.NumericSystem
     {
         private void Start()
         {
-            OnCurrentValueChanged.AddListener((value, max) => this.LogToScreen("MaximumLife: " + value + " / " + max));
-            OnValueRecalculated.AddListener(value =>
+            OnCurrentValueChanged.AddListener((value, max) =>
             {
-                this.LogToScreen("MaximumLife: " + value);
+                if (value > 0)
+                    this.LogToScreen("MaximumLife: " + value + " / " + max);
+                else
+                {
+                    this.LogToScreen("Dead");
+                }
             });
         }
     }

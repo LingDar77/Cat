@@ -11,5 +11,9 @@ namespace Cat.NumericSystem
         {
             return ModifierType.Increase;
         }
+        public override bool IsNumericValid(NumericBase numeric)
+        {
+            return numeric is MaximumLife;
+        }
     }
 }

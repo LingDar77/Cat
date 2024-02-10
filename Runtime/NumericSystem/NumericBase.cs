@@ -7,7 +7,7 @@ namespace Cat.NumericSystem
     public abstract class NumericBase : MonoBehaviour
     {
         [SerializeField] protected float BaseValue;
-        [SerializeField] private float currentValue;
+        [SerializeField] protected float currentValue;
         public float CurrentValue { get => currentValue; set => SetCurrentValue(value); }
         protected float MaxValue => cacheValue;
         public readonly Dictionary<ModifierBase.ModifierType, HashSet<ModifierBase>> Modifiers = new();

@@ -10,14 +10,16 @@ namespace Cat.NumericSystem
 
             Max,
         }
-        
+
         public abstract ModifierType GetModifierType();
 
-        public virtual bool IsNumericValid(NumericBase numeric)
-        {
-            return !numeric.GetType().IsSubclassOf(typeof(ModifierBase));
-        }
+        public abstract bool IsNumericValid(NumericBase numeric);
 
+        public override void SetCurrentValue(float value)
+        {
+            currentValue = value;
+            OnCurrentValueChanged.Invoke(currentValue, MaxValue);
+        }
         protected override void OnEnable()
         {
             base.OnEnable();
