@@ -6,5 +6,11 @@ namespace Cat.PoolingSystem
         void Enpool(PooledType obj);
         PooledType Depool();
     }
+    public interface IMultiPoolingSystem<KeyType, PooledType> : ICatSystem<IMultiPoolingSystem<KeyType, PooledType>> where PooledType : IMultiPooledObject<KeyType, PooledType>, new()
+    {
+        int Count(KeyType key);
+        void Enpool(KeyType key, PooledType obj);
+        PooledType Depool(KeyType key);
+    }
 
 }

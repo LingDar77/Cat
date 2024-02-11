@@ -16,7 +16,8 @@ namespace Cat.NumericSystem
         public CatDriver<float, float> OnCurrentValueChanged;
 
         protected bool IsDirty = true;
-        private float cacheValue;
+        [ReadOnlyInEditor]
+        [SerializeField] private float cacheValue;
         private int cacheHash;
 
         protected virtual void Update()

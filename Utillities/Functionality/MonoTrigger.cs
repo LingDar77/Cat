@@ -11,19 +11,21 @@ namespace Cat.Utillities
     {
         public UnityEvent<Collider> TriggerEntered;
         public UnityEvent<Collider> TriggerExited;
-        public UnityEvent<Collider> TriggerStayed;
+
+        public CatDriver<bool, Collider> driver;
 
         private void OnTriggerEnter(Collider other)
         {
             TriggerEntered.Invoke(other);
+            if (driver == null) return;
+            driver.Drive(true, other);
         }
         private void OnTriggerExit(Collider other)
         {
             TriggerExited.Invoke(other);
+            if (driver == null) return;
+            driver.Drive(false, other);
         }
-        private void OnTriggerStay(Collider other)
-        {
-            TriggerStayed.Invoke(other);
-        }
+
     }
 }

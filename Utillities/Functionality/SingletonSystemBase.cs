@@ -17,7 +17,7 @@ namespace Cat
 
         protected virtual void OnDisable()
         {
-            if (!ISingletonSystem<ImplementType>.Singleton.Equals(this)) return;
+            if (!Equals(ISingletonSystem<ImplementType>.Singleton)) return;
             ISingletonSystem<ImplementType>.Singleton = null;
         }
 

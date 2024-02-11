@@ -24,7 +24,6 @@ namespace Cat.Utillities
     }
     public class LinkedCache<Type> where Type : class, new()
     {
-        private static readonly BuiltinPoolingSystem<LinkedListNode<Type>> pool = new();
         private readonly Dictionary<Type, LinkedListNode<Type>> map = new();
         public LinkedListNode<Type> Last { get; private set; }
         public LinkedListNode<Type> First { get; private set; }
@@ -33,11 +32,11 @@ namespace Cat.Utillities
         {
             if (Last == null)
             {
-                Last = First = pool.Depool().Init(item);
+                Last = First = BuiltinPoolingSystem<LinkedListNode<Type>>.Shared.Depool().Init(item);
             }
             else
             {
-                Last.Next = pool.Depool().Init(item, Last);
+                Last.Next = BuiltinPoolingSystem<LinkedListNode<Type>>.Shared.Depool().Init(item, Last);
                 Last = Last.Next;
             }
             map.Add(item, Last);

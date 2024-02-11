@@ -1,7 +1,6 @@
 namespace Cat.PoolingSystem
 {
     using System.Collections.Generic;
-    using Cat.Utillities;
     using UnityEngine;
 
     public class BuiltinPoolingSystem<Type> : IPoolingSystem<Type> where Type : IPooledObject<Type>, new()
@@ -11,6 +10,10 @@ namespace Cat.PoolingSystem
         public System.Action<Type> OnDepool;
         public System.Func<Type> CreateInstance;
         protected Queue<Type> pool = new();
+
+        private static BuiltinPoolingSystem<Type> shared;
+
+        public static BuiltinPoolingSystem<Type> Shared => shared ??= new();
 
         public BuiltinPoolingSystem()
         {
@@ -40,46 +43,51 @@ namespace Cat.PoolingSystem
         }
     }
 
-    public class BuiltinPoolingSystem : MonoBehaviour, ICatSystem<BuiltinPoolingSystem>, IPoolingSystem<BuiltinPooledGameObject>
+
+
+    public class BuiltinPoolingSystem : SingletonSystemBase<BuiltinPoolingSystem>, IMultiPoolingSystem<Transform, BuiltinPooledGameObject>
     {
-        public int Count { get; }
+        protected Dictionary<Transform, Queue<BuiltinPooledGameObject>> pools = new();
 
-        public Transform Prefab;
-        public CatDriver<BuiltinPooledGameObject> OnEnpool;
-        public CatDriver<BuiltinPooledGameObject> OnDepool;
-        public System.Func<BuiltinPooledGameObject> CreateInstance => CreateNew;
-        protected Queue<BuiltinPooledGameObject> pool = new();
 
-        protected BuiltinPoolingSystem() { }
-
-        public void Enpool(BuiltinPooledGameObject obj)
+        public void Enpool(Transform key, BuiltinPooledGameObject obj)
         {
+            if (obj == null) return;
+            var pool = GetPool(key);
             pool.Enqueue(obj);
-            if (OnEnpool == null) return;
-            OnEnpool.Drive(obj);
         }
 
-        public BuiltinPooledGameObject Depool()
+        public BuiltinPooledGameObject Depool(Transform key)
         {
-            var instance = pool.Count == 0 ? CreateInstance() : pool.Dequeue();
-            if (OnDepool != null)
-                OnDepool.Drive(instance);
-            instance.gameObject.SetActive(true);
-            return instance;
+            var pool = GetPool(key);
+            if (pool.Count == 0)
+            {
+                return CreateNew(key);
+            }
+            return pool.Dequeue();
         }
-        private BuiltinPooledGameObject CreateNew()
+
+        public int Count(Transform key)
         {
-            BuiltinPooledGameObject retsult;
-            if (Prefab == null)
+            return GetPool(key).Count;
+        }
+
+        protected Queue<BuiltinPooledGameObject> GetPool(Transform key)
+        {
+            if (!pools.TryGetValue(key, out var pool))
             {
-                retsult = new GameObject("GameObject", typeof(BuiltinPooledGameObject)).GetComponent<BuiltinPooledGameObject>();
+                pool = new();
+                pools.Add(key, pool);
             }
-            else
-            {
-                retsult = Instantiate(Prefab).GetComponent<BuiltinPooledGameObject>();
-            }
-            retsult.Pool = this;
-            return retsult;
+            return pool;
+        }
+
+        protected virtual BuiltinPooledGameObject CreateNew(Transform key)
+        {
+            var instance = Instantiate(key).GetComponent<BuiltinPooledGameObject>();
+            instance.Pool = this;
+            instance.Key = key;
+            return instance;
         }
     }
 }

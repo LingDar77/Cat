@@ -6,8 +6,10 @@ namespace Cat.EventDispatchSystem
     using Cat.Utillities;
     using UnityEngine;
     using SerializableAttribute = System.SerializableAttribute;
+    using IDisposable = System.IDisposable;
 
-    public class BuiltinEventDispatcher : MonoBehaviour, IEventDispatcher<string>
+
+    public class BuiltinEventDispatcher : SingletonSystemBase<BuiltinEventDispatcher>, IEventDispatcher<string>
     {
         [Serializable]
         public enum DispatchingMode
@@ -20,11 +22,11 @@ namespace Cat.EventDispatchSystem
         public class Subscriptioin : IPooledObject<Subscriptioin>
         {
             public string Type;
-            public System.Action<EventParam> Callback;
+            public System.Action<IDisposable> Callback;
             public bool Subscribed;
             public IPoolingSystem<Subscriptioin> Pool { get; set; }
 
-            public Subscriptioin Init(string type, System.Action<EventParam> callback, bool subscribed)
+            public Subscriptioin Init(string type, System.Action<IDisposable> callback, bool subscribed)
             {
                 Type = type;
                 Callback = callback;
@@ -44,29 +46,13 @@ namespace Cat.EventDispatchSystem
         public bool CheckCircularDependency = true;
 
         protected Queue<string> dispatchQueue = new();
-        protected Queue<EventParam> dispatchParamQueue = new();
+        protected Queue<IDisposable> dispatchParamQueue = new();
         protected HashSet<string> dispatched = new();
         protected bool isDispatching = false;
-        protected readonly Dictionary<string, HashSet<System.Action<EventParam>>> events = new();
+        protected readonly Dictionary<string, HashSet<System.Action<IDisposable>>> events = new();
         protected Queue<Subscriptioin> subscriptioins = new();
-        protected readonly BuiltinPoolingSystem<Subscriptioin> pool = new();
 
-        protected virtual void OnEnable()
-        {
-            if (IEventDispatcher<string>.Singleton != null) return;
-
-            IEventDispatcher<string>.Singleton = this;
-            DontDestroyOnLoad(transform.root.gameObject);
-
-        }
-
-        protected virtual void OnDisable()
-        {
-            if (IEventDispatcher<string>.Singleton.transform != transform) return;
-            IEventDispatcher<string>.Singleton = null;
-        }
-
-        public void Dispatch(string type, EventParam data)
+        public void Dispatch(string type, IDisposable data)
         {
             if (Mode == DispatchingMode.Synchronous)
             {
@@ -78,11 +64,11 @@ namespace Cat.EventDispatchSystem
             }
         }
 
-        public virtual void Subscribe(string type, System.Action<EventParam> callback)
+        public virtual void Subscribe(string type, System.Action<IDisposable> callback)
         {
             if (isDispatching)
             {
-                subscriptioins.Enqueue(pool.Depool().Init(type, callback, true));
+                subscriptioins.Enqueue(BuiltinPoolingSystem<Subscriptioin>.Shared.Depool().Init(type, callback, true));
                 return;
             }
             if (events.TryGetValue(type, out var list))
@@ -94,11 +80,11 @@ namespace Cat.EventDispatchSystem
             events.Add(type, new() { callback });
         }
 
-        public virtual void Unsubscribe(string type, System.Action<EventParam> callback)
+        public virtual void Unsubscribe(string type, System.Action<IDisposable> callback)
         {
             if (isDispatching)
             {
-                subscriptioins.Enqueue(pool.Depool().Init(type, callback, false));
+                subscriptioins.Enqueue(BuiltinPoolingSystem<Subscriptioin>.Shared.Depool().Init(type, callback, false));
                 return;
             }
             if (!events.TryGetValue(type, out var list)) return;
@@ -106,7 +92,7 @@ namespace Cat.EventDispatchSystem
             events[type].Remove(callback);
         }
 
-        protected virtual void DispatchSynchronously(string type, EventParam data)
+        protected virtual void DispatchSynchronously(string type, IDisposable data)
         {
             if (!events.ContainsKey(type)) return;
             var callbacks = events[type];
@@ -117,7 +103,7 @@ namespace Cat.EventDispatchSystem
             data?.Dispose();
         }
 
-        protected virtual void DispatchAsynchronously(string type, EventParam data)
+        protected virtual void DispatchAsynchronously(string type, IDisposable data)
         {
             dispatchQueue.Enqueue(type);
             dispatchParamQueue.Enqueue(data);
@@ -170,7 +156,7 @@ namespace Cat.EventDispatchSystem
                     {
                         foreach (var invocation in action.GetInvocationList())
                         {
-                            (invocation as System.Action<EventParam>)?.Invoke(data);
+                            (invocation as System.Action<IDisposable>)?.Invoke(data);
                             if (--count != 0) continue;
                             count = DispatchRate;
                             yield return CoroutineHelper.GetNextUpdate();

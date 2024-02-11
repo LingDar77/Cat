@@ -2,8 +2,9 @@ namespace Cat.EventDispatchSystem
 {
     using UnityEngine;
     using UnityEngine.Events;
+    using IDisposable = System.IDisposable;
 
-    public class EventDispatcherProxy : MonoBehaviour, IEventDispatcher<string>
+    public class EventDispatcherProxy : MonoBehaviour, ISingletonSystem<BuiltinEventDispatcher>
     {
         [System.Serializable]
         public class ReciveEventHandler
@@ -22,22 +23,22 @@ namespace Cat.EventDispatchSystem
         }
         public void Dispatch(string type)
         {
-            IEventDispatcher<string>.GetChecked().Dispatch(type, null);
+            ISingletonSystem<BuiltinEventDispatcher>.GetChecked().Dispatch(type, null);
         }
 
-        public void Dispatch(string type, EventParam data)
+        public void Dispatch(string type, IDisposable data)
         {
-            IEventDispatcher<string>.GetChecked().Dispatch(type, data);
+            ISingletonSystem<BuiltinEventDispatcher>.GetChecked().Dispatch(type, data);
         }
 
-        public void Subscribe(string type, System.Action<EventParam> callback)
+        public void Subscribe(string type, System.Action<IDisposable> callback)
         {
-            IEventDispatcher<string>.GetChecked().Subscribe(type, callback);
+            ISingletonSystem<BuiltinEventDispatcher>.GetChecked().Subscribe(type, callback);
         }
 
-        public void Unsubscribe(string type, System.Action<EventParam> callback)
+        public void Unsubscribe(string type, System.Action<IDisposable> callback)
         {
-            IEventDispatcher<string>.GetChecked().Subscribe(type, callback);
+            ISingletonSystem<BuiltinEventDispatcher>.GetChecked().Subscribe(type, callback);
         }
     }
 }
