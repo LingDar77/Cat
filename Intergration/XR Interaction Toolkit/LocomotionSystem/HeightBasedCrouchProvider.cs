@@ -13,11 +13,12 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         [SerializeField] private InputActionProperty HMDPosition;
         [SerializeField] private InputActionProperty IsTracked;
         [SerializeField] private InputActionProperty UserPresence;
-
+        [SerializeField] private Transform Offset;
         private CapsuleCollider capsule;
         private float initalCapsuleHeight;
         private float initialCapsuleOffset;
         private float initialHeight;
+        private float initialOffset;
         private IXRSDKProvider sdk;
 
         private void Start()
@@ -38,6 +39,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         protected override void OnEnable()
         {
             base.OnEnable();
+            initialOffset = Offset.localPosition.y;
             capsule = LocomotionSystem.transform.GetComponent<CapsuleCollider>();
             initalCapsuleHeight = capsule.height;
             initialCapsuleOffset = initalCapsuleHeight / 2 - capsule.center.y;
@@ -58,10 +60,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         private void ResetInitialHeight(InputAction.CallbackContext context)
         {
             var height = HMDPosition.action.ReadValue<Vector3>().y;
-            if (height > initialHeight)
-            {
-                initialHeight = height;
-            }
+            initialHeight = height;
         }
         public override void BeforeProcess(float deltaTime)
         {
@@ -72,9 +71,13 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
 
         protected void SetCapsuleHeight(float height)
         {
+            var ajustOffset = 0f;
+            if (height < MinimumCrouchHeight) ajustOffset = MinimumCrouchHeight - height;
+            if (height > initalCapsuleHeight) ajustOffset = height - initalCapsuleHeight;
             var targetHeight = Mathf.Clamp(height, MinimumCrouchHeight, initalCapsuleHeight);
             capsule.height = targetHeight;
             capsule.center = new Vector3(capsule.center.x, initalCapsuleHeight - targetHeight / 2 - initialCapsuleOffset, capsule.center.z);
+            Offset.transform.localPosition = new Vector3(Offset.transform.localPosition.x, initialOffset + ajustOffset, Offset.transform.localPosition.z);
         }
     }
 }
