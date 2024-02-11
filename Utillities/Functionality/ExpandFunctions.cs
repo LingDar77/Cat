@@ -251,7 +251,7 @@ namespace Cat.Utillities
 
     public static class LogExpandFunctions
     {
-
+        [Conditional("INCLUDE_LOG")]
         public static void Log(this Component context, string message, LogType type = LogType.Log)
         {
 #if UNITY_EDITOR
@@ -261,7 +261,7 @@ namespace Cat.Utillities
 #endif
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogToConsole(Component context, string message, LogType type)
         {
             switch (type)
@@ -278,7 +278,7 @@ namespace Cat.Utillities
             }
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogToScreen(this Component context, string message, LogType type = LogType.Log)
         {
             if (IScreenLogManagement.Singleton == null) return;
@@ -286,9 +286,9 @@ namespace Cat.Utillities
             IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
         }
 
-
-
-
+        
+        
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat(this Component context, string format, LogType type = LogType.Log, params object[] args)
         {
             using var block = zstring.Block();
@@ -301,7 +301,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen(this Component context, string format, LogType type = LogType.Log, params object[] args)
         {
             using var block = zstring.Block();
@@ -314,7 +314,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole(this Component context, string format, LogType type = LogType.Log, params object[] args)
         {
             using var block = zstring.Block();
@@ -327,9 +327,9 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
-
-
+        
+        
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
         {
             using var block = zstring.Block();
@@ -339,7 +339,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default)
         {
             using var block = zstring.Block();
@@ -351,7 +351,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default)
         {
             using var block = zstring.Block();
@@ -364,7 +364,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2, T3>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default)
         {
             using var block = zstring.Block();
@@ -378,7 +378,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2, T3, T4>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default)
         {
             using var block = zstring.Block();
@@ -393,7 +393,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default)
         {
             using var block = zstring.Block();
@@ -409,7 +409,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default)
         {
             using var block = zstring.Block();
@@ -426,7 +426,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6, T7>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default)
         {
             using var block = zstring.Block();
@@ -444,7 +444,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6, T7, T8>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default)
         {
             using var block = zstring.Block();
@@ -463,7 +463,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default, T9 arg9 = default)
         {
             using var block = zstring.Block();
@@ -485,7 +485,7 @@ namespace Cat.Utillities
 
 
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
         {
             using var block = zstring.Block();
@@ -495,7 +495,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default)
         {
             using var block = zstring.Block();
@@ -507,7 +507,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default)
         {
             using var block = zstring.Block();
@@ -520,7 +520,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2, T3>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default)
         {
             using var block = zstring.Block();
@@ -534,7 +534,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2, T3, T4>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default)
         {
             using var block = zstring.Block();
@@ -549,7 +549,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default)
         {
             using var block = zstring.Block();
@@ -565,7 +565,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default)
         {
             using var block = zstring.Block();
@@ -582,7 +582,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6, T7>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default)
         {
             using var block = zstring.Block();
@@ -600,7 +600,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6, T7, T8>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default)
         {
             using var block = zstring.Block();
@@ -619,7 +619,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormatToConsole<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default, T9 arg9 = default)
         {
             using var block = zstring.Block();
@@ -640,8 +640,8 @@ namespace Cat.Utillities
         }
 
 
-
-
+       
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
         {
             using var block = zstring.Block();
@@ -651,7 +651,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default)
         {
             using var block = zstring.Block();
@@ -663,7 +663,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default)
         {
             using var block = zstring.Block();
@@ -676,7 +676,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2, T3>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default)
         {
             using var block = zstring.Block();
@@ -690,7 +690,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2, T3, T4>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default)
         {
             using var block = zstring.Block();
@@ -705,7 +705,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2, T3, T4, T5>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default)
         {
             using var block = zstring.Block();
@@ -721,7 +721,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2, T3, T4, T5, T6>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default)
         {
             using var block = zstring.Block();
@@ -738,7 +738,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2, T3, T4, T5, T6, T7>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default)
         {
             using var block = zstring.Block();
@@ -756,7 +756,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2, T3, T4, T5, T6, T7, T8>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default)
         {
             using var block = zstring.Block();
@@ -775,7 +775,7 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-
+        [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default, T1 arg1 = default, T2 arg2 = default, T3 arg3 = default, T4 arg4 = default, T5 arg5 = default, T6 arg6 = default, T7 arg7 = default, T8 arg8 = default, T9 arg9 = default)
         {
             using var block = zstring.Block();

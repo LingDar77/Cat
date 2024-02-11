@@ -23,7 +23,7 @@ namespace Cat.Utillities
 #if UNITY_EDITOR
             Animator.SetFloat(ParameterName, value.magnitude);
 #else
-            animator.SetFloat(ParamHash, value.magnitude);
+            Animator.SetFloat(ParamHash, value.magnitude);
 #endif
         }
 
