@@ -9,6 +9,8 @@ namespace Cat.ScreenLogManagementSystem
     {
         [field: SerializeField]
         public Vector2 ContentSize { get; set; } = new(.8f, .5f);
+        public Vector2 Offset = Vector2.zero;
+
         [Range(1, 32)]
         public int MaxLines = 32;
         [field: SerializeField] public int FontSize { get; set; } = 16;
@@ -91,8 +93,8 @@ namespace Cat.ScreenLogManagementSystem
             if (messageToPrint == null) return;
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
             GUI.Label(new Rect(
-                (1 - ContentSize.x) * Screen.width / 2,
-                (1 - ContentSize.y) * Screen.height / 2,
+                Screen.width * Offset.x,
+                Screen.height * Offset.y,
                 Screen.width * ContentSize.x,
                 Screen.height * ContentSize.y),
                 messageToPrint,
