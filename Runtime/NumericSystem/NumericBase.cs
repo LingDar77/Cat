@@ -29,7 +29,7 @@ namespace Cat.NumericSystem
         {
             currentValue = Mathf.Clamp(value, 0, MaxValue);
 
-            if (OnCurrentValueChanged == null || currentValue == 0) return;
+            if (OnCurrentValueChanged == null) return;
             OnCurrentValueChanged.Drive(CurrentValue, MaxValue);
         }
 
