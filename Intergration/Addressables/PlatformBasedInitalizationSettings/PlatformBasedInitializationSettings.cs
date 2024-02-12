@@ -15,54 +15,25 @@ namespace TUI.Intergration.Addressables.EditorScript
         public class PlatformCacheInitializationData
         {
             public BuildTarget target;
-            public bool CompressionEnabled;
-            public string CacheDirectoryOverride;
-            public bool LimitCacheSize;
-            public long MaximumCacheSize;
-
-            public CacheInitializationData GetData()
-            {
-                return new CacheInitializationData
-                {
-                    MaximumCacheSize = MaximumCacheSize,
-                    LimitCacheSize = LimitCacheSize,
-                    CacheDirectoryOverride = CacheDirectoryOverride,
-                    CompressionEnabled = CompressionEnabled
-                };
-            }
+            public CacheInitializationData data = new();
         }
         public string Name { get { return "Asset Bundle Cache Settings Switched by Platform Setting"; } }
         public List<PlatformCacheInitializationData> settings;
-        [Header("Default Setting")]
-        public bool CompressionEnabled;
-        public string CacheDirectoryOverride;
-        public bool LimitCacheSize;
-        public long MaximumCacheSize;
+        private readonly CacheInitializationData data = new();
 
         public ObjectInitializationData CreateObjectInitializationData()
         {
-#if UNITY_EDITOR
-            return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, new CacheInitializationData
-            {
-                MaximumCacheSize = MaximumCacheSize,
-                LimitCacheSize = LimitCacheSize,
-                CacheDirectoryOverride = CacheDirectoryOverride,
-                CompressionEnabled = CompressionEnabled
-            });
+#if !UNITY_EDITOR
+            return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, data);
 #else
-            if (settings == null || settings.Count == 0)
-            {
-                return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, new CacheInitializationData
-                {
-                    MaximumCacheSize = MaximumCacheSize,
-                    LimitCacheSize = LimitCacheSize,
-                    CacheDirectoryOverride = CacheDirectoryOverride,
-                    CompressionEnabled = CompressionEnabled
-                });
-            }
             var target = EditorUserBuildSettings.activeBuildTarget;
             var setting = settings.Find(s => s.target == target);
-            return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, setting.GetData());
+            if (settings == null || settings.Count == 0 || setting == null)
+            {
+                return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, data);
+            }
+
+            return ObjectInitializationData.CreateSerializedInitializationData<CacheInitialization>(typeof(CacheInitialization).Name, setting.data);
 #endif
 
         }

@@ -19,10 +19,9 @@ namespace Cat.AduioManagement
         [ContextMenu("PlaySoundOnce")]
         public void PlaySoundOnce()
         {
-            system.PlaySoundAtPosition(clip, transform.position, false)
+            system.PlaySoundAtPosition(clip, transform.position)
                 .SpatialBlend(1)
-                .Volume(volume)
-                .Play();
+                .Volume(volume);
         }
 
         [ContextMenu("PlaySoundInterval")]
@@ -35,10 +34,9 @@ namespace Cat.AduioManagement
         {
             while (clip != null)
             {
-                system.PlaySoundAtPosition(clip, transform.position, false)
+                system.PlaySoundAtPosition(clip, transform.position)
                     .SpatialBlend(1)
-                    .Volume(volume)
-                    .Play();
+                    .Volume(volume);
                 yield return CoroutineHelper.GetWaitForSeconds(time);
             }
         }
