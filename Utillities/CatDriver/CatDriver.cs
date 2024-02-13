@@ -1,18 +1,23 @@
 namespace Cat.Utillities
 {
     using UnityEngine;
+
+    
     public abstract class CatDriver : MonoBehaviour, ICatDriver
     {
         public abstract void Drive();
     }
+    
     public abstract class CatDriver<T1> : MonoBehaviour, ICatDriver<T1>
     {
         public abstract void Drive(T1 p1);
     }
+
     public abstract class CatDriver<T1, T2> : MonoBehaviour, ICatDriver<T1, T2>
     {
         public abstract void Drive(T1 p1, T2 p2);
     }
+
     public abstract class CatDriver<T1, T2, T3> : MonoBehaviour, ICatDriver<T1, T2, T3>
     {
         public abstract void Drive(T1 p1, T2 p2, T3 p3);
