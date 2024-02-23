@@ -1,12 +1,38 @@
 #if UNITY_EDITOR
 namespace Cat.Utillities
 {
+    using System.Linq;
     using UnityEditor;
-    using System;
+    using UnityEngine;
     using System.Reflection;
-
-    public class DisableAllGizmos
+    using Type = System.Type;
+    using Array = System.Array;
+    public static class EditorTools
     {
+        [MenuItem("CONTEXT/LODGroup/Calculate Lod")]
+        static void FixLodGroups(MenuCommand command)
+        {
+            var context = command.context as LODGroup;
+            context.RecalculateBounds();
+            Debug.Log(context.size);
+            var lods = context.GetLODs();
+            
+
+        }
+
+        [MenuItem("Window/Cat/Scene/Clear Empty Objects")]
+        static void ClearAllEmptyObjects()
+        {
+            foreach (var obj in Object.FindObjectsOfType<GameObject>())
+            {
+                var components = obj.GetComponentsInChildren<Component>();
+                if (components.All(e => e is Transform))
+                {
+                    Object.DestroyImmediate(obj);
+                }
+            }
+        }
+
         [MenuItem("Window/Cat/Gizmos/Disable All Gizmo Icons")]
         static void DisableAllGizmoIconsMenu()
         {
@@ -49,4 +75,5 @@ namespace Cat.Utillities
         }
     }
 }
+
 #endif
