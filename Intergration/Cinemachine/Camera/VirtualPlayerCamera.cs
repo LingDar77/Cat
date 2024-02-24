@@ -4,12 +4,8 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
     using Cinemachine;
     using UnityEngine.InputSystem;
 
-    public class VirtualPlayerCamera : CinemachineVirtualCameraBase
+    public class VirtualPlayerCamera : CinemachineVirtualCamera
     {
-        protected CameraState state = CameraState.Default;
-        public override CameraState State => state;
-        public override Transform LookAt { get; set; }
-        public override Transform Follow { get; set; }
 
         protected override void OnEnable()
         {
@@ -25,14 +21,8 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
 
         private void OnUpdate()
         {
-            state.RawPosition = transform.position;
-            state.RawOrientation = transform.rotation;
+            InternalUpdateCameraState(Vector3.up, 0);
         }
 
-        public override void InternalUpdateCameraState(Vector3 worldUp, float deltaTime)
-        {
-            state.RawPosition = transform.position;
-            state.RawOrientation = transform.rotation;
-        }
     }
 }

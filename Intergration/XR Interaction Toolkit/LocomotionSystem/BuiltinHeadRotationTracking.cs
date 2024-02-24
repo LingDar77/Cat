@@ -51,9 +51,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
 
                 simulationInput += input;
                 simulationInput.y = Mathf.Clamp(simulationInput.y, -90, 90);
-                var rot = Quaternion.Euler(-simulationInput.y, simulationInput.x, 0);
-                transform.rotation = RotationBias * rot;
-                return;
+                targetRotation = Quaternion.Euler(-simulationInput.y, simulationInput.x, 0);
             }
 #endif
             transform.rotation = RotationBias * targetRotation;
