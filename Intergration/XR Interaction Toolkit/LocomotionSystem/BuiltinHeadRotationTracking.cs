@@ -1,6 +1,7 @@
 namespace Cat.Intergration.XRIT.LocomotionSystem
 {
-    using System.Collections;
+    using System;
+    using System.Collections.Generic;
     using Cat.SDKManagementSystem;
     using Cat.SDKProvider;
     using Cat.Utillities;
@@ -10,47 +11,79 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
     public class BuiltinHeadRotationTracking : MonoBehaviour
     {
         [SerializeField] private Quaternion bias = Quaternion.identity;
-        public Quaternion RotationBias { get => bias; set => bias = value; }
-        public Transform[] SyncTransforms;
-        [SerializeField] private InputActionProperty IsTrackedInput;
+        [SerializeField] private Transform[] SyncTransforms;
         [SerializeField] private InputActionProperty HeadRotationInput;
         [SerializeField] private InputActionProperty UserPresenceInput;
-
         [Header("Simulation Input")]
         [SerializeField] private InputActionProperty RotateViewInput;
-
         private bool initialized = false;
-        public bool Initialized => initialized;
+        public Quaternion RotationBias { get => bias; set => bias = value; }
 
-        private Vector2 simulationInput;
-        private IXRSDKProvider sdk;
         private Quaternion initial;
+        private IXRSDKProvider sdk;
+        private Quaternion targetRotation;
+        private Vector2 simulationInput;
 
-        private IEnumerator Start()
+        private void OnEnable()
         {
-            RotationBias = initial = transform.root.rotation;
+            RotationBias = initial = transform.root.rotation; HeadRotationInput.action.performed += HeadRotationPerformed;
+            UserPresenceInput.action.performed += OnUserPresence;
+            InputSystem.onAfterUpdate += OnUpdate;
+        }
 
-            if (UserPresenceInput != null)
+        private void OnDisable()
+        {
+            HeadRotationInput.action.performed -= HeadRotationPerformed;
+            UserPresenceInput.action.performed -= OnUserPresence;
+            InputSystem.onAfterUpdate -= OnUpdate;
+
+            if (sdk != null)
+                sdk.OnRecenterSuccessed += OnRecenter;
+        }
+
+        private void OnUpdate()
+        {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+            if (Mouse.current.rightButton.isPressed)
             {
-                UserPresenceInput.action.performed += OnUserPresence;
+                var input = Vector2.zero;
+                input = RotateViewInput.action.ReadValue<Vector2>();
+
+                simulationInput += input;
+                simulationInput.y = Mathf.Clamp(simulationInput.y, -90, 90);
+                var rot = Quaternion.Euler(-simulationInput.y, simulationInput.x, 0);
+                transform.rotation = RotationBias * rot;
+                return;
             }
-            yield return new WaitUntil(() => IsTrackedInput.action.IsPressed());
-            RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
+#endif
+            transform.rotation = RotationBias * targetRotation;
+            foreach (var trans in SyncTransforms)
+            {
+                trans.rotation = RotationBias;
+            }
+        }
+
+        private void HeadRotationPerformed(InputAction.CallbackContext context)
+        {
+            var value = context.ReadValue<Quaternion>();
+            if (!initialized)
+            {
+                Initialze(value);
+                initialized = true;
+                return;
+            }
+
+            targetRotation = value;
+        }
+
+        private void Initialze(Quaternion quaternion)
+        {
+            RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, quaternion.eulerAngles.y, 0));
             initialized = true;
 
             sdk = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProvider<IXRSDKProvider>();
-            if (sdk == null) yield break;
-            sdk.OnRecenterSuccessed += OnRecenter;
-        }
-
-        private void OnDestroy()
-        {
-            if (UserPresenceInput != null)
-            {
-                UserPresenceInput.action.performed += OnUserPresence;
-            }
             if (sdk == null) return;
-            sdk.OnRecenterSuccessed -= OnRecenter;
+            sdk.OnRecenterSuccessed += OnRecenter;
         }
         private void OnUserPresence(InputAction.CallbackContext context)
         {
@@ -61,32 +94,5 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             this.Log("Senser Recentered.");
             RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, HeadRotationInput.action.ReadValue<Quaternion>().eulerAngles.y, 0));
         }
-
-
-        private void LateUpdate()
-        {
-
-            if (Initialized)
-            {
-                transform.rotation = RotationBias * HeadRotationInput.action.ReadValue<Quaternion>();
-                if (SyncTransforms == null) return;
-                foreach (var trans in SyncTransforms)
-                {
-                    trans.rotation = RotationBias;
-                }
-                return;
-            }
-
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
-            var input = Vector2.zero;
-            if (Mouse.current.rightButton.isPressed) input = RotateViewInput.action.ReadValue<Vector2>();
-
-            simulationInput += input;
-            simulationInput.y = Mathf.Clamp(simulationInput.y, -90, 90);
-            var rot = Quaternion.Euler(-simulationInput.y, simulationInput.x, 0);
-            transform.rotation = RotationBias * rot;
-#endif
-        }
-
     }
 }

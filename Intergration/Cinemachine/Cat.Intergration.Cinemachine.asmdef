@@ -1,9 +1,8 @@
 {
-    "name": "Cat.Intergration.XRIT",
-    "rootNamespace": "Cat.Intergration.XRIT",
+    "name": "Cat.Intergration.Cinemachine",
+    "rootNamespace": "",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:fe685ec1767f73d42b749ea8045bfe43",
         "GUID:c3eada64ce30a1448920b24b04bc2d39",
         "GUID:4307f53044263cf4b835bd812fc161a4"
     ],
@@ -13,14 +12,12 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "XRIT"
-    ],
+    "defineConstraints": [],
     "versionDefines": [
         {
-            "name": "com.unity.xr.interaction.toolkit",
+            "name": "com.unity.cinemachine",
             "expression": "2",
-            "define": "XRIT"
+            "define": "Cinemachine"
         }
     ],
     "noEngineReferences": false
