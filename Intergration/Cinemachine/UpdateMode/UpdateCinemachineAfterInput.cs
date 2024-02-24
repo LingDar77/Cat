@@ -5,23 +5,36 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
     using UnityEngine.InputSystem;
     using Cat.Utillities;
 
-    [RequireComponent(typeof(CinemachineBrain))]
-    [DefaultExecutionOrder(2001)]
     public class UpdateCinemachineAfterInput : MonoBehaviour
     {
         [SerializeField] private CinemachineBrain brain;
+        [SerializeField] private CinemachineVirtualCamera vitualCamera;
+
         private void OnValidate()
         {
             this.EnsureComponent(ref brain);
+            this.EnsureComponent(ref vitualCamera);
+
         }
         private void OnEnable()
         {
-            brain = Camera.main.GetComponent<CinemachineBrain>();
-            InputSystem.onAfterUpdate += brain.ManualUpdate;
+            InputSystem.onAfterUpdate += OnUpdate;
         }
         private void OnDisable()
         {
-            InputSystem.onAfterUpdate -= brain.ManualUpdate;
+            InputSystem.onAfterUpdate -= OnUpdate;
+        }
+
+        private void OnUpdate()
+        {
+            if (brain)
+            {
+                brain.ManualUpdate();
+            }
+            if (vitualCamera)
+            {
+                vitualCamera.InternalUpdateCameraState(Vector3.up, 0);
+            }
         }
     }
 }
