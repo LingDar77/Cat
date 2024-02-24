@@ -14,11 +14,12 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         {
             this.EnsureComponent(ref brain);
             this.EnsureComponent(ref vitualCamera);
-
         }
         private void OnEnable()
         {
             InputSystem.onAfterUpdate += OnUpdate;
+            if (brain == null) return;
+            brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.ManualUpdate;
         }
         private void OnDisable()
         {
