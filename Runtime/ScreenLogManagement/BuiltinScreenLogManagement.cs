@@ -1,7 +1,6 @@
 namespace Cat.ScreenLogManagementSystem
 {
     using System.Collections.Generic;
-    using Cat.Library;
     using UnityEngine;
 
     [DefaultExecutionOrder(-1000)]

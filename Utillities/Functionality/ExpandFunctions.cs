@@ -4,7 +4,6 @@ namespace Cat.Utillities
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using Cat.Library;
     using Cat.ScreenLogManagementSystem;
     using UnityEngine;
     using UnityEngine.Audio;

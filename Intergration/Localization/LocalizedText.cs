@@ -4,6 +4,7 @@ namespace Cat.Intergration.Localization
     using Cat.Utillities;
     using UnityEngine.Localization;
     using UnityEngine.Localization.Components;
+    using UnityEditor;
 
     [System.Serializable]
     public class LocalizedFont : LocalizedAsset<TMP_FontAsset> { }
@@ -13,6 +14,13 @@ namespace Cat.Intergration.Localization
         public TextMeshProUGUI text;
         public LocalizedString StringReference = new();
         public LocalizedFont FontReference = new();
+
+        [MenuItem("CONTEXT/TextMeshProUGUI/Localize")]
+        private static void LocalizedTextMeshPro(MenuCommand command)
+        {
+            var context = command.context as TextMeshProUGUI;
+            context.gameObject.AddComponent<LocalizedText>();
+        }
 
         private void OnValidate()
         {

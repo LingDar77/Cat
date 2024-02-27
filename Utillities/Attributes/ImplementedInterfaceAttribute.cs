@@ -5,7 +5,6 @@ namespace Cat.Utillities
     using UnityEditor;
     using Type = System.Type;
     using System.Linq;
-    using Cat.Library;
 
     public sealed class ImplementedInterfaceAttribute : PropertyAttribute
     {

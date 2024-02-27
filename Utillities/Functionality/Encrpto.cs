@@ -2,7 +2,6 @@ namespace Cat.Utillities
 {
     using System.Security.Cryptography;
     using System.Text;
-    using Cat.Library;
 
     public static class Encrpto
     {
