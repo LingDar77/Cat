@@ -1,6 +1,6 @@
 namespace Cat
 {
-    using System.Collections;
+    using Cat.Utillities;
     using UnityEngine;
     using UnityEngine.Events;
 
@@ -14,11 +14,10 @@ namespace Cat
         {
             OnAake.Invoke();
         }
-        private IEnumerator Start()
+        private void Start()
         {
             OnStart.Invoke();
-            yield return new WaitForEndOfFrame();
-            OnFirstFrame.Invoke();
+            this.NextUpdate(() => OnFirstFrame.Invoke());
         }
         private void Update()
         {

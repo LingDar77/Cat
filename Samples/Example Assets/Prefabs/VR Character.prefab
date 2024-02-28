@@ -545,7 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a59613676d15644c83c3e228a2fb163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinimumCrouchHeight: 1
+  MinimumCrouchHeight: 1.2
   HMDPosition:
     m_UseReference: 1
     m_Action:
