@@ -1,18 +1,9 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
-using System.Linq;
-using UnityEngine.UIElements;
-using static VTabs.Libs.VUtils;
-
-
-
 namespace VTabs
 {
+        using UnityEngine;
+        using UnityEditor;
+
         public static class VTabsMenu
         {
 
@@ -36,7 +27,7 @@ namespace VTabs
 #if UNITY_EDITOR_OSX
                 const string cmd = "Cmd";
 #else
-        const string cmd = "Ctrl";
+                const string cmd = "Ctrl";
 #endif
 
                 const string dragndrop = dir + "Create tabs with Drag-and-Drop";
