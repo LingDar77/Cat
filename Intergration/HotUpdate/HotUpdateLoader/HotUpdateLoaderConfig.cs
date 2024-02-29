@@ -118,6 +118,7 @@ namespace Cat.Intergration.Hotupdate
             foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblies)
             {
                 var guid = AssetDatabase.AssetPathToGUID($"{tempFolder}/Assemblies/{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
+                if (guid == null || guid == "") continue;
                 var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
                 dllEntry.SetAddress($"{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
                 dllEntry.SetLabel("assembly", true, true);
@@ -126,6 +127,7 @@ namespace Cat.Intergration.Hotupdate
             foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblyDefinitions)
             {
                 var guid = AssetDatabase.AssetPathToGUID($"{tempFolder}/Assemblies/{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
+                if (guid == null || guid == "") continue;
                 var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
                 dllEntry.SetAddress($"{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
                 dllEntry.SetLabel("assembly", true, true);
@@ -144,8 +146,10 @@ namespace Cat.Intergration.Hotupdate
                 var references = new List<string>();
                 for (int i = 0; i != matches.Count; ++i)
                 {
+                    if (matches[i].Groups.Count <= 1) continue;
                     references.Add(matches[i].Groups[1].Value);
                 }
+                if (map.ContainsKey(guid)) continue;
                 map.Add(guid, references);
             }
 
