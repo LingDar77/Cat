@@ -4,6 +4,7 @@ namespace Cat
     using UnityEngine;
     using UnityEngine.Events;
 
+    [DefaultExecutionOrder(9999)]
     public class CommonEvents : MonoBehaviour
     {
         public UnityEvent OnAake;

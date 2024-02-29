@@ -15,12 +15,6 @@ namespace Cat.Intergration.Localization
         public LocalizedString StringReference = new();
         public LocalizedFont FontReference = new();
 
-        [MenuItem("CONTEXT/TextMeshProUGUI/Localize")]
-        private static void LocalizedTextMeshPro(MenuCommand command)
-        {
-            var context = command.context as TextMeshProUGUI;
-            context.gameObject.AddComponent<LocalizedText>();
-        }
 
         private void OnValidate()
         {
@@ -59,5 +53,14 @@ namespace Cat.Intergration.Localization
             if (StringReference == null) return;
             StringReference.RefreshString();
         }
+#if UNITY_EDITOR
+
+        [MenuItem("CONTEXT/TextMeshProUGUI/Localize")]
+        private static void LocalizedTextMeshPro(MenuCommand command)
+        {
+            var context = command.context as TextMeshProUGUI;
+            context.gameObject.AddComponent<LocalizedText>();
+        }
+#endif
     }
 }

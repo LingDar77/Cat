@@ -13,7 +13,6 @@ namespace Cat.LocomotionSystem.Actions
         private CapsuleCollider capsule;
         private float initalCapsuleHeight;
         private float initialCapsuleOffset;
-        private float initialOffset;
 
         protected override void OnEnable()
         {
@@ -21,7 +20,6 @@ namespace Cat.LocomotionSystem.Actions
             capsule = LocomotionSystem.transform.GetComponent<CapsuleCollider>();
             initalCapsuleHeight = capsule.height;
             initialCapsuleOffset = initalCapsuleHeight / 2 - capsule.center.y;
-            initialOffset = offset.localPosition.y;
         }
 
         public override void BeforeProcess(float deltaTime)

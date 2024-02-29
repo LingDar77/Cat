@@ -6,50 +6,31 @@ namespace Cat.ScreenLogManagementSystem
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
-    public class SceneManagementProxy : MonoBehaviour, ISceneManagement
+    public class SceneManagementProxy : MonoBehaviour
     {
         [ImplementedInterface(typeof(ISceneManagement))]
         public MonoBehaviour SceneManagementOverride;
         private ISceneManagement SceneManagement;
-        public float LoadingProgress { get; }
-
-#if UNITY_EDITOR
-        public string TestSceneToLoad = "Test Scene";
-#endif
+        public float LoadingProgress =>SceneManagement.LoadingProgress;
 
         private void Start()
         {
-            if (SceneManagementOverride == null) SceneManagement = ISingletonSystem<BuiltinSceneManagement>.GetChecked();
+            if (SceneManagementOverride == null)
+            {
+                SceneManagement = ISingletonSystem<BuiltinSceneManagement>.GetChecked();
+                return;
+            }
+            SceneManagement = SceneManagementOverride as ISceneManagement;
         }
-#if UNITY_EDITOR
-        [ContextMenu("Load Test Scene")]
-        public void LoadScene()
-        {
-            SceneManagement.LoadScene(TestSceneToLoad, LoadSceneMode.Single);
-        }
-        [ContextMenu("Load Test Scene Async")]
-        public void LoadSceneAsync()
-        {
-            SceneManagement.LoadSceneAsync(TestSceneToLoad, LoadSceneMode.Single);
-        }
-#endif
+        
         public void LoadScene(string scene)
         {
             SceneManagement.LoadScene(scene, LoadSceneMode.Single);
         }
         public void LoadSceneAsync(string scene)
         {
-            SceneManagement.LoadSceneAsync(scene, LoadSceneMode.Single);
+            CoroutineHelper.Context.StartCoroutine(SceneManagement.LoadSceneAsync(scene, LoadSceneMode.Single));
         }
 
-        public void LoadScene(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
-        {
-            SceneManagement.LoadScene(scene, loadMode);
-        }
-
-        public IEnumerator LoadSceneAsync(string scene, LoadSceneMode loadMode = LoadSceneMode.Single)
-        {
-            yield return SceneManagement.LoadSceneAsync(scene, loadMode);
-        }
     }
 }
