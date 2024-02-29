@@ -85,6 +85,20 @@ namespace Cat.Utillities
         #endregion
 
         #region Compoent Expand
+        public static string GetRuntimePlatform(this Component context)
+        {
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            return "StandaloneWindows64";
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+        return "StandaloneOSX";
+#elif UNITY_ANDROID
+        return "Android";
+#elif UNITY_IPHONE
+        return "iPhone";
+#else
+        return "Unknown";
+#endif
+        }
         public static bool TryGetComponentInParent<Type>(this Component context, out Type component, bool includeInactive = false)
         {
             component = (Type)(object)context.GetComponentInParent(typeof(Type), includeInactive);
@@ -285,8 +299,8 @@ namespace Cat.Utillities
             IScreenLogManagement.Singleton.LogToScreen(type, message, trace);
         }
 
-        
-        
+
+
         [Conditional("INCLUDE_LOG")]
         public static void LogFormat(this Component context, string format, LogType type = LogType.Log, params object[] args)
         {
@@ -326,8 +340,8 @@ namespace Cat.Utillities
             ArrayPool<zstring>.Shared.Return(zargs);
         }
 
-        
-        
+
+
         [Conditional("INCLUDE_LOG")]
         public static void LogFormatToScreen<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
         {
@@ -639,7 +653,7 @@ namespace Cat.Utillities
         }
 
 
-       
+
         [Conditional("INCLUDE_LOG")]
         public static void LogFormat<T0>(this Component context, string format, LogType type = LogType.Log, T0 arg0 = default)
         {

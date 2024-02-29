@@ -120,6 +120,7 @@ namespace Cat.Intergration.Hotupdate
                 var guid = AssetDatabase.AssetPathToGUID($"{tempFolder}/Assemblies/{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
                 var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
                 dllEntry.SetAddress($"{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
+                dllEntry.SetLabel("assembly", true, true);
             }
 
             foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblyDefinitions)
@@ -127,6 +128,7 @@ namespace Cat.Intergration.Hotupdate
                 var guid = AssetDatabase.AssetPathToGUID($"{tempFolder}/Assemblies/{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
                 var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
                 dllEntry.SetAddress($"{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
+                dllEntry.SetLabel("assembly", true, true);
             }
         }
 
@@ -195,7 +197,6 @@ namespace Cat.Intergration.Hotupdate
 
             return results.Distinct().ToArray();
         }
-
 
         private static void ConfigGroup(HotUpdateLoaderConfig config, AddressableAssetSettings aa, string tempFolder)
         {
