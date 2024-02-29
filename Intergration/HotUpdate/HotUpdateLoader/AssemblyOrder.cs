@@ -1,4 +1,4 @@
-namespace Cat.Intergration.Hybridclr
+namespace Cat.Intergration.Hotupdate
 {
     using System.Collections.Generic;
     using UnityEngine;

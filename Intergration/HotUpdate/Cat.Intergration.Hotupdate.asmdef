@@ -1,5 +1,5 @@
 {
-    "name": "Cat.Intergration.Hybridclr",
+    "name": "Cat.Intergration.Hotupdate",
     "rootNamespace": "Cat.Intergration.Hybridclr",
     "references": [
         "GUID:13ba8ce62aa80c74598530029cb2d649",

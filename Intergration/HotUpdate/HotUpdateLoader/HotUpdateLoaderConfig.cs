@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace Cat.Intergration.Hybridclr
+namespace Cat.Intergration.Hotupdate
 {
     using System;
     using System.Collections.Generic;
@@ -7,12 +7,10 @@ namespace Cat.Intergration.Hybridclr
     using System.Linq;
     using System.Text.RegularExpressions;
     using Cat.Utillities;
-    using Mono.Cecil;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;
     using UnityEditorInternal;
-    using UnityEngine;
 
     public class HotUpdateLoaderConfig : ConfigableObject<HotUpdateLoaderConfig>
     {
@@ -25,7 +23,7 @@ namespace Cat.Intergration.Hybridclr
     {
         private static AssemblyOrder orderAsset;
 
-        [MenuItem("Window/Cat/HotUpdate Loader")]
+        [MenuItem("Window/Cat/IL2CPP/HotUpdate Loader")]
         private static void ShowWindow()
         {
             var window = GetWindow<HotUpdateLoaderConfigWindow>();

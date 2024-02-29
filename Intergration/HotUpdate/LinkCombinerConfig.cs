@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
-namespace Cat.Utillities
+namespace Cat.Intergration.Hotupdate
 {
+    using Cat.Utillities;
     using System.Collections.Generic;
     using UnityEditor;
     using UnityEngine;
