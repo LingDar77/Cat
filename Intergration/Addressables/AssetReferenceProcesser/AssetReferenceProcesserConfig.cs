@@ -50,7 +50,6 @@ namespace Cat.Intergration.Addressables.EditorScript
 
     public class AssetReferenceProcesserConfigWindow : ConfigWindow<AssetReferenceProcesserConfig>
     {
-        private Vector2 scrollPosition;
 
         [MenuItem("Window/Cat/Addressables/Asset Reference Processer")]
         private static void ShowWindow()
@@ -58,13 +57,8 @@ namespace Cat.Intergration.Addressables.EditorScript
             GetWindow<AssetReferenceProcesserConfigWindow>("Asset Reference Processer", true);
         }
 
-        private void OnGUI()
+        protected override void Display()
         {
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-
-            EditorGUILayout.Separator();
-            editor.OnInspectorGUI();
-            EditorGUILayout.Separator();
             if (GUILayout.Button("Clean Targets"))
             {
                 AssetReferenceProcesserConfig.Get().targets = null;
@@ -73,8 +67,6 @@ namespace Cat.Intergration.Addressables.EditorScript
             {
                 AssetReferenceProcesserConfig.Get().Scan();
             }
-
-            EditorGUILayout.EndScrollView();
 
         }
 

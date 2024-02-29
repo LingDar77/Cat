@@ -1,11 +1,14 @@
 {
-    "name": "Cat.Intergration.HybridCLR",
-    "rootNamespace": "Cat.Intergration.HybridCLR",
+    "name": "Cat.Intergration.Hybridclr",
+    "rootNamespace": "Cat.Intergration.Hybridclr",
     "references": [
         "GUID:13ba8ce62aa80c74598530029cb2d649",
         "GUID:2373f786d14518f44b0f475db77ba4de",
         "GUID:c3eada64ce30a1448920b24b04bc2d39",
-        "GUID:e7208b29120485545a436e2691183661"
+        "GUID:e7208b29120485545a436e2691183661",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:69448af7b92c7f342b298e06a37122aa"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
