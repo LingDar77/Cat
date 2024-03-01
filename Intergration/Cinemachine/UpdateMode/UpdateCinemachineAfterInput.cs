@@ -7,35 +7,27 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
 
     public class UpdateCinemachineAfterInput : MonoBehaviour
     {
-        [SerializeField] private CinemachineBrain brain;
         [SerializeField] private CinemachineVirtualCamera vitualCamera;
 
         private void OnValidate()
         {
-            this.EnsureComponent(ref brain);
             this.EnsureComponent(ref vitualCamera);
         }
         private void OnEnable()
         {
             InputSystem.onAfterUpdate += OnUpdate;
-            if (brain == null) return;
-            brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.ManualUpdate;
         }
         private void OnDisable()
         {
             InputSystem.onAfterUpdate -= OnUpdate;
         }
-
         private void OnUpdate()
         {
-            if (brain)
-            {
-                brain.ManualUpdate();
-            }
             if (vitualCamera)
             {
                 vitualCamera.InternalUpdateCameraState(Vector3.up, 0);
             }
+
         }
     }
 }

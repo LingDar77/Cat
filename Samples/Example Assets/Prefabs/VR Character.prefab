@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1668726987986476612}
   - component: {fileID: 5661045577602493257}
-  - component: {fileID: 3053526839822159683}
   - component: {fileID: 8146639187279406582}
+  - component: {fileID: 7689931587593358755}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -74,20 +74,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 7464260431428181576}
---- !u!114 &3053526839822159683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546282221894157948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96030a315fd2bf64d8d043aedb73cec1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 0}
-  vitualCamera: {fileID: 5661045577602493257}
 --- !u!114 &8146639187279406582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +125,20 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -7603451140665755772, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
+--- !u!114 &7689931587593358755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546282221894157948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96030a315fd2bf64d8d043aedb73cec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 0}
+  vitualCamera: {fileID: 5661045577602493257}
 --- !u!1 &1041576027992768154
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,11 +528,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8856120307116186098}
   m_SourcePrefab: {fileID: 100100000, guid: 45a390f23649abd48a603f39abb68688, type: 3}
---- !u!4 &2215738513433900050 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2407812666492289216, guid: 45a390f23649abd48a603f39abb68688, type: 3}
-  m_PrefabInstance: {fileID: 4599765855039173842}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4449325492677448973 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 174104758141166047, guid: 45a390f23649abd48a603f39abb68688, type: 3}
@@ -588,7 +583,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 5700449273907402708, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
   SimulationRoot: {fileID: 7951748898947295183}
-  Offset: {fileID: 2215738513433900050}
 --- !u!114 &4345562088332163233
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,7 +33,7 @@ namespace Cat.Intergration.Hotupdate
                 };
                 thread.Start();
                 yield return new WaitUntil(() => !thread.IsAlive);
-                this.LogFormat($"Assembly: {0} Loaded.", LogType.Log, assembly);
+                this.LogFormat("Assembly: {0} Loaded.", LogType.Log, assembly);
             }
 
             this.Log("Assemblies Loaded. Start Paching AOT Assemblies...");

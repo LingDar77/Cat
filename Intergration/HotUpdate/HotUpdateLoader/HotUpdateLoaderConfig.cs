@@ -102,6 +102,7 @@ namespace Cat.Intergration.Hotupdate
                 var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
                 dllEntry.SetAddress($"{metadata}.{EditorUserBuildSettings.activeBuildTarget}.metadata.bytes");
                 dllEntry.SetLabel("metadata", true, true);
+                dllEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
             }
         }
 
@@ -177,6 +178,7 @@ namespace Cat.Intergration.Hotupdate
                 var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
                 dllEntry.SetAddress($"{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
                 dllEntry.SetLabel("assembly", true, true);
+                dllEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
             }
 
             foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblyDefinitions)
@@ -186,6 +188,7 @@ namespace Cat.Intergration.Hotupdate
                 var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
                 dllEntry.SetAddress($"{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
                 dllEntry.SetLabel("assembly", true, true);
+                dllEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
             }
         }
 
@@ -286,6 +289,7 @@ namespace Cat.Intergration.Hotupdate
 
             configEntry.SetAddress($"AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}");
             configEntry.SetLabel("config", true, true);
+            configEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
 
             EditorUtility.SetDirty(config.AssemblyGroup);
         }

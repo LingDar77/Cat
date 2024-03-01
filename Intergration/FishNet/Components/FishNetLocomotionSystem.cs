@@ -18,9 +18,6 @@ namespace Cat.Intergration.LocomotionSystem
         {
             TimeManager.OnUpdate -= OnUpdate;
         }
-        protected override void Update()
-        {
-        }
         private void OnUpdate()
         {
             DoSimulation(Time.deltaTime);
