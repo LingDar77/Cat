@@ -6,5 +6,6 @@ namespace Cat.Intergration.Hotupdate
     public class AssemblyOrder : ScriptableObject
     {
         public List<string> Assemblies = new();
+        public List<string> Metadata = new();
     }
 }
