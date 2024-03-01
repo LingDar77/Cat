@@ -227,8 +227,10 @@ namespace Cat.Intergration.Hotupdate
                 order = AssetDatabase.AssetPathToGUID($"{tempFolder}/AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}.asset");
             }
 
-            aa.CreateOrMoveEntry(order, config.AssemblyGroup, true)
-            .SetAddress($"AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}");
+            var configEntry = aa.CreateOrMoveEntry(order, config.AssemblyGroup, true);
+
+            configEntry.SetAddress($"AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}");
+            configEntry.SetLabel("config", true, true);
 
             EditorUtility.SetDirty(config.AssemblyGroup);
         }
