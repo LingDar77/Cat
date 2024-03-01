@@ -3,7 +3,6 @@ namespace Cat.LocomotionSystem
     using System.Collections.Generic;
     using Cat.Utillities;
     using UnityEngine;
-    using UnityEngine.InputSystem;
 
     public enum MovementSweepState
     {
@@ -177,15 +176,10 @@ namespace Cat.LocomotionSystem
 
             TargetPosition = transform.position;
             TargetRotation = transform.rotation;
-            // InputSystem.onAfterUpdate += DoUpdate;
         }
 
-        // protected virtual void OnDestroy()
-        // {
-        //     InputSystem.onAfterUpdate -= DoUpdate;
-        // }
 
-        protected void Update()
+        protected virtual void Update()
         {
             DoSimulation(Time.deltaTime);
         }
