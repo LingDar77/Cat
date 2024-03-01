@@ -130,7 +130,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -1464340630155665424, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
-  offset: {fileID: 2407812666492289216}
+  Offset: {fileID: 2407812666492289216}
 --- !u!1 &745819802328979305
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
     footRotationSpeed: 7
     maxFootRotationAngle: 45
     rotateSolver: 0
-    pelvisSpeed: 5
+    pelvisSpeed: 8
     pelvisDamper: 0
     lowerPelvisWeight: 1
     liftPelvisWeight: 0
@@ -354,7 +354,7 @@ MonoBehaviour:
   legs:
   - {fileID: 7683770731337305399}
   - {fileID: 8377952984436593205}
-  pelvis: {fileID: 6827592059233518555}
+  pelvis: {fileID: 2407812666492289216}
   characterRoot: {fileID: 8568591881549335230}
   rootRotationWeight: 0
   rootRotationSpeed: 5

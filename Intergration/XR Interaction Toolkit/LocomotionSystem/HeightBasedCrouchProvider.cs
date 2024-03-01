@@ -13,7 +13,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         [SerializeField] private InputActionProperty HMDPosition;
         [SerializeField] private InputActionProperty IsTracked;
         [SerializeField] private InputActionProperty UserPresence;
-        [SerializeField] private Transform Offset;
+        [SerializeField] private Transform SimulationRoot;
         private CapsuleCollider capsule;
         private float initalCapsuleHeight;
         private float initialCapsuleOffset;
@@ -39,7 +39,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         protected override void OnEnable()
         {
             base.OnEnable();
-            initialOffset = Offset.localPosition.y;
+            initialOffset = SimulationRoot.localPosition.y;
             capsule = LocomotionSystem.transform.GetComponent<CapsuleCollider>();
             initalCapsuleHeight = capsule.height;
             initialCapsuleOffset = initalCapsuleHeight / 2 - capsule.center.y;
@@ -77,7 +77,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
             var targetHeight = Mathf.Clamp(height, MinimumCrouchHeight, initalCapsuleHeight);
             capsule.height = targetHeight;
             capsule.center = new Vector3(capsule.center.x, initalCapsuleHeight - targetHeight / 2 - initialCapsuleOffset, capsule.center.z);
-            Offset.transform.localPosition = new Vector3(Offset.transform.localPosition.x, initialOffset + ajustOffset, Offset.transform.localPosition.z);
+            SimulationRoot.transform.localPosition = new Vector3(SimulationRoot.transform.localPosition.x, initialOffset + ajustOffset, SimulationRoot.transform.localPosition.z);
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Cat.LocomotionSystem.Actions
         public float CrouchSpeed = 5;
         [Tooltip("The Key to Perform Crouch.")]
         [SerializeField] private InputActionProperty CrouchControl;
-        [SerializeField] private Transform offset;
         private CapsuleCollider capsule;
         private float initalCapsuleHeight;
         private float initialCapsuleOffset;
@@ -33,7 +32,7 @@ namespace Cat.LocomotionSystem.Actions
             else
             {
                 var targetHeight = Mathf.Lerp(capsule.height, initalCapsuleHeight, deltaTime * CrouchSpeed);
-                capsule.height = targetHeight + offset.localPosition.y;
+                capsule.height = targetHeight;
                 capsule.center = new Vector3(capsule.center.x, initalCapsuleHeight - targetHeight / 2 - initialCapsuleOffset, capsule.center.z);
             }
         }
