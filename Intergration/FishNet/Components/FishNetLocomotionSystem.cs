@@ -9,8 +9,9 @@ namespace Cat.Intergration.LocomotionSystem
     {
         private TimeManager TimeManager;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             TimeManager = InstanceFinder.TimeManager;
             TimeManager.OnUpdate += OnUpdate;
         }

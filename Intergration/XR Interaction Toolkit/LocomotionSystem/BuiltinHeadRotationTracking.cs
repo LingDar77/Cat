@@ -22,6 +22,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         private Quaternion initial;
         private IXRSDKProvider sdk;
         private Vector2 simulationInput;
+        private Quaternion targetRotation;
         private CinemachineBrain brain;
         private CinemachineVirtualCamera virtualCamera;
 
@@ -49,17 +50,19 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         }
         private void OnUpdate()
         {
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
-            if (Mouse.current.rightButton.isPressed)
+            if (initialized)
             {
-                var input = Vector2.zero;
-                input = RotateViewInput.action.ReadValue<Vector2>();
+                targetRotation = HeadRotationInput.action.ReadValue<Quaternion>();
 
-                simulationInput += input;
-                simulationInput.y = Mathf.Clamp(simulationInput.y, -90, 90);
             }
-#endif
-            transform.rotation = RotationBias * HeadRotationInput.action.ReadValue<Quaternion>();
+            else if (Mouse.current.rightButton.isPressed)
+            {
+                simulationInput += RotateViewInput.action.ReadValue<Vector2>();
+                simulationInput.y = Mathf.Clamp(simulationInput.y, -90, 90);
+                targetRotation = Quaternion.Euler(-simulationInput.y, simulationInput.x, 0);
+            }
+
+            transform.rotation = RotationBias * targetRotation;
             virtualCamera.UpdateCameraState(Vector3.up, 0);
             brain.ManualUpdate();
             foreach (var trans in SyncTransforms)

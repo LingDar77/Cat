@@ -5,7 +5,6 @@ namespace Cat.Intergration.Hotupdate
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text.RegularExpressions;
     using Cat.Utillities;
     using UnityEditor;
@@ -24,16 +23,6 @@ namespace Cat.Intergration.Hotupdate
     public class HotUpdateLoaderConfigWindow : ConfigWindow<HotUpdateLoaderConfig>
     {
         private static AssemblyOrder orderAsset;
-
-        protected override void Display()
-        {
-            base.Display();
-            if (GUILayout.Button("Update Metadata"))
-            {
-                OnCompilationFinished(null);
-                UpdateMetadata();
-            }
-        }
 
         [MenuItem("Window/Cat/IL2CPP/HotUpdate Loader")]
         private static void ShowWindow()
@@ -70,13 +59,11 @@ namespace Cat.Intergration.Hotupdate
 
             UpdateAssemblyOrder();
 
+            UpdateMetadata(config, aa);
         }
 
-        public static void UpdateMetadata()
+        public static void UpdateMetadata(HotUpdateLoaderConfig config, AddressableAssetSettings aa)
         {
-            var config = HotUpdateLoaderConfig.Get();
-            var aa = AddressableAssetSettingsDefaultObject.GetSettings(false);
-            if (aa == null || !config.Enabled || config.AssemblyGroup == null) return;
 
             var tempFolder = HybridCLR.Editor.Settings.HybridCLRSettings.Instance.outputAOTGenericReferenceFile;
             tempFolder = $"Assets/{Path.GetDirectoryName(tempFolder)}";
@@ -284,6 +271,7 @@ namespace Cat.Intergration.Hotupdate
                 }
                 order = AssetDatabase.AssetPathToGUID($"{tempFolder}/AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}.asset");
             }
+
 
             var configEntry = aa.CreateOrMoveEntry(order, config.AssemblyGroup, true);
 

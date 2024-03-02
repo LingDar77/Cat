@@ -3,7 +3,6 @@ namespace Cat.LocomotionSystem
     using System.Collections.Generic;
     using Cat.Utillities;
     using UnityEngine;
-    using UnityEngine.InputSystem;
 
     public enum MovementSweepState
     {
