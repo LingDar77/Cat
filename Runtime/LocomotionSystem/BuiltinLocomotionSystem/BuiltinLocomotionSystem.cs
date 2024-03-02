@@ -3,6 +3,7 @@ namespace Cat.LocomotionSystem
     using System.Collections.Generic;
     using Cat.Utillities;
     using UnityEngine;
+    using UnityEngine.InputSystem;
 
     public enum MovementSweepState
     {
@@ -170,14 +171,14 @@ namespace Cat.LocomotionSystem
             MaxStableDistanceFromLedge = Mathf.Clamp(MaxStableDistanceFromLedge, 0f, Capsule.radius);
         }
 
-        protected virtual void Awake()
+        protected virtual void OnEnable()
         {
             OnValidate();
 
             TargetPosition = transform.position;
             TargetRotation = transform.rotation;
-        }
 
+        }
 
         protected virtual void Update()
         {

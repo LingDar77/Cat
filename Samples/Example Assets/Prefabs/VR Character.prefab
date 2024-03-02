@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1668726987986476612}
   - component: {fileID: 5661045577602493257}
   - component: {fileID: 8146639187279406582}
-  - component: {fileID: 7689931587593358755}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -125,20 +124,6 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -7603451140665755772, guid: 5cfac63fdf291bd4397dec27fd0d4201, type: 3}
---- !u!114 &7689931587593358755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546282221894157948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96030a315fd2bf64d8d043aedb73cec1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 0}
-  vitualCamera: {fileID: 5661045577602493257}
 --- !u!1 &1041576027992768154
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,6 +410,10 @@ PrefabInstance:
       propertyPath: JumpControl.m_Reference
       value: 
       objectReference: {fileID: -4563686958810974387, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
+    - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688, type: 3}
+      propertyPath: TurnSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: RotateType
       value: 1
