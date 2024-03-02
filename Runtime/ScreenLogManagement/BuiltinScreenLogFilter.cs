@@ -19,31 +19,61 @@ namespace Cat.ScreenLogManagementSystem
             public LogType TracedLogLevel = LogType.Exception;
             public string[] Keywords;
 
+            // public bool Filter(string message, string stackTrace, LogType type)
+            // {
+            //     if (Keywords == null || Keywords.Length == 0) return true;
+
+            //     if (Mode == FilterMode.WhiteList)
+            //     {
+            //         //white list
+            //         foreach (var keyword in Keywords)
+            //         {
+            //             if (message.Contains(keyword) || stackTrace.Contains(keyword)) return true;
+            //         }
+            //         return false;
+            //     }
+            //     else
+            //     {
+            //         if (type == TracedLogLevel)
+            //         {
+            //             if (Keywords == null || Keywords.Length == 0) return false;
+            //             //black list
+            //             foreach (var keyword in Keywords)
+            //             {
+            //                 if (message.Contains(keyword) || stackTrace.Contains(keyword)) return false;
+            //             }
+            //         }
+            //         return true;
+            //     }
+
+            // }
+
             public bool Filter(string message, string stackTrace, LogType type)
             {
-                if (Keywords == null || Keywords.Length == 0) return true;
+                if (Mode == FilterMode.BlackList)
+                {
+                    if (type != TracedLogLevel) return true;
+                    if (Keywords == null || Keywords.Length == 0) return false;
 
-                if (TracedLogLevel < type) return false;
+                    foreach (var keyword in Keywords)
+                    {
+                        if (message.Contains(keyword) || stackTrace.Contains(keyword)) return false;
+                    }
+                }
 
                 if (Mode == FilterMode.WhiteList)
                 {
-                    //white list
+                    if (type != TracedLogLevel) return true;
+                    if (Keywords == null || Keywords.Length == 0) return true;
+
                     foreach (var keyword in Keywords)
                     {
                         if (message.Contains(keyword) || stackTrace.Contains(keyword)) return true;
                     }
                     return false;
                 }
-                else
-                {
-                    //black list
-                    foreach (var keyword in Keywords)
-                    {
-                        if (message.Contains(keyword) || stackTrace.Contains(keyword)) return false;
-                    }
-                    return true;
-                }
 
+                return true;
             }
         }
         public FilterRule[] rules;

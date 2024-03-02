@@ -19,6 +19,11 @@ namespace Cat.Intergration.Hotupdate
             var platform = this.GetRuntimePlatform();
             var order = Addressables.LoadAssetAsync<AssemblyOrder>($"AssemblyOrder.{platform}");
             yield return order;
+            if (order.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+            {
+                LoadCompleted.Invoke();
+                yield break;
+            }
             this.Log("Fetched Assembly Order. Start Loading Assemblies...");
 
             foreach (var assembly in order.Result.Assemblies)

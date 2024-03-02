@@ -85,6 +85,12 @@ namespace Cat.Utillities
         #endregion
 
         #region Compoent Expand
+#if UNITY_EDITOR
+        public static string GetRuntimePlatform(this Component context)
+        {
+            return UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+        }
+#else
         public static string GetRuntimePlatform(this Component context)
         {
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
@@ -99,6 +105,8 @@ namespace Cat.Utillities
         return "Unknown";
 #endif
         }
+#endif
+
         public static bool TryGetComponentInParent<Type>(this Component context, out Type component, bool includeInactive = false)
         {
             component = (Type)(object)context.GetComponentInParent(typeof(Type), includeInactive);
