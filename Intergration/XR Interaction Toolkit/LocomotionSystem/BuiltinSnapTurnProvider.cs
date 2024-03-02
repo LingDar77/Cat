@@ -16,6 +16,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         private float turnInput = 0;
         private bool canTurn = true;
         private bool turnFinished = false;
+
         public override void BeforeProcess(float deltaTime)
         {
             turnInput = 0;
@@ -30,6 +31,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
             }
 
         }
+        
         public override void ProcessRotation(ref Quaternion currentRotation, float deltaTime)
         {
             if (turnInput == 0 || !canTurn) return;

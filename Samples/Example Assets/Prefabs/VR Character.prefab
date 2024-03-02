@@ -412,7 +412,7 @@ PrefabInstance:
       objectReference: {fileID: -4563686958810974387, guid: 46a65385d8261874bbb1a1bb75c7e102, type: 3}
     - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: TurnSpeed
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5492150192968636001, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: RotateType
@@ -496,7 +496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9145604729289840818, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9145604729289840818, guid: 45a390f23649abd48a603f39abb68688, type: 3}
       propertyPath: CrouchControl.m_Reference
@@ -539,18 +539,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MinimumCrouchHeight: 1.2
-  CrouchControl:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Crouch Control
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 45a34eca-d956-42dd-8277-9e2392570d14
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -1464340630155665424, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
   HMDPosition:
     m_UseReference: 1
     m_Action:

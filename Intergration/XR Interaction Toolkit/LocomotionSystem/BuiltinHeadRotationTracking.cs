@@ -10,15 +10,15 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
     [DefaultExecutionOrder(0)]
     public class BuiltinHeadRotationTracking : MonoBehaviour
     {
-        [SerializeField] private Quaternion bias = Quaternion.identity;
+        [SerializeField] private Quaternion Bias = Quaternion.identity;
         [SerializeField] private Transform[] SyncTransforms;
         [SerializeField] private InputActionProperty HeadRotationInput;
         [SerializeField] private InputActionProperty UserPresenceInput;
         [Header("Simulation Input")]
         [SerializeField] private InputActionProperty RotateViewInput;
-        private bool initialized = false;
-        public Quaternion RotationBias { get => bias; set => bias = value; }
+        public Quaternion RotationBias { get => Bias; set => Bias = value; }
 
+        private bool initialized = false;
         private Quaternion initial;
         private IXRSDKProvider sdk;
         private Vector2 simulationInput;
@@ -31,11 +31,13 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             RotationBias = initial = transform.root.rotation;
             HeadRotationInput.action.performed += HeadRotationPerformed;
             UserPresenceInput.action.performed += OnUserPresence;
-
             InputSystem.onAfterUpdate += OnUpdate;
+
             brain = Camera.main.GetComponent<CinemachineBrain>();
             virtualCamera = GetComponent<CinemachineVirtualCamera>();
-            brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.ManualUpdate;
+
+            if (Application.isPlaying)
+                brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.ManualUpdate;
         }
 
         private void OnDisable()
@@ -43,11 +45,14 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             HeadRotationInput.action.performed -= HeadRotationPerformed;
             UserPresenceInput.action.performed -= OnUserPresence;
             InputSystem.onAfterUpdate -= OnUpdate;
-            brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
+
+            if (Application.isPlaying)
+                brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
 
             if (sdk != null)
                 sdk.OnRecenterSuccessed += OnRecenter;
         }
+
         private void OnUpdate()
         {
             if (initialized)
@@ -65,6 +70,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             transform.rotation = RotationBias * targetRotation;
             virtualCamera.UpdateCameraState(Vector3.up, 0);
             brain.ManualUpdate();
+
             foreach (var trans in SyncTransforms)
             {
                 trans.rotation = RotationBias;
@@ -91,10 +97,12 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             if (sdk == null) return;
             sdk.OnRecenterSuccessed += OnRecenter;
         }
+
         private void OnUserPresence(InputAction.CallbackContext context)
         {
             sdk?.Recenter();
         }
+        
         private void OnRecenter()
         {
             this.Log("Senser Recentered.");

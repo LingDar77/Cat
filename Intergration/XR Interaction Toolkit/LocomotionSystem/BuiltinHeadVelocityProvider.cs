@@ -24,11 +24,13 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
             if (sdk == null) return;
             sdk.OnRecenterSuccessed += OnRecenter;
         }
+        
         private void OnDestroy()
         {
             if (sdk == null) return;
             sdk.OnRecenterSuccessed -= OnRecenter;
         }
+
         private void OnRecenter()
         {
             VelocityBias = initial;

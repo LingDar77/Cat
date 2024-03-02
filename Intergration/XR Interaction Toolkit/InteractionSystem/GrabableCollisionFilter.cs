@@ -16,6 +16,7 @@ namespace Cat.Intergration.XRIT.InteractionSystem
         {
             this.EnsureComponentInParent(ref interactable);
         }
+        
         private void OnEnable()
         {
             if (interactable == null) return;
@@ -23,17 +24,20 @@ namespace Cat.Intergration.XRIT.InteractionSystem
             interactable.selectEntered.AddListener(OnSelectEntered);
             interactable.selectExited.AddListener(OnSelectExited);
         }
+
         private void OnDisable()
         {
             if (interactable == null) return;
             interactable.selectEntered.RemoveListener(OnSelectEntered);
             interactable.selectExited.RemoveListener(OnSelectExited);
         }
+
         private void OnSelectEntered(SelectEnterEventArgs e)
         {
             StopAllCoroutines();
             grabed = true;
         }
+
         private void OnSelectExited(SelectExitEventArgs e)
         {
             this.WaitForSeconds(ResetState, delay);
