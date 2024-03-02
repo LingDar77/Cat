@@ -18,7 +18,7 @@ namespace Cat
         private void Start()
         {
             OnStart.Invoke();
-            this.NextUpdate(() => OnFirstFrame.Invoke());
+            this.NextUpdate(() => OnFirstFrame.Invoke(), 2);
         }
         private void Update()
         {

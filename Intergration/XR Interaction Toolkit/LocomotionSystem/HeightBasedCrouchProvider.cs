@@ -7,6 +7,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
     using UnityEngine;
     using UnityEngine.InputSystem;
 
+    [DefaultExecutionOrder(201)]
     public class HeightBasedCrouchProvider : ActionProviderBase
     {
         public float MinimumCrouchHeight = 1f;
@@ -30,12 +31,14 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
             }
             CoroutineHelper.WaitUntil(() => IsTracked.action.IsPressed(), ResetInitialHeight);
         }
+
         private void OnDestroy()
         {
             if (sdk == null) return;
             sdk.OnRecenterSuccessed += ResetInitialHeight;
 
         }
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -53,18 +56,23 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
             if (UserPresence == null) return;
             UserPresence.action.performed -= ResetInitialHeight;
         }
+
         private void ResetInitialHeight()
         {
             ResetInitialHeight(default);
         }
+
         private void ResetInitialHeight(InputAction.CallbackContext context)
         {
             var height = HMDPosition.action.ReadValue<Vector3>().y;
             initialHeight = height;
         }
+
         public override void BeforeProcess(float deltaTime)
         {
+
             if (!IsTracked.action.IsPressed()) return;
+
             var bias = initialHeight - HMDPosition.action.ReadValue<Vector3>().y;
             SetCapsuleHeight(initalCapsuleHeight - bias);
         }
@@ -72,12 +80,17 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         protected void SetCapsuleHeight(float height)
         {
             var ajustOffset = 0f;
-            if (height < MinimumCrouchHeight) ajustOffset = MinimumCrouchHeight - height;
+            if (height < MinimumCrouchHeight) ajustOffset = height - MinimumCrouchHeight;
             if (height > initalCapsuleHeight) ajustOffset = height - initalCapsuleHeight;
+
             var targetHeight = Mathf.Clamp(height, MinimumCrouchHeight, initalCapsuleHeight);
             capsule.height = targetHeight;
             capsule.center = new Vector3(capsule.center.x, initalCapsuleHeight - targetHeight / 2 - initialCapsuleOffset, capsule.center.z);
-            SimulationRoot.transform.localPosition = new Vector3(SimulationRoot.transform.localPosition.x, initialOffset + ajustOffset, SimulationRoot.transform.localPosition.z);
+
+            SimulationRoot.transform.localPosition = new Vector3(
+                SimulationRoot.transform.localPosition.x,
+                initialOffset + ajustOffset,
+                SimulationRoot.transform.localPosition.z);
         }
     }
 }
