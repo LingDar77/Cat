@@ -85,28 +85,6 @@ namespace Cat.Utillities
         #endregion
 
         #region Compoent Expand
-#if UNITY_EDITOR
-        public static string GetRuntimePlatform(this Component context)
-        {
-            return UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
-        }
-#else
-        public static string GetRuntimePlatform(this Component context)
-        {
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-            return "StandaloneWindows64";
-#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        return "StandaloneOSX";
-#elif UNITY_ANDROID
-        return "Android";
-#elif UNITY_IPHONE
-        return "iPhone";
-#else
-        return "Unknown";
-#endif
-        }
-#endif
-
         public static bool TryGetComponentInParent<Type>(this Component context, out Type component, bool includeInactive = false)
         {
             component = (Type)(object)context.GetComponentInParent(typeof(Type), includeInactive);

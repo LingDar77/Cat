@@ -92,7 +92,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         {
             RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, quaternion.eulerAngles.y, 0));
             initialized = true;
-
+            this.Log("HMD Tracking Initialized.");
             sdk = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProvider<IXRSDKProvider>();
             if (sdk == null) return;
             sdk.OnRecenterSuccessed += OnRecenter;

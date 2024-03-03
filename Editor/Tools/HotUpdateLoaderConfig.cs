@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace Cat.Intergration.Hotupdate
+namespace Cat.Hotupdate
 {
     using System;
     using System.Collections.Generic;

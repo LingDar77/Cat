@@ -1,4 +1,4 @@
-namespace Cat.Intergration.Hotupdate
+namespace Cat.Hotupdate
 {
     using System.Collections.Generic;
     using UnityEngine;

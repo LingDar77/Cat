@@ -1,10 +1,9 @@
-namespace Cat.Intergration.Hotupdate
+namespace Cat.Hotupdate
 {
 
     using System.Collections;
     using System.Reflection;
     using UnityEngine;
-    using Cat.Utillities;
     using UnityEngine.AddressableAssets;
     using UnityEngine.Events;
     using System.Threading;
@@ -13,10 +12,31 @@ namespace Cat.Intergration.Hotupdate
     {
         public UnityEvent LoadCompleted;
 
+#if UNITY_EDITOR
+        public static string GetRuntimePlatform()
+        {
+            return UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+        }
+#else
+        public static string GetRuntimePlatform()
+        {
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            return "StandaloneWindows64";
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+        return "StandaloneOSX";
+#elif UNITY_ANDROID
+        return "Android";
+#elif UNITY_IPHONE
+        return "iPhone";
+#else
+        return "Unknown";
+#endif
+        }
+#endif
         private IEnumerator Start()
         {
-            this.Log("Fetching Assembly Order.");
-            var platform = this.GetRuntimePlatform();
+            Debug.Log("Fetching Assembly Order.");
+            var platform = GetRuntimePlatform();
             var order = Addressables.LoadAssetAsync<AssemblyOrder>($"AssemblyOrder.{platform}");
             yield return order;
             if (order.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
@@ -24,11 +44,11 @@ namespace Cat.Intergration.Hotupdate
                 LoadCompleted.Invoke();
                 yield break;
             }
-            this.Log("Fetched Assembly Order. Start Loading Assemblies...");
+            Debug.Log("Fetched Assembly Order. Start Loading Assemblies...");
 
             foreach (var assembly in order.Result.Assemblies)
             {
-                this.LogFormat("Loading assembly: {0}", LogType.Log, assembly);
+                Debug.LogFormat("Loading assembly: {0}", assembly);
                 var asset = Addressables.LoadAssetAsync<TextAsset>($"{assembly}.dll.{platform}");
                 yield return asset;
                 var bytes = asset.Result.bytes;
@@ -38,13 +58,13 @@ namespace Cat.Intergration.Hotupdate
                 };
                 thread.Start();
                 yield return new WaitUntil(() => !thread.IsAlive);
-                this.LogFormat("Assembly: {0} Loaded.", LogType.Log, assembly);
+                Debug.LogFormat("Assembly: {0} Loaded.", assembly);
             }
 
-            this.Log("Assemblies Loaded. Start Paching AOT Assemblies...");
+            Debug.Log("Assemblies Loaded. Start Paching AOT Assemblies...");
             foreach (var metadata in order.Result.Metadata)
             {
-                this.LogFormat("Loading assembly metadata: {0}", LogType.Log, metadata);
+                Debug.LogFormat("Loading assembly metadata: {0}", metadata);
                 var asset = Addressables.LoadAssetAsync<TextAsset>($"{metadata}.metadata.{platform}");
                 yield return asset;
                 var bytes = asset.Result.bytes;
@@ -54,11 +74,11 @@ namespace Cat.Intergration.Hotupdate
                 };
                 thread.Start();
                 yield return new WaitUntil(() => !thread.IsAlive);
-                this.LogFormat("Assembly metadata: {0} Pached.", LogType.Log, metadata);
+                Debug.LogFormat("Assembly metadata: {0} Pached.", metadata);
             }
-            this.Log("AOT Assemblies Patched.");
+            Debug.Log("AOT Assemblies Patched.");
 
-            yield return CoroutineHelper.GetWaitForSeconds(1f);
+            yield return new WaitForSeconds(1);
             LoadCompleted.Invoke();
         }
 

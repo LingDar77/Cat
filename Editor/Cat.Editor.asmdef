@@ -1,7 +1,12 @@
 {
     "name": "Cat.Editor",
     "rootNamespace": "Cat",
-    "references": [],
+    "references": [
+        "GUID:f5e41a7ba71c99b4ebc738849df93f6a",
+        "GUID:2373f786d14518f44b0f475db77ba4de",
+        "GUID:69448af7b92c7f342b298e06a37122aa",
+        "GUID:84651a3751eca9349aac36a66bba901b"
+    ],
     "includePlatforms": [
         "Editor"
     ],
