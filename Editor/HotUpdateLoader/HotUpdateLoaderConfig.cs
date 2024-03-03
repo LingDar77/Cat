@@ -28,7 +28,7 @@ namespace Cat.Hotupdate
     {
         private static AssemblyOrder orderAsset;
 
-        [MenuItem("Window/Cat/IL2CPP/HotUpdate Loader")]
+        [MenuItem("Window/Cat/HotUpdate Loader")]
         private static void ShowWindow()
         {
             var window = GetWindow<HotUpdateLoaderConfigWindow>();
