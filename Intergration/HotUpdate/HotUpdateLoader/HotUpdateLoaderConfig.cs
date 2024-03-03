@@ -7,6 +7,7 @@ namespace Cat.Intergration.Hotupdate
     using System.Linq;
     using System.Text.RegularExpressions;
     using Cat.Utillities;
+    using HybridCLR.Editor.Settings;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;
@@ -16,7 +17,10 @@ namespace Cat.Intergration.Hotupdate
     public class HotUpdateLoaderConfig : ConfigableObject<HotUpdateLoaderConfig>
     {
         public bool Enabled = false;
+        public AddressableAssetGroup ConfigGroup;
         public AddressableAssetGroup AssemblyGroup;
+        public AddressableAssetGroup MetadataGroup;
+
     }
 
 
@@ -48,72 +52,118 @@ namespace Cat.Intergration.Hotupdate
         {
             var config = HotUpdateLoaderConfig.Get();
             var aa = AddressableAssetSettingsDefaultObject.GetSettings(false);
-            if (aa == null || !config.Enabled || config.AssemblyGroup == null) return;
+            if (aa == null || config.AssemblyGroup == null || config.ConfigGroup == null || config.MetadataGroup == null || !config.Enabled) return;
 
-            var tempFolder = HybridCLR.Editor.Settings.HybridCLRSettings.Instance.outputAOTGenericReferenceFile;
-            tempFolder = $"Assets/{Path.GetDirectoryName(tempFolder)}";
+            var platform = EditorUserBuildSettings.activeBuildTarget.ToString();
+            var settings = HybridCLRSettings.Instance;
+            var tempFoler = $"Assets/{Path.GetDirectoryName(settings.outputAOTGenericReferenceFile)}";
+            var outDllFolder = $"{Environment.CurrentDirectory}/{settings.hotUpdateDllCompileOutputRootDir}/{platform}";
+            var outMetaFolder = $"{Environment.CurrentDirectory}/{settings.strippedAOTDllOutputRootDir}/{platform}";
+            var assetDllFolder = $"{tempFoler}/Assemblies/{platform}";
+            var assetMetaFolder = $"{tempFoler}/Metadata/{platform}";
+            var saveDllFolder = $"{Environment.CurrentDirectory}/{assetDllFolder}";
+            var saveMetaFolder = $"{Environment.CurrentDirectory}/{assetMetaFolder}";
 
-            ConfigGroup(config, aa, tempFolder);
 
-            CopyCompiledDlls(config, aa, tempFolder);
+            PrepareAssemblyOrder(config, aa, platform, settings, tempFoler);
 
-            UpdateAssemblyOrder();
+            CopyDlls(outDllFolder, outMetaFolder, saveDllFolder, saveMetaFolder);
 
-            UpdateMetadata(config, aa);
+            AddDllsToAA(config, aa, platform, assetDllFolder, assetMetaFolder);
         }
 
-        public static void UpdateMetadata(HotUpdateLoaderConfig config, AddressableAssetSettings aa)
+        private static void AddDllsToAA(HotUpdateLoaderConfig config, AddressableAssetSettings aa, string platform, string assetDllFolder, string assetMetaFolder)
         {
-
-            var tempFolder = HybridCLR.Editor.Settings.HybridCLRSettings.Instance.outputAOTGenericReferenceFile;
-            tempFolder = $"Assets/{Path.GetDirectoryName(tempFolder)}";
-
-            //Copy metadata
-            var outMetaFolder = $"{Environment.CurrentDirectory}/{HybridCLR.Editor.Settings.HybridCLRSettings.Instance.strippedAOTDllOutputRootDir}/{EditorUserBuildSettings.activeBuildTarget}";
-            var saveMetaFolder = $"{Environment.CurrentDirectory}/{tempFolder}/Metadata";
-
-            if (!Directory.Exists(saveMetaFolder))
+            //Add dlls to aa
+            foreach (var dll in orderAsset.Assemblies)
             {
-                Directory.CreateDirectory(saveMetaFolder);
+                var path = $"{assetDllFolder}/{dll}.bytes";
+                var guid = AssetDatabase.AssetPathToGUID(path);
+                var entry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
+                entry.SetAddress($"{dll}.dll.{platform}");
+                entry.SetLabel("Assembly", true, true);
+                entry.SetLabel(platform, true, true);
             }
 
-            foreach (var metadata in orderAsset.Metadata)
+            foreach (var meta in orderAsset.Metadata)
             {
-                var path = $"{saveMetaFolder}/{metadata}.{EditorUserBuildSettings.activeBuildTarget}.metadata.bytes";
-                File.Copy($"{outMetaFolder}/{metadata}.dll", path, true);
+                var path = $"{assetMetaFolder}/{meta}.bytes";
+                var guid = AssetDatabase.AssetPathToGUID(path);
+                var entry = aa.CreateOrMoveEntry(guid, config.MetadataGroup, true);
+                entry.SetAddress($"{meta}.metadata.{platform}");
+                entry.SetLabel("Metadata", true, true);
+                entry.SetLabel(platform, true, true);
+            }
 
+            EditorUtility.SetDirty(config.MetadataGroup);
+            EditorUtility.SetDirty(config.AssemblyGroup);
+        }
+
+        private static void CopyDlls(string outDllFolder, string outMetaFolder, string saveDllFolder, string saveMetaFolder)
+        {
+            //Copy assemblies and metadata
+            if (!Directory.Exists($"{saveDllFolder}"))
+            {
+                Directory.CreateDirectory($"{saveDllFolder}");
+            }
+
+            if (!Directory.Exists($"{saveMetaFolder}"))
+            {
+                Directory.CreateDirectory($"{saveMetaFolder}");
+            }
+
+            foreach (var dll in orderAsset.Assemblies)
+            {
+                var path = $"{outDllFolder}/{dll}.dll";
+                var target = $"{saveDllFolder}/{dll}.bytes";
+                File.Copy(path, target, true);
+            }
+
+            foreach (var meta in orderAsset.Metadata)
+            {
+                var path = $"{outMetaFolder}/{meta}.dll";
+                var target = $"{saveMetaFolder}/{meta}.bytes";
+                File.Copy(path, target, true);
+            }
+
+            AssetDatabase.Refresh();
+        }
+
+        private static void PrepareAssemblyOrder(HotUpdateLoaderConfig config, AddressableAssetSettings aa, string platform, HybridCLRSettings settings, string tempFoler)
+        {
+            //Prepare assembly order
+            var assetConfigPath = $"{tempFoler}/AssemblyOrder.{platform}.asset";
+            orderAsset = AssetDatabase.LoadAssetAtPath<AssemblyOrder>(assetConfigPath);
+            if (orderAsset == null)
+            {
+                orderAsset = CreateInstance<AssemblyOrder>();
+                AssetDatabase.CreateAsset(orderAsset, assetConfigPath);
                 AssetDatabase.Refresh();
-
-                var guid = AssetDatabase.AssetPathToGUID($"{tempFolder}/Metadata/{metadata}.{EditorUserBuildSettings.activeBuildTarget}.metadata.bytes");
-                if (guid == null || guid == "") continue;
-                var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
-                dllEntry.SetAddress($"{metadata}.{EditorUserBuildSettings.activeBuildTarget}.metadata.bytes");
-                dllEntry.SetLabel("metadata", true, true);
-                dllEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
             }
-        }
 
-        private static void UpdateAssemblyOrder()
-        {
-            //Update AssemblyOrder
+            var guid = AssetDatabase.AssetPathToGUID(assetConfigPath);
+
+            var entry = aa.CreateOrMoveEntry(guid, config.ConfigGroup, true);
+            entry.SetAddress($"AssemblyOrder.{platform}");
+            entry.SetLabel("Config", true, true);
+            entry.SetLabel(platform, true, true);
+
+            //Add assemblies
             orderAsset.Assemblies.Clear();
+            orderAsset.Assemblies.AddRange(settings.hotUpdateAssemblies);
+            orderAsset.Assemblies.AddRange(GetSortedAssemblies(settings.hotUpdateAssemblyDefinitions));
 
-            orderAsset.Assemblies.AddRange(HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblies);
+            orderAsset.Assemblies = orderAsset.Assemblies.Distinct().ToList();
 
-            var assemblies = HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblyDefinitions;
-
-            orderAsset.Assemblies.AddRange(GetSortedAssemblies(assemblies));
-
-            if (orderAsset.Assemblies.Find(e => e == "Assembly-CSharp") != null)
+            if (orderAsset.Assemblies.Contains("Assembly-CSharp"))
             {
                 orderAsset.Assemblies.Remove("Assembly-CSharp");
                 orderAsset.Assemblies.Add("Assembly-CSharp");
             }
 
-            //Update metadata
-            var file = AssetDatabase.LoadAssetAtPath<TextAsset>($"Assets/{HybridCLR.Editor.Settings.HybridCLRSettings.Instance.outputAOTGenericReferenceFile}");
-
-            var dlls = Regex.Matches(file.ToString(), "\"(.+).dll\"");
+            //Add metadata
+            orderAsset.Metadata.Clear();
+            var dlls = Regex.Matches(AssetDatabase.LoadAssetAtPath<TextAsset>($"Assets/{settings.outputAOTGenericReferenceFile}").ToString(), "\"(.+).dll\"");
             if (dlls.Count != 0)
             {
                 orderAsset.Metadata.Clear();
@@ -124,59 +174,7 @@ namespace Cat.Intergration.Hotupdate
             }
 
             EditorUtility.SetDirty(orderAsset);
-        }
-
-        private static void CopyCompiledDlls(HotUpdateLoaderConfig config, AddressableAssetSettings aa, string tempFolder)
-        {
-            //Copy compiled dlls
-            var dllFolder = HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateDllCompileOutputRootDir;
-            dllFolder = $"{Environment.CurrentDirectory}/{dllFolder}";
-            var tempDllFolder = $"{Environment.CurrentDirectory}/{tempFolder}/Assemblies";
-
-            if (!Directory.Exists(tempDllFolder))
-            {
-                Directory.CreateDirectory(tempDllFolder);
-            }
-
-            foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblies)
-            {
-                var dllpath = $"{dllFolder}/{EditorUserBuildSettings.activeBuildTarget}/{dll}.dll";
-                if (!File.Exists(dllpath)) continue;
-
-                File.Copy(dllpath, $"{tempDllFolder}/{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes", true);
-            }
-
-            foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblyDefinitions)
-            {
-                var dllpath = $"{dllFolder}/{EditorUserBuildSettings.activeBuildTarget}/{dll.name}.dll";
-                if (!File.Exists(dllpath)) continue;
-
-                File.Copy(dllpath, $"{tempDllFolder}/{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes", true);
-            }
-
-            AssetDatabase.Refresh();
-
-            //Add to aa
-
-            foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblies)
-            {
-                var guid = AssetDatabase.AssetPathToGUID($"{tempFolder}/Assemblies/{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
-                if (guid == null || guid == "") continue;
-                var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
-                dllEntry.SetAddress($"{dll}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
-                dllEntry.SetLabel("assembly", true, true);
-                dllEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
-            }
-
-            foreach (var dll in HybridCLR.Editor.Settings.HybridCLRSettings.Instance.hotUpdateAssemblyDefinitions)
-            {
-                var guid = AssetDatabase.AssetPathToGUID($"{tempFolder}/Assemblies/{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
-                if (guid == null || guid == "") continue;
-                var dllEntry = aa.CreateOrMoveEntry(guid, config.AssemblyGroup, true);
-                dllEntry.SetAddress($"{dll.name}.{EditorUserBuildSettings.activeBuildTarget}.bytes");
-                dllEntry.SetLabel("assembly", true, true);
-                dllEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
-            }
+            EditorUtility.SetDirty(config.ConfigGroup);
         }
 
         private static string[] GetSortedAssemblies(AssemblyDefinitionAsset[] assemblies)
@@ -247,40 +245,6 @@ namespace Cat.Intergration.Hotupdate
             return results.Distinct().ToArray();
         }
 
-        private static void ConfigGroup(HotUpdateLoaderConfig config, AddressableAssetSettings aa, string tempFolder)
-        {
-            string order = null;
-
-            foreach (var entry in config.AssemblyGroup.entries)
-            {
-                if (entry.address == $"AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}")
-                {
-                    order = entry.guid;
-                }
-            }
-
-            orderAsset = AssetDatabase.LoadAssetAtPath<AssemblyOrder>($"{tempFolder}/AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}.asset");
-
-            if (order == null)
-            {
-                if (orderAsset == null)
-                {
-                    orderAsset = CreateInstance<AssemblyOrder>();
-                    AssetDatabase.CreateAsset(orderAsset, $"{tempFolder}/AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}.asset");
-
-                }
-                order = AssetDatabase.AssetPathToGUID($"{tempFolder}/AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}.asset");
-            }
-
-
-            var configEntry = aa.CreateOrMoveEntry(order, config.AssemblyGroup, true);
-
-            configEntry.SetAddress($"AssemblyOrder.{EditorUserBuildSettings.activeBuildTarget}");
-            configEntry.SetLabel("config", true, true);
-            configEntry.SetLabel(EditorUserBuildSettings.activeBuildTarget.ToString(), true, true);
-
-            EditorUtility.SetDirty(config.AssemblyGroup);
-        }
 
     }
 }

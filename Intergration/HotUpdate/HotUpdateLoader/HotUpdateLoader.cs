@@ -29,7 +29,7 @@ namespace Cat.Intergration.Hotupdate
             foreach (var assembly in order.Result.Assemblies)
             {
                 this.LogFormat("Loading assembly: {0}", LogType.Log, assembly);
-                var asset = Addressables.LoadAssetAsync<TextAsset>($"{assembly}.{platform}.bytes");
+                var asset = Addressables.LoadAssetAsync<TextAsset>($"{assembly}.dll.{platform}");
                 yield return asset;
                 var bytes = asset.Result.bytes;
                 var thread = new Thread(() => Assembly.Load(bytes))
@@ -45,7 +45,7 @@ namespace Cat.Intergration.Hotupdate
             foreach (var metadata in order.Result.Metadata)
             {
                 this.LogFormat("Loading assembly metadata: {0}", LogType.Log, metadata);
-                var asset = Addressables.LoadAssetAsync<TextAsset>($"{metadata}.{platform}.metadata.bytes");
+                var asset = Addressables.LoadAssetAsync<TextAsset>($"{metadata}.metadata.{platform}");
                 yield return asset;
                 var bytes = asset.Result.bytes;
                 var thread = new Thread(() => HybridCLR.RuntimeApi.LoadMetadataForAOTAssembly(bytes, HybridCLR.HomologousImageMode.SuperSet))
