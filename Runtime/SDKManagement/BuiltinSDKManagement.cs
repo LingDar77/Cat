@@ -8,24 +8,19 @@ namespace Cat.SDKManagementSystem
     [DefaultExecutionOrder(-1000)]
     public class BuiltinSDKManagement : SingletonSystemBase<BuiltinSDKManagement>, ISDKManagement
     {
-#if UNITY_EDITOR
-        [SerializeField] private bool AutoCollectProviders = true;
-#endif
         [ImplementedInterface(typeof(ISDKProvider))]
         [SerializeField] protected List<MonoBehaviour> ProviderObjects;
         public HashSet<ISDKProvider> Providers { get; set; } = new();
         protected Dictionary<System.Type, ISDKProvider[]> providerCaches = new();
         protected virtual void OnValidate()
         {
-#if UNITY_EDITOR
-            if (!AutoCollectProviders || ProviderObjects == null) return;
+            if (!Application.isPlaying || ProviderObjects == null) return;
             var providers = GetComponentsInChildren<ISDKProvider>(true);
             ProviderObjects.Clear();
             foreach (var provider in providers)
             {
                 ProviderObjects.Add(provider as MonoBehaviour);
             }
-#endif
         }
 
         protected override void OnEnable()

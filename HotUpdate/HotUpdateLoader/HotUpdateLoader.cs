@@ -7,10 +7,12 @@ namespace Cat.Hotupdate
     using UnityEngine.AddressableAssets;
     using UnityEngine.Events;
     using System.Threading;
+    using System;
 
     public class HotUpdateLoader : MonoBehaviour
     {
         public UnityEvent LoadCompleted;
+        public UnityEvent<string> OnMessageLog;
 
 #if UNITY_EDITOR
         public static string GetRuntimePlatform()
@@ -35,7 +37,7 @@ namespace Cat.Hotupdate
 #endif
         private IEnumerator Start()
         {
-            Debug.Log("Fetching Assembly Order.");
+            OnMessageLog.Invoke("Fetching Assembly Order.");
             var platform = GetRuntimePlatform();
             var order = Addressables.LoadAssetAsync<AssemblyOrder>($"AssemblyOrder.{platform}");
             yield return order;
@@ -44,11 +46,9 @@ namespace Cat.Hotupdate
                 LoadCompleted.Invoke();
                 yield break;
             }
-            Debug.Log("Fetched Assembly Order. Start Loading Assemblies...");
-
-            foreach (var assembly in order.Result.Assemblies)
+            for (int i = 0; i != order.Result.Assemblies.Count; ++i)
             {
-                Debug.LogFormat("Loading assembly: {0}", assembly);
+                var assembly = order.Result.Assemblies[i];
                 var asset = Addressables.LoadAssetAsync<TextAsset>($"{assembly}.dll.{platform}");
                 yield return asset;
                 var bytes = asset.Result.bytes;
@@ -58,13 +58,13 @@ namespace Cat.Hotupdate
                 };
                 thread.Start();
                 yield return new WaitUntil(() => !thread.IsAlive);
-                Debug.LogFormat("Assembly: {0} Loaded.", assembly);
+                OnMessageLog.Invoke($"Assembly: {assembly} Loaded ({i + 1}/{order.Result.Assemblies.Count}).");
+                yield return new WaitForSeconds(.1f);
             }
 
-            Debug.Log("Assemblies Loaded. Start Paching AOT Assemblies...");
-            foreach (var metadata in order.Result.Metadata)
+            for (int i = 0; i != order.Result.Metadata.Count; i++)
             {
-                Debug.LogFormat("Loading assembly metadata: {0}", metadata);
+                var metadata = order.Result.Metadata[i];
                 var asset = Addressables.LoadAssetAsync<TextAsset>($"{metadata}.metadata.{platform}");
                 yield return asset;
                 var bytes = asset.Result.bytes;
@@ -74,14 +74,34 @@ namespace Cat.Hotupdate
                 };
                 thread.Start();
                 yield return new WaitUntil(() => !thread.IsAlive);
-                Debug.LogFormat("Assembly metadata: {0} Pached.", metadata);
+                OnMessageLog.Invoke($"Assembly metadata: {metadata} Pached({i + 1}/{order.Result.Metadata.Count}).");
+                yield return new WaitForSeconds(.1f);
             }
-            Debug.Log("AOT Assemblies Patched.");
+            OnMessageLog.Invoke($"All assemblies completly loaded. Start loading GameEntry...");
 
-            yield return new WaitForSeconds(1);
             LoadCompleted.Invoke();
         }
 
+        private void OnEnable()
+        {
+            Application.logMessageReceived += Log2Screen;
+
+        }
+        private void OnDisable()
+        {
+            Application.logMessageReceived -= Log2Screen;
+        }
+
+        private void Log2Screen(string msg, string stackTrace, LogType type)
+        {
+            OnMessageLog.Invoke($"[{type}]: {msg}");
+            if (type == LogType.Error)
+            {
+                StopAllCoroutines();
+                Application.logMessageReceived -= Log2Screen;
+
+            }
+        }
     }
 
 }
