@@ -20,6 +20,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         private float initialCapsuleOffset;
         private float initialHeight;
         private float initialOffset;
+        private float lastHeight;
         private IXRSDKProvider sdk;
 
         private void Start()
@@ -71,7 +72,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         public override void BeforeProcess(float deltaTime)
         {
 
-            if (!IsTracked.action.IsPressed()) return;
+            if (!UserPresence.action.IsPressed()) return;
 
             var bias = initialHeight - HMDPosition.action.ReadValue<Vector3>().y;
             SetCapsuleHeight(initalCapsuleHeight - bias);
@@ -79,6 +80,8 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
 
         protected void SetCapsuleHeight(float height)
         {
+            if (lastHeight != 0 && Mathf.Abs(height - lastHeight) > Time.deltaTime * 4) return;
+
             var ajustOffset = 0f;
             if (height < MinimumCrouchHeight) ajustOffset = height - MinimumCrouchHeight;
             if (height > initalCapsuleHeight) ajustOffset = height - initalCapsuleHeight;
@@ -91,6 +94,8 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
                 SimulationRoot.transform.localPosition.x,
                 initialOffset + ajustOffset,
                 SimulationRoot.transform.localPosition.z);
+
+            lastHeight = targetHeight;
         }
     }
 }

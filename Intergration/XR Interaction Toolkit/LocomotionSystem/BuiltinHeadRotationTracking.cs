@@ -26,7 +26,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         private CinemachineBrain brain;
         private CinemachineVirtualCamera virtualCamera;
 
-        private void OnEnable()
+        private void Start()
         {
             RotationBias = initial = transform.root.rotation;
             HeadRotationInput.action.performed += HeadRotationPerformed;
@@ -35,19 +35,15 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
 
             brain = Camera.main.GetComponent<CinemachineBrain>();
             virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.ManualUpdate;
 
-            if (Application.isPlaying)
-                brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.ManualUpdate;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             HeadRotationInput.action.performed -= HeadRotationPerformed;
             UserPresenceInput.action.performed -= OnUserPresence;
             InputSystem.onAfterUpdate -= OnUpdate;
-
-            if (Application.isPlaying)
-                brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
 
             if (sdk != null)
                 sdk.OnRecenterSuccessed += OnRecenter;
@@ -68,8 +64,10 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             }
 
             transform.rotation = RotationBias * targetRotation;
+
             virtualCamera.UpdateCameraState(Vector3.up, 0);
             brain.ManualUpdate();
+            virtualCamera.UpdateCameraState(Vector3.up, 0);
 
             foreach (var trans in SyncTransforms)
             {
@@ -102,7 +100,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         {
             sdk?.Recenter();
         }
-        
+
         private void OnRecenter()
         {
             this.Log("Senser Recentered.");

@@ -1,5 +1,9 @@
 {
   "name": "com.saltyfishconatiner.cat",
+  "author": {
+    "name": "LingDar77",
+    "email": "lingdar77@outlook.com"
+  },
   "displayName": "Cat",
   "version": "1.0.0",
   "unity": "2022.3",
