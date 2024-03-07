@@ -3,7 +3,6 @@ namespace Cat.Utillities
 {
     using UnityEditor;
 
-
     public class HideScriptEditor : Editor
     {
         public override void OnInspectorGUI()

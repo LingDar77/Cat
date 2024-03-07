@@ -8,6 +8,7 @@ namespace Cat.Utillities
     {
         protected Vector2 scrollPosition;
         protected Editor editor;
+
         protected virtual void OnEnable()
         {
             editor = Editor.CreateEditor(ConfigableObject<ConfigType>.Get(), typeof(HideScriptEditor));
@@ -15,10 +16,12 @@ namespace Cat.Utillities
 
         protected virtual void Display()
         {
-
         }
+
         protected virtual void OnGUI()
         {
+            if (editor.target == null) OnEnable();
+            
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
             EditorGUILayout.Separator();

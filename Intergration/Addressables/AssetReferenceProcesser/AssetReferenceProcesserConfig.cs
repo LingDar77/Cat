@@ -2,6 +2,7 @@
 namespace Cat.Intergration.Addressables.EditorScript
 {
     using System.Collections.Generic;
+    using System.IO;
     using Cat.Utillities;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
@@ -17,18 +18,37 @@ namespace Cat.Intergration.Addressables.EditorScript
     }
     public class AssetReferenceProcesserConfig : ConfigableObject<AssetReferenceProcesserConfig>
     {
-        public Object[] targets;
+        public Object[] resolveObjects;
+        public FolderReference[] resolveFolders;
+
         public GroupConfig[] groupConfigs;
         private AddressableAssetSettings settings;
         public void Scan()
         {
             settings = AddressableAssetSettingsDefaultObject.Settings;
-            var objects = new List<Object>(targets);
-            objects.AddRange(EditorUtility.CollectDependencies(targets));
+            var objects = new List<Object>(resolveObjects);
+            objects.AddRange(EditorUtility.CollectDependencies(resolveObjects));
+
             foreach (var obj in objects)
             {
                 TestObject(obj);
             }
+
+            var cnt = 0;
+            foreach (var folder in resolveFolders)
+            {
+                var guids = AssetDatabase.FindAssets("", new string[] { folder.Path });
+                foreach (var guid in guids)
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    if (!Path.HasExtension(path)) continue;
+                    ++cnt;
+                    var obj = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
+                    TestObject(obj);
+                }
+            }
+
+            Debug.Log($"Processed {objects.Count + cnt}.");
             EditorUtility.SetDirty(settings);
         }
         private void TestObject(Object obj)
@@ -61,7 +81,7 @@ namespace Cat.Intergration.Addressables.EditorScript
         {
             if (GUILayout.Button("Clean Targets"))
             {
-                AssetReferenceProcesserConfig.Get().targets = null;
+                AssetReferenceProcesserConfig.Get().resolveObjects = null;
             }
             if (GUILayout.Button("Process Assets"))
             {
