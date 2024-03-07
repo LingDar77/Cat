@@ -36,7 +36,8 @@ namespace Cat.Utillities
             EditorHelper.FocusUnityGameWindow();
 
             EditorSceneManager.sceneClosed += SceneClosed;
-            CreateTempScene();
+
+            EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects);
             step = ESteps.Prepare;
 
             EditorApplication.update += EditorUpdate;
@@ -77,7 +78,7 @@ namespace Cat.Utillities
             if (step == ESteps.CollectVariants)
             {
 
-                CollectVariants(materials);
+                CollectVariants();
                 cnt = materials.Count;
                 step = ESteps.CollectSleeping;
             }
@@ -107,7 +108,7 @@ namespace Cat.Utillities
 
         }
 
-        private void CollectVariants(List<Material> materials)
+        private void CollectVariants()
         {
             Camera camera = Camera.main != null ? Camera.main : throw new System.Exception("Not found main camera.");
 
@@ -161,10 +162,6 @@ namespace Cat.Utillities
             return go;
         }
 
-        private void CreateTempScene()
-        {
-            EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects);
-        }
     }
 
     public class ShaderVariantCollectorWindow : ConfigWindow<ShaderVariantCollectorConfig>
