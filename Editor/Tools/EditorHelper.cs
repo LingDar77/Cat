@@ -1,19 +1,21 @@
-using System.Reflection;
-using UnityEditor;
-using UnityEngine;
-
+#if UNITY_EDITOR
 namespace Cat.Utillities
 {
+    using System.Reflection;
+    using UnityEditor;
+    using UnityEngine;
     public static class EditorHelper
     {
         public static void ClearProgressBar()
         {
             EditorUtility.ClearProgressBar();
         }
+        
         public static void DisplayProgressBar(string tips, int progressValue, int totalValue)
         {
             EditorUtility.DisplayProgressBar("Progress", $"{tips} : {progressValue}/{totalValue}", (float)progressValue / totalValue);
         }
+
         public static object InvokeNonPublicStaticMethod(System.Type type, string method, params object[] parameters)
         {
             var methodInfo = type.GetMethod(method, BindingFlags.NonPublic | BindingFlags.Static);
@@ -35,23 +37,28 @@ namespace Cat.Utillities
             }
             return methodInfo.Invoke(null, parameters);
         }
+
         public static void FocusUnityGameWindow()
         {
             System.Type T = Assembly.Load("UnityEditor").GetType("UnityEditor.GameView");
             EditorWindow.GetWindow(T, false, "GameView", true);
         }
+
         public static void ClearCurrentShaderVariantCollection()
         {
             InvokeNonPublicStaticMethod(typeof(ShaderUtil), "ClearCurrentShaderVariantCollection");
         }
+
         public static void SaveCurrentShaderVariantCollection(string savePath)
         {
             InvokeNonPublicStaticMethod(typeof(ShaderUtil), "SaveCurrentShaderVariantCollection", savePath);
         }
+
         public static int GetCurrentShaderVariantCollectionShaderCount()
         {
             return (int)InvokeNonPublicStaticMethod(typeof(ShaderUtil), "GetCurrentShaderVariantCollectionShaderCount");
         }
+
         public static int GetCurrentShaderVariantCollectionVariantCount()
         {
             return (int)InvokeNonPublicStaticMethod(typeof(ShaderUtil), "GetCurrentShaderVariantCollectionVariantCount");
@@ -65,3 +72,4 @@ namespace Cat.Utillities
         }
     }
 }
+#endif
