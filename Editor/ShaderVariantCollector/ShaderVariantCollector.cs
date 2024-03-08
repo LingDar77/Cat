@@ -23,6 +23,9 @@ namespace Cat.Utillities
         public ShaderVariantCollection targetCollection;
         public AddressableAssetGroup[] materialGroups;
 
+        public bool ResumeOpeningScene = true;
+
+
         private readonly List<Material> materials = new();
         private readonly List<GameObject> spheres = new();
         private int cnt = 0;
@@ -46,6 +49,7 @@ namespace Cat.Utillities
         private void SceneClosed(Scene scene)
         {
             priviousScene = scene.path;
+
             EditorSceneManager.sceneClosed -= SceneClosed;
         }
 
@@ -101,9 +105,10 @@ namespace Cat.Utillities
             step = ESteps.None;
             EditorApplication.update -= EditorUpdate;
 
-
-            EditorSceneManager.OpenScene(priviousScene);
-
+            if (ResumeOpeningScene)
+            {
+                EditorSceneManager.OpenScene(priviousScene);
+            }
             EditorUtility.UnloadUnusedAssetsImmediate(true);
 
         }
