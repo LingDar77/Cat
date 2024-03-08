@@ -17,7 +17,6 @@ namespace Cat.Utillities
             CollectAllMaterial,
             CollectVariants,
             CollectSleeping,
-            WaitingDone,
         }
 
         public ShaderVariantCollection targetCollection;
@@ -85,6 +84,7 @@ namespace Cat.Utillities
                 CollectVariants();
                 cnt = materials.Count;
                 step = ESteps.CollectSleeping;
+                return;
             }
 
             if (step == ESteps.CollectSleeping)
