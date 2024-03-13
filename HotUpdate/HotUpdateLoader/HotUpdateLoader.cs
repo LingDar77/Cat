@@ -7,7 +7,6 @@ namespace Cat.Hotupdate
     using UnityEngine.AddressableAssets;
     using UnityEngine.Events;
     using System.Threading;
-    using System;
 
     public class HotUpdateLoader : MonoBehaviour
     {
@@ -35,17 +34,20 @@ namespace Cat.Hotupdate
 #endif
         }
 #endif
+
         private IEnumerator Start()
         {
             OnMessageLog.Invoke("Fetching Assembly Order.");
             var platform = GetRuntimePlatform();
             var order = Addressables.LoadAssetAsync<AssemblyOrder>($"AssemblyOrder.{platform}");
             yield return order;
+
             if (order.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
             {
                 LoadCompleted.Invoke();
                 yield break;
             }
+
             for (int i = 0; i != order.Result.Assemblies.Count; ++i)
             {
                 var assembly = order.Result.Assemblies[i];
@@ -75,10 +77,10 @@ namespace Cat.Hotupdate
                 thread.Start();
                 yield return new WaitUntil(() => !thread.IsAlive);
                 OnMessageLog.Invoke($"Assembly metadata: {metadata} Pached({i + 1}/{order.Result.Metadata.Count}).");
-                yield return new WaitForSeconds(.1f);
+                yield return new WaitForFixedUpdate();
             }
-            OnMessageLog.Invoke($"All assemblies completly loaded. Start loading GameEntry...");
 
+            OnMessageLog.Invoke($"All assemblies completly loaded. Start loading GameEntry...");
             LoadCompleted.Invoke();
         }
 
