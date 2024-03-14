@@ -5,6 +5,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
     using Cat.Utillities;
     using Cinemachine;
     using UnityEngine;
+    using UnityEngine.Events;
     using UnityEngine.InputSystem;
 
     [DefaultExecutionOrder(0)]
@@ -16,6 +17,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         [SerializeField] private InputActionProperty UserPresenceInput;
         [Header("Simulation Input")]
         [SerializeField] private InputActionProperty RotateViewInput;
+        public UnityEvent OnInitialized;
         public Quaternion RotationBias { get => Bias; set => Bias = value; }
 
         private bool initialized = false;
@@ -91,6 +93,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             RotationBias = initial * Quaternion.Inverse(Quaternion.Euler(0, quaternion.eulerAngles.y, 0));
             initialized = true;
             this.Log("HMD Tracking Initialized.");
+            OnInitialized.Invoke();
             sdk = ISingletonSystem<BuiltinSDKManagement>.GetChecked().GetValidProvider<IXRSDKProvider>();
             if (sdk == null) return;
             sdk.OnRecenterSuccessed += OnRecenter;
