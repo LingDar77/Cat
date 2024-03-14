@@ -47,6 +47,28 @@
                 },
                 {
                     "name": "",
+                    "id": "2f81f993-83b8-4db5-8aa0-e72500c343ca",
+                    "path": "<XRInputV1::OpenXR::HeadTrackingOpenXR>/{CenterEyeVelocity}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Velocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1cebe266-eee1-4867-be6e-0d8b9e270dec",
+                    "path": "<XRInputV1::OpenXR::HeadTrackingOpenXR>/centereyevelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Velocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "503d60bf-20f2-444e-939a-926f0c892a36",
                     "path": "<XRHMD>/centerEyeRotation",
                     "interactions": "",
