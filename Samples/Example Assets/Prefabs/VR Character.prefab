@@ -418,6 +418,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2661868769881795981}
     m_Modifications:
     - target: {fileID: 678825186687114518, guid: c614082fded44594a8301fb4d4980f7b, type: 3}
+      propertyPath: m_ModelPrefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 678825186687114518, guid: c614082fded44594a8301fb4d4980f7b, type: 3}
       propertyPath: m_DirectionalAnchorRotationAction.m_Reference
       value: 
       objectReference: {fileID: 0}
@@ -531,6 +535,10 @@ PrefabInstance:
     - target: {fileID: 6596294553603917301, guid: d0329d8648a94d34f8111c59f8e0979a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6647491504886219795, guid: d0329d8648a94d34f8111c59f8e0979a, type: 3}
+      propertyPath: m_ModelPrefab
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
