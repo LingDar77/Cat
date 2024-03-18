@@ -21,6 +21,11 @@
             "name": "com.code-philosophy.hybridclr",
             "expression": "5",
             "define": "HYBRIDCLR"
+        },
+        {
+            "name": "com.unity.addressables",
+            "expression": "1.20",
+            "define": "ADDRESSABLES"
         }
     ],
     "noEngineReferences": false

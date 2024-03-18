@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ADDRESSABLES
 namespace Cat.Utillities
 {
     using System.Collections.Generic;
