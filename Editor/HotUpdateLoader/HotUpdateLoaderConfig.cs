@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR && HYBRIDCLR
 namespace Cat.Hotupdate
 {
     using System;
