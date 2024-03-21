@@ -3,7 +3,7 @@ namespace Cat.EventDispatchSystem
     using System.Collections;
     using System.Collections.Generic;
     using Cat.PoolingSystem;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
     using SerializableAttribute = System.SerializableAttribute;
     using IDisposable = System.IDisposable;

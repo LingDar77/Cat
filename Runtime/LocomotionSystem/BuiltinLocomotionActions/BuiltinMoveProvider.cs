@@ -1,5 +1,6 @@
 namespace Cat.LocomotionSystem.Actions
 {
+    using Cat.Utilities;
     using UnityEngine;
     using UnityEngine.InputSystem;
 

@@ -1,6 +1,6 @@
 namespace Cat.NumericSystem
 {
-    using Cat.Utillities;
+    using Cat.Utilities;
     public class MaximumLife : NumericBase
     {
         private void Start()

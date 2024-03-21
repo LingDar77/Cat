@@ -2,7 +2,7 @@ namespace Cat.LocomotionSystem
 {
     using System.Collections.Generic;
     using Cat.LocomotionSystem.Filter;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
     public abstract class LocomotionSystemBase : MonoBehaviour, ILocomotionSystem
     {
@@ -99,5 +99,9 @@ namespace Cat.LocomotionSystem
             }
         }
 
+        public virtual float GetMaxiumStableAngle()
+        {
+            return 180f;
+        }
     }
 }

@@ -1,6 +1,6 @@
 namespace Cat
 {
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
     using UnityEngine.Events;
 

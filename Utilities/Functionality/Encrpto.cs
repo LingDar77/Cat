@@ -1,4 +1,4 @@
-namespace Cat.Utillities
+namespace Cat.Utilities
 {
     using System.Security.Cryptography;
     using System.Text;

@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace Cat.Utillities
+namespace Cat.Utilities
 {
     using System.Collections;
     using System.Linq;

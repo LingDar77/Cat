@@ -1,7 +1,7 @@
 namespace Cat.ScreenLogManagementSystem
 {
     using UnityEngine;
-    using Cat.Utillities;
+    using Cat.Utilities;
 
     public class BuiltinScreenLogProxy : MonoBehaviour
     {

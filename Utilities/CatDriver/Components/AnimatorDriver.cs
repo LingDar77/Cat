@@ -1,4 +1,4 @@
-namespace Cat.Utillities
+namespace Cat.Utilities
 {
     using UnityEngine;
     public class AnimatorDriver : CatDriver<Vector3>

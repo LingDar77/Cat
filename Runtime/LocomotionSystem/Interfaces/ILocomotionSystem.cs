@@ -41,6 +41,7 @@ namespace Cat.LocomotionSystem
         void SetPosition(Vector3 position);
 
         void SetRotation(Quaternion rotation);
+        float GetMaxiumStableAngle();
         Vector3 GetGroundNormal();
         Collider GetGrandCollider();
     }

@@ -1,7 +1,7 @@
 namespace Cat.NumericSystem
 {
     using UnityEngine;
-    using Cat.Utillities;
+    using Cat.Utilities;
     public class TestTrap : MonoBehaviour
     {
         private void OnCollisionEnter(Collision other)

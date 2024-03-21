@@ -1,4 +1,4 @@
-namespace Cat.Utillities
+namespace Cat.Utilities
 {
     using System.Buffers;
     using System.Collections.Generic;

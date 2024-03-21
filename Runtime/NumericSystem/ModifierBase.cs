@@ -1,4 +1,4 @@
-using Cat.Utillities;
+using Cat.Utilities;
 
 namespace Cat.NumericSystem
 {

@@ -1,7 +1,7 @@
 namespace Cat.AduioManagement
 {
     using System.Collections;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
     public class BuiltinAudioProxy : MonoBehaviour
     {

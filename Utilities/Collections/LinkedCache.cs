@@ -1,4 +1,4 @@
-namespace Cat.Utillities
+namespace Cat.Utilities
 {
     using System.Collections.Generic;
     using Cat.PoolingSystem;

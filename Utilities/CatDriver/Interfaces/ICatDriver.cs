@@ -1,4 +1,4 @@
-namespace Cat.Utillities
+namespace Cat.Utilities
 {
     public interface ICatDriver
     {

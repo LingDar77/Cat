@@ -2,7 +2,7 @@ namespace Cat.SDKManagementSystem
 {
     using System.Collections.Generic;
     using Cat.SDKProvider;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
 
     [DefaultExecutionOrder(-1000)]

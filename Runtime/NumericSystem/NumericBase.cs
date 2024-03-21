@@ -1,7 +1,7 @@
 namespace Cat.NumericSystem
 {
     using System.Collections.Generic;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
 
     public abstract class NumericBase : MonoBehaviour

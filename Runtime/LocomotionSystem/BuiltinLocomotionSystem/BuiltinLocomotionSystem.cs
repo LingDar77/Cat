@@ -1,7 +1,7 @@
 namespace Cat.LocomotionSystem
 {
     using System.Collections.Generic;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
 
     public enum MovementSweepState
@@ -187,7 +187,11 @@ namespace Cat.LocomotionSystem
 
         #endregion
 
-        #region  Locomotion System Inteface
+        #region  Locomotion System Interface
+        public override float GetMaxiumStableAngle()
+        {
+            return MaxStableSlopeAngle;
+        }
         protected override Quaternion GetCurrentRotation()
         {
             return TargetRotation;
