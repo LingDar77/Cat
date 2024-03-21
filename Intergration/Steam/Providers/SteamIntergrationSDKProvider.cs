@@ -5,7 +5,7 @@ namespace Cat.Intergration.Steam.SDKProvider
 #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 
     using System.Collections;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using Steamworks;
     using UnityEngine;
     

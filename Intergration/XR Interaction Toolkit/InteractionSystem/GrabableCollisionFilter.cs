@@ -1,7 +1,7 @@
 namespace Cat.Intergration.XRIT.InteractionSystem
 {
     using Cat.LocomotionSystem.Filter;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
     using UnityEngine.XR.Interaction.Toolkit;
 

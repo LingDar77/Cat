@@ -2,7 +2,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
 {
     using Cat.SDKManagementSystem;
     using Cat.SDKProvider;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using Cinemachine;
     using UnityEngine;
     using UnityEngine.Events;

@@ -1,6 +1,6 @@
 #if XRIT
 using System.Collections;
-using Cat.Utillities;
+using Cat.Utilities;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 

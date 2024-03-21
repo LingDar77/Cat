@@ -1,7 +1,7 @@
 namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
 {
     using Cat.LocomotionSystem.Actions;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using UnityEngine;
     using UnityEngine.InputSystem;
 

@@ -1,7 +1,7 @@
 namespace Cat.Intergration.Addressables.AudioManagement
 {
     using System.Threading.Tasks;
-    using Cat.Utillities;
+    using Cat.Utilities;
     using Cat.AduioManagement;
     using UnityEngine;
     using Addressables = UnityEngine.AddressableAssets.Addressables;
