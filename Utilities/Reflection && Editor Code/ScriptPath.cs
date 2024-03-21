@@ -4,7 +4,6 @@ namespace Cat.Utilities
     using System.IO;
     using UnityEditor;
 
-
     public class ScriptPath
     {
         public static string GetScriptPath(System.Type type)

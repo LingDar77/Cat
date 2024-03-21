@@ -16,11 +16,11 @@ namespace Cat.LocomotionSystem.Actions
         }
         protected virtual void OnEnable()
         {
-            LocomotionSystem.RegisterActionProvider(this);
+            LocomotionSystem?.RegisterActionProvider(this);
         }
         protected virtual void OnDisable()
         {
-            LocomotionSystem.UnregisterActionProvider(this);
+            LocomotionSystem?.UnregisterActionProvider(this);
         }
         public virtual void AfterProcess(float deltaTime)
         {

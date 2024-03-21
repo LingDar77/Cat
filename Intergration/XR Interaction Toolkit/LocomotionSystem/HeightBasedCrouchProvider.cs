@@ -43,6 +43,7 @@ namespace Cat.Intergration.XRIT.LocomotionSystem.Actions
         protected override void OnEnable()
         {
             base.OnEnable();
+            if (LocomotionSystem == null) return;
             initialOffset = SimulationRoot.localPosition.y;
             capsule = LocomotionSystem.transform.GetComponent<CapsuleCollider>();
             initalCapsuleHeight = capsule.height;
