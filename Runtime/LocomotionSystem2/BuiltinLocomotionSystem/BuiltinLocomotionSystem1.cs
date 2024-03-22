@@ -26,35 +26,17 @@ namespace Cat.LocomotionSystem
         public Quaternion CurrentRotation => Rotation;
         protected readonly List<IActionProvider> actions = new();
 
-        private void Update()
+        protected override void OnEnable()
         {
-            var vel = CurrentVelocity;
-            var rot = Rotation;
-            var dt = Time.deltaTime;
-
-            foreach (var action in actions)
-            {
-                action.BeforeProcess(dt);
-            }
-
-            foreach (var action in actions)
-            {
-                action.ProcessVelocity(ref vel, dt);
-            }
-
-            foreach (var action in actions)
-            {
-                action.ProcessRotation(ref rot, dt);
-            }
-
-            foreach (var action in actions)
-            {
-                action.AfterProcess(dt);
-            }
-
-            Rotation = rot;
-            LocalVelocity = vel;
+            base.OnEnable();
+            OnTeleport += OnTeleportMethod;
         }
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            OnTeleport -= OnTeleportMethod;
+        }
+
 
         public void RegisterActionProvider(IActionProvider action)
         {
@@ -76,11 +58,17 @@ namespace Cat.LocomotionSystem
 
         public void MarkUngrounded()
         {
+            ForceNotGrounded();
         }
 
         public bool IsColliderValid(Collider collider)
         {
             return true;
+        }
+
+        public void SetHeight(float targetHeight)
+        {
+            CheckAndInterpolateHeight(targetHeight, 1f, SizeReferenceType.Top);
         }
 
         public void SetPositionAndRotation(Vector3 position, Quaternion rotation)
@@ -821,17 +809,7 @@ namespace Cat.LocomotionSystem
         }
 
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            OnTeleport += OnTeleportMethod;
-        }
 
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            OnTeleport -= OnTeleportMethod;
-        }
 
         void OnTeleportMethod(Vector3 position, Quaternion rotation)
         {
@@ -1054,8 +1032,37 @@ namespace Cat.LocomotionSystem
 
         protected override void PostSimulationUpdate(float dt)
         {
+
+            var targetRotation = Rotation;
+
+            foreach (var action in actions)
+            {
+                action.BeforeProcess(dt);
+            }
+
+            foreach (var action in actions)
+            {
+                action.ProcessRotation(ref targetRotation, dt);
+            }
+
+            Rotation = targetRotation;
+            
+            var targetVelocity = Velocity;
+            foreach (var action in actions)
+            {
+                action.ProcessVelocity(ref targetVelocity, dt);
+            }
+
+            foreach (var action in actions)
+            {
+                action.AfterProcess(dt);
+            }
+
+            Velocity = targetVelocity;
             HandleRotation();
             GetContactsInformation();
+
+
 
             PostSimulationVelocity = Velocity;
             ExternalVelocity = PostSimulationVelocity - PreSimulationVelocity;
@@ -1288,6 +1295,8 @@ namespace Cat.LocomotionSystem
 
         void PostSimulationVelocityUpdate()
         {
+
+
             if (IsStable)
             {
                 switch (stablePostSimulationVelocity)
@@ -1646,7 +1655,7 @@ namespace Cat.LocomotionSystem
         /// <param name="sizeReferenceType">The size reference pivot.</param>
         /// <returns></returns>
         public bool CheckAndInterpolateHeight(float targetHeight, float lerpFactor, SizeReferenceType sizeReferenceType) =>
-            CheckAndInterpolateSize(new Vector2(DefaultBodySize.x, targetHeight), lerpFactor, SizeReferenceType.Bottom);
+            CheckAndInterpolateSize(new Vector2(DefaultBodySize.x, targetHeight), lerpFactor, sizeReferenceType);
 
 
         void SetColliderSize()

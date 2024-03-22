@@ -472,6 +472,11 @@
 
             // Manual sync in case the Transform component is "dirty".
             transform.SetPositionAndRotation(Position, Rotation);
+
+            PostSimulationUpdate(dt);
+            OnPostSimulation?.Invoke(dt);
+            
+            UpdateInterpolationTargets();
         }
 
         IEnumerator PostSimulationUpdate()

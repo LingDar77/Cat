@@ -188,6 +188,7 @@ namespace Cat.LocomotionSystem
         #endregion
 
         #region  Locomotion System Interface
+
         public override float GetMaxiumStableAngle()
         {
             return MaxStableSlopeAngle;

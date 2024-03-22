@@ -28,7 +28,7 @@ namespace Cat.LocomotionSystem.Actions
         }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
-            if (LocomotionSystem.IsOnGround() && LocomotionSystem.IsStable()) return;
+            if (LocomotionSystem.IsStable()) return;
             currentVelocity.y -= 9.8f * deltaTime;
         }
         public override void BeforeProcess(float deltaTime)
@@ -67,7 +67,7 @@ namespace Cat.LocomotionSystem.Actions
             }
             else
             {
-                if (!MoveControl.action.IsPressed()) return;
+                if (!MoveControl.action.IsPressed() || moveInput == Vector2.zero) return;
                 var target = ForwardReference.rotation * Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
                 currentRotation = Quaternion.Euler(0, Quaternion.Slerp(currentRotation, target, deltaTime * TurnSpeed).eulerAngles.y, 0);
             }

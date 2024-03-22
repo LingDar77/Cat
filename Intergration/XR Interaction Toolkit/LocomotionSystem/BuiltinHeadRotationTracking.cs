@@ -3,12 +3,11 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
     using Cat.SDKManagementSystem;
     using Cat.SDKProvider;
     using Cat.Utilities;
-    using Cinemachine;
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.InputSystem;
 
-    [DefaultExecutionOrder(0)]
+    [DefaultExecutionOrder(9999)]
     public class BuiltinHeadRotationTracking : MonoBehaviour
     {
         [SerializeField] private Quaternion Bias = Quaternion.identity;
@@ -25,33 +24,26 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
         private IXRSDKProvider sdk;
         private Vector2 simulationInput;
         private Quaternion targetRotation;
-        private CinemachineBrain brain;
-        private CinemachineVirtualCamera virtualCamera;
 
         private void Start()
         {
             RotationBias = initial = transform.root.rotation;
-            HeadRotationInput.action.performed += HeadRotationPerformed;
-            UserPresenceInput.action.performed += OnUserPresence;
-            InputSystem.onAfterUpdate += OnUpdate;
-
-            brain = Camera.main.GetComponent<CinemachineBrain>();
-            virtualCamera = GetComponent<CinemachineVirtualCamera>();
-            brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.ManualUpdate;
-
-        }
-
-        private void OnDestroy()
-        {
-            HeadRotationInput.action.performed -= HeadRotationPerformed;
-            UserPresenceInput.action.performed -= OnUserPresence;
-            InputSystem.onAfterUpdate -= OnUpdate;
-
             if (sdk != null)
                 sdk.OnRecenterSuccessed += OnRecenter;
         }
+        private void OnEnable()
+        {
+            HeadRotationInput.action.performed += HeadRotationPerformed;
+            UserPresenceInput.action.performed += OnUserPresence;
+        }
+        private void OnDisable()
+        {
+            HeadRotationInput.action.performed -= HeadRotationPerformed;
+            UserPresenceInput.action.performed -= OnUserPresence;
+        }
 
-        private void OnUpdate()
+
+        private void Update()
         {
             if (initialized)
             {
@@ -66,10 +58,6 @@ namespace Cat.Intergration.XRIT.LocomotionSystem
             }
 
             transform.rotation = RotationBias * targetRotation;
-
-            virtualCamera.UpdateCameraState(Vector3.up, 0);
-            brain.ManualUpdate();
-            virtualCamera.UpdateCameraState(Vector3.up, 0);
 
             foreach (var trans in SyncTransforms)
             {

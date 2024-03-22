@@ -103,5 +103,10 @@ namespace Cat.LocomotionSystem
         {
             return 180f;
         }
+
+        public virtual void SetHeight(float targetHeight)
+        {
+            
+        }
     }
 }
