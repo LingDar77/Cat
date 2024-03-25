@@ -28,7 +28,7 @@ namespace Cat.LocomotionSystem.Actions
         }
         protected void TryApplyGravity(ref Vector3 currentVelocity, float deltaTime)
         {
-            if (LocomotionSystem.IsStable()) return;
+            if (LocomotionSystem.IsOnGround()) return;
             currentVelocity.y -= 9.8f * deltaTime;
         }
         public override void BeforeProcess(float deltaTime)

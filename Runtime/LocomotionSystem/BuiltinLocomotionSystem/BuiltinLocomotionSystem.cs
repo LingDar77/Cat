@@ -102,7 +102,6 @@ namespace Cat.LocomotionSystem
             public const float CorrelationForVerticalObstruction = 0.01f;
         }
 
-        [ReadOnlyInEditor]
         public CapsuleCollider Capsule;
 
         #region  Simulation Params

@@ -9,29 +9,31 @@ namespace Cat.LocomotionSystem.Actions
         public float CrouchSpeed = 5;
         [Tooltip("The Key to Perform Crouch.")]
         [SerializeField] private InputActionProperty CrouchControl;
-        private LocomotionShape shape;
+        private CapsuleCollider capsule;
         private float initalCapsuleHeight;
-        private float currentHeight;
+        private float initialCapsuleOffset;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            shape = LocomotionSystem.transform.GetComponent<LocomotionShape>();
-            initalCapsuleHeight = shape.BodySize.y;
-            currentHeight = initalCapsuleHeight;
+            capsule = LocomotionSystem.transform.GetComponent<CapsuleCollider>();
+            initalCapsuleHeight = capsule.height;
+            initialCapsuleOffset = initalCapsuleHeight / 2 - capsule.center.y;
         }
 
         public override void BeforeProcess(float deltaTime)
         {
             if (CrouchControl.action.IsPressed())
             {
-                currentHeight = Mathf.Lerp(currentHeight, MinimumCrouchHeight, deltaTime * CrouchSpeed);
-                LocomotionSystem.SetHeight(currentHeight);
+                var targetHeight = Mathf.Lerp(capsule.height, MinimumCrouchHeight, deltaTime * CrouchSpeed);
+                capsule.height = targetHeight;
+                capsule.center = new Vector3(capsule.center.x, initalCapsuleHeight - targetHeight / 2 - initialCapsuleOffset, capsule.center.z);
             }
             else
             {
-                currentHeight = Mathf.Lerp(currentHeight, initalCapsuleHeight, deltaTime * CrouchSpeed);
-                LocomotionSystem.SetHeight(currentHeight);
+                var targetHeight = Mathf.Lerp(capsule.height, initalCapsuleHeight, deltaTime * CrouchSpeed);
+                capsule.height = targetHeight;
+                capsule.center = new Vector3(capsule.center.x, initalCapsuleHeight - targetHeight / 2 - initialCapsuleOffset, capsule.center.z);
             }
         }
     }

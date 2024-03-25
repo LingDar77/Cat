@@ -44,8 +44,6 @@ namespace Cat.LocomotionSystem
         float GetMaxiumStableAngle();
         Vector3 GetGroundNormal();
         Collider GetGrandCollider();
-
-        void SetHeight(float targetHeight);
     }
 
 }
