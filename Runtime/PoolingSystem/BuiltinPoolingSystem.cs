@@ -85,6 +85,7 @@ namespace Cat.PoolingSystem
         protected virtual BuiltinPooledGameObject CreateNew(Transform key)
         {
             var instance = Instantiate(key).GetComponent<BuiltinPooledGameObject>();
+            instance.transform.SetParent(transform);
             instance.Pool = this;
             instance.Key = key;
             return instance;
