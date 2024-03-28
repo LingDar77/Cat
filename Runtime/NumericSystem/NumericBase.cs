@@ -108,10 +108,11 @@ namespace Cat.NumericSystem
             IsDirty = false;
 
             if (OnValueRecalculated != null)
+            {
                 OnValueRecalculated.Drive(cacheValue);
+            }
 
-            if (currentValue > cacheValue)
-                SetCurrentValue(cacheValue);
+            SetCurrentValue(cacheValue);
         }
     }
 
