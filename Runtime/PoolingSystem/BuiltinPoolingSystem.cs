@@ -1,6 +1,7 @@
 namespace Cat.PoolingSystem
 {
     using System.Collections.Generic;
+    using Cat.Utilities;
     using UnityEngine;
 
     public class BuiltinPoolingSystem<Type> : IPoolingSystem<Type> where Type : IPooledObject<Type>, new()
@@ -68,6 +69,7 @@ namespace Cat.PoolingSystem
         }
         public BuiltinPooledGameObject Depool(string name)
         {
+            this.Log(name);
             var prefab = prefabs.Find(item => item.name == name);
             if (prefab == null) return null;
             var pool = GetPool(prefab);

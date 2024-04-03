@@ -603,6 +603,26 @@ PrefabInstance:
       propertyPath: MaxMoveSpeed
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8706482498744876511, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8706482498744876511, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8706482498744876511, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8706482498744876511, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8706482498744876511, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8742456514161905483, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
       propertyPath: MaxStableSlopeAngle
       value: 30
