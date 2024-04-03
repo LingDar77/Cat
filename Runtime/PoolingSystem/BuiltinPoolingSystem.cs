@@ -48,7 +48,7 @@ namespace Cat.PoolingSystem
     public class BuiltinPoolingSystem : SingletonSystemBase<BuiltinPoolingSystem>, IMultiPoolingSystem<Transform, BuiltinPooledGameObject>
     {
         protected Dictionary<Transform, Queue<BuiltinPooledGameObject>> pools = new();
-
+        public List<Transform> prefabs;
 
         public void Enpool(Transform key, BuiltinPooledGameObject obj)
         {
@@ -63,6 +63,17 @@ namespace Cat.PoolingSystem
             if (pool.Count == 0)
             {
                 return CreateNew(key);
+            }
+            return pool.Dequeue();
+        }
+        public BuiltinPooledGameObject Depool(string name)
+        {
+            var prefab = prefabs.Find(item => item.name == name);
+            if (prefab == null) return null;
+            var pool = GetPool(prefab);
+            if (pool.Count == 0)
+            {
+                return CreateNew(prefab);
             }
             return pool.Dequeue();
         }
@@ -86,6 +97,7 @@ namespace Cat.PoolingSystem
         {
             var instance = Instantiate(key).GetComponent<BuiltinPooledGameObject>();
             instance.transform.SetParent(transform);
+            if (!instance.gameObject.activeSelf) instance.gameObject.SetActive(true);
             instance.Pool = this;
             instance.Key = key;
             return instance;

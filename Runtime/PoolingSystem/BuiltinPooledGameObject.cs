@@ -7,7 +7,7 @@ namespace Cat.PoolingSystem
         public IMultiPoolingSystem<Transform, BuiltinPooledGameObject> Pool { get; set; }
         public Transform Key { get; set; }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             if (Pool == null) return;
             gameObject.SetActive(false);
