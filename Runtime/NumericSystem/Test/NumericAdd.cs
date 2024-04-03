@@ -1,6 +1,6 @@
 namespace Cat.NumericSystem
 {
-    public class MaximumLifeAdd : ModifierBase
+    public class NumericAdd : ModifierBase
     {
         public override float GetValue()
         {
@@ -13,7 +13,7 @@ namespace Cat.NumericSystem
         }
         public override bool IsNumericValid(NumericBase numeric)
         {
-            return numeric is MaximumLife;
+            return numeric is not ModifierBase;
         }
     }
 }

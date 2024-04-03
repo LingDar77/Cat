@@ -1,20 +1,19 @@
 namespace Cat.NumericSystem
 {
-    using UnityEngine;
-    public class MaximumLifeIncRandom : ModifierBase
+    public class NumericInc : ModifierBase
     {
-        protected override void Update()
+        public override float GetValue()
         {
-            CurrentValue = BaseValue * Mathf.Sin(Time.time);
-            base.Update();
+            return BaseValue;
         }
+
         public override ModifierType GetModifierType()
         {
             return ModifierType.Increase;
         }
         public override bool IsNumericValid(NumericBase numeric)
         {
-            return numeric is MaximumLife;
+            return numeric is not ModifierBase;
         }
     }
 }
