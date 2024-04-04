@@ -69,7 +69,6 @@ namespace Cat.PoolingSystem
         }
         public BuiltinPooledGameObject Depool(string name)
         {
-            this.Log(name);
             var prefab = prefabs.Find(item => item.name == name);
             if (prefab == null) return null;
             var pool = GetPool(prefab);
@@ -102,6 +101,7 @@ namespace Cat.PoolingSystem
             if (!instance.gameObject.activeSelf) instance.gameObject.SetActive(true);
             instance.Pool = this;
             instance.Key = key;
+            instance.gameObject.SetActive(false);
             return instance;
         }
     }
