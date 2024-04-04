@@ -9,14 +9,22 @@ namespace Cat.Utillities
     using Array = System.Array;
     public static class EditorTools
     {
-        [MenuItem("CONTEXT/LODGroup/Calculate Lod")]
-        static void FixLodGroups(MenuCommand command)
+        [MenuItem("CONTEXT/LODGroup/Set Lods")]
+        static void SetLods(MenuCommand command)
         {
             var context = command.context as LODGroup;
             context.RecalculateBounds();
-            Debug.Log(context.size);
             var lods = context.GetLODs();
-            
+            var finded = 0;
+            for (int i = 0; i != context.transform.childCount; ++i)
+            {
+                if (finded >= lods.Length) return;
+                var renders = context.transform.GetChild(i).GetComponentsInChildren<Renderer>();
+                if (renders == null || renders.Length == 0) continue;
+                lods[finded].renderers = renders;
+                ++finded;
+            }
+            context.SetLODs(lods);
 
         }
 

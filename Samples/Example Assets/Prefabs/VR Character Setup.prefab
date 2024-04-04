@@ -552,6 +552,14 @@ PrefabInstance:
       propertyPath: currentValue
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2721099714751567049, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_RaycastMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959528065773079126, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_RaycastMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 5250049366330456759, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
       propertyPath: m_Name
       value: VR Character
