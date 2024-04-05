@@ -544,6 +544,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5047958516532484655}
     m_Modifications:
+    - target: {fileID: 1110698533273760180, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229092131700980478, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1534440498750638843, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
       value: 7
@@ -555,6 +563,14 @@ PrefabInstance:
     - target: {fileID: 2721099714751567049, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
       propertyPath: m_RaycastMask.m_Bits
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357039919441188269, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752369785705307642, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_NearFarEnableTeleportDuringNearInteraction
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4959528065773079126, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
       propertyPath: m_RaycastMask.m_Bits
@@ -606,6 +622,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5277205315591339628, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559236716460773841, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_NearFarEnableTeleportDuringNearInteraction
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6874478288462446726, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
