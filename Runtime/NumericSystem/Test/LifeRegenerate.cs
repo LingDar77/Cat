@@ -4,11 +4,11 @@ namespace Cat.NumericSystem
 
     public class LifeRegenerate : NumericBase
     {
-        protected MaximumLife life;
+        protected Life life;
         protected override void OnEnable()
         {
             base.OnEnable();
-            life = GetComponentInParent<MaximumLife>();
+            life = GetComponentInParent<Life>();
         }
         protected override void Update()
         {

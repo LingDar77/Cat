@@ -3,17 +3,19 @@ namespace Cat.NumericSystem
     using System.Collections.Generic;
     using Cat.Utilities;
     using UnityEngine;
+    using UnityEngine.Events;
 
     public abstract class NumericBase : MonoBehaviour
     {
         [SerializeField] protected float BaseValue;
         [SerializeField] protected float currentValue;
         public float CurrentValue { get => currentValue; set => SetCurrentValue(value); }
-        protected float MaxValue => cacheValue;
+        public float MaxValue => cacheValue;
         public readonly Dictionary<ModifierBase.ModifierType, HashSet<ModifierBase>> Modifiers = new();
 
         public CatDriver<float> OnValueRecalculated;
         public CatDriver<float, float> OnCurrentValueChanged;
+        public UnityEvent OnValueChanged;
 
         protected bool IsDirty = true;
         [ReadOnlyInEditor]
@@ -23,17 +25,17 @@ namespace Cat.NumericSystem
         protected virtual void Update()
         {
             UpdateHash();
+            NotifyUpdate();
         }
 
         public virtual void SetCurrentValue(float value)
         {
             currentValue = Mathf.Clamp(value, 0, MaxValue);
-
-            NotifyUpdate();
         }
 
         public void NotifyUpdate()
         {
+            OnValueChanged.Invoke();
             if (OnCurrentValueChanged == null) return;
             OnCurrentValueChanged.Drive(CurrentValue, MaxValue);
         }

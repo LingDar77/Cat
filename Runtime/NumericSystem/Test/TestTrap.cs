@@ -6,7 +6,7 @@ namespace Cat.NumericSystem
     {
         private void OnCollisionEnter(Collision other)
         {
-            if (!other.transform.TryGetComponentInParent<MaximumLife>(out var life)) return;
+            if (!other.transform.TryGetComponentInParent<Life>(out var life)) return;
 
             life.CurrentValue -= 10;
         }

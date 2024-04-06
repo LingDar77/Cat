@@ -1,6 +1,6 @@
 namespace Cat.NumericSystem
 {
-    public class MaximumLife : NumericBase
+    public class Life : NumericBase
     {
       
     }
