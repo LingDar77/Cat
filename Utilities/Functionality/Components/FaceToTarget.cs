@@ -16,6 +16,7 @@ namespace Cat.Utilities
         private void OnEnable()
         {
             if (target == null) target = Camera.main.transform;
+            Update();
         }
         private void Update()
         {

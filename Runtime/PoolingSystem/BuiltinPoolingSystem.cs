@@ -96,12 +96,10 @@ namespace Cat.PoolingSystem
 
         protected virtual BuiltinPooledGameObject CreateNew(Transform key)
         {
-            var instance = Instantiate(key).GetComponent<BuiltinPooledGameObject>();
-            instance.transform.SetParent(transform);
-            if (!instance.gameObject.activeSelf) instance.gameObject.SetActive(true);
+            var instance = Instantiate(key, transform).GetComponent<BuiltinPooledGameObject>();
+            if (instance.gameObject.activeSelf) instance.gameObject.SetActive(false);
             instance.Pool = this;
             instance.Key = key;
-            instance.gameObject.SetActive(false);
             return instance;
         }
     }
