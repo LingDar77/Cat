@@ -97,17 +97,22 @@ namespace Cat.Utilities
             return component != null;
         }
 
+        public static void DestroyOrDispose(this Transform content)
+        {
+            if (content.TryGetComponent<BuiltinPooledGameObject>(out var obj))
+            {
+                obj.Dispose();
+                return;
+            }
+            GameObject.DestroyImmediate(content.gameObject);
+        }
+
         public static void DestroyAllChildren(this Transform content)
         {
             while (content.childCount != 0)
             {
                 var child = content.GetChild(0);
-                if (child.TryGetComponent<BuiltinPooledGameObject>(out var obj))
-                {
-                    obj.Dispose();
-                    continue;
-                }
-                GameObject.DestroyImmediate(child.gameObject);
+                child.DestroyOrDispose();
             }
         }
 
