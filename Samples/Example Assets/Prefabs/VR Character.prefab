@@ -429,7 +429,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_Reference: {fileID: -5898484273397460940, guid: 9f3f6a1b400745241b894aec74fa7254, type: 3}
   interactor: {fileID: 1534440498750638843}
   impulsePlayer: {fileID: 3871437211954333935}
   triggerThreshold: 0.256
@@ -3038,6 +3038,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1110698532243905952}
     m_Modifications:
+    - target: {fileID: 44320768620580401, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
+      propertyPath: m_Radius
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 2540857882325098259, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_Name
       value: Inventory
@@ -3052,7 +3060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6938863905228781832, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.221
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6938863905228781832, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3328,6 +3336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ActionAssets:
   - {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  - {fileID: -944628639613478452, guid: 9f3f6a1b400745241b894aec74fa7254, type: 3}
 --- !u!114 &3878500986961569391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4022,6 +4031,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1110698532688616769}
     m_Modifications:
+    - target: {fileID: 44320768620580401, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
+      propertyPath: m_Radius
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 2540857882325098259, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_Name
       value: Inventory
@@ -4036,7 +4053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6938863905228781832, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.221
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6938863905228781832, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_LocalRotation.w
