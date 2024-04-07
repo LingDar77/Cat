@@ -344,6 +344,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5047958516532484655}
     m_Modifications:
+    - target: {fileID: 2334249309526028380, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5250049366330456759, guid: ae4e572f617cbde41bd11174c067f18f, type: 3}
       propertyPath: m_Name
       value: VR Character
