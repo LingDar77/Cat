@@ -4,6 +4,7 @@ namespace Cat.Utilities
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using Cat.PoolingSystem;
     using Cat.ScreenLogManagementSystem;
     using UnityEngine;
     using UnityEngine.Audio;
@@ -95,44 +96,21 @@ namespace Cat.Utilities
             component = (Type)(object)context.GetComponentInChildren(typeof(Type), includeInactive);
             return component != null;
         }
-        public static void DestroyAllChildren(this Component content)
-        {
-            for (var i = 0; i != content.transform.childCount; ++i)
-            {
-                GameObject.Destroy(content.transform.GetChild(i).gameObject);
-            }
-        }
+
         public static void DestroyAllChildren(this Transform content)
         {
-            for (var i = 0; i != content.childCount; ++i)
+            while (content.childCount != 0)
             {
-                GameObject.Destroy(content.GetChild(i).gameObject);
+                var child = content.GetChild(0);
+                if (child.TryGetComponent<BuiltinPooledGameObject>(out var obj))
+                {
+                    obj.Dispose();
+                    continue;
+                }
+                GameObject.DestroyImmediate(child.gameObject);
             }
         }
-        public static void DestroyAllChildren(this Component content, System.Action<Object> method)
-        {
-            var children = new List<Transform>();
-            for (var i = 0; i != content.transform.childCount; ++i)
-            {
-                children.Add(content.transform.GetChild(i));
-            }
-            foreach (var child in children)
-            {
-                method(child.gameObject);
-            }
-        }
-        public static void DestroyAllChildren(this Transform content, System.Action<Object> method)
-        {
-            var children = new List<Transform>();
-            for (var i = 0; i != content.childCount; ++i)
-            {
-                children.Add(content.GetChild(i));
-            }
-            foreach (var child in children)
-            {
-                method(child.gameObject);
-            }
-        }
+
         public static void EnsureComponent<ComponentType>(this Component content, ref ComponentType component)
         {
 #if UNITY_EDITOR
@@ -208,7 +186,7 @@ namespace Cat.Utilities
         /// <returns></returns>
         public static Type RandomElement<Type>(this IList<Type> list)
         {
-            return list[Random.Range(0, list.Count)];
+            return list[UnityEngine.Random.Range(0, list.Count)];
         }
         /// <summary>
         /// Note that a set has not ability to random access,

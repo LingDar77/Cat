@@ -3042,8 +3042,16 @@ PrefabInstance:
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
+      propertyPath: m_KeepSelectedTargetValid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
+      propertyPath: m_ShowInteractableHoverMeshes
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2540857882325098259, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_Name
