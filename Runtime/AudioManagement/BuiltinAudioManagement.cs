@@ -107,5 +107,16 @@ namespace Cat.AduioManagement
             source.transform.SetParent(transform);
             return source;
         }
+
+        public void StopAll()
+        {
+            StopAllCoroutines();
+            foreach (var source in used)
+            {
+                unused.Enqueue(source);
+                source.Stop();
+            }
+            used.Clear();
+        }
     }
 }

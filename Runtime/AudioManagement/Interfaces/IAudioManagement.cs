@@ -9,6 +9,8 @@ namespace Cat.AduioManagement
     
         AudioSource LendAudioSource();
 
+        void StopAll();
+        
         void ReturnAudioSource(AudioSource source);
     }
 }
