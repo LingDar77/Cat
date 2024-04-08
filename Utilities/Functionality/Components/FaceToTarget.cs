@@ -1,6 +1,8 @@
 namespace Cat.Utilities
 {
     using UnityEngine;
+    using UnityEngine.InputSystem;
+
     public class FaceToTarget : MonoBehaviour
     {
         public enum FaceMode
@@ -16,9 +18,17 @@ namespace Cat.Utilities
         private void OnEnable()
         {
             if (target == null) target = Camera.main.transform;
-            Update();
+
+            InputSystem.onAfterUpdate += OnUpdate;
+            OnUpdate();
         }
-        private void Update()
+
+        private void OnDisable()
+        {
+            InputSystem.onAfterUpdate -= OnUpdate;
+        }
+
+        private void OnUpdate()
         {
             switch (mode)
             {

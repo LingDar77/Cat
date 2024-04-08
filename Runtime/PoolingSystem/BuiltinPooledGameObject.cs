@@ -1,5 +1,6 @@
 namespace Cat.PoolingSystem
 {
+    using Cat.Utilities;
     using UnityEngine;
 
     public class BuiltinPooledGameObject : MonoBehaviour, IMultiPooledObject<Transform, BuiltinPooledGameObject>
@@ -25,7 +26,7 @@ namespace Cat.PoolingSystem
             transform.SetPositionAndRotation(posistion, quaternion);
             transform.localScale = Vector3.one;
         }
-        
+
         public virtual void Dispose()
         {
             if (Pool == null)
@@ -33,10 +34,10 @@ namespace Cat.PoolingSystem
                 DestroyImmediate(gameObject);
                 return;
             }
-            gameObject.transform.SetParent(Pool.transform);
             gameObject.SetActive(false);
             gameObject.transform.localPosition = Vector3.zero;
             Pool.Enpool(Key, this);
+            gameObject.transform.SetParent(Pool.transform);
         }
 
     }

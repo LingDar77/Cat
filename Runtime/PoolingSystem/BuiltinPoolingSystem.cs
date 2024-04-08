@@ -67,6 +67,7 @@ namespace Cat.PoolingSystem
             }
             return pool.Dequeue();
         }
+        
         public BuiltinPooledGameObject Depool(string name)
         {
             var prefab = prefabs.Find(item => item.name == name);
