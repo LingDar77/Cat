@@ -49,7 +49,7 @@ namespace Cat.PoolingSystem
     public class BuiltinPoolingSystem : SingletonSystemBase<BuiltinPoolingSystem>, IMultiPoolingSystem<Transform, BuiltinPooledGameObject>
     {
         protected Dictionary<Transform, Queue<BuiltinPooledGameObject>> pools = new();
-        public List<Transform> prefabs;
+        public List<Transform> prefabs = new();
 
         public void Enpool(Transform key, BuiltinPooledGameObject obj)
         {
@@ -67,19 +67,31 @@ namespace Cat.PoolingSystem
             }
             return pool.Dequeue();
         }
-        
-        public BuiltinPooledGameObject Depool(string name)
+
+        public virtual BuiltinPooledGameObject Depool(string name)
         {
             var prefab = prefabs.Find(item => item.name == name);
-            if (prefab == null) return null;
+            if (prefab == null)
+            {
+                //can not find any instance, load from resources
+                prefab = LoadFromResources(name).transform;
+                prefabs.Add(prefab);
+            }
+
             var pool = GetPool(prefab);
             if (pool.Count == 0)
             {
                 return CreateNew(prefab);
             }
+
             return pool.Dequeue();
         }
 
+        protected GameObject LoadFromResources(string name)
+        {
+            this.Log("Loading asset by Resources.Load(), this is NOT recommended for best practise.", LogType.Warning);
+            return Resources.Load(name, typeof(GameObject)) as GameObject;
+        }
         public int Count(Transform key)
         {
             return GetPool(key).Count;
