@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 8358606308220835452}
   - component: {fileID: 6295531816727262997}
   - component: {fileID: 389161656801133280}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Player Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1000,7 +1000,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2414243115186935168}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2003,7 +2003,7 @@ GameObject:
   - component: {fileID: 4471717507438502773}
   - component: {fileID: 6945783000062176618}
   - component: {fileID: 6789555823522305653}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DetectMobTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2497,19 +2497,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
-      propertyPath: m_LocalRotation.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2525,7 +2525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1016997691135007945, guid: a489e7d0341f01749a266c6844d8bb26, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2835,22 +2835,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1110698532859870658}
     m_Modifications:
-    - target: {fileID: 44320768620580401, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
-      propertyPath: m_Radius
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
-      propertyPath: m_KeepSelectedTargetValid
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
-      propertyPath: m_InteractionLayers.m_Bits
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2130501067583539795, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
-      propertyPath: m_ShowInteractableHoverMeshes
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2540857882325098259, guid: 39cc451b54aad144ab0238963153d1dc, type: 3}
       propertyPath: m_Name
       value: Inventory

@@ -36,13 +36,13 @@ namespace Cat.Utilities
                     transform.rotation = Quaternion.Euler(0, target.rotation.eulerAngles.y, 0);
                     break;
                 case FaceMode.OnlyYInversed:
-                    transform.rotation = Quaternion.Inverse(Quaternion.Euler(0, target.rotation.eulerAngles.y, 0));
+                    transform.rotation = Quaternion.Euler(0, target.rotation.eulerAngles.y + 180, 0);
                     break;
                 case FaceMode.Full:
                     transform.rotation = target.rotation;
                     break;
                 case FaceMode.FullInversed:
-                    transform.rotation = Quaternion.Inverse(target.rotation);
+                    transform.rotation = target.rotation * Quaternion.Euler(0, 180, 0);
                     break;
             }
         }
