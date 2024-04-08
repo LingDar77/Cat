@@ -8,10 +8,12 @@ namespace Cat
     /// <typeparam name="ImplementType"></typeparam>
     public abstract class SingletonSystemBase<ImplementType> : MonoBehaviour, ISingletonSystem<ImplementType> where ImplementType : SingletonSystemBase<ImplementType>
     {
+        protected bool dontDestroyOnLoad = true;
         protected virtual void OnEnable()
         {
             if (ISingletonSystem<ImplementType>.Singleton != null) return;
             ISingletonSystem<ImplementType>.Singleton = this as ImplementType;
+            if (!dontDestroyOnLoad) return;
             DontDestroyOnLoad(transform.root.gameObject);
         }
 

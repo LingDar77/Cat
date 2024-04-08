@@ -50,7 +50,11 @@ namespace Cat.PoolingSystem
     {
         protected Dictionary<Transform, Queue<BuiltinPooledGameObject>> pools = new();
         public List<Transform> prefabs = new();
-
+        public BuiltinPoolingSystem()
+        {
+            dontDestroyOnLoad = false;
+        }
+        
         public void Enpool(Transform key, BuiltinPooledGameObject obj)
         {
             if (obj == null) return;
@@ -115,5 +119,6 @@ namespace Cat.PoolingSystem
             instance.Key = key;
             return instance;
         }
+
     }
 }
