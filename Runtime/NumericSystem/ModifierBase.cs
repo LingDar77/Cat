@@ -1,5 +1,3 @@
-using Cat.Utilities;
-
 namespace Cat.NumericSystem
 {
     public abstract class ModifierBase : NumericBase

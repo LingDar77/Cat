@@ -1,6 +1,5 @@
 namespace Cat.PoolingSystem
 {
-    using Cat.Utilities;
     using UnityEngine;
 
     public class BuiltinPooledGameObject : MonoBehaviour, IMultiPooledObject<Transform, BuiltinPooledGameObject>

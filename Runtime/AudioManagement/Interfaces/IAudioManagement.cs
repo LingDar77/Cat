@@ -8,8 +8,6 @@ namespace Cat.AduioManagement
         AudioSource PlaySoundAttachedTo(ReferenceType reference, Transform target, bool play = true);
     
         AudioSource LendAudioSource();
-
-        void StopAll();
         
         void ReturnAudioSource(AudioSource source);
     }

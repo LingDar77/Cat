@@ -14,7 +14,11 @@ namespace Cat.AduioManagement
         private readonly LinkedHashSet<AudioSource> used = new();
         private readonly Queue<AudioSource> unused = new();
         private readonly List<AudioSource> buffer = new();
-
+        public BuiltinAudioManagement()
+        {
+            dontDestroyOnLoad = false;
+        }
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -106,17 +110,6 @@ namespace Cat.AduioManagement
             }
             source.transform.SetParent(transform);
             return source;
-        }
-
-        public void StopAll()
-        {
-            StopAllCoroutines();
-            foreach (var source in used)
-            {
-                unused.Enqueue(source);
-                source.Stop();
-            }
-            used.Clear();
         }
     }
 }
