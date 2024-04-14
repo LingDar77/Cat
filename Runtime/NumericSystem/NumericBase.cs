@@ -9,7 +9,7 @@ namespace Cat.NumericSystem
     {
         [SerializeField] protected float BaseValue;
         [SerializeField] protected float currentValue;
-        public float CurrentValue { get => currentValue; set => SetCurrentValue(value); }
+        public float CurrentValue { get => GetCurrentValue(); set => SetCurrentValue(value); }
         public float MaxValue => cacheValue;
         public readonly Dictionary<ModifierBase.ModifierType, HashSet<ModifierBase>> Modifiers = new();
 
@@ -26,6 +26,11 @@ namespace Cat.NumericSystem
         {
             UpdateHash();
             NotifyUpdate();
+        }
+
+        public virtual float GetCurrentValue()
+        {
+            return currentValue;
         }
 
         public virtual void SetCurrentValue(float value)

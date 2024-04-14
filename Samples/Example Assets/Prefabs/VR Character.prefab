@@ -598,7 +598,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 50
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -1193,7 +1193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b55e133c3fd44caafd01ccaf5dfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseValue: 10
+  BaseValue: 100
   currentValue: 0
   OnValueRecalculated: {fileID: 0}
   OnCurrentValueChanged: {fileID: 0}
@@ -1928,7 +1928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937a679f5df7ebe40929e43f8d59c80a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseValue: 8
+  BaseValue: 4
   currentValue: 0
   OnValueRecalculated: {fileID: 0}
   OnCurrentValueChanged: {fileID: 676801949376247713}
