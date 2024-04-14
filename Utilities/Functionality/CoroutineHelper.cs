@@ -11,9 +11,23 @@ namespace Cat.Utilities
         private static readonly WaitForFixedUpdate nextFixedUpdate = new();
         private static readonly Dictionary<float, WaitForSeconds> waits = new();
         private static readonly Dictionary<float, WaitForSecondsRealtime> realtimeWaits = new();
-
+        private readonly static List<System.Action> executions = new();
         public static MonoBehaviour Context => CatContent.Instance;
-        
+
+        public static void DoOnce(System.Action action, YieldInstruction instruction)
+        {
+            if (executions.Find(e => e.Method.Name == action.Method.Name && e.Target == action.Target) != null) return;
+            executions.Add(action);
+            Context.StartCoroutine(DoOnceExecution(action, instruction));
+        }
+
+        private static IEnumerator DoOnceExecution(System.Action action, YieldInstruction instruction)
+        {
+            yield return nextFixedUpdate;
+            action?.Invoke();
+            executions.Remove(action);
+        }
+
         public static WaitForEndOfFrame GetNextUpdate()
         {
             return nextUpdate;
