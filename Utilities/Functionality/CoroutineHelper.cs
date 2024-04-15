@@ -100,6 +100,25 @@ namespace Cat.Utilities
             action?.Invoke();
         }
 
+        public static Coroutine SetTimer(System.Action<float, float> ticker, float deltaTime, float totalTime)
+        {
+            return Context.StartCoroutine(TimerCoroutine(ticker, deltaTime, totalTime));
+        }
+
+        public static IEnumerator TimerCoroutine(System.Action<float, float> ticker, float deltaTime, float totalTime)
+        {
+            var current = 0f;
+            var timeStamp = Time.time;
+            ticker?.Invoke(current, totalTime);
+            while (current < totalTime)
+            {
+                yield return GetWaitForSeconds(deltaTime);
+                current += Time.time - timeStamp;
+                timeStamp = Time.time;
+                ticker?.Invoke(current, totalTime);
+            }
+        }
+
         public static Coroutine WaitForSeconds(this MonoBehaviour context, System.Action action, float time = 1f)
         {
             return WaitForSeconds(action, time, context);
