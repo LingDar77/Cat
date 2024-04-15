@@ -1139,8 +1139,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6673949233345244738}
-  - component: {fileID: 8503610893898329518}
   - component: {fileID: 4449384195128761533}
+  - component: {fileID: 894356474095324611}
   m_Layer: 3
   m_Name: Life
   m_TagString: Untagged
@@ -1163,26 +1163,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8280925955957749938}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8503610893898329518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3147141950954530034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5613d4cf89d330845a2398814191b242, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BaseValue: 100
-  currentValue: 0
-  OnValueRecalculated: {fileID: 0}
-  OnCurrentValueChanged: {fileID: 5731373418168856525}
-  OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  cacheValue: 0
 --- !u!114 &4449384195128761533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,6 +1179,26 @@ MonoBehaviour:
   currentValue: 0
   OnValueRecalculated: {fileID: 0}
   OnCurrentValueChanged: {fileID: 0}
+  OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  cacheValue: 0
+--- !u!114 &894356474095324611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3147141950954530034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32fb8cf534b7be64d9992d101f5d54b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseValue: 100
+  currentValue: 0
+  OnValueRecalculated: {fileID: 0}
+  OnCurrentValueChanged: {fileID: 5731373418168856525}
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2400,6 +2400,10 @@ PrefabInstance:
     - target: {fileID: 8758423527188247893, guid: 1392f805216c47742996d4742c80721c, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758423527188247893, guid: 1392f805216c47742996d4742c80721c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
