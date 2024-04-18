@@ -180,6 +180,11 @@ namespace Cat.Utilities
             source.Play();
             CoroutineHelper.WaitForSeconds(() => { source.Stop(); }, time);
         }
+        public static void PlayIfPlayed(this AudioSource source)
+        {
+            if (source.isPlaying) return;
+            source.Play();
+        }
         #endregion
 
         #region Collection Expand
