@@ -12,8 +12,16 @@ namespace Cat.Utilities
             Full,
             FullInversed
         }
+
+        public enum AlignMode
+        {
+            None,
+            AlignY,
+            AlignAll
+        }
         [SerializeField] private Transform target;
         [SerializeField] private FaceMode mode;
+        [SerializeField] private AlignMode align;
 
         private void OnEnable()
         {
@@ -30,6 +38,15 @@ namespace Cat.Utilities
 
         private void OnUpdate()
         {
+            switch (align)
+            {
+                case AlignMode.AlignY:
+                    transform.position = new Vector3(transform.position.x, target.position.y, transform.position.z);
+                    break;
+                case AlignMode.AlignAll:
+                    transform.position = target.position;
+                    break;
+            }
             switch (mode)
             {
                 case FaceMode.OnlyY:

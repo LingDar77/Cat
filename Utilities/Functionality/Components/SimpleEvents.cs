@@ -4,16 +4,17 @@ namespace Cat
     using UnityEngine;
     using UnityEngine.Events;
 
-    [DefaultExecutionOrder(9999)]
+    [DefaultExecutionOrder(0)]
     public class SimpleEvents : MonoBehaviour
     {
-        public UnityEvent OnAake;
+        public UnityEvent OnEnabled;
         public UnityEvent OnStart;
         public UnityEvent OnFirstFrame;
         public UnityEvent OnUpdate;
-        private void Awake()
+
+        private void OnEnable()
         {
-            OnAake.Invoke();
+            OnEnabled.Invoke();
         }
         private void Start()
         {

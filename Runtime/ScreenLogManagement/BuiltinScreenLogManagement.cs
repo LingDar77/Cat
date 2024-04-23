@@ -44,6 +44,7 @@ namespace Cat.ScreenLogManagementSystem
         protected virtual bool FilterLogMessage(string logString, string stackTrace, LogType type)
         {
             if (logString == null) return false;
+            if(Filters.Count == 0) return true;
             foreach (var filter in Filters)
             {
                 if (!filter.enabled || !filter.Filter(logString, stackTrace, type)) continue;
