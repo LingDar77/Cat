@@ -100,6 +100,11 @@ namespace Cat.Utilities
             action?.Invoke();
         }
 
+        public static Coroutine SetTimer(this MonoBehaviour context, System.Action<float, float> ticker, float deltaTime, float totalTime)
+        {
+            return context.StartCoroutine(TimerCoroutine(ticker, deltaTime, totalTime));
+        }
+
         public static Coroutine SetTimer(System.Action<float, float> ticker, float deltaTime, float totalTime)
         {
             return Context.StartCoroutine(TimerCoroutine(ticker, deltaTime, totalTime));
