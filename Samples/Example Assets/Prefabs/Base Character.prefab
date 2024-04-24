@@ -10,9 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6827592059233518555}
   - component: {fileID: 2850714989688305529}
-  - component: {fileID: 3449118933467115672}
-  - component: {fileID: 5492150192968636001}
-  - component: {fileID: 9145604729289840818}
   m_Layer: 0
   m_Name: InputActions
   m_TagString: Untagged
@@ -50,86 +47,6 @@ MonoBehaviour:
   EnableActionsOnStartup: 1
   ActionMaps:
   - {fileID: -944628639613478452, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
---- !u!114 &3449118933467115672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174104758141166047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1ef3765a591d8643a51207f22e70044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  JumpControl:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Jump Control
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: f788534b-11d1-4a18-a7d3-de86f091bccf
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 1773500915477213953, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
-  JumpVelocity: 5
---- !u!114 &5492150192968636001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174104758141166047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a99a9a489778a748a7ccdfa01ee589a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveControl:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Move Control
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 7d810608-b032-4d6e-8436-e7312bb39f0f
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6250460478399565822, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
-  ForwardReference: {fileID: 2758180796033784611}
-  RotateType: 0
-  MaxMoveSpeed: 2
-  TurnSpeed: 8
-  CanMoveInAir: 1
---- !u!114 &9145604729289840818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174104758141166047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e1d650f86bec7479c6b85aeff74449, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MinimumCrouchHeight: 1.2
-  CrouchSpeed: 5
-  CrouchControl:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Crouch Control
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 5ec14d82-44a4-4bbf-9aaf-42985c0eefe9
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -1464340630155665424, guid: 90fedf7a2b959e44796f300737aaf88b, type: 3}
 --- !u!1 &745819802328979305
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c975ba87294f934c869d181cfabe1e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAake:
+  OnEnabled:
     m_PersistentCalls:
       m_Calls: []
   OnStart:
@@ -651,7 +568,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8568591881549335230}
   - component: {fileID: 8707019542956648189}
-  - component: {fileID: 5081985959029848985}
   m_Layer: 0
   m_Name: Base Character
   m_TagString: Untagged
@@ -701,44 +617,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &5081985959029848985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8578876500813581925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0049581709eaa9d47a7bc22221e4a8ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Capsule: {fileID: 8707019542956648189}
-  StableGroundLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  MaxStepHeight: 0.5
-  MaxStableSlopeAngle: 60
-  MaxStableDenivelationAngle: 180
-  MaxStableDistanceFromLedge: 0.25
-  MinRequiredStepDepth: 0.1
-  AffectRigidbody: 1
-  SimulatedCharacterMass: 1
-  MaxMovementIterations: 2
-  MaxDecollisionIterations: 1
-  TargetVelocity: {x: 0, y: 0, z: 0}
-  TargetPosition: {x: 0, y: 0, z: 0}
-  TargetRotation: {x: 0, y: 0, z: 0, w: 0}
-  driver: {fileID: 7199151518377399001}
-  GroundingStatus:
-    AnyGroundBelow: 0
-    IsStandingOnGround: 0
-    GroundNormal: {x: 0, y: 0, z: 0}
-    InnerGroundNormal: {x: 0, y: 0, z: 0}
-    OuterGroundNormal: {x: 0, y: 0, z: 0}
-    GroundCollider: {fileID: 0}
-    GroundPoint: {x: 0, y: 0, z: 0}
-    SnappingPrevented: 0
 --- !u!1001 &8855649748479019061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -884,7 +762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c975ba87294f934c869d181cfabe1e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAake:
+  OnEnabled:
     m_PersistentCalls:
       m_Calls: []
   OnStart:

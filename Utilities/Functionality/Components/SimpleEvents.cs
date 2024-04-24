@@ -4,7 +4,7 @@ namespace Cat
     using UnityEngine;
     using UnityEngine.Events;
 
-    [DefaultExecutionOrder(0)]
+    [DefaultExecutionOrder(-1000)]
     public class SimpleEvents : MonoBehaviour
     {
         public UnityEvent OnEnabled;
