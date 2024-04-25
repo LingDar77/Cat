@@ -29,7 +29,7 @@ namespace Cat.ScreenLogManagementSystem
         }
         public void LoadSceneAsync(string scene)
         {
-            CoroutineHelper.Context.StartCoroutine(SceneManagement.LoadSceneAsync(scene, LoadSceneMode.Single));
+            CoroutineHelper.StartCoroutine(SceneManagement.LoadSceneAsync(scene, LoadSceneMode.Single));
         }
 
     }

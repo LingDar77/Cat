@@ -176,5 +176,10 @@ namespace Cat.Utilities
             yield return new WaitUntil(condition);
             action?.Invoke();
         }
+
+        public static void StartCoroutine(IEnumerator coroutine)
+        {
+            Context.StartCoroutine(coroutine);
+        }
     }
 }
