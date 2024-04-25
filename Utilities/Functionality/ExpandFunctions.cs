@@ -12,6 +12,7 @@ namespace Cat.Utilities
 
     public static class ExpandFunctions
     {
+        private readonly static System.Random random = new();
         #region Math Expand
         public static float MaxWithThreshold(this float lhs, float rhs = 0f, float threshold = .01f)
         {
@@ -188,6 +189,16 @@ namespace Cat.Utilities
         #endregion
 
         #region Collection Expand
+
+        public static void Shuffle<Type>(this IList<Type> list)
+        {
+            for (int i = 0; i != list.Count; ++i)
+            {
+                var r = i + random.Next(list.Count - i);
+                (list[r], list[i]) = (list[i], list[r]);
+            }
+        }
+
         /// <summary>
         /// Get a random element in a list.
         /// </summary>
