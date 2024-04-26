@@ -28,7 +28,11 @@ namespace Cat.PoolingSystem
 
         public virtual void Dispose()
         {
-
+            if (Pool == null)
+            {
+                DestroyImmediate(gameObject);
+                return;
+            }
             gameObject.SetActive(false);
             if (Pool == null) return;
             gameObject.transform.localPosition = Vector3.zero;
