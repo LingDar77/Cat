@@ -12,7 +12,7 @@ namespace Cat.Utilities
         private static readonly Dictionary<float, WaitForSeconds> waits = new();
         private static readonly Dictionary<float, WaitForSecondsRealtime> realtimeWaits = new();
         private readonly static List<System.Action> executions = new();
-        public static MonoBehaviour Context => CatContent.Instance;
+        public static MonoBehaviour Context => ISingletonSystem<CatContent>.GetChecked();
 
         public static void DoOnce(System.Action action, YieldInstruction instruction)
         {

@@ -52,7 +52,12 @@ namespace Cat.EventDispatchSystem
         protected readonly Dictionary<string, HashSet<System.Action<IDisposable>>> events = new();
         protected Queue<Subscriptioin> subscriptioins = new();
 
-        public void Dispatch(string type, IDisposable data)
+        public BuiltinEventDispatcher()
+        {
+            dontDestroyOnLoad = false;
+        }
+
+        public virtual void Dispatch(string type, IDisposable data)
         {
             if (Mode == DispatchingMode.Synchronous)
             {
@@ -98,6 +103,7 @@ namespace Cat.EventDispatchSystem
             var callbacks = events[type];
             foreach (var callback in callbacks)
             {
+                if (!gameObject.scene.isLoaded) break;
                 callback.Invoke(data);
             }
             data?.Dispose();
@@ -144,6 +150,7 @@ namespace Cat.EventDispatchSystem
                 {
                     foreach (var action in actions)
                     {
+                        if(!gameObject.scene.isLoaded) break;
                         action.Invoke(data);
                         if (--count != 0) continue;
                         count = DispatchRate;

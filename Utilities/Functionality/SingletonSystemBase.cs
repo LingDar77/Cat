@@ -9,9 +9,10 @@ namespace Cat
     public abstract class SingletonSystemBase<ImplementType> : MonoBehaviour, ISingletonSystem<ImplementType> where ImplementType : SingletonSystemBase<ImplementType>
     {
         protected bool dontDestroyOnLoad = true;
+
         protected virtual void OnEnable()
         {
-            if (ISingletonSystem<ImplementType>.Singleton != null) return;
+            if (Equals(ISingletonSystem<ImplementType>.Singleton)) return;
             ISingletonSystem<ImplementType>.Singleton = this as ImplementType;
             if (!dontDestroyOnLoad) return;
             DontDestroyOnLoad(transform.root.gameObject);
@@ -20,9 +21,9 @@ namespace Cat
         protected virtual void OnDisable()
         {
             if (!Equals(ISingletonSystem<ImplementType>.Singleton)) return;
+            StopAllCoroutines();
             ISingletonSystem<ImplementType>.Singleton = null;
         }
-
     }
 
 }
