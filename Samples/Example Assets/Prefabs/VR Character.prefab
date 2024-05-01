@@ -892,7 +892,7 @@ MonoBehaviour:
   m_Mediator: {fileID: 6003290774913352939}
   m_TransformationPriority: 0
   m_DelayTime: 0
-  cd: {fileID: 5081733700902599047}
+  cd: {fileID: 6458359395197293376}
   indicator: {fileID: 6187881314125325846}
 --- !u!1 &1704460781029297234
 GameObject:
@@ -2024,7 +2024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7269590424496985176}
-  - component: {fileID: 5081733700902599047}
+  - component: {fileID: 6458359395197293376}
   m_Layer: 3
   m_Name: TeleportCooldown
   m_TagString: Untagged
@@ -2047,7 +2047,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8280925955957749938}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5081733700902599047
+--- !u!114 &6458359395197293376
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2056,7 +2056,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7102415234183819327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 483fb5f191125224587c32a672ab35dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bcc37048a76ba44eb11148793701aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BaseValue: 4
