@@ -43,7 +43,7 @@ namespace Cat.EventDispatchSystem
         }
         [SerializeField] private uint DispatchRate = 10;
         public DispatchingMode Mode = DispatchingMode.Asynchronous;
-        public bool CheckCircularDependency = true;
+        public bool CheckCircularDependency = false;
 
         protected Queue<string> dispatchQueue = new();
         protected Queue<IDisposable> dispatchParamQueue = new();
@@ -57,7 +57,7 @@ namespace Cat.EventDispatchSystem
             dontDestroyOnLoad = false;
         }
 
-        public virtual void Dispatch(string type, IDisposable data)
+        public virtual void Dispatch(string type, IDisposable data = null)
         {
             if (Mode == DispatchingMode.Synchronous)
             {

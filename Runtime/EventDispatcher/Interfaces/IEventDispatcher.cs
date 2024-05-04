@@ -4,7 +4,7 @@ namespace Cat.EventDispatchSystem
 
     public interface IEventDispatcher<EventType> : ISingletonSystem<IEventDispatcher<EventType>>
     {
-        void Dispatch(EventType type, IDisposable data);
+        void Dispatch(EventType type, IDisposable data = null);
         void Subscribe(EventType type, System.Action<IDisposable> callback);
         void Unsubscribe(EventType type, System.Action<IDisposable> callback);
     }
