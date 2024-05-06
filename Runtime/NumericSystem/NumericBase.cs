@@ -11,7 +11,7 @@ namespace Cat.NumericSystem
         [SerializeField] protected float currentValue;
         public float CurrentValue { get => GetCurrentValue(); set => SetCurrentValue(value); }
         public float MaxValue => cacheValue;
-        public readonly Dictionary<ModifierBase.ModifierType, HashSet<ModifierBase>> Modifiers = new();
+        public readonly Dictionary<ModifierBase.ModifierType, List<ModifierBase>> Modifiers = new();
 
         public CatDriver<float> OnValueRecalculated;
         public CatDriver<float, float> OnCurrentValueChanged;
@@ -63,25 +63,25 @@ namespace Cat.NumericSystem
             return cacheValue;
         }
 
-        protected virtual void ApplyModifier(ModifierBase.ModifierType key, ModifierBase modifier)
-        {
-            switch (key)
-            {
-                case ModifierBase.ModifierType.Add:
-                    cacheValue += modifier.GetValue();
-                    break;
-                case ModifierBase.ModifierType.Increase:
-                case ModifierBase.ModifierType.Multiply:
-                    cacheValue *= (modifier.CurrentValue / 100) + 1;
-                    break;
-                default:
-                    throw new System.Exception("Unknown modifier type!");
-            }
-        }
+        // protected virtual void ApplyModifier(ModifierBase.ModifierType key, ModifierBase modifier)
+        // {
+        //     switch (key)
+        //     {
+        //         case ModifierBase.ModifierType.Add:
+        //             cacheValue += modifier.GetValue();
+        //             break;
+        //         case ModifierBase.ModifierType.Increase:
+        //         case ModifierBase.ModifierType.Multiply:
+        //             cacheValue *= (modifier.CurrentValue * .01f) + 1;
+        //             break;
+        //         default:
+        //             throw new System.Exception("Unknown modifier type!");
+        //     }
+        // }
 
         public override int GetHashCode()
         {
-            int hash = 0;
+            int hash = enabled ? 1 : 0;
             foreach (var mod in Modifiers)
             {
                 foreach (var modifier in mod.Value)
@@ -107,15 +107,32 @@ namespace Cat.NumericSystem
         {
             if (!IsDirty) return;
             cacheValue = BaseValue;
+            var add = 0f;
+            var inc = 0f;
+            var mul = 0f;
             for (int i = 0; i != (int)ModifierBase.ModifierType.Max; ++i)
             {
                 var key = (ModifierBase.ModifierType)i;
                 if (!Modifiers.ContainsKey(key)) continue;
                 foreach (var modifier in Modifiers[key])
                 {
-                    ApplyModifier(key, modifier);
+                    switch (key)
+                    {
+                        case ModifierBase.ModifierType.Add:
+                            add += modifier.CurrentValue;
+                            break;
+                        case ModifierBase.ModifierType.Increase:
+                            inc += modifier.CurrentValue;
+                            break;
+                        case ModifierBase.ModifierType.Multiply:
+                            mul += modifier.CurrentValue;
+                            break;
+                        default:
+                            throw new System.Exception("Unknown Modifier Type");
+                    }
                 }
             }
+            cacheValue = (cacheValue + add) * ((inc * .01f) + 1) * ((mul * .01f) + 1);
 
             IsDirty = false;
 
