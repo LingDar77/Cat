@@ -140,7 +140,7 @@ MonoBehaviour:
     jitterScale: 1
     mipBias: 0
     varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    contrastAdaptiveSharpening: 0.25
 --- !u!114 &3396452771337271798
 MonoBehaviour:
   m_ObjectHideFlags: 0
