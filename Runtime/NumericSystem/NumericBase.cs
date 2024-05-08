@@ -62,23 +62,6 @@ namespace Cat.NumericSystem
 
             return cacheValue;
         }
-
-        // protected virtual void ApplyModifier(ModifierBase.ModifierType key, ModifierBase modifier)
-        // {
-        //     switch (key)
-        //     {
-        //         case ModifierBase.ModifierType.Add:
-        //             cacheValue += modifier.GetValue();
-        //             break;
-        //         case ModifierBase.ModifierType.Increase:
-        //         case ModifierBase.ModifierType.Multiply:
-        //             cacheValue *= (modifier.CurrentValue * .01f) + 1;
-        //             break;
-        //         default:
-        //             throw new System.Exception("Unknown modifier type!");
-        //     }
-        // }
-
         public override int GetHashCode()
         {
             int hash = enabled ? 1 : 0;
