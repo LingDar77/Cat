@@ -5,13 +5,26 @@ namespace Cat.NumericSystem
     using UnityEngine;
     using UnityEngine.Events;
 
+    public enum ModifierType
+    {
+        Add,
+        Increase,
+        Multiply,
+
+        Max,
+    }
+
     public abstract class NumericBase : MonoBehaviour
     {
         [SerializeField] protected float BaseValue;
         [SerializeField] protected float currentValue;
-        public float CurrentValue { get => GetCurrentValue(); set => SetCurrentValue(value); }
+        public float CurrentValue
+        {
+            get => GetCurrentValue();
+            set => SetCurrentValue(value);
+        }
         public float MaxValue => cacheValue;
-        public readonly Dictionary<ModifierBase.ModifierType, List<ModifierBase>> Modifiers = new();
+        public readonly Dictionary<ModifierType, List<ModifierBase>> Modifiers = new();
 
         public CatDriver<float> OnValueRecalculated;
         public CatDriver<float, float> OnCurrentValueChanged;
@@ -90,32 +103,17 @@ namespace Cat.NumericSystem
         {
             if (!IsDirty) return;
             cacheValue = BaseValue;
-            var add = 0f;
-            var inc = 0f;
-            var mul = 0f;
-            for (int i = 0; i != (int)ModifierBase.ModifierType.Max; ++i)
+            var param = new float[(int)ModifierType.Max] { 0, 0, 0 };
+            for (int i = 0; i != (int)ModifierType.Max; ++i)
             {
-                var key = (ModifierBase.ModifierType)i;
+                var key = (ModifierType)i;
                 if (!Modifiers.ContainsKey(key)) continue;
                 foreach (var modifier in Modifiers[key])
                 {
-                    switch (key)
-                    {
-                        case ModifierBase.ModifierType.Add:
-                            add += modifier.CurrentValue;
-                            break;
-                        case ModifierBase.ModifierType.Increase:
-                            inc += modifier.CurrentValue;
-                            break;
-                        case ModifierBase.ModifierType.Multiply:
-                            mul += modifier.CurrentValue;
-                            break;
-                        default:
-                            throw new System.Exception("Unknown Modifier Type");
-                    }
+                    param[i] += modifier.CurrentValue;
                 }
             }
-            cacheValue = (cacheValue + add) * ((inc * .01f) + 1) * ((mul * .01f) + 1);
+            cacheValue = (cacheValue + param[0]) * ((param[1] * .01f) + 1) * ((param[2] * .01f) + 1);
 
             IsDirty = false;
 

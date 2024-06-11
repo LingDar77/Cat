@@ -2,14 +2,6 @@ namespace Cat.NumericSystem
 {
     public abstract class ModifierBase : NumericBase
     {
-        public enum ModifierType
-        {
-            Add,
-            Increase,
-            Multiply,
-
-            Max,
-        }
 
         public abstract ModifierType GetModifierType();
 
